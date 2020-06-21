@@ -13,6 +13,7 @@ export default async (req: Request, res: Response) => {
     });
 
     logger.green("[GET] 카테고리 목록 조회 성공.");
+
     res.status(200).json({
       message: "카테고리 목록 조회 성공.",
       data: {
@@ -21,6 +22,7 @@ export default async (req: Request, res: Response) => {
     });
   } catch (err) {
     logger.red("[GET] 카테고리 목록 조회 서버 오류.", err.message);
+
     res.status(500).json({
       message: "서버 오류."
     });
