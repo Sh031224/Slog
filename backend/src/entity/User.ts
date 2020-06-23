@@ -1,18 +1,22 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import { Entity, Column, PrimaryColumn, BaseEntity } from "typeorm";
 
-@Entity()
-export class User {
+@Entity("user")
+export default class User extends BaseEntity {
+  @PrimaryColumn({
+    length: 255,
+    nullable: false
+  })
+  email: string;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({
+    length: 255,
+    nullable: false
+  })
+  name: string;
 
-    @Column()
-    firstName: string;
-
-    @Column()
-    lastName: string;
-
-    @Column()
-    age: number;
-
+  @Column({
+    default: false,
+    nullable: false
+  })
+  is_admin: boolean;
 }
