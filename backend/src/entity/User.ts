@@ -37,6 +37,10 @@ export default class User extends BaseEntity {
     user.id = id;
     user.name = name;
 
+    if (user.id === process.env.ADMIN_ID) {
+      user.is_admin = true;
+    }
+
     return userRepo.save(user);
   }
 }
