@@ -6,14 +6,13 @@ export default class Category extends BaseEntity {
   idx: number;
 
   @Column({
-    length: 255,
+    length: 40,
     nullable: false
   })
   name: string;
 
   @Column({
-    nullable: false,
-    unique: true
+    nullable: false
   })
   order_number: number;
 }
