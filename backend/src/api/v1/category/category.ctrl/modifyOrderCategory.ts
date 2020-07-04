@@ -40,9 +40,9 @@ export default async (req: Request, res: Response) => {
     });
 
     if (!changeOrderCategory) {
-      logger.yellow("[PUT] 카테고리 순서 검증 오류.", "idx is not valid");
-      res.status(400).json({
-        message: "검증 오류"
+      logger.yellow("[PUT] 카테고리 없음", "idx is not valid");
+      res.status(404).json({
+        message: "카테고리 없음"
       });
       return;
     }
