@@ -32,7 +32,7 @@ export default async (req: Request, res: Response) => {
     });
 
     if (!notice) {
-      logger.red("[PUT] 공지 없음");
+      logger.yellow("[PUT] 공지 없음");
       res.status(404).json({
         message: "공지 없음."
       });

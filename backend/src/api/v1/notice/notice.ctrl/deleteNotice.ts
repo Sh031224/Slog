@@ -23,7 +23,7 @@ export default async (req: Request, res: Response) => {
     });
 
     if (!notice) {
-      logger.red("[DELETE] 공지 없음");
+      logger.yellow("[DELETE] 공지 없음");
       res.status(404).json({
         message: "공지 없음."
       });

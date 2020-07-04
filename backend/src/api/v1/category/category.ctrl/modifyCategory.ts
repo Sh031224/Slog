@@ -29,6 +29,7 @@ export default async (req: Request, res: Response) => {
     });
 
     if (!category) {
+      logger.yellow("[PUT] 카테고리 없음.");
       res.status(404).json({
         message: "카테고리 없음."
       });
