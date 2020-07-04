@@ -23,7 +23,8 @@ export const validateModifyOrderNumber = (
   res: Response
 ): boolean => {
   const schema = Joi.object().keys({
-    order_number: Joi.array().items(Joi.number()).required()
+    order_number: Joi.number().required(),
+    idx: Joi.number().required()
   });
 
   return validate(req, res, schema);
