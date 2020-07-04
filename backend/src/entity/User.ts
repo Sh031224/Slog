@@ -1,14 +1,17 @@
 import {
   Entity,
   Column,
-  PrimaryColumn,
   BaseEntity,
-  getRepository
+  getRepository,
+  PrimaryGeneratedColumn
 } from "typeorm";
 
 @Entity("user")
 export default class User extends BaseEntity {
-  @PrimaryColumn({
+  @PrimaryGeneratedColumn()
+  idx: number;
+
+  @Column({
     length: 255,
     nullable: false
   })
