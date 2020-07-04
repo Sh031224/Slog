@@ -24,6 +24,7 @@ const admin = async (req, res: Response, next: NextFunction) => {
   } catch (err) {
     switch (err.message) {
       case "TOKEN_IS_ARRAY":
+      case "TOKEN_IS_NOT_VALID":
         res.status(403).json({
           message: "검증 오류"
         });
@@ -50,6 +51,7 @@ const user = async (req, res: Response, next: NextFunction) => {
   } catch (err) {
     switch (err.message) {
       case "TOKEN_IS_ARRAY":
+      case "TOKEN_IS_NOT_VALID":
         res.status(401).json({
           message: "인증 오류"
         });
@@ -98,7 +100,12 @@ const validateAuth = async (req: Request) => {
 
     return user;
   } catch (err) {
-    throw new Error("SERVER_ERROR");
+    switch (err.message) {
+      case "Request failed with status code 400":
+        throw new Error("TOKEN_IS_NOT_VALID");
+      default:
+        throw new Error("SERVER_ERROR");
+    }
   }
 };
 
