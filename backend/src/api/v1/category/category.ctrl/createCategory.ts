@@ -6,7 +6,6 @@ import Category from "../../../../entity/Category";
 
 export default async (req: Request, res: Response) => {
   const { body } = req;
-  console.log(body);
   if (!validateCreate(req, res)) return;
 
   type RequestBody = {
