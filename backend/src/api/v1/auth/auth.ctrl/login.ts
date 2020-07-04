@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
 import axios from "axios";
 import { validateLogin } from "../../../../lib/validation/auth";
 import logger from "../../../../lib/logger";
