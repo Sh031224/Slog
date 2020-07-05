@@ -7,6 +7,7 @@ export default async (req: Request, res: Response) => {
   try {
     const categoryRepo = getRepository(Category);
     const categories: Category[] = await categoryRepo.find({
+      select: ["idx", "name"],
       order: {
         order_number: "ASC"
       }

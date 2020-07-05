@@ -18,7 +18,7 @@ export default async (req: Request, res: Response) => {
     const categoryRepo = getRepository(Category);
     const categories: Category[] = await categoryRepo.find({
       order: {
-        idx: "ASC"
+        order_number: "ASC"
       }
     });
 
@@ -59,6 +59,11 @@ export default async (req: Request, res: Response) => {
         category.order_number > changeOrderCategory.order_number
       ) {
         category.order_number -= 1;
+      } else if (
+        category.order_number >= order_number &&
+        category.order_number <= changeOrderCategory.order_number
+      ) {
+        category.order_number += 1;
       } else {
         category.order_number = i + 1;
       }
