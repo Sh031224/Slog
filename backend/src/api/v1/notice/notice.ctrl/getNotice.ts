@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
+import { getRepository, LessThan } from "typeorm";
 import logger from "../../../../lib/logger";
 import Notice from "../../../../entity/Notice";
 
@@ -16,6 +16,16 @@ export default async (req: Request, res: Response) => {
 
   try {
     const noticeRepo = getRepository(Notice);
+
+    const count = await noticeRepo.count({
+      where: {
+        idx: LessThan(idx)
+      },
+      order: {
+        created_at: "DESC"
+      }
+    });
+
     const notice: Notice = await noticeRepo.findOne({
       where: {
         idx: idx
@@ -26,7 +36,8 @@ export default async (req: Request, res: Response) => {
     res.status(200).json({
       message: "공지 조회 성공.",
       data: {
-        notice
+        notice,
+        count
       }
     });
   } catch (err) {
