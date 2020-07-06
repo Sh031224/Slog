@@ -3,6 +3,7 @@ import axios from "axios";
 import { validateLogin } from "../../../../lib/validation/auth";
 import logger from "../../../../lib/logger";
 import User from "../../../../entity/User";
+import { createToken } from "../../../../lib/token";
 
 export default async (req: Request, res: Response) => {
   const { body } = req;
@@ -40,11 +41,13 @@ export default async (req: Request, res: Response) => {
       return;
     }
 
+    const token = await createToken(isExist.id);
+
     logger.green("[POST] 로그인 성공.");
     return res.status(200).json({
       message: "로그인 성공.",
       data: {
-        access_token: access_token
+        access_token: token
       }
     });
   } catch (err) {

@@ -1,6 +1,6 @@
-import { Response, NextFunction, Request } from "express";
+import { Response, NextFunction } from "express";
+import { verifyToken } from "../token";
 import { getRepository } from "typeorm";
-import axios from "axios";
 import User from "../../entity/User";
 import logger from "../logger";
 import AuthRequest from "../../type/AuthRequest";
@@ -19,21 +19,20 @@ const admin = async (req: AuthRequest, res: Response, next: NextFunction) => {
   } catch (err) {
     switch (err.message) {
       case "TOKEN_IS_ARRAY":
-      case "TOKEN_IS_NOT_VALID":
+      case "NO_TOKEN":
+      case "INVALID_TOKEN":
       case "NO_USER":
-        logger.yellow("[AUTH] 토큰 인증 오류.");
         res.status(401).json({
-          message: "인증 오류"
+          message: "인증 되지 않음"
         });
         return;
       case "EXPIRED_TOKEN":
-        logger.yellow("[AUTH] 토큰 만료.");
         res.status(410).json({
           message: "토큰 만료"
         });
         return;
       default:
-        logger.red("[AUTH] 토큰 검증 서버 오류.", err.message);
+        logger.red("토큰 검증 서버 오류.", err.message);
         res.status(500).json({
           message: "서버 오류."
         });
@@ -41,7 +40,7 @@ const admin = async (req: AuthRequest, res: Response, next: NextFunction) => {
   }
 };
 
-const user = async (req: AuthRequest, res: Response, next: NextFunction) => {
+const user = async (req, res: Response, next: NextFunction) => {
   try {
     const user: User = await validateAuth(req);
     req.user = user;
@@ -49,21 +48,20 @@ const user = async (req: AuthRequest, res: Response, next: NextFunction) => {
   } catch (err) {
     switch (err.message) {
       case "TOKEN_IS_ARRAY":
-      case "TOKEN_IS_NOT_VALID":
+      case "NO_TOKEN":
+      case "INVALID_TOKEN":
       case "NO_USER":
-        logger.yellow("[AUTH] 토큰 인증 오류.");
         res.status(401).json({
-          message: "인증 오류"
+          message: "인증 되지 않음."
         });
         return;
       case "EXPIRED_TOKEN":
-        logger.yellow("[AUTH] 토큰 만료.");
         res.status(410).json({
           message: "토큰 만료"
         });
         return;
       default:
-        logger.red("[AUTH] 토큰 검증 서버 오류.", err.message);
+        logger.red("토큰 검증 서버 오류.", err.message);
         res.status(500).json({
           message: "서버 오류."
         });
@@ -71,23 +69,20 @@ const user = async (req: AuthRequest, res: Response, next: NextFunction) => {
   }
 };
 
-const validateAuth = async (req: Request) => {
-  const reqToken: string | string[] = req.headers.access_token;
+const validateAuth = async (req) => {
+  const reqToken: string | string[] = req.headers["access_token"];
   if (Array.isArray(reqToken)) {
     throw new Error("TOKEN_IS_ARRAY");
   }
 
   const token = reqToken;
   try {
-    const facebookApi = await axios.get(
-      `https://graph.facebook.com/v7.0/me?access_token=${token}&fields=id,name&format=json&method=get&transport=cors`
-    );
+    const decoded = await verifyToken(token);
 
     const userRepo = getRepository(User);
     const user: User = await userRepo.findOne({
       where: {
-        id: facebookApi.data.id,
-        name: facebookApi.data.name
+        id: decoded.id
       }
     });
 
@@ -97,11 +92,17 @@ const validateAuth = async (req: Request) => {
 
     return user;
   } catch (err) {
-    switch (err.response.data.error.code) {
-      case 190:
+    switch (err.message) {
+      case "jwt must be provided":
+        throw new Error("NO_TOKEN");
+      case "jwt malformed":
+      case "invalid token":
+      case "invalid signature":
+        throw new Error("INVALID_TOKEN");
+      case "jwt expired":
         throw new Error("EXPIRED_TOKEN");
       default:
-        throw new Error("SERVER_ERROR");
+        throw err;
     }
   }
 };
