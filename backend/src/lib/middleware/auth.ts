@@ -1,16 +1,11 @@
-/**
- * admin, user [
- *  401 인증 안됨
- *  410 토큰 만료
- * ]
- */
 import { Response, NextFunction, Request } from "express";
 import { getRepository } from "typeorm";
 import axios from "axios";
 import User from "../../entity/User";
 import logger from "../logger";
+import AuthRequest from "../../type/AuthRequest";
 
-const admin = async (req, res: Response, next: NextFunction) => {
+const admin = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const user: User = await validateAuth(req);
 
@@ -46,7 +41,7 @@ const admin = async (req, res: Response, next: NextFunction) => {
   }
 };
 
-const user = async (req, res: Response, next: NextFunction) => {
+const user = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const user: User = await validateAuth(req);
     req.user = user;
