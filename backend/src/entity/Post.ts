@@ -43,7 +43,7 @@ export default class Post extends BaseEntity {
 
   @Column({
     length: 1000,
-    nullable: false
+    nullable: true
   })
   thumbnail: string;
 
