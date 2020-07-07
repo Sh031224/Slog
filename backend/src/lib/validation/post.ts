@@ -18,7 +18,7 @@ export const validateModify = (req: Request, res: Response): boolean => {
     title: Joi.string().min(1).max(50),
     content: Joi.string(),
     category_idx: Joi.number().integer(),
-    thumbnail: Joi.string().max(800)
+    thumbnail: Joi.string().max(800).allow(null)
   });
 
   return validate(req, res, schema);
