@@ -24,6 +24,7 @@ export default async (req: Request, res: Response) => {
     if (isExist) {
       logger.yellow("[POST] 중복된 카테고리.");
       res.status(409).json({
+        status: 409,
         message: "중복된 카테고리."
       });
       return;
@@ -36,11 +37,13 @@ export default async (req: Request, res: Response) => {
     await categoryRepo.save(category);
     logger.green("[POST] 카테고리 생성 성공.");
     return res.status(200).json({
+      status: 200,
       message: "카테고리 생성 성공."
     });
   } catch (err) {
     logger.red("[POST] 카테고리 생성 서버 오류.", err.message);
     return res.status(500).json({
+      status: 500,
       message: "서버 오류."
     });
   }
