@@ -1,0 +1,45 @@
+import { Response } from "express";
+import AuthRequest from "../../../../type/AuthRequest";
+import { getRepository } from "typeorm";
+import logger from "../../../../lib/logger";
+import Post from "../../../../entity/Post";
+
+export default async (req: AuthRequest, res: Response) => {
+  const idx: number = Number(req.params.idx);
+  if (isNaN(idx)) {
+    logger.yellow("[DELETE] 검증 오류.", "idx is NaN");
+    res.status(400).json({
+      message: "검증 오류."
+    });
+    return;
+  }
+
+  try {
+    const postRepo = getRepository(Post);
+    const post: Post = await postRepo.findOne({
+      where: {
+        idx
+      }
+    });
+
+    if (!post) {
+      logger.yellow("[DELETE] 글 없음.");
+      res.status(404).json({
+        message: "글 없음."
+      });
+      return;
+    }
+
+    await postRepo.delete(post);
+
+    logger.green("[DELETE] 글 삭제 성공.");
+    res.status(200).json({
+      message: "글 삭제 성공"
+    });
+  } catch (err) {
+    logger.red("[DELETE] 글 삭제 서버 오류.", err.message);
+    res.status(500).json({
+      message: "서버 오류."
+    });
+  }
+};
