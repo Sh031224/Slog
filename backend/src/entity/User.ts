@@ -3,8 +3,12 @@ import {
   Column,
   BaseEntity,
   getRepository,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  OneToMany,
+  PrimaryColumn
 } from "typeorm";
+import Comment from "./Comment";
+import Reply from "./Reply";
 
 @Entity("user")
 export default class User extends BaseEntity {
@@ -17,7 +21,7 @@ export default class User extends BaseEntity {
   })
   id: string;
 
-  @Column({
+  @PrimaryColumn({
     length: 255,
     nullable: false
   })
@@ -28,6 +32,12 @@ export default class User extends BaseEntity {
     nullable: false
   })
   is_admin: boolean;
+
+  @OneToMany((type) => Comment, (comment) => comment.user)
+  comments: Comment[];
+
+  @OneToMany((type) => Reply, (reply) => reply.user)
+  replys: Reply[];
 
   static async findOrCreate(id: string, name: string) {
     const userRepo = getRepository(User);

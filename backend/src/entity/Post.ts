@@ -32,6 +32,12 @@ export default class Post extends BaseEntity {
   })
   view: number;
 
+  @Column({
+    nullable: false,
+    default: false
+  })
+  is_temp: boolean;
+
   @ManyToOne((type) => Category, { onDelete: "SET NULL" })
   @JoinColumn({ name: "fk_category_idx" })
   category: Category;
@@ -40,6 +46,12 @@ export default class Post extends BaseEntity {
     nullable: true
   })
   fk_category_idx: number;
+
+  @Column({
+    nullable: false,
+    default: 0
+  })
+  comment_count: number;
 
   @Column({
     length: 1000,
