@@ -14,7 +14,6 @@ export default async (req: AuthRequest, res: Response) => {
   type RequestBody = {
     title: string;
     content: string;
-    is_private: boolean;
     category_idx: number;
     thumbnail: string;
   };

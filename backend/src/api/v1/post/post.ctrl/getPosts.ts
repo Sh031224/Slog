@@ -112,8 +112,8 @@ export default async (req: Request, res: Response) => {
       status: 200,
       message: "글 전체 조회 성공.",
       data: {
-        posts,
-        total
+        total,
+        posts
       }
     });
   } catch (err) {

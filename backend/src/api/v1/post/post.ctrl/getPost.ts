@@ -106,8 +106,8 @@ export default async (req: AuthRequest, res: Response) => {
       status: 200,
       message: "글 조회 성공.",
       data: {
-        post,
-        order
+        order,
+        post
       }
     });
     return;
