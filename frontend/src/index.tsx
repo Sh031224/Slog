@@ -1,18 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import stores from "./stores";
+import * as serviceWorker from "./serviceWorker";
 import { Provider } from "mobx-react";
 import { BrowserRouter } from "react-router-dom";
-import * as serviceWorker from "./serviceWorker";
-
-import "util/utils.scss";
+import stores from "./stores";
 
 ReactDOM.render(
   <Provider store={stores}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
   </Provider>,
   document.getElementById("root")
 );
