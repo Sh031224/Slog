@@ -1,8 +1,6 @@
 import "dotenv/config";
 import * as crypto from "crypto";
 
-const { ENCRYPT_SECRET } = process.env;
-
 export default (text: string): string => {
   const encrypted = crypto
     .createHmac("sha256", process.env.CRYPTO_SECRET)

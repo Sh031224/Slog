@@ -25,11 +25,13 @@ export default async (req: Request, res: Response) => {
 
     logger.green("[POST] 공지 생성 성공.");
     res.status(200).json({
+      status: 200,
       message: "공지 생성 성공."
     });
   } catch (err) {
     logger.red("[POST] 공지 생성 서버 오류.", err.message);
     return res.status(500).json({
+      status: 500,
       message: "서버 오류."
     });
   }

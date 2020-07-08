@@ -9,6 +9,7 @@ export default async (req: AuthRequest, res: Response) => {
   try {
     logger.green("[GET] 프로필 조회 성공.");
     res.status(200).json({
+      status: 200,
       message: "프로필 조회 성공.",
       data: {
         user
@@ -17,6 +18,7 @@ export default async (req: AuthRequest, res: Response) => {
   } catch (err) {
     logger.red("[GET] 프로필 조회 서버 오류.");
     res.status(500).json({
+      status: 500,
       message: "프로필 조회 서버 오류."
     });
   }

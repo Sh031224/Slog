@@ -29,6 +29,7 @@ export default async (req: any, res: Response) => {
             if(err: NodeJS.ErrnoException) {
               logger.red("[POST] 파일 업로드 서버 오류.");
               res.status(500).json({
+                status: 500,
                 message: "서버 오류."
               });
             }
@@ -38,6 +39,7 @@ export default async (req: any, res: Response) => {
 
     logger.green("[POST] 파일 업로드 성공.");
     res.status(200).json({
+      status: 200,
       message: "파일 업로드 성공.",
       data: {
         files
@@ -46,6 +48,7 @@ export default async (req: any, res: Response) => {
   } catch (err) {
     logger.red("[POST] 파일 업로드 서버 오류.");
     res.status(500).json({
+      status: 500,
       message: "서버 오류."
     });
   }

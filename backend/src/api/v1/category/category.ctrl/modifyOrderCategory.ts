@@ -28,6 +28,7 @@ export default async (req: Request, res: Response) => {
         "order_number is not valid"
       );
       res.status(400).json({
+        status: 400,
         message: "검증 오류"
       });
       return;
@@ -42,6 +43,7 @@ export default async (req: Request, res: Response) => {
     if (!changeOrderCategory) {
       logger.yellow("[PUT] 카테고리 없음", "idx is not valid");
       res.status(404).json({
+        status: 404,
         message: "카테고리 없음"
       });
       return;
@@ -75,11 +77,13 @@ export default async (req: Request, res: Response) => {
 
     logger.green("[PUT] 카테고리 순서 변경 성공.");
     res.status(200).json({
+      status: 200,
       message: "카테고리 순서 변경 성공."
     });
   } catch (err) {
     logger.red("[PUT] 서버 오류.", err.message);
     res.status(500).json({
+      status: 500,
       message: "서버 오류."
     });
   }

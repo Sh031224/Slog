@@ -14,6 +14,7 @@ export default async (req: Request, res: Response) => {
   if (!query.page || !query.limit) {
     logger.yellow("검증 오류", "page or limit is null");
     res.status(400).json({
+      status: 400,
       message: "검증 오류."
     });
     return;
@@ -22,6 +23,7 @@ export default async (req: Request, res: Response) => {
   if (query.page < 1) {
     logger.yellow("검증 오류", "page is not valid");
     res.status(400).json({
+      status: 400,
       message: "검증 오류."
     });
     return;
@@ -40,6 +42,7 @@ export default async (req: Request, res: Response) => {
 
     logger.green("[GET] 공지 목록 조회 성공.");
     res.status(200).json({
+      status: 200,
       message: "공지 목록 조회 성공.",
       data: {
         notices,
@@ -49,6 +52,7 @@ export default async (req: Request, res: Response) => {
   } catch (err) {
     logger.red("[GET] 공지 목록 조회 서버 오류.", err.message);
     res.status(500).json({
+      status: 500,
       message: "서버 오류."
     });
   }

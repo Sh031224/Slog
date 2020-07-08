@@ -9,6 +9,7 @@ export default async (req: Request, res: Response) => {
   if (isNaN(idx)) {
     logger.yellow("[GET] 검증 오류.", "idx is NaN");
     res.status(400).json({
+      status: 400,
       message: "검증 오류."
     });
     return;
@@ -34,6 +35,7 @@ export default async (req: Request, res: Response) => {
 
     logger.green("[GET] 공지 조회 성공.");
     res.status(200).json({
+      status: 200,
       message: "공지 조회 성공.",
       data: {
         notice,
@@ -43,6 +45,7 @@ export default async (req: Request, res: Response) => {
   } catch (err) {
     logger.red("[GET] 공지 조회 서버 오류.", err.message);
     res.status(500).json({
+      status: 500,
       message: "서버 오류."
     });
   }
