@@ -44,9 +44,15 @@ export default async (req: AuthRequest, res: Response) => {
         if (user) {
           if (user.idx !== comment.fk_user_idx) {
             comment.content = "비밀 댓글입니다.";
+            delete comment.user;
+            delete comment.fk_user_idx;
+            delete comment.fk_user_name;
           }
         } else {
           comment.content = "비밀 댓글입니다.";
+          delete comment.user;
+          delete comment.fk_user_idx;
+          delete comment.fk_user_name;
         }
       }
     });
