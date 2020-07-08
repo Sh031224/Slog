@@ -17,6 +17,7 @@ export default async (req: Request, res: Response) => {
   if (!query.page || !query.limit) {
     logger.yellow("[GET] 검증 오류", "page or limit is null");
     res.status(400).json({
+      status: 400,
       message: "검증 오류."
     });
     return;
@@ -25,6 +26,7 @@ export default async (req: Request, res: Response) => {
   if (query.page < 1) {
     logger.yellow("[GET] 검증 오류", "page is not valid");
     res.status(400).json({
+      status: 400,
       message: "검증 오류."
     });
     return;
@@ -40,6 +42,7 @@ export default async (req: Request, res: Response) => {
       "view"
     ],
     where: {
+      is_temp: false,
       category: null
     },
     order: null,
@@ -59,6 +62,7 @@ export default async (req: Request, res: Response) => {
       if (!category) {
         logger.yellow("[GET] 카테고리 없음");
         res.status(404).json({
+          status: 404,
           message: "카테고리 없음"
         });
         return;
@@ -73,6 +77,7 @@ export default async (req: Request, res: Response) => {
       if (!(query.order in orderTypes)) {
         logger.yellow("[GET] 검증 오류.", "bad query (order)");
         res.status(400).json({
+          status: 400,
           message: "검증 오류."
         });
         return;
@@ -95,7 +100,7 @@ export default async (req: Request, res: Response) => {
     }
 
     const postRepo = getRepository(Post);
-    const posts: Post[] = await postRepo.find(queryConditions);
+    const [posts, total] = await postRepo.findAndCount(queryConditions);
 
     posts.forEach((post) => {
       if (!post.thumbnail) return;
@@ -104,14 +109,17 @@ export default async (req: Request, res: Response) => {
 
     logger.green("[GET] 글 전체 조회 성공.");
     res.status(200).json({
+      status: 200,
       message: "글 전체 조회 성공.",
       data: {
-        posts
+        posts,
+        total
       }
     });
   } catch (err) {
     logger.red("[GET] 글 전체 조회 서버 오류.", err.message);
     res.status(500).json({
+      status: 500,
       message: "서버 오류."
     });
   }
