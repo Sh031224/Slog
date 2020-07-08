@@ -21,6 +21,12 @@ export default class Reply extends BaseEntity {
   })
   content: string;
 
+  @Column({
+    default: false,
+    nullable: false
+  })
+  is_private: boolean;
+
   @ManyToOne((type) => User, (user) => user.name, { onDelete: "SET NULL" })
   @JoinColumn([
     { name: "fk_user_idx", referencedColumnName: "idx" },
