@@ -5,7 +5,6 @@ import logger from "../../../../lib/logger";
 import Category from "../../../../entity/Category";
 
 export default async (req: Request, res: Response) => {
-  const { body } = req;
   if (!validateCreate(req, res)) return;
 
   type RequestBody = {

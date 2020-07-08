@@ -11,8 +11,8 @@ const router = Router();
 
 router.put("/order", authMiddleware.admin, modifyOrderCategory);
 
-router.get("/", getCategories);
 router.get("/:idx", getCategory);
+router.get("/", getCategories);
 router.post("/", authMiddleware.admin, createCategory);
 router.put("/:idx", authMiddleware.admin, modifyCategory);
 router.delete("/:idx", authMiddleware.admin, deleteCategory);

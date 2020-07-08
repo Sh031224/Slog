@@ -23,7 +23,8 @@ export default async (req: Request, res: Response) => {
     if (facebookApi.data.error) {
       logger.red("[POST] 로그인 토큰 만료");
       res.status(410).json({
-        message: "로그인 오류"
+        status: 410,
+        message: "로그인 토큰 만료"
       });
       return;
     }
@@ -45,6 +46,7 @@ export default async (req: Request, res: Response) => {
 
     logger.green("[POST] 로그인 성공.");
     return res.status(200).json({
+      status: 200,
       message: "로그인 성공.",
       data: {
         access_token: token
@@ -53,6 +55,7 @@ export default async (req: Request, res: Response) => {
   } catch (err) {
     logger.red("[POST] 로그인 서버 오류.", err.message);
     return res.status(500).json({
+      status: 500,
       message: "서버 오류."
     });
   }
