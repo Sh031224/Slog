@@ -11,7 +11,8 @@ export default async (req: Request, res: Response) => {
     const postRepo = getRepository(Post);
     const posts: Post[] = await postRepo.find({
       where: {
-        title: Like(`%${query}%`)
+        title: Like(`%${query}%`),
+        is_temp: false
       },
       order: {
         created_at: "DESC"
@@ -25,6 +26,7 @@ export default async (req: Request, res: Response) => {
 
     logger.green("[GET] 글 검색 성공.");
     res.status(200).json({
+      status: 200,
       message: "글 검색 성공.",
       data: {
         posts
@@ -33,6 +35,7 @@ export default async (req: Request, res: Response) => {
   } catch (err) {
     logger.red("[GET] 글 검색 서버 오류.", err.message);
     res.status(500).json({
+      status: 500,
       message: "서버 오류."
     });
   }
