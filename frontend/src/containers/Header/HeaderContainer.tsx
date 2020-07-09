@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, RefObject } from "react";
 import Header from "../../components/common/Header";
 
 const HeaderContainer = () => {

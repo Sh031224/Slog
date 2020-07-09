@@ -1,4 +1,4 @@
-import React from "react";
+import React, { RefObject } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import logo from "../../../assets/images/logo.svg";
