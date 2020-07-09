@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../Header";
+import HeaderContainer from "../../../containers/Header/HeaderContainer";
 import Footer from "../Footer";
 
 type MainTemplateProps = {
@@ -9,7 +9,7 @@ type MainTemplateProps = {
 const MainTemplate = ({ children }: MainTemplateProps) => {
   return (
     <>
-      <Header />
+      <HeaderContainer />
       {children}
       <Footer />
     </>

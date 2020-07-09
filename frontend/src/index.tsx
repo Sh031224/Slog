@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "mobx-react";
 import { BrowserRouter } from "react-router-dom";
 import stores from "./stores";
+import "./util/util.scss";
 
 ReactDOM.render(
   <Provider store={stores}>

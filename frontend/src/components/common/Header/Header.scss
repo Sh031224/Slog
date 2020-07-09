@@ -1,0 +1,100 @@
+@import "../../../util/colors.scss";
+
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+  background-color: $bg-white;
+  background-color: --var(--bg-white);
+  &-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1100px;
+    padding: 0.5rem 0;
+    &-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      &-logo {
+        width: 2.5rem;
+        height: 2.5rem;
+        @media screen and (max-width: 450px) {
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+      &-util {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        a {
+          text-decoration: none;
+        }
+        &-login {
+          color: $ft-gray;
+          color: --var(--ft-gray);
+          font-weight: 500;
+          font-size: 1rem;
+          @media screen and (max-width: 450px) {
+            font-size: 0.8rem;
+          }
+        }
+        &-search {
+          position: relative;
+          width: 2.3rem;
+          height: 2.3rem;
+          overflow: hidden;
+          border-radius: 2.3rem;
+          margin-right: 1rem;
+          max-width: 195px;
+          border: 1px solid;
+          border-color: $bd-light-gray;
+          border-color: var(--bd-light-gray);
+          transition: all ease-in-out 0.5s 0s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          @media screen and (max-width: 450px) {
+            width: 1.9rem;
+            height: 1.9rem;
+          }
+          img {
+            width: 1.3rem;
+            height: 1.3rem;
+            cursor: pointer;
+            opacity: 0.5;
+            @media screen and (max-width: 450px) {
+              width: 1rem;
+              height: 1rem;
+            }
+          }
+          &-active {
+            justify-content: flex-start;
+            width: 12rem;
+          }
+          &-active &-input {
+            display: inline-block;
+          }
+          &-input {
+            color: $ft-gray;
+            color: --var(--ft-gray);
+            display: none;
+            width: 10rem;
+            max-width: 165px;
+            height: 1.8rem;
+            padding-left: 1rem;
+            padding-right: 0.5rem;
+            border: none;
+            outline: none;
+            font-size: 0.8rem;
+            font-weight: 400;
+            @media screen and (max-width: 450px) {
+              height: 1.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
