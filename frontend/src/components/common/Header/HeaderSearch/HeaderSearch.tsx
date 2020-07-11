@@ -1,11 +1,11 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, Dispatch, MutableRefObject } from "react";
 import searchImg from "../../../../assets/images/search.svg";
 
 interface HeaderSearchProps {
-  searchEl: HTMLElement | any;
-  inputEl: HTMLElement | any;
+  searchEl: MutableRefObject<any>;
+  inputEl: MutableRefObject<any>;
   search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  setSearch: Dispatch<React.SetStateAction<string>>;
 }
 
 const HeaderSearch = ({

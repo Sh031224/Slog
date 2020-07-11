@@ -1,14 +1,14 @@
-import React, { RefObject } from "react";
+import React, { Dispatch, MutableRefObject } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import logo from "../../../assets/images/logo.svg";
 import HeaderSearch from "./HeaderSearch";
 
 interface HeaderProps {
-  searchEl: HTMLElement | any;
-  inputEl: HTMLElement | any;
+  searchEl: MutableRefObject<any>;
+  inputEl: MutableRefObject<any>;
   search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  setSearch: Dispatch<React.SetStateAction<string>>;
 }
 
 const Header = ({ searchEl, inputEl, search, setSearch }: HeaderProps) => {
