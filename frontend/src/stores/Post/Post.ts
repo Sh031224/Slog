@@ -10,7 +10,7 @@ interface PostParmsType {
 }
 
 @autobind
-class AirQualityStore {
+class PostStore {
   @observable posts = [];
   @observable post_count = 0;
 
@@ -31,4 +31,4 @@ class AirQualityStore {
   };
 }
 
-export default AirQualityStore;
+export default PostStore;
