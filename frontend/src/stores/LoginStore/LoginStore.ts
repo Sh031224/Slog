@@ -7,7 +7,7 @@ class LoginStore {
   @observable login = false;
 
   @action
-  handleAirQuality = async (access_token: string) => {
+  handleLogin = async (access_token: string) => {
     try {
       const response = await Login.TryLogin(access_token);
 
@@ -23,6 +23,9 @@ class LoginStore {
         reject(error);
       });
     }
+  };
+  handleLoginChange = (status: boolean) => {
+    this.login = status;
   };
 }
 
