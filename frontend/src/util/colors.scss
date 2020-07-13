@@ -2,11 +2,13 @@
   background-color
 */
 $bg-white: #ffff;
+$bg-fb: #3578e5;
 
 /*
   color
 */
 $ft-gray: #777;
+$ft-white: #fff;
 
 /*
   border
@@ -18,10 +20,14 @@ $bd-light-gray: #bebebe;
     background-color
   */
   --bg-white: #ffff;
+  --bg-fb: #3578e5;
 
   /*
     color
   */
   --ft-gray: #777;
+  --ft-white: #fff;
+
+  /* border */
   --bd-light-gray: #bebebe;
 }
