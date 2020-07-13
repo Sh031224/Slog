@@ -9,9 +9,9 @@ class Login {
         access_token: access_token
       };
 
-      const response = await axios.post(url, body);
+      const { data } = await axios.post(url, body);
 
-      return response;
+      return data;
     } catch (error) {
       throw new Error(`${error}`);
     }
