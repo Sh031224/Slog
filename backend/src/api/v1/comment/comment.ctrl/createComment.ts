@@ -39,15 +39,12 @@ export default async (req: AuthRequest, res: Response) => {
     const coommentRepo = getRepository(Comment);
     const comment: Comment = new Comment();
 
-    comment.is_private = Boolean(data.is_private);
+    comment.is_private = data.is_private;
     comment.content = data.content;
     comment.user = user;
     comment.post = post;
 
-    post.comment_count += 1;
-
     await coommentRepo.save(comment);
-    await postRepo.save(post);
 
     logger.green("[POST] 댓글 생성 성공.");
     res.status(200).json({

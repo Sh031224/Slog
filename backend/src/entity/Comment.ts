@@ -22,12 +22,6 @@ export default class Comment extends BaseEntity {
   content: string;
 
   @Column({
-    nullable: false,
-    default: 0
-  })
-  replies_count: number;
-
-  @Column({
     default: false,
     nullable: false
   })

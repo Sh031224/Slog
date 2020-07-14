@@ -5,6 +5,7 @@ import Post from "../../../../entity/Post";
 import Comment from "../../../../entity/Comment";
 import AuthRequest from "../../../../type/AuthRequest";
 import User from "../../../../entity/User";
+import Reply from "../../../../entity/Reply";
 
 export default async (req: AuthRequest, res: Response) => {
   const user: User = req.user;
@@ -34,35 +35,44 @@ export default async (req: AuthRequest, res: Response) => {
       }
     };
 
+    interface commentListType extends Comment {
+      reply_count?: number;
+    }
+
     const commentRepo = getRepository(Comment);
-    const comments: Comment[] = await commentRepo.find(commentOptions);
+    const comments: commentListType[] = await commentRepo.find(commentOptions);
 
-    const count: number = post.comment_count;
-
-    comments.map((comment) => {
-      if (comment.is_private) {
+    for (let i in comments) {
+      if (comments[i].is_private) {
         if (user) {
-          if (user.idx !== comment.fk_user_idx) {
-            comment.content = "비밀 댓글입니다.";
-            delete comment.user;
-            delete comment.fk_user_idx;
-            delete comment.fk_user_name;
+          if (user.idx !== comments[i].fk_user_idx) {
+            comments[i].content = "비밀 댓글입니다.";
+            delete comments[i].fk_user_idx;
+            delete comments[i].fk_user_name;
+            delete comments[i].user;
           }
         } else {
-          comment.content = "비밀 댓글입니다.";
-          delete comment.user;
-          delete comment.fk_user_idx;
-          delete comment.fk_user_name;
+          comments[i].content = "비밀 댓글입니다.";
+          delete comments[i].fk_user_idx;
+          delete comments[i].fk_user_name;
+          delete comments[i].user;
         }
       }
-    });
+      const replyRepo = getRepository(Reply);
+      const reply_count: number = await replyRepo.count({
+        where: {
+          comment: comments[i]
+        }
+      });
+
+      comments[i].reply_count = reply_count;
+    }
 
     logger.green("[GET] 댓글 목록 조회 성공.");
     res.status(200).json({
       status: 200,
       message: "댓글 목록 조회 성공.",
       data: {
-        count,
         comments
       }
     });

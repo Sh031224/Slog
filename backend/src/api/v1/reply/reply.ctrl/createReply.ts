@@ -37,22 +37,6 @@ export default async (req: AuthRequest, res: Response) => {
       return;
     }
 
-    const postRepo = getRepository(Post);
-    const post: Post = await postRepo.findOne({
-      where: {
-        idx: comment.fk_post_idx
-      }
-    });
-
-    if (!post) {
-      logger.yellow("[POST] 글 없음.");
-      res.status(404).json({
-        status: 404,
-        message: "글 없음."
-      });
-      return;
-    }
-
     const replyRepo = getRepository(Reply);
     const reply = new Reply();
 
@@ -67,19 +51,13 @@ export default async (req: AuthRequest, res: Response) => {
       }
       reply.is_private = true;
     } else {
-      reply.is_private = Boolean(data.is_private);
+      reply.is_private = data.is_private;
     }
 
     reply.content = data.content;
     reply.user = user;
     reply.comment = comment;
     await replyRepo.save(reply);
-
-    comment.replies_count += 1;
-    await commentRepo.save(comment);
-
-    post.comment_count += 1;
-    await postRepo.save(post);
 
     logger.green("[POST] 답글 생성 성공.");
     res.status(200).json({
