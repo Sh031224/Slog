@@ -5,6 +5,7 @@ import logger from "../../../../lib/logger";
 import { getRepository } from "typeorm";
 import Reply from "../../../../entity/Reply";
 import Post from "../../../../entity/Post";
+import Comment from "../../../../entity/Comment";
 
 export default async (req: AuthRequest, res: Response) => {
   const user: User = req.user;
@@ -45,45 +46,7 @@ export default async (req: AuthRequest, res: Response) => {
       return;
     }
 
-    const commentRepo = getRepository(Comment);
-    const comment: Comment = await commentRepo.findOne({
-      where: {
-        idx: reply.fk_comment_idx
-      }
-    });
-
-    if (!comment) {
-      logger.yellow("[DELETE] 댓글 없음.");
-      res.status(403).json({
-        status: 404,
-        message: "댓글 없음."
-      });
-      return;
-    }
-
-    const postRepo = getRepository(Post);
-    const post: Post = await postRepo.findOne({
-      where: {
-        idx: comment.fk_post_idx
-      }
-    });
-
-    if (!post) {
-      logger.yellow("[DELETE] 글 없음.");
-      res.status(404).json({
-        status: 404,
-        message: "글 없음."
-      });
-      return;
-    }
-
     await replyRepo.remove(reply);
-
-    comment.replies_count -= 1;
-    await commentRepo.save(comment);
-
-    post.comment_count -= 1;
-    await postRepo.save(post);
 
     logger.green("[DELETE] 답글 삭제 성공.");
     res.status(200).json({

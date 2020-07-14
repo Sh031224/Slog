@@ -48,12 +48,6 @@ export default class Post extends BaseEntity {
   fk_category_idx: number;
 
   @Column({
-    nullable: false,
-    default: 0
-  })
-  comment_count: number;
-
-  @Column({
     length: 1000,
     nullable: true
   })

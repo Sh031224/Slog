@@ -45,14 +45,6 @@ export default async (req: AuthRequest, res: Response) => {
       }
     });
 
-    let order: number;
-
-    posts.forEach((categoryPost, index) => {
-      if (categoryPost.idx === post.idx) {
-        order = index + 1;
-      }
-    });
-
     if (post.is_temp) {
       if (!user || !user.is_admin) {
         logger.yellow("[GET] 권한 없음.");
@@ -106,7 +98,6 @@ export default async (req: AuthRequest, res: Response) => {
       status: 200,
       message: "글 조회 성공.",
       data: {
-        order,
         post
       }
     });

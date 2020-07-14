@@ -3,6 +3,8 @@ import { getRepository, FindManyOptions } from "typeorm";
 import logger from "../../../../lib/logger";
 import Category from "../../../../entity/Category";
 import Post from "../../../../entity/Post";
+import Comment from "../../../../entity/Comment";
+import Reply from "../../../../entity/Reply";
 import orderTypes from "../../../../enum/orderTypes";
 import generateURL from "../../../../lib/util/generateURL";
 
@@ -99,13 +101,42 @@ export default async (req: Request, res: Response) => {
       };
     }
 
-    const postRepo = getRepository(Post);
-    const [posts, total] = await postRepo.findAndCount(queryConditions);
+    interface postListType extends Post {
+      comment_count?: number;
+    }
 
-    posts.forEach((post) => {
-      if (!post.thumbnail) return;
-      post.thumbnail = generateURL(req, post.idx, post.thumbnail);
-    });
+    const postRepo = getRepository(Post);
+    const [posts, total]: [
+      postListType[],
+      number
+    ] = await postRepo.findAndCount(queryConditions);
+
+    for (let i in posts) {
+      let total_count = 0;
+
+      if (posts[i].thumbnail) {
+        posts[i].thumbnail = generateURL(req, posts[i].idx, posts[i].thumbnail);
+      }
+      const commentRepo = getRepository(Comment);
+      const [comments, comment_count] = await commentRepo.findAndCount({
+        where: {
+          post: posts[i]
+        }
+      });
+
+      total_count += comment_count;
+      for (let j in comments) {
+        const replyRepo = getRepository(Reply);
+        const reply_count = await replyRepo.count({
+          where: {
+            comment: comments[j]
+          }
+        });
+        total_count += reply_count;
+      }
+
+      posts[i].comment_count = total_count;
+    }
 
     logger.green("[GET] 글 전체 조회 성공.");
     res.status(200).json({
