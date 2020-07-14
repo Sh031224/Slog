@@ -1,10 +1,12 @@
 import { observable, action } from "mobx";
 import { autobind } from "core-decorators";
 import Login from "../../assets/api/Login";
+import Profile from "../../assets/api/Profile";
 
 @autobind
 class LoginStore {
-  @observable login = false;
+  @observable
+  login = false;
 
   @action
   handleLogin = async (access_token: string) => {
