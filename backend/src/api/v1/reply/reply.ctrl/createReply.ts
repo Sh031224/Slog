@@ -75,7 +75,7 @@ export default async (req: AuthRequest, res: Response) => {
     reply.comment = comment;
     await replyRepo.save(reply);
 
-    comment.has_replies = true;
+    comment.replies_count += 1;
     await commentRepo.save(comment);
 
     post.comment_count += 1;
