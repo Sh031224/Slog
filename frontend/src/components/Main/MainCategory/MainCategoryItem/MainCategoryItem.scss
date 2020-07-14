@@ -1,0 +1,15 @@
+@import "../../../../util/colors.scss";
+
+.main-category-item {
+  color: $ft-gray;
+  color: var(--ft-gray);
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  &-count {
+    color: $ft-light-gray;
+    color: var(--ft-light-gray);
+  }
+  &-active {
+    color: $ft-green !important;
+  }
+}

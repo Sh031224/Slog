@@ -1,0 +1,18 @@
+@import "../../../util/colors.scss";
+
+.main-category {
+  display: flex;
+  width: 11rem;
+  flex-direction: column;
+  &-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-bottom: 1px solid;
+    border-color: $bd-light-gray;
+    border-color: var(--bd-light-gray);
+    padding-bottom: 0.5rem;
+    color: $ft-dark-gray;
+    color: var(--ft-dark-gray);
+    margin-bottom: 0.3rem;
+  }
+}

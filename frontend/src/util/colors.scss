@@ -8,12 +8,15 @@ $bg-fb: #3578e5;
   color
 */
 $ft-gray: #777;
+$ft-light-gray: #bdbdbd;
+$ft-dark-gray: #464646;
 $ft-white: #fff;
+$ft-green: #20c997;
 
 /*
   border
 */
-$bd-light-gray: #bebebe;
+$bd-light-gray: #c0c0c0;
 
 :root {
   /*
@@ -26,8 +29,11 @@ $bd-light-gray: #bebebe;
     color
   */
   --ft-gray: #777;
+  --ft-light-gray: #bdbdbd;
+  --ft-dark-gray: #464646;
   --ft-white: #fff;
+  --ft-green: #20c997;
 
   /* border */
-  --bd-light-gray: #bebebe;
+  --bd-light-gray: #c0c0c0;
 }
