@@ -2,10 +2,17 @@
 
 .main-category {
   display: flex;
-  width: 11rem;
+  width: 10rem;
   flex-direction: column;
+  margin-right: 1rem;
+  @media screen and (max-width: 1250px) {
+    padding: 1rem;
+  }
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
   &-title {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     font-weight: 500;
     border-bottom: 1px solid;
     border-color: $bd-light-gray;

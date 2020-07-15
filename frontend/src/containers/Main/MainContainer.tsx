@@ -1,5 +1,6 @@
 import { inject, observer } from "mobx-react";
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Main from "../../components/Main";
 import CategoryStore from "../../stores/CategoryStore";
 
