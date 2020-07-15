@@ -9,17 +9,40 @@ interface PostParmsType {
   category?: number;
 }
 
+interface PostResponseType {
+  status: number;
+  data: {
+    total?: number;
+    posts: PostType[];
+  };
+}
+
+interface PostType {
+  idx: number;
+  title: string;
+  view: number;
+  comment_count: number;
+  thumbnail?: string;
+  description?: string;
+  created_at: Date;
+}
+
 @autobind
 class PostStore {
-  @observable posts = [];
-  @observable post_count = 0;
+  @observable posts: PostType[] = [];
 
   @action
-  handleAirQuality = async (query: PostParmsType) => {
+  handlePosts = async (query: PostParmsType) => {
     try {
-      const response = await PostList.GetPostList(query);
-      this.posts = response.data.posts;
-      this.post_count = response.data.count;
+      const response: PostResponseType = await PostList.GetPostList(query);
+      if (query.page > 1) {
+        response.data.posts.map((post: PostType) => {
+          this.posts.push(post);
+        });
+      } else {
+        this.posts = response.data.posts;
+      }
+
       return new Promise((resolve, reject) => {
         resolve(response);
       });
