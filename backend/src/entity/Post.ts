@@ -21,6 +21,12 @@ export default class Post extends BaseEntity {
   })
   title: string;
 
+  @Column({
+    length: 255,
+    nullable: false
+  })
+  description: string;
+
   @Column("text", {
     nullable: false
   })

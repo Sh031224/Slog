@@ -25,6 +25,7 @@ export default async (req: Request, res: Response) => {
     category_idx: number;
     thumbnail: string;
     is_temp?: boolean;
+    description: string;
   };
 
   const data: RequestBody = req.body;
@@ -86,6 +87,7 @@ export default async (req: Request, res: Response) => {
     post.content = data.content || post.content;
     post.thumbnail = data.thumbnail;
     post.is_temp = data.is_temp === null ? post.is_temp : data.is_temp;
+    post.description = data.description || post.description;
     await postRepo.save(post);
 
     logger.green("[PUT] 글 수정 성공.");

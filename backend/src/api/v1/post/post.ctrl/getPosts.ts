@@ -41,7 +41,8 @@ export default async (req: Request, res: Response) => {
       "created_at",
       "fk_category_idx",
       "thumbnail",
-      "view"
+      "view",
+      "description"
     ],
     where: {
       is_temp: false,

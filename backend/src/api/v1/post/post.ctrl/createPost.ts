@@ -13,6 +13,7 @@ export default async (req: Request, res: Response) => {
     content: string;
     category_idx: number;
     thumbnail: string;
+    description: string;
   };
 
   const body: RequestBody = req.body;
@@ -42,6 +43,7 @@ export default async (req: Request, res: Response) => {
     post.title = body.title;
     post.content = body.content;
     post.thumbnail = body.thumbnail;
+    post.description = body.description;
 
     await postRepo.save(post);
 
