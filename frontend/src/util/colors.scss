@@ -10,6 +10,7 @@ $bg-fb: #3578e5;
 $ft-gray: #777;
 $ft-light-gray: #bdbdbd;
 $ft-dark-gray: #464646;
+$ft-little-gray: #a0a0a0;
 $ft-white: #fff;
 $ft-green: #20c997;
 $ft-black: black;
@@ -17,6 +18,7 @@ $ft-black: black;
   border
 */
 $bd-light-gray: #c0c0c0;
+$bd-dark-white: #dfdfdf85;
 
 :root {
   /*
@@ -31,10 +33,12 @@ $bd-light-gray: #c0c0c0;
   --ft-gray: #777;
   --ft-light-gray: #bdbdbd;
   --ft-dark-gray: #464646;
+  --ft-little-gray: #a0a0a0;
   --ft-white: #fff;
   --ft-green: #20c997;
   --ft-black: black;
 
   /* border */
   --bd-light-gray: #c0c0c0;
+  --bd-dark-white: #dfdfdf85;
 }

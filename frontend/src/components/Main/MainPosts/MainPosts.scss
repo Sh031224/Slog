@@ -1,0 +1,21 @@
+@import "../../../util/colors.scss";
+
+.main-posts {
+  display: flex;
+  flex: 1 1 0%;
+  padding-top: 2rem;
+  &-area {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    position: relative;
+  }
+  &-404 {
+    display: flex;
+    height: 60vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+  }
+}
