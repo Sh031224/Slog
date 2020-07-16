@@ -24,6 +24,8 @@ const MainPostContainer = ({ store }: MainPostContainerProps) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
+  let total = 0;
+
   const { posts, handlePosts } = store!.PostStore;
 
   const query: PostParmsType = {
@@ -31,12 +33,44 @@ const MainPostContainer = ({ store }: MainPostContainerProps) => {
     limit: 20
   };
 
+  const infiniteScroll = () => {
+    const scrollHeight = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+    );
+    const scrollTop = Math.max(
+      document.documentElement.scrollTop,
+      document.body.scrollTop
+    );
+    const clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight === scrollHeight) {
+      if (total) {
+        if (total > posts.length) {
+          setPage(page + 1);
+        }
+      }
+    }
+  };
+
   const handlePostsCallback = useCallback(async (query: PostParmsType) => {
-    await handlePosts(query).catch((error: Error) => {
-      return error;
-    });
-    setLoading(false);
+    await handlePosts(query)
+      .then((res: any) => {
+        total = res.data.total;
+        setLoading(false);
+      })
+      .catch((error: Error) => {
+        return error;
+      });
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", infiniteScroll);
+  }, []);
+
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
 
   useEffect(() => {
     setLoading(true);
