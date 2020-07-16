@@ -1,6 +1,7 @@
 import React, { Dispatch } from "react";
 import { Link } from "react-router-dom";
-import { AiOutlineEye, AiOutlineComment } from "react-icons/ai";
+import { AiOutlineEye } from "react-icons/ai";
+import { GoCommentDiscussion } from "react-icons/go";
 import moment from "moment";
 import "./MainPostsItem.scss";
 
@@ -53,7 +54,7 @@ const MainPostsItem = ({ post, page, setPage }: MainPostsItemProps) => {
       <div className="main-posts-item-info">
         <AiOutlineEye className="main-posts-item-info-icon" />
         <span className="main-posts-item-info-count">{post.view}</span>
-        <AiOutlineComment className="main-posts-item-info-icon" />
+        <GoCommentDiscussion className="main-posts-item-info-icon" />
         <span className="main-posts-item-info-count">{post.comment_count}</span>
       </div>
     </div>

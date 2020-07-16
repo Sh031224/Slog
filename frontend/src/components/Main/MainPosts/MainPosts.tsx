@@ -25,13 +25,13 @@ const MainPosts = ({ posts, page, loading, setPage }: MainPostsProps) => {
         {posts.length <= 0 && (
           <div className="main-posts-404">게시글이 없어요. 🤭</div>
         )}
-        {posts.map((post: PostType) => {
+        {posts.map((post: PostType, index: number) => {
           return (
             <MainPostsItem
               post={post}
               setPage={setPage}
               page={page}
-              key={post.idx}
+              key={index}
             />
           );
         })}
