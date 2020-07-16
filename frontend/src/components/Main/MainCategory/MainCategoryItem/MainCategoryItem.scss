@@ -10,6 +10,8 @@
     color: var(--ft-light-gray);
   }
   &-active {
-    color: $ft-green !important;
+    color: $ft-light-purple !important;
+    color: var(--ft-light-purple) !important;
+    font-weight: 600;
   }
 }

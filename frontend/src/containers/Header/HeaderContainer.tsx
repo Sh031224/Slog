@@ -2,13 +2,14 @@ import { inject, observer } from "mobx-react";
 import React, { useEffect, useRef, useState } from "react";
 import Header from "../../components/common/Header";
 import LoginStore from "../../stores/LoginStore";
+import UserStore from "../../stores/UserStore";
 import axios from "axios";
 import {
   ReactFacebookFailureResponse,
   ReactFacebookLoginInfo
 } from "react-facebook-login";
+import Swal from "sweetalert2";
 import { useCookies } from "react-cookie";
-import SweetAlert from "sweetalert2-react";
 
 interface HeaderContainerProps {
   store?: StoreType;
@@ -16,6 +17,7 @@ interface HeaderContainerProps {
 
 interface StoreType {
   LoginStore: LoginStore;
+  UserStore: UserStore;
 }
 
 interface FacebookLoginInfo extends ReactFacebookLoginInfo {
@@ -28,11 +30,10 @@ interface FacebookFailureResponse extends ReactFacebookFailureResponse {
 
 const HeaderContainer = ({ store }: HeaderContainerProps) => {
   const { login, handleLoginChange, handleLogin } = store!.LoginStore;
+  const { handleUser, admin } = store!.UserStore;
   const searchEl = useRef<HTMLElement>(null);
   const inputEl = useRef<HTMLElement>(null);
 
-  const [success, setSuccess] = useState(false);
-  const [fail, setFail] = useState(false);
   const [search, setSearch] = useState("");
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
@@ -45,10 +46,10 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         setCookie("access_token", response.data.access_token, {
           expires: today
         });
-        setSuccess(true);
+        Swal.fire("환영합니다!", "로그인에 성공하였습니다.", "success");
       })
       .catch((err: Error) => {
-        setFail(true);
+        Swal.fire("오류!", "로그인에 실패하였습니다.", "error");
       });
   };
 
@@ -61,8 +62,9 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
     if (cookies.access_token) {
       handleLoginChange(true);
       axios.defaults.headers.common["access_token"] = cookies.access_token;
+      handleUser();
     }
-  }, []);
+  }, [login]);
 
   return (
     <>
@@ -74,20 +76,6 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         login={login}
         tryLogin={tryLogin}
         tryLogout={tryLogout}
-      />
-      <SweetAlert
-        show={success}
-        title="환영합니다!"
-        text="로그인에 성공하였습니다."
-        type="success"
-        onConfirm={() => setSuccess(false)}
-      />
-      <SweetAlert
-        show={fail}
-        title="오류 !"
-        text="로그인에 실패하였습니다."
-        type="error"
-        onConfirm={() => setFail(false)}
       />
     </>
   );

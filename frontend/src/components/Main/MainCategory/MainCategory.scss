@@ -22,4 +22,39 @@
     color: var(--ft-dark-gray);
     margin-bottom: 0.3rem;
   }
+  &-edit {
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+  }
+  &-arrow {
+    display: none;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all ease-in-out 0.5s 0s;
+    @media screen and (max-width: 900px) {
+      display: flex;
+    }
+    &-toggle {
+      transform: rotate(180deg);
+    }
+  }
+  &-row {
+    display: none;
+    padding: 1rem;
+    overflow: hidden;
+    max-height: 5rem;
+    transition: all ease-in-out 0.5s;
+    @media screen and (max-width: 900px) {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 1.5rem 1rem 0 1rem;
+    }
+    &-view {
+      max-height: 20rem;
+      overflow: initial !important;
+      transition-duration: 1s;
+    }
+  }
 }

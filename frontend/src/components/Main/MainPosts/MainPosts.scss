@@ -4,6 +4,9 @@
   display: flex;
   flex: 1 1 0%;
   padding-top: 2rem;
+  @media screen and (max-width: 900px) {
+    padding-top: 0;
+  }
   &-area {
     display: flex;
     flex-wrap: wrap;
@@ -16,6 +19,6 @@
     width: 100%;
     justify-content: center;
     align-items: center;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
   }
 }

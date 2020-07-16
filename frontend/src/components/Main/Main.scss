@@ -4,9 +4,15 @@
   display: flex;
   justify-content: center;
   padding-top: 5rem;
+  @media screen and (max-width: 900px) {
+    padding-top: 0;
+  }
   &-container {
     width: 100%;
     max-width: 1200px;
     display: flex;
+    @media screen and (max-width: 900px) {
+      flex-direction: column-reverse;
+    }
   }
 }
