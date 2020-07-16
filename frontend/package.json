@@ -12,6 +12,7 @@
     "@types/node-sass": "^4.11.1",
     "@types/react-dom": "^16.9.0",
     "@types/react-facebook-login": "^4.1.2",
+    "@types/react-headroom": "^2.2.1",
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.1",
     "axios": "^0.19.2",
@@ -24,10 +25,12 @@
     "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
     "react-facebook-login": "^4.1.1",
+    "react-headroom": "^3.0.0",
     "react-icons": "^3.10.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "sweetalert2-react": "^0.8.3",
+    "react-scroll-to-top": "^1.0.5",
+    "sweetalert2": "^9.17.0",
     "typescript": "~3.7.2"
   },
   "scripts": {
