@@ -1,10 +1,11 @@
 import { inject, observer } from "mobx-react";
 import React, { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import MainPosts from "../../components/Main/MainPosts";
 import PostStore from "../../stores/PostStore";
 
 interface MainPostContainerProps {
+  categoryList: CategoryType[];
   store?: StoreType;
 }
 
@@ -12,7 +13,13 @@ interface StoreType {
   PostStore: PostStore;
 }
 
-const MainPostContainer = ({ store }: MainPostContainerProps) => {
+interface CategoryType {
+  idx: number;
+  name: string;
+  post_count: number;
+}
+
+const MainPostContainer = ({ store, categoryList }: MainPostContainerProps) => {
   interface PostParmsType {
     page: number;
     limit: number;
@@ -21,6 +28,8 @@ const MainPostContainer = ({ store }: MainPostContainerProps) => {
   }
 
   const { search } = useLocation();
+  const history = useHistory();
+
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
@@ -53,16 +62,20 @@ const MainPostContainer = ({ store }: MainPostContainerProps) => {
     }
   };
 
-  const handlePostsCallback = useCallback(async (query: PostParmsType) => {
-    await handlePosts(query)
-      .then((res: any) => {
-        total = res.data.total;
-        setLoading(false);
-      })
-      .catch((error: Error) => {
-        return error;
-      });
-  }, []);
+  const handlePostsCallback = useCallback(
+    async (query: PostParmsType) => {
+      await handlePosts(query)
+        .then((res: any) => {
+          total = res.data.total;
+          setLoading(false);
+        })
+        .catch((error: any) => {
+          history.push("/");
+          return error;
+        });
+    },
+    [categoryList]
+  );
 
   useEffect(() => {
     window.addEventListener("scroll", infiniteScroll);
@@ -82,7 +95,7 @@ const MainPostContainer = ({ store }: MainPostContainerProps) => {
       delete query.category;
     }
 
-    handlePostsCallback(query).catch(() => alert("서버가 불안정합니다."));
+    handlePostsCallback(query).catch((error: Error) => console.log(error));
   }, [page, search]);
 
   return (
