@@ -82,7 +82,7 @@ const MainPostContainer = ({ store }: MainPostContainerProps) => {
       delete query.category;
     }
 
-    handlePostsCallback(query);
+    handlePostsCallback(query).catch(() => alert("서버가 불안정합니다."));
   }, [page, search]);
 
   return (

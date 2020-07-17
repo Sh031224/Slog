@@ -15,7 +15,15 @@ interface StoreType {
 }
 
 const MainContainer = ({ store }: MainContainerProps) => {
-  const { total_post, categoryList, handleCategoryList } = store!.CategoryStore;
+  const {
+    total_post,
+    categoryList,
+    handleCategoryList,
+    modifyOrderCategory,
+    modifyCategoryName,
+    deleteCategory,
+    createCategory
+  } = store!.CategoryStore;
   const { admin } = store!.UserStore;
 
   const [categoryEdit, setCategoryEdit] = useState(false);
@@ -37,7 +45,17 @@ const MainContainer = ({ store }: MainContainerProps) => {
         setCategoryEdit={setCategoryEdit}
         admin={admin}
       />
-      {admin && categoryEdit && <AdminCategoryContainer />}
+      {admin && categoryEdit && (
+        <AdminCategoryContainer
+          createCategory={createCategory}
+          deleteCategory={deleteCategory}
+          modifyCategoryName={modifyCategoryName}
+          modifyOrderCategory={modifyOrderCategory}
+          setCategoryEdit={setCategoryEdit}
+          categoryList={categoryList}
+          handleCategoryList={handleCategoryList}
+        />
+      )}
     </>
   );
 };

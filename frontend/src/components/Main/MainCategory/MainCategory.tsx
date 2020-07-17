@@ -71,12 +71,14 @@ const MainCategory = ({
         {categoryList.map((category: CategoryType) => {
           return <MainCategoryRowItem item={category} key={category.idx} />;
         })}
-        <div
-          onClick={() => setCategoryEdit(true)}
-          className="main-category-row-edit main-category-row-item"
-        >
-          <FiEdit3 />
-        </div>
+        {admin && (
+          <div
+            onClick={() => setCategoryEdit(true)}
+            className="main-category-row-edit main-category-row-item"
+          >
+            <FiEdit3 />
+          </div>
+        )}
       </div>
     </>
   );
