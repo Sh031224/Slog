@@ -6,20 +6,29 @@ import Profile from "../../assets/api/Profile";
 class CategoryStore {
   @observable admin = false;
 
-  @action handleUser = async () => {
+  @action handleUser = async (access_token: string) => {
     try {
-      const response = await Profile.GetProfile();
+      const response = await Profile.GetProfile(access_token);
 
-      this.admin = response.data.user.is_admin;
+      if (!response) {
+        this.admin = false;
+      } else {
+        this.admin = response.data.user.is_admin;
 
-      return new Promise((resolve, reject) => {
-        resolve(response);
-      });
+        return new Promise((resolve, reject) => {
+          resolve(response);
+        });
+      }
     } catch (error) {
+      this.admin = false;
       return new Promise((resolve, reject) => {
         reject(error);
       });
     }
+  };
+
+  @action haldleAdminFalse = () => {
+    this.admin = false;
   };
 }
 
