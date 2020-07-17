@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { server } from "../../config/index.json";
 
 class Profile {
-  async GetProfile(idx?: number) {
+  async GetProfile(access_token: string, idx?: number) {
     try {
       let url = `${server}/api/v1/profile/`;
 
@@ -12,11 +12,13 @@ class Profile {
         url += "my";
       }
 
+      axios.defaults.headers.common["access_token"] = access_token;
+
       const { data } = await axios.get(url);
 
       return data;
     } catch (error) {
-      throw new Error(`${error}`);
+      return false;
     }
   }
 }
