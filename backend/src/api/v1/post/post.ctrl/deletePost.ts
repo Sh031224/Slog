@@ -3,7 +3,6 @@ import AuthRequest from "../../../../type/AuthRequest";
 import { getRepository } from "typeorm";
 import logger from "../../../../lib/logger";
 import Post from "../../../../entity/Post";
-import Category from "../../../../entity/Category";
 
 export default async (req: AuthRequest, res: Response) => {
   const idx: number = Number(req.params.idx);

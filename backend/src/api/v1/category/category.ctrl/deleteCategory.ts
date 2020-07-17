@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import logger from "../../../../lib/logger";
 import Category from "../../../../entity/Category";
+import Post from "../../../../entity/Post";
 
 export default async (req: Request, res: Response) => {
   const idx: number = Number(req.params.idx);
@@ -31,6 +32,21 @@ export default async (req: Request, res: Response) => {
       });
       return;
     }
+
+    const postRepo = getRepository(Post);
+    const posts: Post[] = await postRepo.find({
+      where: {
+        category: category
+      }
+    });
+
+    const postDeletePromise: Promise<Post>[] = [];
+
+    posts.map((post: Post) => {
+      postDeletePromise.push(postRepo.remove(post));
+    });
+
+    await Promise.all(postDeletePromise);
 
     const deletedOrderNumber = category.order_number;
 
