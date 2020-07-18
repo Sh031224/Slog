@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 import { autobind } from "core-decorators";
-import PostList from "../../assets/api/PostList";
+import Post from "../../assets/api/Post";
 
 interface PostParmsType {
   page: number;
@@ -34,7 +34,7 @@ class PostStore {
   @action
   handlePosts = async (query: PostParmsType) => {
     try {
-      const response: PostResponseType = await PostList.GetPostList(query);
+      const response: PostResponseType = await Post.GetPostList(query);
       if (query.page > 1) {
         response.data.posts.map((post: PostType) => {
           this.posts.push(post);
@@ -42,6 +42,21 @@ class PostStore {
       } else {
         this.posts = response.data.posts;
       }
+
+      return new Promise((resolve, reject) => {
+        resolve(response);
+      });
+    } catch (error) {
+      return new Promise((resolve, reject) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
+  getPostInfo = async (idx: number) => {
+    try {
+      const response: PostResponseType = await Post.GetPostInfo(idx);
 
       return new Promise((resolve, reject) => {
         resolve(response);

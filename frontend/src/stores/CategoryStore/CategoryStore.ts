@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 import { autobind } from "core-decorators";
-import CategoryList from "../../assets/api/CategoryList";
+import Category from "../../assets/api/Category";
 
 @autobind
 class CategoryStore {
@@ -10,7 +10,7 @@ class CategoryStore {
   @action
   handleCategoryList = async () => {
     try {
-      const response = await CategoryList.GetCategoryList();
+      const response = await Category.GetCategoryList();
       this.categoryList = response.data.categories;
       this.total_post = response.data.total;
 
@@ -27,7 +27,7 @@ class CategoryStore {
   @action
   modifyOrderCategory = async (category_idx: number, order_number: number) => {
     try {
-      const response = await CategoryList.ModifyOrderNumber(
+      const response = await Category.ModifyOrderNumber(
         category_idx,
         order_number
       );
@@ -45,7 +45,7 @@ class CategoryStore {
   @action
   modifyCategoryName = async (category_idx: number, name: string) => {
     try {
-      const response = await CategoryList.ModifyCategory(category_idx, name);
+      const response = await Category.ModifyCategory(category_idx, name);
 
       return new Promise((resolve, reject) => {
         resolve(response);
@@ -60,7 +60,7 @@ class CategoryStore {
   @action
   deleteCategory = async (category_idx: number) => {
     try {
-      const response = await CategoryList.DeleteCategory(category_idx);
+      const response = await Category.DeleteCategory(category_idx);
 
       return new Promise((resolve, reject) => {
         resolve(response);
@@ -75,7 +75,7 @@ class CategoryStore {
   @action
   createCategory = async (name: string) => {
     try {
-      const response = await CategoryList.CreateCategory(name);
+      const response = await Category.CreateCategory(name);
 
       return new Promise((resolve, reject) => {
         resolve(response);
