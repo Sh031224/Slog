@@ -77,15 +77,6 @@ export default async (req: Request, res: Response) => {
     }
 
     if (query.order) {
-      if (!(query.order in orderTypes)) {
-        logger.yellow("[GET] 검증 오류.", "bad query (order)");
-        res.status(400).json({
-          status: 400,
-          message: "검증 오류."
-        });
-        return;
-      }
-
       if (query.order === orderTypes.LATEST) {
         queryConditions.order = {
           created_at: "DESC"
@@ -95,6 +86,13 @@ export default async (req: Request, res: Response) => {
           view: "DESC",
           created_at: "DESC"
         };
+      } else if (!(query.order in orderTypes)) {
+        logger.yellow("[GET] 검증 오류.", "bad query (order)");
+        res.status(400).json({
+          status: 400,
+          message: "검증 오류."
+        });
+        return;
       }
     } else {
       queryConditions.order = {
