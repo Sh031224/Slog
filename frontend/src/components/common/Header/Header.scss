@@ -44,7 +44,7 @@
         &-login {
           color: $ft-gray;
           color: --var(--ft-gray);
-          font-weight: 500;
+          font-weight: 600;
           font-size: 0.95rem;
           cursor: pointer;
           @media screen and (max-width: 450px) {
@@ -103,7 +103,7 @@
             border: none;
             outline: none;
             font-size: 0.8rem;
-            font-weight: 400;
+            font-weight: 500;
             @media screen and (max-width: 450px) {
               height: 1.5rem;
               width: calc(100% - 2rem);
