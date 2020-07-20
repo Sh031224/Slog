@@ -29,10 +29,18 @@ body {
   background-color: #3085d6 !important;
 }
 
-.swal2-content {
-  font-weight: 400 !important;
-}
-
 a {
   text-decoration: none;
+}
+
+@keyframes loading {
+  0% {
+    background-color: rgba(182, 182, 182, 0.1);
+  }
+  50% {
+    background-color: rgba(182, 182, 182, 0.25);
+  }
+  100% {
+    background-color: rgba(182, 182, 182, 0.1);
+  }
 }

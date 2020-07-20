@@ -2,6 +2,7 @@ import { inject, observer } from "mobx-react";
 import React, { useEffect, useRef, useState } from "react";
 import Main from "../../components/Main";
 import CategoryStore from "../../stores/CategoryStore";
+import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
 
@@ -12,6 +13,7 @@ interface MainContainerProps {
 interface StoreType {
   CategoryStore: CategoryStore;
   UserStore: UserStore;
+  PostStore: PostStore;
 }
 
 const MainContainer = ({ store }: MainContainerProps) => {
@@ -25,6 +27,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
     createCategory
   } = store!.CategoryStore;
   const { admin } = store!.UserStore;
+  const { handlePosts } = store!.PostStore;
 
   const [categoryEdit, setCategoryEdit] = useState(false);
 
@@ -54,6 +57,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
           setCategoryEdit={setCategoryEdit}
           categoryList={categoryList}
           handleCategoryList={handleCategoryList}
+          handlePosts={handlePosts}
         />
       )}
     </>

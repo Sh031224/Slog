@@ -1,6 +1,7 @@
 import { inject, observer } from "mobx-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { setTimeout } from "timers";
 import MainPosts from "../../components/Main/MainPosts";
 import PostStore from "../../stores/PostStore";
 
@@ -32,10 +33,11 @@ const MainPostContainer = ({ store, categoryList }: MainPostContainerProps) => {
 
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [notfound, setNotfound] = useState(true);
 
   let total = 0;
 
-  const { posts, handlePosts } = store!.PostStore;
+  const { posts, handlePosts, initPosts } = store!.PostStore;
 
   const query: PostParmsType = {
     page: page,
@@ -68,6 +70,9 @@ const MainPostContainer = ({ store, categoryList }: MainPostContainerProps) => {
         .then((res: any) => {
           total = res.data.total;
           setLoading(false);
+          if (res.data.posts.length > 0) {
+            setNotfound(false);
+          }
         })
         .catch((error: any) => {
           history.push("/");
@@ -82,6 +87,7 @@ const MainPostContainer = ({ store, categoryList }: MainPostContainerProps) => {
   }, []);
 
   useEffect(() => {
+    initPosts();
     setPage(1);
   }, [search]);
 
@@ -94,7 +100,6 @@ const MainPostContainer = ({ store, categoryList }: MainPostContainerProps) => {
     } else {
       delete query.category;
     }
-
     handlePostsCallback(query).catch((error: Error) => console.log(error));
   }, [page, search]);
 
@@ -105,6 +110,7 @@ const MainPostContainer = ({ store, categoryList }: MainPostContainerProps) => {
         setPage={setPage}
         posts={posts}
         loading={loading}
+        notfound={notfound}
       />
     </>
   );

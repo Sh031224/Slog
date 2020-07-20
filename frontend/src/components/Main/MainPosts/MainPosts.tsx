@@ -7,6 +7,7 @@ interface MainPostsProps {
   page: number;
   loading: boolean;
   setPage: Dispatch<React.SetStateAction<number>>;
+  notfound: boolean;
 }
 interface PostType {
   idx: number;
@@ -18,11 +19,17 @@ interface PostType {
   created_at: Date;
 }
 
-const MainPosts = ({ posts, page, loading, setPage }: MainPostsProps) => {
+const MainPosts = ({
+  posts,
+  page,
+  loading,
+  setPage,
+  notfound
+}: MainPostsProps) => {
   return (
     <div className="main-posts">
       <div className="main-posts-area">
-        {posts.length <= 0 && (
+        {notfound && !loading && (
           <div className="main-posts-404">게시글이 없어요. 🤭</div>
         )}
         {posts.map((post: PostType, index: number) => {
@@ -35,6 +42,18 @@ const MainPosts = ({ posts, page, loading, setPage }: MainPostsProps) => {
             />
           );
         })}
+        {loading && (
+          <div className="main-posts-loading">
+            <div className="main-posts-loading-thumbnail">
+              <div className="main-posts-loading-thumbnail-img" />
+            </div>
+            <div className="main-posts-loading-content">
+              <div className="main-posts-loading-content-title" />
+              <div className="main-posts-loading-content-description main-posts-loading-content-description-1" />
+              <div className="main-posts-loading-content-description main-posts-loading-content-description-2" />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
