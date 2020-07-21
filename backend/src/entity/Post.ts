@@ -63,7 +63,9 @@ export default class Post extends BaseEntity {
   @CreateDateColumn()
   created_at: Date;
 
-  @Column("timestamptz")
-  @UpdateDateColumn()
+  @Column({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP"
+  })
   updated_at: Date;
 }

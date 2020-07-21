@@ -83,6 +83,7 @@ export default async (req: Request, res: Response) => {
       post.created_at = new Date();
     }
 
+    post.updated_at = new Date();
     post.title = data.title || post.title;
     post.content = data.content || post.content;
     post.thumbnail = data.thumbnail;
