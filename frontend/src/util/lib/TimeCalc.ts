@@ -1,7 +1,7 @@
 import moment from "moment";
 
 const calc = (time: string | Date) => {
-  const date = moment.utc(time);
+  const date = moment(time);
   const today = moment(new Date());
 
   const calc = today.valueOf() - date.valueOf();
@@ -24,11 +24,11 @@ const calc = (time: string | Date) => {
 };
 
 const getTime = (time: string | Date) => {
-  return moment.utc(time).format("YYYY년 MM월 DD일 HH시 mm분");
+  return moment(time).format("YYYY년 MM월 DD일 HH시 mm분");
 };
 
 const checkModify = (created_at: string | Date, updated_at: string | Date) => {
-  return created_at === updated_at;
+  return !(created_at === updated_at);
 };
 
 export default {

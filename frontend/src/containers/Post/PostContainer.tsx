@@ -81,11 +81,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       await getHitPostsCallback();
       await getPostInfoCallback(Number(idx));
       await getCommentsCallback(Number(idx));
+      setLoading(false);
     } catch (err) {
       alert("해당 게시글이 없습니다.");
       history.push("/");
     }
-    setLoading(false);
   };
 
   useEffect(() => {
