@@ -13,6 +13,14 @@ interface AdminCategoryContainerProps {
   modifyCategoryName: (category_idx: number, name: string) => Promise<unknown>;
   deleteCategory: (category_idx: number) => Promise<unknown>;
   createCategory: (name: string) => Promise<unknown>;
+  handlePosts: (query: PostParmsType) => Promise<unknown>;
+}
+
+interface PostParmsType {
+  page: number;
+  limit: number;
+  order?: string;
+  category?: number;
 }
 
 interface CategoryType {
@@ -28,7 +36,8 @@ const AdminCategoryContainer = ({
   handleCategoryList,
   modifyCategoryName,
   deleteCategory,
-  createCategory
+  createCategory,
+  handlePosts
 }: AdminCategoryContainerProps) => {
   const escFunction = (e: KeyboardEvent) => {
     if (e.keyCode === 27) {
@@ -72,6 +81,7 @@ const AdminCategoryContainer = ({
     }).then(async (result) => {
       if (result.value) {
         await deleteCategory(category_idx);
+        history.go(0);
         handleCategoryList().catch(() => alert("서버가 불안정합니다."));
       }
     });
