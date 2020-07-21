@@ -1,8 +1,6 @@
 @import "./font.scss";
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
@@ -19,6 +17,7 @@ html,
 body {
   font-family: NotoSansKR;
   min-height: 100vh;
+  margin: 0;
 }
 
 .swal2-title {

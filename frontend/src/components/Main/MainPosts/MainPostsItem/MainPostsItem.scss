@@ -37,6 +37,7 @@
     width: 100%;
     position: relative;
     &-title {
+      margin: 0;
       width: calc(100% - 1em);
       color: $ft-black;
       color: var(--ft-black);

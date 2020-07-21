@@ -43,7 +43,7 @@
         }
         &-login {
           color: $ft-gray;
-          color: --var(--ft-gray);
+          color: var(--ft-gray);
           font-weight: 600;
           font-size: 0.95rem;
           cursor: pointer;

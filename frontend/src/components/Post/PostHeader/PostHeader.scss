@@ -10,36 +10,40 @@
   @media screen and (max-width: 1024px) {
     padding-top: 1rem;
   }
-  &-title {
+  &-container {
     width: 100%;
-    font-size: 2.7rem;
-    font-weight: 700;
-    line-height: 1.5;
-    @media screen and (max-width: 1024px) {
-      font-size: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    &-title {
+      width: 100%;
+      font-size: 2.7rem;
+      font-weight: 700;
+      line-height: 1.5;
+      @media screen and (max-width: 1024px) {
+        font-size: 2rem;
+      }
     }
-  }
-  &-date {
-    width: 100%;
-    display: inline-block;
-    color: $ft-gray;
-    color: var(--ft-gray);
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding-top: 1rem;
-    @media screen and (max-width: 1024px) {
-      font-size: 1.1rem;
+    &-date {
+      width: 100%;
+      display: inline-block;
+      color: $ft-gray;
+      color: var(--ft-gray);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding-top: 1rem;
+      @media screen and (max-width: 1024px) {
+        font-size: 1.1rem;
+      }
+      &-time:hover {
+        text-decoration: underline;
+      }
     }
-    &-time:hover {
-      text-decoration: underline;
+    &-comma {
+      margin: 0 0.25rem;
     }
-  }
-  &-comma {
-    margin: 0 0.25rem;
   }
   &-thumbnail {
     margin-top: 5rem;
-    border-radius: 5px;
     max-height: 100vh;
     max-width: 90%;
     width: auto;

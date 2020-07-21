@@ -1,4 +1,5 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
 import "./Post.scss";
 import PostHeader from "./PostHeader";
 import PostLoading from "./PostLoading";
@@ -59,6 +60,7 @@ const Post = ({ loading, comments, post, hit_posts }: PostProps) => {
             updated_at={post.updated_at}
           />
         )}
+        <ReactMarkdown className="post-content" source={post.content} />
       </div>
     </div>
   );
