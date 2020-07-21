@@ -1,13 +1,17 @@
 @import "../../../util/colors.scss";
 
 .post-header {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   word-break: break-all;
+  align-items: center;
   padding-top: 5rem;
   @media screen and (max-width: 1024px) {
     padding-top: 1rem;
   }
   &-title {
+    width: 100%;
     font-size: 2.7rem;
     font-weight: 700;
     line-height: 1.5;
@@ -16,6 +20,7 @@
     }
   }
   &-date {
+    width: 100%;
     display: inline-block;
     color: $ft-gray;
     color: var(--ft-gray);
@@ -31,5 +36,17 @@
   }
   &-comma {
     margin: 0 0.25rem;
+  }
+  &-thumbnail {
+    margin-top: 5rem;
+    border-radius: 5px;
+    max-height: 100vh;
+    max-width: 90%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    @media screen and (max-width: 500px) {
+      max-width: 100%;
+    }
   }
 }

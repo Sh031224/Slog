@@ -6,7 +6,7 @@ const calc = (time: string | Date) => {
 
   const calc = today.valueOf() - date.valueOf();
 
-  if (calc < 60 * 5 * 1000) {
+  if (calc < 60 * 1 * 1000) {
     return "방금 전";
   } else if (calc < 60 * 60 * 1000) {
     return `${Math.ceil(calc / 1000 / 60)}분 전`;

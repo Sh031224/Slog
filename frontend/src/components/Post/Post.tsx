@@ -53,6 +53,7 @@ const Post = ({ loading, comments, post, hit_posts }: PostProps) => {
           <PostLoading />
         ) : (
           <PostHeader
+            thumbnail={post.thumbnail}
             title={post.title}
             created_at={post.created_at}
             updated_at={post.updated_at}
