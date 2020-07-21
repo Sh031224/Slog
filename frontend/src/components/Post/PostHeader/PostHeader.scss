@@ -1,0 +1,35 @@
+@import "../../../util/colors.scss";
+
+.post-header {
+  width: 100%;
+  word-break: break-all;
+  padding-top: 5rem;
+  @media screen and (max-width: 1024px) {
+    padding-top: 1rem;
+  }
+  &-title {
+    font-size: 2.7rem;
+    font-weight: 700;
+    line-height: 1.5;
+    @media screen and (max-width: 1024px) {
+      font-size: 2rem;
+    }
+  }
+  &-date {
+    display: inline-block;
+    color: $ft-gray;
+    color: var(--ft-gray);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding-top: 1rem;
+    @media screen and (max-width: 1024px) {
+      font-size: 1.1rem;
+    }
+    &-time:hover {
+      text-decoration: underline;
+    }
+  }
+  &-comma {
+    margin: 0 0.25rem;
+  }
+}
