@@ -1,0 +1,55 @@
+@import "../../../util/colors.scss";
+@import "../../../util/util.scss";
+
+.post-loading {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  &-title {
+    margin-top: 5rem;
+    animation: loading 3s infinite ease-in-out;
+    width: 100%;
+    height: 3.4rem;
+    border-radius: 5px;
+    @media screen and (max-width: 1024px) {
+      margin-top: 1rem;
+      height: 3rem;
+    }
+  }
+  &-date {
+    width: 10rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+    animation: loading 3s infinite ease-in-out;
+    height: 2rem;
+  }
+  &-img {
+    width: 100%;
+    height: 25rem;
+    animation: loading 3s infinite ease-in-out;
+    border-radius: 5px;
+    margin-top: 5rem;
+    @media screen and (max-width: 800px) {
+      height: 20rem;
+      margin-top: 3rem;
+    }
+    @media screen and (max-width: 500px) {
+      height: 18rem;
+    }
+  }
+  &-content {
+    margin-top: 1rem;
+    height: 3.4rem;
+    border-radius: 5px;
+    animation: loading 3s infinite ease-in-out;
+    @media screen and (max-width: 1024px) {
+      height: 3rem;
+    }
+    &-1 {
+      width: 100%;
+    }
+    &-2 {
+      width: 60%;
+    }
+  }
+}
