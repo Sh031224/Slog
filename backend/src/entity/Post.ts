@@ -59,13 +59,11 @@ export default class Post extends BaseEntity {
   })
   thumbnail: string;
 
-  @Column("timestamp")
+  @Column("timestampz")
   @CreateDateColumn()
   created_at: Date;
 
-  @Column({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP"
-  })
+  @Column("timestampz")
+  @CreateDateColumn()
   updated_at: Date;
 }
