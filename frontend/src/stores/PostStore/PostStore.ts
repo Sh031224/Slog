@@ -29,7 +29,8 @@ interface PostType {
 
 @autobind
 class PostStore {
-  @observable posts: PostType[] = [];
+  @observable
+  posts: PostType[] = [];
 
   @action
   handlePosts = async (query: PostParmsType) => {
@@ -54,11 +55,16 @@ class PostStore {
   };
 
   @action
+  initPosts = () => {
+    this.posts = [];
+  };
+
+  @action
   getPostInfo = async (idx: number) => {
     try {
-      const response: PostResponseType = await Post.GetPostInfo(idx);
+      const response: Response = await Post.GetPostInfo(idx);
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve: (arg1: Response) => void, reject) => {
         resolve(response);
       });
     } catch (error) {
