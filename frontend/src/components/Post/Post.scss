@@ -1,0 +1,13 @@
+@import "../../util/colors.scss";
+
+.post {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  &-box {
+    max-width: 900px;
+    padding: 1rem 1rem;
+    position: relative;
+    width: 100%;
+  }
+}
