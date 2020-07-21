@@ -2,8 +2,8 @@ import React, { Dispatch } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineEye } from "react-icons/ai";
 import { GoCommentDiscussion } from "react-icons/go";
-import moment from "moment";
 import "./MainPostsItem.scss";
+import TimeCalc from "../../../../util/lib/TimeCalc";
 
 interface MainPostsItemProps {
   post: PostType;
@@ -48,7 +48,9 @@ const MainPostsItem = ({ post, page, setPage }: MainPostsItemProps) => {
           </div>
         </Link>
         <div className="main-posts-item-content-subinfo">
-          <span>{moment(post.created_at).format("YYYY년 MM월 DD일")}</span>
+          <span title={TimeCalc.getTime(post.created_at)}>
+            {TimeCalc.calc(post.created_at)}
+          </span>
         </div>
       </div>
       <div className="main-posts-item-info">
