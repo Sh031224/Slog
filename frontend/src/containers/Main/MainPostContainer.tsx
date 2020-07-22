@@ -1,17 +1,23 @@
 import { inject, observer } from "mobx-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { setTimeout } from "timers";
 import MainPosts from "../../components/Main/MainPosts";
-import PostStore from "../../stores/PostStore";
 
 interface MainPostContainerProps {
   categoryList: CategoryType[];
-  store?: StoreType;
+  posts: PostType[];
+  handlePosts: (query: PostParmsType) => Promise<unknown>;
+  initPosts: () => void;
 }
 
-interface StoreType {
-  PostStore: PostStore;
+interface PostType {
+  idx: number;
+  title: string;
+  view: number;
+  comment_count: number;
+  thumbnail?: string;
+  description?: string;
+  created_at: Date;
 }
 
 interface CategoryType {
@@ -20,7 +26,19 @@ interface CategoryType {
   post_count: number;
 }
 
-const MainPostContainer = ({ store, categoryList }: MainPostContainerProps) => {
+interface PostParmsType {
+  page: number;
+  limit: number;
+  order?: string;
+  category?: number;
+}
+
+const MainPostContainer = ({
+  posts,
+  handlePosts,
+  initPosts,
+  categoryList
+}: MainPostContainerProps) => {
   interface PostParmsType {
     page: number;
     limit: number;
@@ -36,8 +54,6 @@ const MainPostContainer = ({ store, categoryList }: MainPostContainerProps) => {
   const [notfound, setNotfound] = useState(true);
 
   let total = 0;
-
-  const { posts, handlePosts, initPosts } = store!.PostStore;
 
   const query: PostParmsType = {
     page: page,
@@ -84,6 +100,7 @@ const MainPostContainer = ({ store, categoryList }: MainPostContainerProps) => {
 
   useEffect(() => {
     window.addEventListener("scroll", infiniteScroll);
+    return () => window.removeEventListener("scroll", infiniteScroll);
   }, []);
 
   useEffect(() => {
@@ -116,4 +133,4 @@ const MainPostContainer = ({ store, categoryList }: MainPostContainerProps) => {
   );
 };
 
-export default inject("store")(observer(MainPostContainer));
+export default MainPostContainer;

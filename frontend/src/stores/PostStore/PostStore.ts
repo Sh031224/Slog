@@ -32,6 +32,9 @@ class PostStore {
   @observable
   posts: PostType[] = [];
 
+  @observable
+  hit_posts: PostType[] = [];
+
   @action
   handlePosts = async (query: PostParmsType) => {
     try {
@@ -42,6 +45,28 @@ class PostStore {
         });
       } else {
         this.posts = response.data.posts;
+      }
+
+      return new Promise((resolve, reject) => {
+        resolve(response);
+      });
+    } catch (error) {
+      return new Promise((resolve, reject) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
+  handleHitPosts = async (query: PostParmsType) => {
+    try {
+      const response: PostResponseType = await Post.GetPostList(query);
+      if (query.page > 1) {
+        response.data.posts.map((post: PostType) => {
+          this.hit_posts.push(post);
+        });
+      } else {
+        this.hit_posts = response.data.posts;
       }
 
       return new Promise((resolve, reject) => {

@@ -27,7 +27,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
     createCategory
   } = store!.CategoryStore;
   const { admin } = store!.UserStore;
-  const { handlePosts } = store!.PostStore;
+  const { posts, handlePosts, initPosts } = store!.PostStore;
 
   const [categoryEdit, setCategoryEdit] = useState(false);
 
@@ -41,6 +41,9 @@ const MainContainer = ({ store }: MainContainerProps) => {
   return (
     <>
       <Main
+        initPosts={initPosts}
+        handlePosts={handlePosts}
+        posts={posts}
         categoryRowEl={categoryRowEl}
         arrowToggleEl={arrowToggleEl}
         categoryList={categoryList}

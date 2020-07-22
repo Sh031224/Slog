@@ -1,7 +1,6 @@
 import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
 import "./Main.scss";
 import MainCategory from "./MainCategory";
-import "./Main.scss";
 import MainPostContainer from "../../containers/Main/MainPostContainer";
 
 interface MainProps {
@@ -11,6 +10,26 @@ interface MainProps {
   categoryRowEl: MutableRefObject<any>;
   setCategoryEdit: Dispatch<SetStateAction<boolean>>;
   admin: boolean;
+  posts: PostType[];
+  handlePosts: (query: PostParmsType) => Promise<unknown>;
+  initPosts: () => void;
+}
+
+interface PostType {
+  idx: number;
+  title: string;
+  view: number;
+  comment_count: number;
+  thumbnail?: string;
+  description?: string;
+  created_at: Date;
+}
+
+interface PostParmsType {
+  page: number;
+  limit: number;
+  order?: string;
+  category?: number;
 }
 
 interface CategoryType {
@@ -20,6 +39,9 @@ interface CategoryType {
 }
 
 const Main = ({
+  posts,
+  handlePosts,
+  initPosts,
   categoryList,
   total_post,
   arrowToggleEl,
@@ -30,7 +52,12 @@ const Main = ({
   return (
     <div className="main">
       <div className="main-container">
-        <MainPostContainer categoryList={categoryList} />
+        <MainPostContainer
+          posts={posts}
+          handlePosts={handlePosts}
+          initPosts={initPosts}
+          categoryList={categoryList}
+        />
         <MainCategory
           categoryRowEl={categoryRowEl}
           arrowToggleEl={arrowToggleEl}
