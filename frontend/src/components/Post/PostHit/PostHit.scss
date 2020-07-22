@@ -1,0 +1,20 @@
+@import "../../../util/colors.scss";
+
+.post-hit {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 0 1rem;
+  &-box {
+    border: 1px solid;
+    border-color: $bd-dark-white;
+    border-color: var(--bd-dark-white);
+    border-radius: 5px;
+    padding: 0.5rem;
+  }
+  h3 {
+    width: 100%;
+    padding-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+}

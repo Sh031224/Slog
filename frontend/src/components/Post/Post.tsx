@@ -2,6 +2,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import "./Post.scss";
 import PostHeader from "./PostHeader";
+import PostHit from "./PostHit/PostHit";
 import PostLoading from "./PostLoading";
 
 interface PostInfoType {
@@ -53,14 +54,17 @@ const Post = ({ loading, comments, post, hit_posts }: PostProps) => {
         {loading ? (
           <PostLoading />
         ) : (
-          <PostHeader
-            thumbnail={post.thumbnail}
-            title={post.title}
-            created_at={post.created_at}
-            updated_at={post.updated_at}
-          />
+          <>
+            <PostHeader
+              thumbnail={post.thumbnail}
+              title={post.title}
+              created_at={post.created_at}
+              updated_at={post.updated_at}
+            />
+            <ReactMarkdown className="post-content" source={post.content} />
+            <PostHit hit_posts={hit_posts} post_idx={post.idx} />
+          </>
         )}
-        <ReactMarkdown className="post-content" source={post.content} />
       </div>
     </div>
   );
