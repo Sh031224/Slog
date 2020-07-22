@@ -4,7 +4,7 @@ import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
 import PostStore from "../../stores/PostStore";
 import CommentStore from "../../stores/CommentStore";
 import Post from "../../components/Post";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 interface PostContainerProps extends RouteComponentProps<MatchType> {
   store?: StoreType;
@@ -92,7 +92,6 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   useEffect(() => {
     getAllContent();
-    return () => setLoading(false);
   }, [idx]);
 
   return (

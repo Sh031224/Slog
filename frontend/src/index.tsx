@@ -6,15 +6,18 @@ import { Provider } from "mobx-react";
 import { BrowserRouter } from "react-router-dom";
 import stores from "./stores";
 import "./util/util.scss";
+import { HelmetProvider } from "react-helmet-async";
 
 ReactDOM.render(
-  <Provider store={stores}>
-    <React.StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </React.StrictMode>
-  </Provider>,
+  <HelmetProvider>
+    <Provider store={stores}>
+      <React.StrictMode>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </React.StrictMode>
+    </Provider>
+  </HelmetProvider>,
   document.getElementById("root")
 );
 

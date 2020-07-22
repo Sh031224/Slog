@@ -5,7 +5,7 @@ import CategoryStore from "../../stores/CategoryStore";
 import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 interface MainContainerProps {
   store?: StoreType;
