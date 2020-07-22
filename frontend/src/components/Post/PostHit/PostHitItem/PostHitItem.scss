@@ -1,0 +1,38 @@
+@import "../../../../util/colors.scss";
+
+.post-hit-item {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.2rem;
+  &-title {
+    width: 100%;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    cursor: pointer;
+    color: $ft-gray;
+    color: var(--ft-gray);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  a {
+    display: inline-block;
+    width: calc(100% - 5rem);
+  }
+  &-date {
+    color: $ft-light-gray;
+    color: var(--ft-light-gray);
+    font-size: 0.9rem;
+  }
+  &-active &-title {
+    font-weight: 700;
+    color: $ft-black;
+    color: var(--ft-black);
+  }
+}

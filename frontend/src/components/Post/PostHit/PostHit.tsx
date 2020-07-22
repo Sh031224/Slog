@@ -1,5 +1,6 @@
 import React from "react";
 import "./PostHit.scss";
+import PostHitItem from "./PostHitItem";
 
 interface PostHitProps {
   hit_posts: PostType[];
@@ -21,7 +22,9 @@ const PostHit = ({ hit_posts, post_idx }: PostHitProps) => {
     <div className="post-hit">
       <div className="post-hit-box">
         <h3>이 블로그의 인기 글</h3>
-        <div className="post-hit-list"></div>
+        {hit_posts.map((post: PostType, index: number) => {
+          return <PostHitItem key={index} post={post} />;
+        })}
       </div>
     </div>
   );
