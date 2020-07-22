@@ -21,7 +21,9 @@ interface CommentType {
 const PostComment = ({ comments, count }: PostCommentProps) => {
   return (
     <div className="post-comment">
-      <div className="post-comment-count">{comments.length}개의 댓글</div>
+      <div className="post-comment-count">
+        댓글 <b>{count}</b>
+      </div>
     </div>
   );
 };

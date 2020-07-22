@@ -57,7 +57,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   };
 
   const tryLogout = () => {
-    removeCookie("access_token");
+    removeCookie("access_token", { path: "/" });
     handleLoginChange(false);
     haldleAdminFalse();
   };
