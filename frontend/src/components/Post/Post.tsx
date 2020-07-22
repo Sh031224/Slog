@@ -1,6 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import "./Post.scss";
+import PostComment from "./PostComment";
 import PostHeader from "./PostHeader";
 import PostHit from "./PostHit/PostHit";
 import PostLoading from "./PostLoading";
@@ -16,6 +17,7 @@ interface PostInfoType {
   thumbnail: string | null;
   created_at: Date;
   updated_at: Date;
+  comment_count: number;
 }
 
 interface PostProps {
@@ -63,6 +65,7 @@ const Post = ({ loading, comments, post, hit_posts }: PostProps) => {
             />
             <ReactMarkdown className="post-content" source={post.content} />
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
+            <PostComment count={post.comment_count} comments={comments} />
           </>
         )}
       </div>

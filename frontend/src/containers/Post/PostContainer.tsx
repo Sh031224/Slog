@@ -37,6 +37,7 @@ interface PostInfoType {
   thumbnail: string | null;
   created_at: Date;
   updated_at: Date;
+  comment_count: number;
 }
 
 const PostContainer = ({ match, store }: PostContainerProps) => {

@@ -8,6 +8,8 @@ import PostView from "../../../../entity/PostView";
 import encrypt from "../../../../lib/encrypt";
 import AuthRequest from "../../../../type/AuthRequest";
 import User from "../../../../entity/User";
+import Reply from "../../../../entity/Reply";
+import Comment from "../../../../entity/Comment";
 
 export default async (req: AuthRequest, res: Response) => {
   const user: User = req.user;
@@ -23,8 +25,12 @@ export default async (req: AuthRequest, res: Response) => {
   }
 
   try {
+    interface PostCountType extends Post {
+      comment_count?: number;
+    }
+
     const postRepo = getRepository(Post);
-    const post: Post = await postRepo.findOne({
+    const post: PostCountType = await postRepo.findOne({
       where: {
         idx
       }
@@ -38,12 +44,6 @@ export default async (req: AuthRequest, res: Response) => {
       });
       return;
     }
-
-    const posts: Post[] = await postRepo.find({
-      where: {
-        fk_category_idx: post.fk_category_idx
-      }
-    });
 
     if (post.is_temp) {
       if (!user || !user.is_admin) {
@@ -88,6 +88,28 @@ export default async (req: AuthRequest, res: Response) => {
         postViewRepo.save(postView);
       }
     }
+
+    let total_count = 0;
+
+    const commentRepo = getRepository(Comment);
+    const [comments, comment_count] = await commentRepo.findAndCount({
+      where: {
+        post: post
+      }
+    });
+
+    total_count += comment_count;
+    for (let i in comments) {
+      const replyRepo = getRepository(Reply);
+      const reply_count = await replyRepo.count({
+        where: {
+          comment: comments[i]
+        }
+      });
+      total_count += reply_count;
+    }
+
+    post.comment_count = total_count;
 
     if (post.thumbnail) {
       post.thumbnail = generateURL(req, post.idx, post.thumbnail);
