@@ -42,7 +42,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   const history = useHistory();
   const { idx } = match.params;
 
-  const { getPostInfo, handlePosts, posts } = store!.PostStore;
+  const { getPostInfo, hit_posts, handleHitPosts } = store!.PostStore;
   const { getComments, comments } = store!.CommentStore;
 
   const [loading, setLoading] = useState(false);
@@ -72,7 +72,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       limit: 5,
       order: "hit"
     };
-    await handlePosts(query);
+    await handleHitPosts(query);
   }, [idx]);
 
   const getAllContent = async () => {
@@ -90,7 +90,8 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   useEffect(() => {
     getAllContent();
-  }, []);
+    return () => setLoading(false);
+  }, [idx]);
 
   return (
     <>
@@ -98,7 +99,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         loading={loading}
         comments={comments}
         post={post_info}
-        hit_posts={posts}
+        hit_posts={hit_posts}
       />
     </>
   );
