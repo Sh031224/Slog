@@ -4,6 +4,7 @@ import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
 import PostStore from "../../stores/PostStore";
 import CommentStore from "../../stores/CommentStore";
 import Post from "../../components/Post";
+import { Helmet } from "react-helmet";
 
 interface PostContainerProps extends RouteComponentProps<MatchType> {
   store?: StoreType;
@@ -95,6 +96,21 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   return (
     <>
+      <Helmet
+        title={post_info.title}
+        meta={[
+          { property: "og:type", content: "article" },
+          {
+            property: "og:title",
+            content: `${post_info.description}`
+          },
+          { property: "og:image", content: `${post_info.thumbnail}` },
+          {
+            property: "og:url",
+            content: `http://example.com/post/${post_info.idx}`
+          }
+        ]}
+      />
       <Post
         loading={loading}
         comments={comments}

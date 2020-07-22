@@ -5,6 +5,7 @@ import CategoryStore from "../../stores/CategoryStore";
 import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
+import { Helmet } from "react-helmet";
 
 interface MainContainerProps {
   store?: StoreType;
@@ -40,6 +41,18 @@ const MainContainer = ({ store }: MainContainerProps) => {
 
   return (
     <>
+      <Helmet
+        title="Slog"
+        meta={[
+          { property: "og:type", content: "article" },
+          {
+            property: "og:title",
+            content: "포트폴리오를 위한 개인 블로그 입니다."
+          },
+          { property: "og:image", content: "http://example.com/article.jpg" },
+          { property: "og:url", content: "http://example.com/example" }
+        ]}
+      />
       <Main
         initPosts={initPosts}
         handlePosts={handlePosts}
