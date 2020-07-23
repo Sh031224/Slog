@@ -4,6 +4,9 @@ import "./PostComment.scss";
 interface PostCommentProps {
   comments: CommentType[];
   count: number;
+  userName: string;
+  login: boolean;
+  admin: boolean;
 }
 
 interface CommentType {
@@ -18,7 +21,13 @@ interface CommentType {
   reply_count: number;
 }
 
-const PostComment = ({ comments, count }: PostCommentProps) => {
+const PostComment = ({
+  comments,
+  count,
+  userName,
+  login,
+  admin
+}: PostCommentProps) => {
   return (
     <div className="post-comment">
       <div className="post-comment-count">

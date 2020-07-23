@@ -6,6 +6,16 @@ import PostHeader from "./PostHeader";
 import PostHit from "./PostHit/PostHit";
 import PostLoading from "./PostLoading";
 
+interface PostProps {
+  loading: boolean;
+  comments: CommentType[];
+  post: PostInfoType;
+  hit_posts: PostType[];
+  userName: string;
+  login: boolean;
+  admin: boolean;
+}
+
 interface PostInfoType {
   idx: number;
   title: string;
@@ -18,13 +28,6 @@ interface PostInfoType {
   created_at: Date;
   updated_at: Date;
   comment_count: number;
-}
-
-interface PostProps {
-  loading: boolean;
-  comments: CommentType[];
-  post: PostInfoType;
-  hit_posts: PostType[];
 }
 
 interface CommentType {
@@ -49,7 +52,15 @@ interface PostType {
   created_at: Date;
 }
 
-const Post = ({ loading, comments, post, hit_posts }: PostProps) => {
+const Post = ({
+  loading,
+  comments,
+  post,
+  hit_posts,
+  login,
+  admin,
+  userName
+}: PostProps) => {
   return (
     <div className="post">
       <div className="post-box">
@@ -65,7 +76,13 @@ const Post = ({ loading, comments, post, hit_posts }: PostProps) => {
             />
             <ReactMarkdown className="post-content" source={post.content} />
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
-            <PostComment count={post.comment_count} comments={comments} />
+            <PostComment
+              userName={userName}
+              admin={admin}
+              login={login}
+              count={post.comment_count}
+              comments={comments}
+            />
           </>
         )}
       </div>

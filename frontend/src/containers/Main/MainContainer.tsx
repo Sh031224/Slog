@@ -6,6 +6,7 @@ import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
 import { Helmet } from "react-helmet-async";
+import logo from "../../assets/images/logo.svg";
 
 interface MainContainerProps {
   store?: StoreType;
@@ -49,7 +50,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
             property: "og:title",
             content: "포트폴리오를 위한 개인 블로그 입니다."
           },
-          { property: "og:image", content: "http://example.com/article.jpg" },
+          { property: "og:image", content: `${logo}` },
           { property: "og:url", content: "http://example.com/example" }
         ]}
       />

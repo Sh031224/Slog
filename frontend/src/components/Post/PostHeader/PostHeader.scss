@@ -29,11 +29,11 @@
       display: inline-block;
       color: $ft-gray;
       color: var(--ft-gray);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       cursor: pointer;
       padding-top: 1rem;
       @media screen and (max-width: 1024px) {
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
       &-time:hover {
         text-decoration: underline;

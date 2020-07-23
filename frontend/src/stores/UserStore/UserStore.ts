@@ -6,6 +6,8 @@ import Profile from "../../assets/api/Profile";
 class CategoryStore {
   @observable admin = false;
 
+  @observable userName = "";
+
   @action handleUser = async (access_token: string) => {
     try {
       const response = await Profile.GetProfile(access_token);
@@ -14,6 +16,7 @@ class CategoryStore {
         this.admin = false;
       } else {
         this.admin = response.data.user.is_admin;
+        this.userName = response.data.user.name;
 
         return new Promise((resolve, reject) => {
           resolve(response);

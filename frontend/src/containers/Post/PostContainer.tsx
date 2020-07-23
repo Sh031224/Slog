@@ -3,8 +3,12 @@ import React, { useCallback, useEffect, useState, SetStateAction } from "react";
 import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
 import PostStore from "../../stores/PostStore";
 import CommentStore from "../../stores/CommentStore";
+import UserStore from "../../stores/UserStore";
 import Post from "../../components/Post";
 import { Helmet } from "react-helmet-async";
+import LoginStore from "../../stores/LoginStore";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 interface PostContainerProps extends RouteComponentProps<MatchType> {
   store?: StoreType;
@@ -13,6 +17,8 @@ interface PostContainerProps extends RouteComponentProps<MatchType> {
 interface StoreType {
   PostStore: PostStore;
   CommentStore: CommentStore;
+  UserStore: UserStore;
+  LoginStore: LoginStore;
 }
 
 interface MatchType {
@@ -44,8 +50,12 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   const history = useHistory();
   const { idx } = match.params;
 
+  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+
   const { getPostInfo, hit_posts, handleHitPosts } = store!.PostStore;
   const { getComments, comments } = store!.CommentStore;
+  const { handleUser, userName, admin } = store!.UserStore;
+  const { login, handleLoginChange } = store!.LoginStore;
 
   const [loading, setLoading] = useState(false);
   const [post_info, setPostInfo] = useState<
@@ -91,6 +101,14 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   };
 
   useEffect(() => {
+    if (cookies.access_token !== undefined) {
+      handleLoginChange(true);
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      handleUser(cookies.access_token);
+    }
+  }, [login]);
+
+  useEffect(() => {
     getAllContent();
   }, [idx]);
 
@@ -112,6 +130,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         ]}
       />
       <Post
+        admin={admin}
+        userName={userName}
+        login={login}
         loading={loading}
         comments={comments}
         post={post_info}
