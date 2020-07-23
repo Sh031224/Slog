@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import "./PostComment.scss";
 
 interface PostCommentProps {
@@ -7,6 +7,8 @@ interface PostCommentProps {
   userName: string;
   login: boolean;
   admin: boolean;
+  commentInput: string;
+  setCommentInput: Dispatch<React.SetStateAction<string>>;
 }
 
 interface CommentType {
@@ -26,13 +28,16 @@ const PostComment = ({
   count,
   userName,
   login,
-  admin
+  admin,
+  commentInput,
+  setCommentInput
 }: PostCommentProps) => {
   return (
     <div className="post-comment">
       <div className="post-comment-count">
         댓글 <b>{count}</b>
       </div>
+      <div className="post-comment-input"></div>
     </div>
   );
 };

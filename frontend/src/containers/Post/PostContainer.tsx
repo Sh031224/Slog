@@ -8,6 +8,7 @@ import Post from "../../components/Post";
 import { Helmet } from "react-helmet-async";
 import LoginStore from "../../stores/LoginStore";
 import { useCookies } from "react-cookie";
+import CommentApi from "../../assets/api/Comment";
 import axios from "axios";
 
 interface PostContainerProps extends RouteComponentProps<MatchType> {
@@ -57,6 +58,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   const { handleUser, userName, admin } = store!.UserStore;
   const { login, handleLoginChange } = store!.LoginStore;
 
+  const [commentInput, setCommentInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [post_info, setPostInfo] = useState<
     PostInfoType | SetStateAction<PostInfoType | any>
@@ -100,6 +102,15 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     }
   };
 
+  const createComment = async (
+    post_idx: number,
+    content: string,
+    is_private?: boolean
+  ) => {
+    await CommentApi.CreateComment(post_idx, content, is_private);
+    await getCommentsCallback(Number(idx));
+  };
+
   useEffect(() => {
     if (cookies.access_token !== undefined) {
       handleLoginChange(true);
@@ -130,6 +141,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         ]}
       />
       <Post
+        commentInput={commentInput}
+        setCommentInput={setCommentInput}
+        createComment={createComment}
         admin={admin}
         userName={userName}
         login={login}

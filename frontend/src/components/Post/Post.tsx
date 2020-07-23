@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import ReactMarkdown from "react-markdown";
 import "./Post.scss";
 import PostComment from "./PostComment";
@@ -14,6 +14,13 @@ interface PostProps {
   userName: string;
   login: boolean;
   admin: boolean;
+  commentInput: string;
+  setCommentInput: Dispatch<React.SetStateAction<string>>;
+  createComment: (
+    post_idx: number,
+    content: string,
+    is_private?: boolean | undefined
+  ) => Promise<void>;
 }
 
 interface PostInfoType {
@@ -59,7 +66,10 @@ const Post = ({
   hit_posts,
   login,
   admin,
-  userName
+  userName,
+  createComment,
+  setCommentInput,
+  commentInput
 }: PostProps) => {
   return (
     <div className="post">
@@ -77,6 +87,8 @@ const Post = ({
             <ReactMarkdown className="post-content" source={post.content} />
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
             <PostComment
+              setCommentInput={setCommentInput}
+              commentInput={commentInput}
               userName={userName}
               admin={admin}
               login={login}
