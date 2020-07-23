@@ -44,6 +44,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         const today = new Date();
         today.setDate(today.getDate() + 7);
         setCookie("access_token", response.data.access_token, {
+          path: "/",
           expires: today
         });
         axios.defaults.headers.common["access_token"] = cookies.access_token;

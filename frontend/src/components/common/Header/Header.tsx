@@ -72,6 +72,7 @@ const Header = ({
                     appId={appId}
                     fields="name,email"
                     callback={tryLogin}
+                    cookie={false}
                     render={(renderProps: any) => {
                       return (
                         <div
