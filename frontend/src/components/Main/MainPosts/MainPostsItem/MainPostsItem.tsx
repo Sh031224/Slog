@@ -7,8 +7,6 @@ import TimeCalc from "../../../../util/lib/TimeCalc";
 
 interface MainPostsItemProps {
   post: PostType;
-  page: number;
-  setPage: Dispatch<React.SetStateAction<number>>;
 }
 
 interface PostType {
@@ -21,7 +19,7 @@ interface PostType {
   created_at: Date;
 }
 
-const MainPostsItem = ({ post, page, setPage }: MainPostsItemProps) => {
+const MainPostsItem = ({ post }: MainPostsItemProps) => {
   return (
     <div className="main-posts-item">
       {post.thumbnail && (

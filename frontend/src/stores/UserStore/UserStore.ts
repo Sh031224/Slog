@@ -1,12 +1,40 @@
 import { action, observable } from "mobx";
 import { autobind } from "core-decorators";
 import Profile from "../../assets/api/Profile";
+import Login from "../../assets/api/Login";
 
 @autobind
-class CategoryStore {
+class UserStore {
   @observable admin = false;
 
   @observable userName = "";
+
+  @observable login = false;
+
+  @action
+  handleLogin = async (access_token: string) => {
+    try {
+      const response = await Login.TryLogin(access_token);
+      this.handleUser(response.data.access_token);
+
+      if (response.status === 200) {
+        this.login = true;
+      }
+
+      return new Promise((resolve, reject) => {
+        resolve(response);
+      });
+    } catch (error) {
+      return new Promise((resolve, reject) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
+  handleLoginChange = (status: boolean) => {
+    this.login = status;
+  };
 
   @action handleUser = async (access_token: string) => {
     try {
@@ -35,4 +63,4 @@ class CategoryStore {
   };
 }
 
-export default CategoryStore;
+export default UserStore;

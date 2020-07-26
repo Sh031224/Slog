@@ -85,6 +85,11 @@ class PostStore {
   };
 
   @action
+  getPostLength = () => {
+    return this.posts.length;
+  };
+
+  @action
   getPostInfo = async (idx: number) => {
     try {
       const response: Response = await Post.GetPostInfo(idx);
