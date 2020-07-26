@@ -1,7 +1,7 @@
 import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
 import "./Main.scss";
 import MainCategory from "./MainCategory";
-import MainPostContainer from "../../containers/Main/MainPostContainer";
+import MainPosts from "./MainPosts";
 
 interface MainProps {
   categoryList: CategoryType[];
@@ -11,8 +11,9 @@ interface MainProps {
   setCategoryEdit: Dispatch<SetStateAction<boolean>>;
   admin: boolean;
   posts: PostType[];
-  handlePosts: (query: PostParmsType) => Promise<unknown>;
-  initPosts: () => void;
+  getPostLength: () => number;
+  notfound: boolean;
+  loading: boolean;
 }
 
 interface PostType {
@@ -40,24 +41,19 @@ interface CategoryType {
 
 const Main = ({
   posts,
-  handlePosts,
-  initPosts,
   categoryList,
   total_post,
   arrowToggleEl,
   categoryRowEl,
   setCategoryEdit,
-  admin
+  admin,
+  notfound,
+  loading
 }: MainProps) => {
   return (
     <div className="main">
       <div className="main-container">
-        <MainPostContainer
-          posts={posts}
-          handlePosts={handlePosts}
-          initPosts={initPosts}
-          categoryList={categoryList}
-        />
+        <MainPosts posts={posts} loading={loading} notfound={notfound} />
         <MainCategory
           categoryRowEl={categoryRowEl}
           arrowToggleEl={arrowToggleEl}

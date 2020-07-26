@@ -1,7 +1,6 @@
 import { inject, observer } from "mobx-react";
 import React, { useEffect, useRef, useState } from "react";
 import Header from "../../components/common/Header";
-import LoginStore from "../../stores/LoginStore";
 import UserStore from "../../stores/UserStore";
 import axios from "axios";
 import {
@@ -16,7 +15,6 @@ interface HeaderContainerProps {
 }
 
 interface StoreType {
-  LoginStore: LoginStore;
   UserStore: UserStore;
 }
 
@@ -29,8 +27,13 @@ interface FacebookFailureResponse extends ReactFacebookFailureResponse {
 }
 
 const HeaderContainer = ({ store }: HeaderContainerProps) => {
-  const { login, handleLoginChange, handleLogin } = store!.LoginStore;
-  const { handleUser, haldleAdminFalse, admin } = store!.UserStore;
+  const {
+    handleUser,
+    haldleAdminFalse,
+    login,
+    handleLoginChange,
+    handleLogin
+  } = store!.UserStore;
   const searchEl = useRef<HTMLElement>(null);
   const inputEl = useRef<HTMLElement>(null);
 
@@ -66,10 +69,10 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   useEffect(() => {
     if (cookies.access_token !== undefined) {
       handleLoginChange(true);
-      axios.defaults.headers.common["access_token"] = cookies.access_token;
       handleUser(cookies.access_token);
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
     }
-  }, [login]);
+  }, []);
 
   return (
     <>

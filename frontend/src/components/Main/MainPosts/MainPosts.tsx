@@ -4,9 +4,7 @@ import MainPostsItem from "./MainPostsItem";
 
 interface MainPostsProps {
   posts: PostType[];
-  page: number;
   loading: boolean;
-  setPage: Dispatch<React.SetStateAction<number>>;
   notfound: boolean;
 }
 interface PostType {
@@ -19,13 +17,7 @@ interface PostType {
   created_at: Date;
 }
 
-const MainPosts = ({
-  posts,
-  page,
-  loading,
-  setPage,
-  notfound
-}: MainPostsProps) => {
+const MainPosts = ({ posts, loading, notfound }: MainPostsProps) => {
   return (
     <div className="main-posts">
       <div className="main-posts-area">
@@ -33,14 +25,7 @@ const MainPosts = ({
           <div className="main-posts-404">게시글이 없어요. 🤭</div>
         )}
         {posts.map((post: PostType, index: number) => {
-          return (
-            <MainPostsItem
-              post={post}
-              setPage={setPage}
-              page={page}
-              key={index}
-            />
-          );
+          return <MainPostsItem post={post} key={index} />;
         })}
         {loading && (
           <div className="main-posts-loading">

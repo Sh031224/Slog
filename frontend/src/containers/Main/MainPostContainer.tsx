@@ -122,13 +122,7 @@ const MainPostContainer = ({
 
   return (
     <>
-      <MainPosts
-        page={page}
-        setPage={setPage}
-        posts={posts}
-        loading={loading}
-        notfound={notfound}
-      />
+      <MainPosts posts={posts} loading={loading} notfound={notfound} />
     </>
   );
 };
