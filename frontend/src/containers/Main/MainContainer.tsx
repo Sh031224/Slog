@@ -38,7 +38,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
   const categoryRowEl = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    handleCategoryList();
+    handleCategoryList().catch(() => alert("서버가 불안정합니다."));
   }, []);
 
   interface PostParmsType {
