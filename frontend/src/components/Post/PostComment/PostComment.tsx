@@ -1,4 +1,5 @@
-import React, { Dispatch } from "react";
+import React from "react";
+import PostCommentCreateContainer from "../../../containers/Post/PostCommentCreateContainer";
 import "./PostComment.scss";
 
 interface PostCommentProps {
@@ -7,8 +8,11 @@ interface PostCommentProps {
   userName: string;
   login: boolean;
   admin: boolean;
-  commentInput: string;
-  setCommentInput: Dispatch<React.SetStateAction<string>>;
+  createComment: (
+    post_idx: number,
+    content: string,
+    is_private?: boolean | undefined
+  ) => Promise<void>;
 }
 
 interface CommentType {
@@ -29,15 +33,14 @@ const PostComment = ({
   userName,
   login,
   admin,
-  commentInput,
-  setCommentInput
+  createComment
 }: PostCommentProps) => {
   return (
     <div className="post-comment">
       <div className="post-comment-count">
         댓글 <b>{count}</b>
       </div>
-      <div className="post-comment-input"></div>
+      <PostCommentCreateContainer createComment={createComment} login={login} />
     </div>
   );
 };

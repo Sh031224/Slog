@@ -10,12 +10,13 @@
     color: var(--ft-gray);
     font-size: 1rem;
     font-weight: 500;
+    // border-bottom: 1px solid;
+    margin-bottom: 0.5rem;
+    // border-color: $bd-light-gray;
+    // border-color: var(--bd-light-gray);
     b {
       color: $ft-blue;
       color: var(--ft-blue);
     }
-  }
-  &-input {
-    display: flex;
   }
 }
