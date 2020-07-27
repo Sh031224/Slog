@@ -8,6 +8,7 @@ import Post from "../../components/Post";
 import { Helmet } from "react-helmet-async";
 import { useCookies } from "react-cookie";
 import CommentApi from "../../assets/api/Comment";
+import PostApi from "../../assets/api/Post";
 import axios from "axios";
 
 interface PostContainerProps extends RouteComponentProps<MatchType> {
@@ -43,6 +44,14 @@ interface PostInfoType {
   created_at: Date;
   updated_at: Date;
   comment_count: number;
+}
+
+interface PostCommentCountResponse {
+  status: number;
+  message: string;
+  data: {
+    total_count: number;
+  };
 }
 
 const PostContainer = ({ match, store }: PostContainerProps) => {
@@ -110,6 +119,14 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     is_private?: boolean
   ) => {
     await CommentApi.CreateComment(post_idx, content, is_private);
+    await PostApi.GetPostCommentCount(post_idx).then(
+      (res: PostCommentCountResponse) => {
+        setPostInfo((prevState: PostInfoType) => ({
+          ...prevState,
+          comment_count: res.data.total_count
+        }));
+      }
+    );
     await getCommentsCallback(Number(idx));
   };
 
