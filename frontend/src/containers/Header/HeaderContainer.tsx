@@ -63,6 +63,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   const tryLogout = () => {
     removeCookie("access_token", { path: "/" });
     handleLoginChange(false);
+    axios.defaults.headers.common["access_token"] = "";
     haldleAdminFalse();
   };
 
