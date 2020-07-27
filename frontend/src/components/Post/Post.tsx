@@ -83,6 +83,7 @@ const Post = ({
             <ReactMarkdown className="post-content" source={post.content} />
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
             <PostComment
+              post_idx={post.idx}
               createComment={createComment}
               userName={userName}
               admin={admin}

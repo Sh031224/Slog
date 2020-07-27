@@ -1,35 +1,46 @@
-import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  KeyboardEvent
+} from "react";
 import { FaTelegramPlane } from "react-icons/fa";
 import { IoIosUnlock, IoIosLock } from "react-icons/io";
 import "./PostCommentCreate.scss";
 
 interface PostCommentCreateProps {
-  createComment: (
-    post_idx: number,
-    content: string,
-    is_private?: boolean | undefined
-  ) => Promise<void>;
+  commentCreate: () => void;
   commentInput: string;
   setCommentInput: Dispatch<SetStateAction<string>>;
   login: boolean;
-  isPrivate: React.MutableRefObject<boolean>;
+  setIsPrivate: Dispatch<SetStateAction<boolean>>;
+  isPrivate: boolean;
+  commentEnter: (e: KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const PostCommentCreate = ({
-  createComment,
+  commentCreate,
   commentInput,
   setCommentInput,
   login,
-  isPrivate
+  isPrivate,
+  setIsPrivate,
+  commentEnter
 }: PostCommentCreateProps) => {
   return (
     <>
       <div className="post-commnet-create">
         <div className="post-comment-create-text">
-          {isPrivate.current ? (
-            <IoIosLock className="post-comment-create-text-lock" />
+          {isPrivate ? (
+            <IoIosLock
+              onClick={() => setIsPrivate(false)}
+              className="post-comment-create-text-lock"
+            />
           ) : (
-            <IoIosUnlock className="post-comment-create-text-unlock" />
+            <IoIosUnlock
+              onClick={() => setIsPrivate(true)}
+              className="post-comment-create-text-unlock"
+            />
           )}
           <input
             className="post-comment-create-text-input"
@@ -39,8 +50,12 @@ const PostCommentCreate = ({
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setCommentInput(e.target.value)
             }
+            onKeyPress={commentEnter}
           />
-          <FaTelegramPlane className="post-comment-create-text-submit" />
+          <FaTelegramPlane
+            onClick={commentCreate}
+            className="post-comment-create-text-submit"
+          />
         </div>
       </div>
     </>

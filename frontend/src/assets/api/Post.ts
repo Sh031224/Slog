@@ -34,6 +34,18 @@ class PostList {
       throw new Error(`${error}`);
     }
   }
+
+  async GetPostCommentCount(idx: number) {
+    try {
+      const url = `${server}/api/v1/post/comment/${idx}`;
+
+      const { data } = await axios.get(url);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
 }
 
 export default new PostList();

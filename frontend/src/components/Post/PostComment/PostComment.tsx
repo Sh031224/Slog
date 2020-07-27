@@ -13,6 +13,7 @@ interface PostCommentProps {
     content: string,
     is_private?: boolean | undefined
   ) => Promise<void>;
+  post_idx: number;
 }
 
 interface CommentType {
@@ -33,6 +34,7 @@ const PostComment = ({
   userName,
   login,
   admin,
+  post_idx,
   createComment
 }: PostCommentProps) => {
   return (
@@ -40,7 +42,11 @@ const PostComment = ({
       <div className="post-comment-count">
         댓글 <b>{count}</b>
       </div>
-      <PostCommentCreateContainer createComment={createComment} login={login} />
+      <PostCommentCreateContainer
+        post_idx={post_idx}
+        createComment={createComment}
+        login={login}
+      />
     </div>
   );
 };
