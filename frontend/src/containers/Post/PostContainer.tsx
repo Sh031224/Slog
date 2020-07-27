@@ -61,7 +61,6 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     handleLoginChange
   } = store!.UserStore;
 
-  const [commentInput, setCommentInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [post_info, setPostInfo] = useState<
     PostInfoType | SetStateAction<PostInfoType | any>
@@ -120,7 +119,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
       handleUser(cookies.access_token);
     }
-  }, []);
+  }, [login]);
 
   useEffect(() => {
     getAllContent();
@@ -144,8 +143,6 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         ]}
       />
       <Post
-        commentInput={commentInput}
-        setCommentInput={setCommentInput}
         createComment={createComment}
         admin={admin}
         userName={userName}
