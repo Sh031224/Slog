@@ -8,6 +8,7 @@ import deletePost from "./post.ctrl/deletePost";
 import modifyPost from "./post.ctrl/modifyPost";
 import getTempPosts from "./post.ctrl/getTempPosts";
 import createTempPost from "./post.ctrl/createTempPost";
+import getPostCommentCount from "./post.ctrl/getPostCommentCount";
 
 const router = Router();
 
@@ -19,6 +20,7 @@ router.post("/temp", authMiddleware.admin, createTempPost);
 router.post("/", authMiddleware.admin, createPost);
 router.get("/", getPosts);
 router.get("/:idx", authMiddleware.guest, getPost);
+router.get("/comment/:idx", getPostCommentCount);
 
 router.delete("/:idx", authMiddleware.admin, deletePost);
 
