@@ -86,12 +86,12 @@ const MainContainer = ({ store }: MainContainerProps) => {
 
   const handlePostSearchCallback = useCallback(async () => {
     setLoading(true);
+    setNotfound(true);
     const query = search.replace("?search=", "");
 
     await handlePostSearch(query)
       .then((res: any) => {
         setLoading(false);
-        console.log(res.data.posts.length);
         if (res.data.posts.length > 0) {
           setNotfound(false);
         }
@@ -135,6 +135,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
 
   useEffect(() => {
     initPosts();
+    setNotfound(true);
     if (search.indexOf("tab=") !== -1 || search === "") {
       page.current = 1;
       handlePostsCallback().catch((error: Error) => console.log(error));
