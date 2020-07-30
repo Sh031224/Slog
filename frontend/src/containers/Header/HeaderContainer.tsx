@@ -1,5 +1,5 @@
 import { inject, observer } from "mobx-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Header from "../../components/common/Header";
 import UserStore from "../../stores/UserStore";
 import axios from "axios";
@@ -9,6 +9,7 @@ import {
 } from "react-facebook-login";
 import Swal from "sweetalert2";
 import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
 
 interface HeaderContainerProps {
   store?: StoreType;
@@ -36,6 +37,8 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   } = store!.UserStore;
   const searchEl = useRef<HTMLElement>(null);
   const inputEl = useRef<HTMLElement>(null);
+
+  const history = useHistory();
 
   const [search, setSearch] = useState("");
 
@@ -67,6 +70,22 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
     haldleAdminFalse();
   };
 
+  const searchSubmit = useCallback(() => {
+    if (searchEl.current) {
+      if (
+        searchEl.current.classList.contains(
+          "header-container-main-util-search-active"
+        )
+      ) {
+        if (search !== "") {
+          history.push(`/?search=${search}`);
+        } else {
+          history.push("/");
+        }
+      }
+    }
+  }, [search]);
+
   useEffect(() => {
     if (cookies.access_token !== undefined) {
       handleLoginChange(true);
@@ -85,6 +104,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         login={login}
         tryLogin={tryLogin}
         tryLogout={tryLogout}
+        searchSubmit={searchSubmit}
       />
     </>
   );

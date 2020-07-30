@@ -21,6 +21,7 @@ interface HeaderProps {
   login: boolean;
   tryLogin: (res: FacebookLoginInfo | FacebookFailureResponse) => void;
   tryLogout: () => void;
+  searchSubmit: () => void;
 }
 
 interface FacebookLoginInfo extends ReactFacebookLoginInfo {
@@ -38,7 +39,8 @@ const Header = ({
   setSearch,
   login,
   tryLogout,
-  tryLogin
+  tryLogin,
+  searchSubmit
 }: HeaderProps) => {
   return (
     <>
@@ -59,6 +61,7 @@ const Header = ({
                   setSearch={setSearch}
                   searchEl={searchEl}
                   inputEl={inputEl}
+                  searchSubmit={searchSubmit}
                 />
                 {login ? (
                   <span

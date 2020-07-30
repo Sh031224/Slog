@@ -1,4 +1,9 @@
-import React, { ChangeEvent, Dispatch, MutableRefObject } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  MutableRefObject,
+  KeyboardEvent
+} from "react";
 import searchImg from "../../../../assets/images/search.svg";
 
 interface HeaderSearchProps {
@@ -6,13 +11,15 @@ interface HeaderSearchProps {
   inputEl: MutableRefObject<any>;
   search: string;
   setSearch: Dispatch<React.SetStateAction<string>>;
+  searchSubmit: () => void;
 }
 
 const HeaderSearch = ({
   searchEl,
   inputEl,
   search,
-  setSearch
+  setSearch,
+  searchSubmit
 }: HeaderSearchProps) => {
   return (
     <div
@@ -31,11 +38,16 @@ const HeaderSearch = ({
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           setSearch(e.target.value);
         }}
+        onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter") {
+            searchSubmit();
+          }
+        }}
         type="text"
         className="header-container-main-util-search-input"
         placeholder="검색어를 입력해주세요."
       />
-      <img src={searchImg} alt="search" />
+      <img onClick={searchSubmit} src={searchImg} alt="search" />
     </div>
   );
 };
