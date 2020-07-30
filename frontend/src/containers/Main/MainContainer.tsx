@@ -30,7 +30,13 @@ const MainContainer = ({ store }: MainContainerProps) => {
     createCategory
   } = store!.CategoryStore;
   const { admin } = store!.UserStore;
-  const { posts, handlePosts, initPosts, getPostLength } = store!.PostStore;
+  const {
+    posts,
+    handlePosts,
+    initPosts,
+    getPostLength,
+    handlePostSearch
+  } = store!.PostStore;
 
   const [categoryEdit, setCategoryEdit] = useState(false);
 
@@ -78,6 +84,24 @@ const MainContainer = ({ store }: MainContainerProps) => {
     }
   };
 
+  const handlePostSearchCallback = useCallback(async () => {
+    setLoading(true);
+    const query = search.replace("?search=", "");
+
+    await handlePostSearch(query)
+      .then((res: any) => {
+        setLoading(false);
+        console.log(res.data.posts.length);
+        if (res.data.posts.length > 0) {
+          setNotfound(false);
+        }
+      })
+      .catch((error: any) => {
+        history.push("/");
+        return error;
+      });
+  }, [search]);
+
   const handlePostsCallback = useCallback(async () => {
     setLoading(true);
     const query: PostParmsType = {
@@ -102,7 +126,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
         history.push("/");
         return error;
       });
-  }, []);
+  }, [search]);
 
   useEffect(() => {
     window.addEventListener("scroll", infiniteScroll);
@@ -111,8 +135,12 @@ const MainContainer = ({ store }: MainContainerProps) => {
 
   useEffect(() => {
     initPosts();
-    page.current = 1;
-    handlePostsCallback().catch((error: Error) => console.log(error));
+    if (search.indexOf("tab=") !== -1 || search === "") {
+      page.current = 1;
+      handlePostsCallback().catch((error: Error) => console.log(error));
+    } else {
+      handlePostSearchCallback().catch((error: Error) => console.log(error));
+    }
   }, [search]);
   return (
     <>

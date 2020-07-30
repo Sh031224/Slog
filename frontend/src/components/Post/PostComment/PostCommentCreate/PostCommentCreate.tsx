@@ -50,6 +50,7 @@ const PostCommentCreate = ({
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setCommentInput(e.target.value)
             }
+            maxLength={255}
             onKeyPress={commentEnter}
           />
           <FaTelegramPlane
