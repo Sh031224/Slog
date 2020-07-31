@@ -4,6 +4,7 @@ import { AiOutlineEye } from "react-icons/ai";
 import { GoCommentDiscussion } from "react-icons/go";
 import "./MainPostsItem.scss";
 import TimeCalc from "../../../../util/lib/TimeCalc";
+import TimeCounting from "time-counting";
 
 interface MainPostsItemProps {
   post: PostType;
@@ -47,7 +48,7 @@ const MainPostsItem = ({ post }: MainPostsItemProps) => {
         </Link>
         <div className="main-posts-item-content-subinfo">
           <span title={TimeCalc.getTime(post.created_at)}>
-            {TimeCalc.calc(post.created_at)}
+            {TimeCounting(post.created_at, { lang: "ko" })}
           </span>
         </div>
       </div>

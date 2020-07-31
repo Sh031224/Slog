@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import TimeCalc from "../../../../util/lib/TimeCalc";
+import TimeCounting from "time-counting";
 import "./PostHitItem.scss";
 
 interface PostHitItemProps {
@@ -26,7 +26,9 @@ const PostHitItem = ({ post }: PostHitItemProps) => {
       >
         <div className="post-hit-item-title">{post.title}</div>
       </NavLink>
-      <div className="post-hit-item-date">{TimeCalc.calc(post.created_at)}</div>
+      <div className="post-hit-item-date">
+        {TimeCounting(post.created_at, { lang: "ko" })}
+      </div>
     </div>
   );
 };

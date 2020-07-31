@@ -1,6 +1,7 @@
 import React from "react";
 import "./PostHeader.scss";
 import TimeCalc from "../../../util/lib/TimeCalc";
+import TimeCounting from "time-counting";
 
 interface PostHeaderProps {
   thumbnail: string | null;
@@ -24,7 +25,7 @@ const PostHeader = ({
             title={TimeCalc.getTime(created_at)}
             className="post-header-container-date-time"
           >
-            {TimeCalc.calc(created_at)}
+            {TimeCounting(created_at, { lang: "ko" })}
           </span>
           {TimeCalc.checkModify(created_at, updated_at) && (
             <>
