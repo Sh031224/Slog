@@ -1,6 +1,7 @@
 import React from "react";
 import PostCommentCreateContainer from "../../../containers/Post/PostCommentCreateContainer";
 import "./PostComment.scss";
+import PostCommentItem from "./PostCommentItem";
 
 interface PostCommentProps {
   comments: CommentType[];
@@ -47,6 +48,16 @@ const PostComment = ({
         createComment={createComment}
         login={login}
       />
+      {comments.map((comment: CommentType) => {
+        return (
+          <PostCommentItem
+            key={comment.idx}
+            comment={comment}
+            admin={admin}
+            userName={userName}
+          />
+        );
+      })}
     </div>
   );
 };
