@@ -48,7 +48,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
     await handleLogin(res.accessToken!)
       .then(async (response: any) => {
         const today = new Date();
-        today.setDate(today.getDate() + 7);
+        today.setDate(today.getDate() + 30);
         setCookie("access_token", response.data.access_token, {
           path: "/",
           expires: today
