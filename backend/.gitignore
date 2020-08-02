@@ -7,3 +7,4 @@ temp/
 .env
 yarn-error.log*
 public/
+src/config/
