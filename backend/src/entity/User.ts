@@ -28,6 +28,18 @@ export default class User extends BaseEntity {
   name: string;
 
   @Column({
+    length: 255,
+    nullable: false
+  })
+  fcm: string;
+
+  @Column({
+    default: false,
+    nullable: false
+  })
+  fcm_allow: boolean;
+
+  @Column({
     default: false,
     nullable: false
   })

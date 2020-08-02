@@ -9,3 +9,11 @@ export const validateLogin = (req: Request, res: Response): boolean => {
 
   return validate(req, res, schema);
 };
+
+export const validateFcm = (req: Request, res: Response): boolean => {
+  const schema = Joi.object().keys({
+    token: Joi.string().required()
+  });
+
+  return validate(req, res, schema);
+};

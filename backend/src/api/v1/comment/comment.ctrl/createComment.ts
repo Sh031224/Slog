@@ -6,6 +6,7 @@ import { getRepository } from "typeorm";
 import Post from "../../../../entity/Post";
 import logger from "../../../../lib/logger";
 import Comment from "../../../../entity/Comment";
+import * as admin from "firebase-admin";
 
 export default async (req: AuthRequest, res: Response) => {
   if (!validateCreate) return;
@@ -45,6 +46,31 @@ export default async (req: AuthRequest, res: Response) => {
     comment.post = post;
 
     await coommentRepo.save(comment);
+
+    const userRepo = getRepository(User);
+    const adminUser: User = await userRepo.findOne({
+      where: {
+        is_admin: true
+      }
+    });
+
+    if (adminUser.fcm_allow && adminUser.fcm) {
+      const message = {
+        webpush: {
+          notification: {
+            title: `${user.name}님께서 댓글을 남겼습니다.`,
+            click_action: `http://localhost:3000/post/${post.idx}`
+          }
+        },
+        data: {
+          score: "850",
+          time: "2:45"
+        },
+        token: adminUser.fcm
+      };
+
+      admin.messaging().send(message);
+    }
 
     logger.green("[POST] 댓글 생성 성공.");
     res.status(200).json({
