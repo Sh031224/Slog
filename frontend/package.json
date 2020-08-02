@@ -16,6 +16,7 @@
     "@types/styled-components": "^5.1.1",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
+    "firebase": "^7.17.1",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "moment": "^2.27.0",
