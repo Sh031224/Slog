@@ -14,6 +14,18 @@ class Comment {
     }
   }
 
+  async GetReplies(comment_idx: number) {
+    try {
+      const url = `${server}/api/v1/reply?comment=${comment_idx}`;
+
+      const { data } = await axios.get(url);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
   async CreateComment(post_idx: number, content: string, is_private?: boolean) {
     try {
       const url = `${server}/api/v1/comment`;

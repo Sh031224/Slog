@@ -61,7 +61,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
   const { getPostInfo, hit_posts, handleHitPosts } = store!.PostStore;
-  const { getComments, comments } = store!.CommentStore;
+  const { getComments, comments, getReplies } = store!.CommentStore;
   const {
     handleUser,
     userName,
@@ -136,11 +136,8 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
       handleUser(cookies.access_token);
     }
-  }, [login]);
-
-  useEffect(() => {
     getAllContent();
-  }, [idx]);
+  }, [idx, login]);
 
   return (
     <>
@@ -160,6 +157,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         ]}
       />
       <Post
+        getReplies={getReplies}
         createComment={createComment}
         admin={admin}
         userName={userName}
