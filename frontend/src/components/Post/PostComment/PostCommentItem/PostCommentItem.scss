@@ -3,12 +3,12 @@
 .post-comment-item {
   display: flex;
   width: 100%;
-  margin-top: 1rem;
-  padding-bottom: 0.5rem;
+  margin-top: 1.2rem;
+  padding-bottom: 0.8rem;
   border-bottom: 1px solid;
-  border-color: $bd-light-gray;
-  border-color: var(--bd-light-gray);
-
+  border-color: $bd-so-light-gray;
+  border-color: var(--bd-so-light-gray);
+  position: relative;
   &-img {
     width: 2.8rem;
     height: 2.8rem;
@@ -19,10 +19,24 @@
     padding-left: 0.8rem;
     &-title {
       font-size: 0.9rem;
+      word-break: break-all;
       font-weight: 600;
     }
     &-content {
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-all;
+      word-break: break-word;
+      hyphens: auto;
       font-size: 0.8rem;
+    }
+    &-private {
+      padding-left: 0.8rem;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      font-size: 0.9rem;
+      opacity: 0.7;
     }
   }
 }

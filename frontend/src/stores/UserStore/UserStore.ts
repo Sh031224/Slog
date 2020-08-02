@@ -36,6 +36,20 @@ class UserStore {
     this.login = status;
   };
 
+  @action handleFcm = async (token: string) => {
+    try {
+      const response = await Profile.FcmToken(token);
+
+      return new Promise((resolve, reject) => {
+        resolve(response);
+      });
+    } catch (error) {
+      return new Promise((resolve, reject) => {
+        reject(error);
+      });
+    }
+  };
+
   @action handleUser = async (access_token: string) => {
     try {
       const response = await Profile.GetProfile(access_token);

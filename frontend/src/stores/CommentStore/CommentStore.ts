@@ -14,6 +14,25 @@ interface CommentType {
   reply_count: number;
 }
 
+interface RepliesResponse {
+  status: number;
+  message: string;
+  data: {
+    replies: ReplyType;
+  };
+}
+
+interface ReplyType {
+  idx: number;
+  content: string;
+  is_private: boolean;
+  fk_user_idx: string | undefined;
+  fk_user_name: string | undefined;
+  fk_comment_idx: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
 @autobind
 class LoginStore {
   @observable comments: CommentType[] = [];
@@ -30,6 +49,23 @@ class LoginStore {
       });
     } catch (error) {
       return new Promise((resolve, reject) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
+  getReplies = async (comment_idx: number): Promise<RepliesResponse> => {
+    try {
+      const response: RepliesResponse = await Comment.GetReplies(comment_idx);
+
+      return new Promise(
+        (resolve: (response: RepliesResponse) => void, reject) => {
+          resolve(response);
+        }
+      );
+    } catch (error) {
+      return new Promise((resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
