@@ -12,9 +12,23 @@ class Profile {
         url += "my";
       }
 
-      axios.defaults.headers.common["access_token"] = access_token;
+      const { data } = await axios.get(url, {
+        headers: {
+          access_token: access_token
+        }
+      });
 
-      const { data } = await axios.get(url);
+      return data;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async FcmToken(token: string) {
+    try {
+      const url = `${server}/api/v1/auth/fcm`;
+
+      const { data } = await axios.post(url, { token: token });
 
       return data;
     } catch (error) {

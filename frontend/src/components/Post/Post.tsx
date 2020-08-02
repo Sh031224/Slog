@@ -19,6 +19,26 @@ interface PostProps {
     content: string,
     is_private?: boolean | undefined
   ) => Promise<void>;
+  getReplies: (comment_idx: number) => Promise<RepliesResponse>;
+}
+
+interface RepliesResponse {
+  status: number;
+  message: string;
+  data: {
+    replies: ReplyType;
+  };
+}
+
+interface ReplyType {
+  idx: number;
+  content: string;
+  is_private: boolean;
+  fk_user_idx: string | undefined;
+  fk_user_name: string | undefined;
+  fk_comment_idx: number;
+  created_at: Date;
+  updated_at: Date;
 }
 
 interface PostInfoType {
@@ -65,7 +85,8 @@ const Post = ({
   login,
   admin,
   userName,
-  createComment
+  createComment,
+  getReplies
 }: PostProps) => {
   return (
     <div className="post">
@@ -83,6 +104,7 @@ const Post = ({
             <ReactMarkdown className="post-content" source={post.content} />
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
             <PostComment
+              getReplies={getReplies}
               post_idx={post.idx}
               createComment={createComment}
               userName={userName}
