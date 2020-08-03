@@ -26,6 +26,33 @@ class Comment {
     }
   }
 
+  async ModifyComment(comment_idx: number, content: string) {
+    try {
+      const url = `${server}/api/v1/comment/${comment_idx}`;
+      const body = {
+        content: content
+      };
+
+      const { data } = await axios.put(url, body);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
+  async DeleteComment(comment_idx: number) {
+    try {
+      const url = `${server}/api/v1/comment/${comment_idx}`;
+
+      const { data } = await axios.delete(url);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
   async CreateComment(post_idx: number, content: string, is_private?: boolean) {
     try {
       const url = `${server}/api/v1/comment`;

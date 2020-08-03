@@ -6,7 +6,7 @@ interface CommentType {
   idx: number;
   content: string;
   is_private: boolean;
-  fk_user_idx: string | undefined;
+  fk_user_idx: number | undefined;
   fk_user_name: string | undefined;
   fk_post_idx: number;
   created_at: Date;
@@ -26,7 +26,7 @@ interface ReplyType {
   idx: number;
   content: string;
   is_private: boolean;
-  fk_user_idx: string | undefined;
+  fk_user_idx: number | undefined;
   fk_user_name: string | undefined;
   fk_comment_idx: number;
   created_at: Date;
@@ -66,6 +66,36 @@ class LoginStore {
       );
     } catch (error) {
       return new Promise((resolve, reject: (error: Error) => void) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
+  modifyComment = async (comment_idx: number, content: string) => {
+    try {
+      const response = await Comment.ModifyComment(comment_idx, content);
+
+      return new Promise((resolve, reject) => {
+        resolve(response);
+      });
+    } catch (error) {
+      return new Promise((resolve, reject) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
+  deleteComment = async (comment_idx: number) => {
+    try {
+      const response = await Comment.DeleteComment(comment_idx);
+
+      return new Promise((resolve, reject) => {
+        resolve(response);
+      });
+    } catch (error) {
+      return new Promise((resolve, reject) => {
         reject(error);
       });
     }
