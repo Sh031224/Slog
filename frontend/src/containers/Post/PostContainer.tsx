@@ -8,8 +8,8 @@ import Post from "../../components/Post";
 import { Helmet } from "react-helmet-async";
 import { useCookies } from "react-cookie";
 import CommentApi from "../../assets/api/Comment";
-import PostApi from "../../assets/api/Post";
 import axios from "axios";
+import { NotificationManager } from "react-notifications";
 
 interface PostContainerProps extends RouteComponentProps<MatchType> {
   store?: StoreType;
@@ -46,12 +46,9 @@ interface PostInfoType {
   comment_count: number;
 }
 
-interface PostCommentCountResponse {
+interface PostCommentResponse {
   status: number;
   message: string;
-  data: {
-    total_count: number;
-  };
 }
 
 const PostContainer = ({ match, store }: PostContainerProps) => {
@@ -109,25 +106,53 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       await getCommentsCallback(Number(idx));
       setLoading(false);
     } catch (err) {
-      alert("해당 게시글이 없습니다.");
-      history.push("/");
+      if (err.status === 404) {
+        NotificationManager.warning("해당 게시글이 없습니다.", "Error");
+        history.push("/");
+      } else {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      }
     }
   };
 
   const modifyComment = async (comment_idx: number, content: string) => {
     try {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
-      await CommentApi.ModifyComment(comment_idx, content);
+      await CommentApi.ModifyComment(comment_idx, content).then(
+        (res: PostCommentResponse) => {
+          if (res.status === 200) {
+            NotificationManager.success("댓글을 수정하였습니다.", "Success");
+          }
+        }
+      );
       await getAllContent();
     } catch (err) {
-      alert("오류가 발생하였습니다.");
+      if (err.status === 401) {
+        NotificationManager.warning("권한이 없습니다.", "Error");
+      } else {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      }
     }
   };
 
   const deleteComment = async (comment_idx: number) => {
-    axios.defaults.headers.common["access_token"] = cookies.access_token;
-    await CommentApi.DeleteComment(comment_idx);
-    await getAllContent();
+    try {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      await CommentApi.DeleteComment(comment_idx).then(
+        (res: PostCommentResponse) => {
+          if (res.status === 200) {
+            NotificationManager.success("댓글을 삭제하였습니다.", "Success");
+          }
+        }
+      );
+      await getAllContent();
+    } catch (err) {
+      if (err.status === 401) {
+        NotificationManager.warning("권한이 없습니다.", "Error");
+      } else {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      }
+    }
   };
 
   const createComment = async (
@@ -135,9 +160,17 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     content: string,
     is_private?: boolean
   ) => {
-    axios.defaults.headers.common["access_token"] = cookies.access_token;
-    await CommentApi.CreateComment(post_idx, content, is_private);
-    await getAllContent();
+    try {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      await CommentApi.CreateComment(post_idx, content, is_private);
+      await getAllContent();
+    } catch (err) {
+      if (err.status === 401) {
+        NotificationManager.warning("권한이 없습니다.", "Error");
+      } else {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      }
+    }
   };
 
   useEffect(() => {
