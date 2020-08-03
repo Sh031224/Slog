@@ -11,6 +11,11 @@ import Swal from "sweetalert2";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import firebase from "firebase";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 interface HeaderContainerProps {
   store?: StoreType;
@@ -55,13 +60,14 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
           path: "/",
           expires: today
         });
-        axios.defaults.headers.common["access_token"] = cookies.access_token;
-        Swal.fire("환영합니다!", "로그인에 성공하였습니다.", "success");
+        axios.defaults.headers.common["access_token"] =
+          response.data.access_token;
+        NotificationManager.success("로그인 되었습니다.", "Success");
         handleAll(response.data.access_token);
       })
       .catch((err: Error) => {
         haldleAdminFalse();
-        Swal.fire("오류!", "로그인에 실패하였습니다.", "error");
+        NotificationManager.error("로그인에 실패하였습니다.", "Error");
       });
   };
 
@@ -99,8 +105,8 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   }, []);
 
   const handleAll = async (access_token: string) => {
-    await handleUser(access_token);
     axios.defaults.headers.common["access_token"] = cookies.access_token;
+    await handleUser(access_token);
     if (Notification.permission === "granted") {
       getFcmToken();
     } else if (Notification.permission !== "denied") {
@@ -115,11 +121,16 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   };
 
   useEffect(() => {
-    if (cookies.access_token !== undefined) {
-      handleLoginChange(true);
-      handleAll(cookies.access_token);
+    try {
+      if (cookies.access_token !== undefined) {
+        handleLoginChange(true);
+        axios.defaults.headers.common["access_token"] = cookies.access_token;
+        handleUser(cookies.access_token);
+      }
+    } catch (err) {
+      NotificationManager.error("오류가 발생하였습니다.", "Error");
     }
-  }, []);
+  }, [login]);
 
   return (
     <>
@@ -133,6 +144,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         tryLogout={tryLogout}
         searchSubmit={searchSubmit}
       />
+      <NotificationContainer />
     </>
   );
 };
