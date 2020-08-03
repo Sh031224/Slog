@@ -2,7 +2,7 @@ import React, { Dispatch, MutableRefObject } from "react";
 import { Link } from "react-router-dom";
 import HeadRoom from "react-headroom";
 import "./Header.scss";
-import logo from "../../../assets/images/logo.svg";
+import logo from "../../../assets/images/logo.png";
 import ScrollToTop from "react-scroll-to-top";
 import HeaderSearch from "./HeaderSearch";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
