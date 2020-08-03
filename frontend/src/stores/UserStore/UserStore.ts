@@ -11,6 +11,8 @@ class UserStore {
 
   @observable login = false;
 
+  @observable userId = 0;
+
   @action
   handleLogin = async (access_token: string) => {
     try {
@@ -59,6 +61,7 @@ class UserStore {
       } else {
         this.admin = response.data.user.is_admin;
         this.userName = response.data.user.name;
+        this.userId = response.data.user.idx;
 
         return new Promise((resolve, reject) => {
           resolve(response);
