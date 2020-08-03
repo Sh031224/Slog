@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react";
+import React, { Fragment } from "react";
 import "./MainPosts.scss";
 import MainPostsItem from "./MainPostsItem";
 
@@ -6,6 +6,7 @@ interface MainPostsProps {
   posts: PostType[];
   loading: boolean;
   notfound: boolean;
+  lastCardEl: React.MutableRefObject<HTMLDivElement | null>;
 }
 interface PostType {
   idx: number;
@@ -17,7 +18,12 @@ interface PostType {
   created_at: Date;
 }
 
-const MainPosts = ({ posts, loading, notfound }: MainPostsProps) => {
+const MainPosts = ({
+  posts,
+  loading,
+  notfound,
+  lastCardEl
+}: MainPostsProps) => {
   return (
     <div className="main-posts">
       <div className="main-posts-area">
@@ -25,7 +31,15 @@ const MainPosts = ({ posts, loading, notfound }: MainPostsProps) => {
           <div className="main-posts-404">게시글이 없어요. 🤭</div>
         )}
         {posts.map((post: PostType, index: number) => {
-          return <MainPostsItem post={post} key={index} />;
+          return (
+            <Fragment key={index}>
+              {index !== posts.length - 1 ? (
+                <MainPostsItem post={post} />
+              ) : (
+                <MainPostsItem lastCardEl={lastCardEl} post={post} />
+              )}
+            </Fragment>
+          );
         })}
         {loading && (
           <div className="main-posts-loading">

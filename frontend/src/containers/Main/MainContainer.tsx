@@ -6,8 +6,9 @@ import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
 import { Helmet } from "react-helmet-async";
-import logo from "../../assets/images/logo.svg";
+import logo from "../../assets/images/logo.png";
 import { useHistory, useLocation } from "react-router-dom";
+import { NotificationManager } from "react-notifications";
 
 interface MainContainerProps {
   store?: StoreType;
@@ -17,6 +18,10 @@ interface StoreType {
   CategoryStore: CategoryStore;
   UserStore: UserStore;
   PostStore: PostStore;
+}
+
+interface RefObject<T> {
+  readonly current: T | null;
 }
 
 const MainContainer = ({ store }: MainContainerProps) => {
@@ -38,15 +43,6 @@ const MainContainer = ({ store }: MainContainerProps) => {
     handlePostSearch
   } = store!.PostStore;
 
-  const [categoryEdit, setCategoryEdit] = useState(false);
-
-  const arrowToggleEl = useRef<HTMLElement>(null);
-  const categoryRowEl = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    handleCategoryList().catch(() => alert("서버가 불안정합니다."));
-  }, []);
-
   interface PostParmsType {
     page: number;
     limit: number;
@@ -57,32 +53,52 @@ const MainContainer = ({ store }: MainContainerProps) => {
   const { search } = useLocation();
   const history = useHistory();
 
+  const [categoryEdit, setCategoryEdit] = useState(false);
   const [loading, setLoading] = useState(true);
   const [notfound, setNotfound] = useState(true);
+  const [page, setPage] = useState<number>(1);
+  const [total, setTotal] = useState<number>(0);
 
-  const page = useRef(1);
-  let total = 0;
+  const arrowToggleEl = useRef<HTMLElement>(null);
+  const categoryRowEl = useRef<HTMLElement>(null);
+  const lastCardEl = useRef<HTMLDivElement | null>(null);
 
-  const infiniteScroll = () => {
-    const scrollHeight = Math.max(
-      document.documentElement.scrollHeight,
-      document.body.scrollHeight
-    );
-    const scrollTop = Math.max(
-      document.documentElement.scrollTop,
-      document.body.scrollTop
-    );
-    const clientHeight = document.documentElement.clientHeight;
+  const intersectionObserver = new IntersectionObserver((entries, observer) => {
+    const lastCard = entries[0];
 
-    if (scrollTop + clientHeight === scrollHeight) {
-      if (total) {
-        if (total > getPostLength()) {
-          page.current = page.current + 1;
-          handlePostsCallback().catch((error: Error) => console.log(error));
-        }
+    if (!loading && getPostLength() < total) {
+      if (lastCard.intersectionRatio > 0 && lastCardEl.current) {
+        observer.unobserve(lastCard.target);
+        lastCardEl.current = null;
+
+        setTimeout(() => {
+          setPage(page + 1);
+        }, 100);
       }
     }
-  };
+  });
+
+  useEffect(() => {
+    handleCategoryList().catch((err) => {
+      if (err.status === 401) {
+        NotificationManager.warning("권한이 없습니다.", "Error");
+      } else {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    handlePostsCallback().catch(() => {
+      NotificationManager.error("오류가 발생하였습니다.", "Error");
+    });
+  }, [page]);
+
+  useEffect(() => {
+    if (lastCardEl.current) {
+      intersectionObserver.observe(lastCardEl.current);
+    }
+  });
 
   const handlePostSearchCallback = useCallback(async () => {
     setLoading(true);
@@ -105,7 +121,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
   const handlePostsCallback = useCallback(async () => {
     setLoading(true);
     const query: PostParmsType = {
-      page: page.current,
+      page: page,
       limit: 20
     };
     const tab = Number(search.replace("?tab=", ""));
@@ -116,7 +132,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
     }
     await handlePosts(query)
       .then((res: any) => {
-        total = res.data.total;
+        setTotal(res.data.total);
         setLoading(false);
         if (res.data.posts.length > 0) {
           setNotfound(false);
@@ -126,21 +142,20 @@ const MainContainer = ({ store }: MainContainerProps) => {
         history.push("/");
         return error;
       });
-  }, [search]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", infiniteScroll);
-    return () => window.removeEventListener("scroll", infiniteScroll);
-  }, [page]);
+  }, [search, page]);
 
   useEffect(() => {
     initPosts();
     setNotfound(true);
     if (search.indexOf("tab=") !== -1 || search === "") {
-      page.current = 1;
-      handlePostsCallback().catch((error: Error) => console.log(error));
+      setPage(1);
+      handlePostsCallback().catch(() => {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      });
     } else {
-      handlePostSearchCallback().catch((error: Error) => console.log(error));
+      handlePostSearchCallback().catch(() => {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      });
     }
   }, [search]);
   return (
@@ -158,6 +173,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
         ]}
       />
       <Main
+        lastCardEl={lastCardEl}
         notfound={notfound}
         loading={loading}
         getPostLength={getPostLength}

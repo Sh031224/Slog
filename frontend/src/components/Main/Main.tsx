@@ -14,6 +14,7 @@ interface MainProps {
   getPostLength: () => number;
   notfound: boolean;
   loading: boolean;
+  lastCardEl: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 interface PostType {
@@ -48,12 +49,18 @@ const Main = ({
   setCategoryEdit,
   admin,
   notfound,
-  loading
+  loading,
+  lastCardEl
 }: MainProps) => {
   return (
     <div className="main">
       <div className="main-container">
-        <MainPosts posts={posts} loading={loading} notfound={notfound} />
+        <MainPosts
+          lastCardEl={lastCardEl}
+          posts={posts}
+          loading={loading}
+          notfound={notfound}
+        />
         <MainCategory
           categoryRowEl={categoryRowEl}
           arrowToggleEl={arrowToggleEl}
