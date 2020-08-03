@@ -19,7 +19,7 @@ interface ReplyType {
   idx: number;
   content: string;
   is_private: boolean;
-  fk_user_idx: string | undefined;
+  fk_user_idx: number | undefined;
   fk_user_name: string | undefined;
   fk_comment_idx: number;
   created_at: Date;

@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useState } from "react";
+import React, { KeyboardEvent, useCallback, useState } from "react";
 import PostCommentCreate from "../../components/Post/PostComment/PostCommentCreate";
 
 interface PostCommentCreateContainerProps {
@@ -19,23 +19,26 @@ const PostCommentCreateContainer = ({
   const [commentInput, setCommentInput] = useState<string>("");
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
-  const commentEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      createComment(post_idx, commentInput, isPrivate).catch(() =>
-        alert("로그인 후 작성 가능합니다.")
-      );
-      setCommentInput("");
-      setIsPrivate(false);
-    }
-  };
+  const commentEnter = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        createComment(post_idx, commentInput, isPrivate).catch(() =>
+          alert("로그인 후 작성 가능합니다.")
+        );
+        setCommentInput("");
+        setIsPrivate(false);
+      }
+    },
+    [commentInput, isPrivate]
+  );
 
-  const commentCreate = async () => {
+  const commentCreate = useCallback(async () => {
     await createComment(post_idx, commentInput, isPrivate).catch(() =>
       alert("로그인 후 작성 가능합니다.")
     );
     setCommentInput("");
     setIsPrivate(false);
-  };
+  }, [commentInput, isPrivate]);
 
   return (
     <>
