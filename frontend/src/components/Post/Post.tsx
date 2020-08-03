@@ -20,6 +20,9 @@ interface PostProps {
     is_private?: boolean | undefined
   ) => Promise<void>;
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
+  userId: number;
+  modifyComment: (comment_idx: number, content: string) => Promise<void>;
+  deleteComment: (comment_idx: number) => Promise<void>;
 }
 
 interface RepliesResponse {
@@ -34,7 +37,7 @@ interface ReplyType {
   idx: number;
   content: string;
   is_private: boolean;
-  fk_user_idx: string | undefined;
+  fk_user_idx: number | undefined;
   fk_user_name: string | undefined;
   fk_comment_idx: number;
   created_at: Date;
@@ -59,7 +62,7 @@ interface CommentType {
   idx: number;
   content: string;
   is_private: boolean;
-  fk_user_idx: string | undefined;
+  fk_user_idx: number | undefined;
   fk_user_name: string | undefined;
   fk_post_idx: number;
   created_at: Date;
@@ -86,7 +89,10 @@ const Post = ({
   admin,
   userName,
   createComment,
-  getReplies
+  getReplies,
+  userId,
+  modifyComment,
+  deleteComment
 }: PostProps) => {
   return (
     <div className="post">
@@ -104,6 +110,9 @@ const Post = ({
             <ReactMarkdown className="post-content" source={post.content} />
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
             <PostComment
+              deleteComment={deleteComment}
+              modifyComment={modifyComment}
+              userId={userId}
               getReplies={getReplies}
               post_idx={post.idx}
               createComment={createComment}

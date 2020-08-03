@@ -67,6 +67,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     userName,
     admin,
     login,
+    userId,
     handleLoginChange
   } = store!.UserStore;
 
@@ -88,7 +89,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     async (post_idx: number) => {
       await getComments(post_idx);
     },
-    [idx]
+    [idx, post_info]
   );
 
   const getHitPostsCallback = useCallback(async () => {
@@ -113,21 +114,30 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     }
   };
 
+  const modifyComment = async (comment_idx: number, content: string) => {
+    try {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      await CommentApi.ModifyComment(comment_idx, content);
+      await getAllContent();
+    } catch (err) {
+      alert("오류가 발생하였습니다.");
+    }
+  };
+
+  const deleteComment = async (comment_idx: number) => {
+    axios.defaults.headers.common["access_token"] = cookies.access_token;
+    await CommentApi.DeleteComment(comment_idx);
+    await getAllContent();
+  };
+
   const createComment = async (
     post_idx: number,
     content: string,
     is_private?: boolean
   ) => {
+    axios.defaults.headers.common["access_token"] = cookies.access_token;
     await CommentApi.CreateComment(post_idx, content, is_private);
-    await PostApi.GetPostCommentCount(post_idx).then(
-      (res: PostCommentCountResponse) => {
-        setPostInfo((prevState: PostInfoType) => ({
-          ...prevState,
-          comment_count: res.data.total_count
-        }));
-      }
-    );
-    await getCommentsCallback(Number(idx));
+    await getAllContent();
   };
 
   useEffect(() => {
@@ -157,6 +167,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         ]}
       />
       <Post
+        modifyComment={modifyComment}
+        deleteComment={deleteComment}
+        userId={userId}
         getReplies={getReplies}
         createComment={createComment}
         admin={admin}
