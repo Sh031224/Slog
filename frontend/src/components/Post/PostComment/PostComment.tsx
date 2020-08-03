@@ -1,7 +1,7 @@
 import React from "react";
+import PostCommentContainer from "../../../containers/Post/PostCommentContainer";
 import PostCommentCreateContainer from "../../../containers/Post/PostCommentCreateContainer";
 import "./PostComment.scss";
-import PostCommentItem from "./PostCommentItem";
 
 interface PostCommentProps {
   comments: CommentType[];
@@ -16,6 +16,9 @@ interface PostCommentProps {
   ) => Promise<void>;
   post_idx: number;
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
+  userId: number;
+  modifyComment: (comment_idx: number, content: string) => Promise<void>;
+  deleteComment: (comment_idx: number) => Promise<void>;
 }
 
 interface RepliesResponse {
@@ -30,7 +33,7 @@ interface ReplyType {
   idx: number;
   content: string;
   is_private: boolean;
-  fk_user_idx: string | undefined;
+  fk_user_idx: number | undefined;
   fk_user_name: string | undefined;
   fk_comment_idx: number;
   created_at: Date;
@@ -41,7 +44,7 @@ interface CommentType {
   idx: number;
   content: string;
   is_private: boolean;
-  fk_user_idx: string | undefined;
+  fk_user_idx: number | undefined;
   fk_user_name: string | undefined;
   fk_post_idx: number;
   created_at: Date;
@@ -57,7 +60,10 @@ const PostComment = ({
   admin,
   post_idx,
   createComment,
-  getReplies
+  getReplies,
+  userId,
+  modifyComment,
+  deleteComment
 }: PostCommentProps) => {
   return (
     <div className="post-comment">
@@ -71,7 +77,10 @@ const PostComment = ({
       />
       {comments.map((comment: CommentType) => {
         return (
-          <PostCommentItem
+          <PostCommentContainer
+            deleteComment={deleteComment}
+            modifyComment={modifyComment}
+            userId={userId}
             getReplies={getReplies}
             key={comment.idx}
             comment={comment}
