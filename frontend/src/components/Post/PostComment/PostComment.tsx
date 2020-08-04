@@ -6,7 +6,6 @@ import "./PostComment.scss";
 interface PostCommentProps {
   comments: CommentType[];
   count: number;
-  userName: string;
   login: boolean;
   admin: boolean;
   createComment: (
@@ -25,7 +24,7 @@ interface RepliesResponse {
   status: number;
   message: string;
   data: {
-    replies: ReplyType;
+    replies: ReplyType[];
   };
 }
 
@@ -55,7 +54,6 @@ interface CommentType {
 const PostComment = ({
   comments,
   count,
-  userName,
   login,
   admin,
   post_idx,
@@ -78,6 +76,7 @@ const PostComment = ({
       {comments.map((comment: CommentType) => {
         return (
           <PostCommentContainer
+            login={login}
             deleteComment={deleteComment}
             modifyComment={modifyComment}
             userId={userId}
@@ -85,7 +84,6 @@ const PostComment = ({
             key={comment.idx}
             comment={comment}
             admin={admin}
-            userName={userName}
           />
         );
       })}

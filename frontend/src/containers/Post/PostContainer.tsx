@@ -61,7 +61,6 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   const { getComments, comments, getReplies } = store!.CommentStore;
   const {
     handleUser,
-    userName,
     admin,
     login,
     userId,
@@ -72,6 +71,18 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   const [post_info, setPostInfo] = useState<
     PostInfoType | SetStateAction<PostInfoType | any>
   >({});
+
+  useEffect(() => {
+    axios.defaults.headers.common["access_token"] = cookies.access_token;
+    if (cookies.access_token !== undefined) {
+      handleLoginChange(true);
+      handleUser(cookies.access_token);
+    } else {
+      handleLoginChange(false);
+      handleUser(cookies.access_token);
+    }
+    getAllContent();
+  }, [idx, login]);
 
   const getPostInfoCallback = useCallback(
     async (idx: number) => {
@@ -100,13 +111,14 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   const getAllContent = async () => {
     setLoading(true);
+    axios.defaults.headers.common["access_token"] = cookies.access_token;
     try {
       await getHitPostsCallback();
       await getPostInfoCallback(Number(idx));
       await getCommentsCallback(Number(idx));
       setLoading(false);
     } catch (err) {
-      if (err.status === 404) {
+      if (err.message === "Error: Request failed with status code 404") {
         NotificationManager.warning("해당 게시글이 없습니다.", "Error");
         history.push("/");
       } else {
@@ -127,8 +139,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       );
       await getAllContent();
     } catch (err) {
-      if (err.status === 401) {
+      if (err.message === "Error: Request failed with status code 401") {
         NotificationManager.warning("권한이 없습니다.", "Error");
+      } else if (err.message === "Error: Request failed with status code 410") {
+        removeCookie("access_token", { path: "/" });
+        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
       } else {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       }
@@ -147,8 +162,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       );
       await getAllContent();
     } catch (err) {
-      if (err.status === 401) {
+      if (err.message === "Error: Request failed with status code 401") {
         NotificationManager.warning("권한이 없습니다.", "Error");
+      } else if (err.message === "Error: Request failed with status code 410") {
+        removeCookie("access_token", { path: "/" });
+        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
       } else {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       }
@@ -165,22 +183,16 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       await CommentApi.CreateComment(post_idx, content, is_private);
       await getAllContent();
     } catch (err) {
-      if (err.status === 401) {
-        NotificationManager.warning("권한이 없습니다.", "Error");
+      if (err.message === "Error: Request failed with status code 401") {
+        NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
+      } else if (err.message === "Error: Request failed with status code 410") {
+        removeCookie("access_token", { path: "/" });
+        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
       } else {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       }
     }
   };
-
-  useEffect(() => {
-    if (cookies.access_token !== undefined) {
-      handleLoginChange(true);
-      axios.defaults.headers.common["access_token"] = cookies.access_token;
-      handleUser(cookies.access_token);
-    }
-    getAllContent();
-  }, [idx, login]);
 
   return (
     <>
@@ -206,7 +218,6 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         getReplies={getReplies}
         createComment={createComment}
         admin={admin}
-        userName={userName}
         login={login}
         loading={loading}
         comments={comments}

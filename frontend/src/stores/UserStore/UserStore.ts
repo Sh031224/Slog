@@ -7,11 +7,9 @@ import Login from "../../assets/api/Login";
 class UserStore {
   @observable admin = false;
 
-  @observable userName = "";
-
   @observable login = false;
 
-  @observable userId = 0;
+  @observable userId = -1;
 
   @action
   handleLogin = async (access_token: string) => {
@@ -60,7 +58,6 @@ class UserStore {
         this.admin = false;
       } else {
         this.admin = response.data.user.is_admin;
-        this.userName = response.data.user.name;
         this.userId = response.data.user.idx;
 
         return new Promise((resolve, reject) => {
@@ -68,6 +65,7 @@ class UserStore {
         });
       }
     } catch (error) {
+      this.userId = -1;
       this.admin = false;
       return new Promise((resolve, reject) => {
         reject(error);
