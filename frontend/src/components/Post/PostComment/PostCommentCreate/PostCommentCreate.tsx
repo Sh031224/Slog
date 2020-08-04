@@ -46,7 +46,7 @@ const PostCommentCreate = ({
             className="post-comment-create-text-input"
             type="text"
             value={commentInput}
-            placeholder="댓글을 입력해주세요."
+            placeholder="내용을 입력해주세요."
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setCommentInput(e.target.value)
             }
