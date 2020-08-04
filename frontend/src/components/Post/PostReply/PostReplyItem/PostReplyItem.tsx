@@ -3,6 +3,7 @@ import "./PostReplyItem.scss";
 import { GoPencil } from "react-icons/go";
 import { MdCancel } from "react-icons/md";
 import profile from "../../../../assets/images/profile.png";
+import TimeCounting from "time-counting";
 import { IoIosLock } from "react-icons/io";
 
 interface PostReplyItemProps {
@@ -38,6 +39,12 @@ const PostReplyItem = ({
         <div className="post-reply-item-box-private">
           <div className="post-reply-item-box-private-title">
             {reply.content}
+            <span className="post-reply-item-box-time">
+              {TimeCounting(reply.created_at, { lang: "ko" })}
+            </span>
+            {reply.created_at !== reply.updated_at && (
+              <span className="post-reply-item-box-update">{"(수정됨)"}</span>
+            )}
           </div>
         </div>
       ) : (
@@ -75,6 +82,12 @@ const PostReplyItem = ({
               {reply.fk_user_name}
               {reply.is_private && (
                 <IoIosLock className="post-reply-item-box-title-lock" />
+              )}
+              <span className="post-comment-item-box-time">
+                {TimeCounting(reply.created_at, { lang: "ko" })}
+              </span>
+              {reply.created_at !== reply.updated_at && (
+                <span className="post-reply-item-box-update">{"(수정됨)"}</span>
               )}
             </div>
             <span className="post-reply-item-box-content">{reply.content}</span>
