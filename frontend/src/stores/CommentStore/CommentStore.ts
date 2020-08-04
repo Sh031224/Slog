@@ -18,7 +18,7 @@ interface RepliesResponse {
   status: number;
   message: string;
   data: {
-    replies: ReplyType;
+    replies: ReplyType[];
   };
 }
 

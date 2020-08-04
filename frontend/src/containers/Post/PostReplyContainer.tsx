@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import PostReply from "../../components/Post/PostReply";
 
 interface PostReplyContainerProps {
-  idx: number;
+  comment_idx: number;
   admin: boolean;
-  userName: string;
+  userId: number;
+  login: boolean;
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
 }
 
@@ -11,7 +13,7 @@ interface RepliesResponse {
   status: number;
   message: string;
   data: {
-    replies: ReplyType;
+    replies: ReplyType[];
   };
 }
 
@@ -27,21 +29,29 @@ interface ReplyType {
 }
 
 const PostReplyContainer = ({
-  idx,
   getReplies,
   admin,
-  userName
+  userId,
+  comment_idx,
+  login
 }: PostReplyContainerProps) => {
+  const [replies, setReplies] = useState<ReplyType[]>([]);
+
   useEffect(() => {
-    console.log("1");
-    getReplies(idx).then((res: RepliesResponse) => {
-      console.log(res);
+    getReplies(comment_idx).then((res: RepliesResponse) => {
+      setReplies(res.data.replies);
     });
   }, []);
 
   return (
     <>
-      <div></div>
+      <PostReply
+        replies={replies}
+        admin={admin}
+        userId={userId}
+        comment_idx={comment_idx}
+        login={login}
+      />
     </>
   );
 };

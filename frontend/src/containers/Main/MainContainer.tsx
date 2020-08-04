@@ -70,33 +70,10 @@ const MainContainer = ({ store }: MainContainerProps) => {
       if (lastCard.intersectionRatio > 0 && lastCardEl.current) {
         observer.unobserve(lastCard.target);
         lastCardEl.current = null;
-
         setTimeout(() => {
           setPage(page + 1);
         }, 100);
       }
-    }
-  });
-
-  useEffect(() => {
-    handleCategoryList().catch((err) => {
-      if (err.status === 401) {
-        NotificationManager.warning("권한이 없습니다.", "Error");
-      } else {
-        NotificationManager.error("오류가 발생하였습니다.", "Error");
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    handlePostsCallback().catch(() => {
-      NotificationManager.error("오류가 발생하였습니다.", "Error");
-    });
-  }, [page]);
-
-  useEffect(() => {
-    if (lastCardEl.current) {
-      intersectionObserver.observe(lastCardEl.current);
     }
   });
 
@@ -145,6 +122,26 @@ const MainContainer = ({ store }: MainContainerProps) => {
   }, [search, page]);
 
   useEffect(() => {
+    handleCategoryList().catch((err) => {
+      NotificationManager.error("오류가 발생하였습니다.", "Error");
+    });
+  }, []);
+
+  useEffect(() => {
+    if (search.indexOf("tab=") !== -1) {
+      handlePostsCallback().catch(() => {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      });
+    }
+  }, [page]);
+
+  useEffect(() => {
+    if (lastCardEl.current) {
+      intersectionObserver.observe(lastCardEl.current);
+    }
+  }, [search]);
+
+  useEffect(() => {
     initPosts();
     setNotfound(true);
     if (search.indexOf("tab=") !== -1 || search === "") {
@@ -158,6 +155,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
       });
     }
   }, [search]);
+
   return (
     <>
       <Helmet
