@@ -3,19 +3,19 @@ import PostCommentItem from "../../components/Post/PostComment/PostCommentItem";
 
 interface PostCommentContainerProps {
   comment: CommentType;
-  userName: string;
   admin: boolean;
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
   userId: number;
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
   deleteComment: (comment_idx: number) => Promise<void>;
+  login: boolean;
 }
 
 interface RepliesResponse {
   status: number;
   message: string;
   data: {
-    replies: ReplyType;
+    replies: ReplyType[];
   };
 }
 
@@ -44,12 +44,12 @@ interface CommentType {
 
 const PostCommentContainer = ({
   comment,
-  userName,
   admin,
   getReplies,
   userId,
   modifyComment,
-  deleteComment
+  deleteComment,
+  login
 }: PostCommentContainerProps) => {
   const [modify, setModify] = useState<boolean>(false);
   const [modifyInput, setModifyInput] = useState<string>(comment.content);
@@ -62,6 +62,7 @@ const PostCommentContainer = ({
   return (
     <>
       <PostCommentItem
+        login={login}
         modify={modify}
         setModify={setModify}
         modifyInput={modifyInput}
@@ -73,7 +74,6 @@ const PostCommentContainer = ({
         getReplies={getReplies}
         comment={comment}
         admin={admin}
-        userName={userName}
       />
     </>
   );

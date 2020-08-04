@@ -1,18 +1,13 @@
-import React, {
-  ChangeEvent,
-  Dispatch,
-  KeyboardEventHandler,
-  SetStateAction
-} from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
 import "./PostCommentItem.scss";
 import profile from "../../../../assets/images/profile.png";
 import PostReplyContainer from "../../../../containers/Post/PostReplyContainer";
 import { GoPencil } from "react-icons/go";
 import { MdCancel } from "react-icons/md";
+import { IoIosLock } from "react-icons/io";
 
 interface PostCommentItemProps {
   comment: CommentType;
-  userName: string;
   admin: boolean;
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
   userId: number;
@@ -23,13 +18,14 @@ interface PostCommentItemProps {
   modifyInput: string;
   setModifyInput: Dispatch<SetStateAction<string>>;
   cancelModify: () => void;
+  login: boolean;
 }
 
 interface RepliesResponse {
   status: number;
   message: string;
   data: {
-    replies: ReplyType;
+    replies: ReplyType[];
   };
 }
 
@@ -58,7 +54,6 @@ interface CommentType {
 
 const PostCommentItem = ({
   comment,
-  userName,
   admin,
   getReplies,
   userId,
@@ -68,7 +63,8 @@ const PostCommentItem = ({
   modify,
   setModify,
   setModifyInput,
-  modifyInput
+  modifyInput,
+  login
 }: PostCommentItemProps) => {
   return (
     <div className="post-comment-item">
@@ -78,6 +74,15 @@ const PostCommentItem = ({
           <div className="post-comment-item-box-private-title">
             {comment.content}
           </div>
+          {comment.reply_count !== 0 && (
+            <PostReplyContainer
+              login={login}
+              userId={userId}
+              comment_idx={comment.idx}
+              admin={admin}
+              getReplies={getReplies}
+            />
+          )}
         </div>
       ) : (
         <>
@@ -112,13 +117,16 @@ const PostCommentItem = ({
             <div className="post-comment-item-box">
               <div className="post-comment-item-box-title">
                 {comment.fk_user_name}
+                {comment.is_private && (
+                  <IoIosLock className="post-comment-item-box-title-lock" />
+                )}
               </div>
               <span className="post-comment-item-box-content">
                 {comment.content}
               </span>
               <div className="post-comment-item-box-util">
                 <span className="post-comment-item-box-util-reply">답글</span>
-                {comment.fk_user_idx === userId && (
+                {comment.fk_user_idx === userId && login && (
                   <span
                     className="post-comment-item-box-util-modify"
                     onClick={() => setModify(true)}
@@ -126,7 +134,7 @@ const PostCommentItem = ({
                     수정
                   </span>
                 )}
-                {(comment.fk_user_idx === userId || admin) && (
+                {(comment.fk_user_idx === userId || admin) && login && (
                   <span
                     className="post-comment-item-box-util-delete"
                     onClick={() => deleteComment(comment.idx)}
@@ -135,17 +143,18 @@ const PostCommentItem = ({
                   </span>
                 )}
               </div>
+              {comment.reply_count !== 0 && (
+                <PostReplyContainer
+                  userId={userId}
+                  comment_idx={comment.idx}
+                  admin={admin}
+                  getReplies={getReplies}
+                  login={login}
+                />
+              )}
             </div>
           )}
         </>
-      )}
-      {comment.reply_count !== 0 && (
-        <PostReplyContainer
-          idx={comment.idx}
-          admin={admin}
-          userName={userName}
-          getReplies={getReplies}
-        />
       )}
     </div>
   );

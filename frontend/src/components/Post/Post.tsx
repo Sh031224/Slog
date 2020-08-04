@@ -11,7 +11,6 @@ interface PostProps {
   comments: CommentType[];
   post: PostInfoType;
   hit_posts: PostType[];
-  userName: string;
   login: boolean;
   admin: boolean;
   createComment: (
@@ -29,7 +28,7 @@ interface RepliesResponse {
   status: number;
   message: string;
   data: {
-    replies: ReplyType;
+    replies: ReplyType[];
   };
 }
 
@@ -87,7 +86,6 @@ const Post = ({
   hit_posts,
   login,
   admin,
-  userName,
   createComment,
   getReplies,
   userId,
@@ -116,7 +114,6 @@ const Post = ({
               getReplies={getReplies}
               post_idx={post.idx}
               createComment={createComment}
-              userName={userName}
               admin={admin}
               login={login}
               count={post.comment_count}

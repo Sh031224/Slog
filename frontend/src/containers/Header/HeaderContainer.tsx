@@ -95,6 +95,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   }, [search]);
 
   const getFcmToken = useCallback(async () => {
+    axios.defaults.headers.common["access_token"] = cookies.access_token;
     const messaging = firebase.messaging();
 
     await messaging.requestPermission().then(() => {
