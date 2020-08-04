@@ -2,6 +2,7 @@ import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
 import "./PostCommentItem.scss";
 import profile from "../../../../assets/images/profile.png";
 import PostReplyContainer from "../../../../containers/Post/PostReplyContainer";
+import TimeCounting from "time-counting";
 import { GoPencil } from "react-icons/go";
 import { MdCancel } from "react-icons/md";
 import { IoIosLock } from "react-icons/io";
@@ -73,6 +74,12 @@ const PostCommentItem = ({
         <div className="post-comment-item-box-private">
           <div className="post-comment-item-box-private-title">
             {comment.content}
+            <span className="post-comment-item-box-time">
+              {TimeCounting(comment.created_at, { lang: "ko" })}
+            </span>
+            {comment.created_at !== comment.updated_at && (
+              <span className="post-comment-item-box-update">{"(수정됨)"}</span>
+            )}
           </div>
           {comment.reply_count !== 0 && (
             <PostReplyContainer
@@ -90,6 +97,7 @@ const PostCommentItem = ({
             <div className="post-comment-item-input">
               <div className="post-comment-item-input-box">
                 <input
+                  autoFocus
                   type="text"
                   maxLength={255}
                   value={modifyInput}
@@ -97,7 +105,9 @@ const PostCommentItem = ({
                     setModifyInput(e.target.value)
                   }
                   onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                    if (e.key === "Enter") {
+                    if (e.key === "Escape") {
+                      setModify(false);
+                    } else if (e.key === "Enter") {
                       modifyComment(comment.idx, modifyInput);
                     }
                   }}
@@ -112,6 +122,15 @@ const PostCommentItem = ({
                   className="post-comment-item-input-box-submit"
                 />
               </div>
+              {comment.reply_count !== 0 && (
+                <PostReplyContainer
+                  userId={userId}
+                  comment_idx={comment.idx}
+                  admin={admin}
+                  getReplies={getReplies}
+                  login={login}
+                />
+              )}
             </div>
           ) : (
             <div className="post-comment-item-box">
@@ -119,6 +138,14 @@ const PostCommentItem = ({
                 {comment.fk_user_name}
                 {comment.is_private && (
                   <IoIosLock className="post-comment-item-box-title-lock" />
+                )}
+                <span className="post-comment-item-box-time">
+                  {TimeCounting(comment.created_at, { lang: "ko" })}
+                </span>
+                {comment.created_at !== comment.updated_at && (
+                  <span className="post-comment-item-box-update">
+                    {"(수정됨)"}
+                  </span>
                 )}
               </div>
               <span className="post-comment-item-box-content">
