@@ -211,7 +211,6 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
           }
         }
       );
-      await getCommentsCallback(post_info.idx);
     } catch (err) {
       if (err.message === "Error: Request failed with status code 401") {
         NotificationManager.warning("권한이 없습니다.", "Error");
@@ -232,7 +231,6 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
           NotificationManager.success("댓글을 삭제하였습니다.", "Success");
         }
       });
-      await getCommentsCallback(post_info.idx);
     } catch (err) {
       if (err.message === "Error: Request failed with status code 401") {
         NotificationManager.warning("권한이 없습니다.", "Error");

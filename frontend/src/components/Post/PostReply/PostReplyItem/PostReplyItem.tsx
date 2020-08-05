@@ -7,11 +7,19 @@ import TimeCounting from "time-counting";
 import { IoIosLock } from "react-icons/io";
 
 interface PostReplyItemProps {
-  comment_idx: number;
   userId: number;
   admin: boolean;
   reply: ReplyType;
   login: boolean;
+  cancelModify: () => void;
+  modify: boolean;
+  setModify: React.Dispatch<React.SetStateAction<boolean>>;
+  modifyInput: string;
+  setModifyInput: React.Dispatch<React.SetStateAction<string>>;
+  modifyReply: (reply_idx: number, content: string) => Promise<void>;
+  deleteReply: (reply_idx: number) => Promise<void>;
+  setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  refresh: number;
 }
 
 interface ReplyType {
@@ -26,11 +34,19 @@ interface ReplyType {
 }
 
 const PostReplyItem = ({
-  comment_idx,
   userId,
   reply,
   admin,
-  login
+  login,
+  cancelModify,
+  modify,
+  setModify,
+  setModifyInput,
+  modifyInput,
+  modifyReply,
+  deleteReply,
+  setRefresh,
+  refresh
 }: PostReplyItemProps) => {
   return (
     <div className="post-reply-item">
@@ -49,7 +65,7 @@ const PostReplyItem = ({
         </div>
       ) : (
         <>
-          {/* {modify ? (
+          {modify ? (
             <div className="post-reply-item-input">
               <div className="post-reply-item-input-box">
                 <input
@@ -59,9 +75,13 @@ const PostReplyItem = ({
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setModifyInput(e.target.value)
                   }
-                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  onKeyDown={async (
+                    e: React.KeyboardEvent<HTMLInputElement>
+                  ) => {
                     if (e.key === "Enter") {
-                      modifyComment(reply.idx, modifyInput);
+                      await modifyReply(reply.idx, modifyInput);
+                      cancelModify();
+                      setRefresh(refresh + 1);
                     }
                   }}
                   placeholder="내용을 입력해주세요."
@@ -71,41 +91,54 @@ const PostReplyItem = ({
                   className="post-reply-item-input-box-cancel"
                 />
                 <GoPencil
-                  onClick={() => modifyComment(reply.idx, modifyInput)}
+                  onClick={async () => {
+                    await modifyReply(reply.idx, modifyInput);
+                    cancelModify();
+                    setRefresh(refresh + 1);
+                  }}
                   className="post-reply-item-input-box-submit"
                 />
               </div>
             </div>
-          ) : ( */}
-          <div className="post-reply-item-box">
-            <div className="post-reply-item-box-title">
-              {reply.fk_user_name}
-              {reply.is_private && (
-                <IoIosLock className="post-reply-item-box-title-lock" />
-              )}
-              <span className="post-comment-item-box-time">
-                {TimeCounting(reply.created_at, { lang: "ko" })}
-              </span>
-              {reply.created_at !== reply.updated_at && (
-                <span className="post-reply-item-box-update">{"(수정됨)"}</span>
-              )}
-            </div>
-            <span className="post-reply-item-box-content">{reply.content}</span>
-            <div className="post-reply-item-box-util">
-              {reply.fk_user_idx === userId && login && (
-                <span
-                  className="post-reply-item-box-util-modify"
-                  // onClick={() => setModify(true)}
-                >
-                  수정
+          ) : (
+            <div className="post-reply-item-box">
+              <div className="post-reply-item-box-title">
+                {reply.fk_user_name}
+                {reply.is_private && (
+                  <IoIosLock className="post-reply-item-box-title-lock" />
+                )}
+                <span className="post-comment-item-box-time">
+                  {TimeCounting(reply.created_at, { lang: "ko" })}
                 </span>
-              )}
-              {(reply.fk_user_idx === userId || admin) && login && (
-                <span className="post-reply-item-box-util-delete">삭제</span>
-              )}
+                {reply.created_at !== reply.updated_at && (
+                  <span className="post-reply-item-box-update">
+                    {"(수정됨)"}
+                  </span>
+                )}
+              </div>
+              <span className="post-reply-item-box-content">
+                {reply.content}
+              </span>
+              <div className="post-reply-item-box-util">
+                {reply.fk_user_idx === userId && login && (
+                  <span
+                    className="post-reply-item-box-util-modify"
+                    onClick={() => setModify(true)}
+                  >
+                    수정
+                  </span>
+                )}
+                {(reply.fk_user_idx === userId || admin) && login && (
+                  <span
+                    onClick={() => deleteReply(reply.idx)}
+                    className="post-reply-item-box-util-delete"
+                  >
+                    삭제
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-          {/* )} */}
+          )}
         </>
       )}
     </div>

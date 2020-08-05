@@ -9,6 +9,8 @@ interface PostReplyContainerProps {
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
   refresh: number;
   setRefresh: Dispatch<SetStateAction<number>>;
+  modifyReply: (reply_idx: number, content: string) => Promise<void>;
+  deleteReply: (reply_idx: number) => Promise<void>;
 }
 
 interface RepliesResponse {
@@ -37,7 +39,9 @@ const PostReplyContainer = ({
   comment_idx,
   login,
   refresh,
-  setRefresh
+  setRefresh,
+  modifyReply,
+  deleteReply
 }: PostReplyContainerProps) => {
   const [replies, setReplies] = useState<ReplyType[]>([]);
 
@@ -50,10 +54,13 @@ const PostReplyContainer = ({
   return (
     <>
       <PostReply
+        refresh={refresh}
+        modifyReply={modifyReply}
+        deleteReply={deleteReply}
+        setRefresh={setRefresh}
         replies={replies}
         admin={admin}
         userId={userId}
-        comment_idx={comment_idx}
         login={login}
       />
     </>

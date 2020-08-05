@@ -1,13 +1,16 @@
 import React from "react";
+import PostReplyHandleContainer from "../../../containers/Post/PostReplyHandleContainer";
 import "./PostReply.scss";
-import PostReplyItem from "./PostReplyItem";
 
 interface PostReplyProps {
   replies: ReplyType[];
   admin: boolean;
   userId: number;
-  comment_idx: number;
   login: boolean;
+  modifyReply: (reply_idx: number, content: string) => Promise<void>;
+  deleteReply: (reply_idx: number) => Promise<void>;
+  setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  refresh: number;
 }
 
 interface ReplyType {
@@ -25,21 +28,27 @@ const PostReply = ({
   replies,
   admin,
   userId,
-  comment_idx,
-  login
+  login,
+  modifyReply,
+  deleteReply,
+  setRefresh,
+  refresh
 }: PostReplyProps) => {
   return (
     <>
       <div className="post-reply">
         {replies.map((reply: ReplyType, index: number) => {
           return (
-            <PostReplyItem
+            <PostReplyHandleContainer
               key={index}
+              refresh={refresh}
+              setRefresh={setRefresh}
+              modifyReply={modifyReply}
+              deleteReply={deleteReply}
               reply={reply}
               admin={admin}
               userId={userId}
               login={login}
-              comment_idx={comment_idx}
             />
           );
         })}

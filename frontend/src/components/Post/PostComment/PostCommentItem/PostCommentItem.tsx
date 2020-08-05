@@ -118,6 +118,8 @@ const PostCommentItem = ({
               getReplies={getReplies}
               refresh={refresh}
               setRefresh={setRefresh}
+              modifyReply={modifyReply}
+              deleteReply={deleteReply}
             />
           )}
         </div>
@@ -160,6 +162,8 @@ const PostCommentItem = ({
               </div>
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
+                  modifyReply={modifyReply}
+                  deleteReply={deleteReply}
                   refresh={refresh}
                   setRefresh={setRefresh}
                   userId={userId}
@@ -265,6 +269,8 @@ const PostCommentItem = ({
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
                   refresh={refresh}
+                  modifyReply={modifyReply}
+                  deleteReply={deleteReply}
                   setRefresh={setRefresh}
                   userId={userId}
                   comment_idx={comment.idx}
