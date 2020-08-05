@@ -134,11 +134,13 @@ const PostCommentItem = ({
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setModifyInput(e.target.value)
                   }
-                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  onKeyDown={async (
+                    e: React.KeyboardEvent<HTMLInputElement>
+                  ) => {
                     if (e.key === "Escape") {
                       setModify(false);
                     } else if (e.key === "Enter") {
-                      modifyComment(comment.idx, modifyInput);
+                      await modifyComment(comment.idx, modifyInput);
                       cancelModify();
                     }
                   }}

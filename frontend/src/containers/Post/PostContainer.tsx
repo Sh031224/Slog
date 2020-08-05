@@ -76,12 +76,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
-  const {
-    getPostInfo,
-    hit_posts,
-    handleHitPosts,
-    handleTempPosts
-  } = store!.PostStore;
+  const { getPostInfo, hit_posts, handleHitPosts } = store!.PostStore;
   const {
     getComments,
     getReplies,
