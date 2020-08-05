@@ -40,7 +40,8 @@ const MainContainer = ({ store }: MainContainerProps) => {
     handlePosts,
     initPosts,
     getPostLength,
-    handlePostSearch
+    handlePostSearch,
+    handleTempPosts
   } = store!.PostStore;
 
   interface PostParmsType {
@@ -92,9 +93,11 @@ const MainContainer = ({ store }: MainContainerProps) => {
   }, []);
 
   useEffect(() => {
-    handlePostsCallback().catch(() => {
-      NotificationManager.error("오류가 발생하였습니다.", "Error");
-    });
+    if (search.indexOf("temp") !== 1) {
+      handlePostsCallback().catch(() => {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      });
+    }
   }, [page]);
 
   useEffect(() => {
@@ -115,9 +118,8 @@ const MainContainer = ({ store }: MainContainerProps) => {
           setNotfound(false);
         }
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         history.push("/");
-        return error;
       });
   }, [search]);
 
@@ -141,11 +143,24 @@ const MainContainer = ({ store }: MainContainerProps) => {
           setNotfound(false);
         }
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         history.push("/");
-        return error;
       });
   }, [search, page]);
+
+  const handleTempPostsCallback = useCallback(async () => {
+    setLoading(true);
+    await handleTempPosts()
+      .then(() => {
+        setLoading(false);
+        if (getPostLength() > 0) {
+          setNotfound(false);
+        }
+      })
+      .catch((error: Error) => {
+        console.log(error);
+      });
+  }, []);
 
   useEffect(() => {
     initPosts();
@@ -155,6 +170,8 @@ const MainContainer = ({ store }: MainContainerProps) => {
       handlePostsCallback().catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
+    } else if (search.indexOf("temp") !== -1) {
+      handleTempPostsCallback();
     } else {
       handlePostSearchCallback().catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
