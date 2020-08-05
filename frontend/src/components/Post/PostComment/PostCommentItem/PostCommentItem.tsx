@@ -5,7 +5,7 @@ import PostReplyContainer from "../../../../containers/Post/PostReplyContainer";
 import TimeCounting from "time-counting";
 import { GoPencil } from "react-icons/go";
 import { MdCancel } from "react-icons/md";
-import { IoIosLock } from "react-icons/io";
+import { IoIosLock, IoIosUnlock } from "react-icons/io";
 
 interface PostCommentItemProps {
   comment: CommentType;
@@ -20,6 +20,22 @@ interface PostCommentItemProps {
   setModifyInput: Dispatch<SetStateAction<string>>;
   cancelModify: () => void;
   login: boolean;
+  reply: boolean;
+  setReply: Dispatch<SetStateAction<boolean>>;
+  replyInput: string;
+  setReplyInput: Dispatch<SetStateAction<string>>;
+  cancelReply: () => void;
+  createReply: (
+    comment_idx: number,
+    content: string,
+    is_private?: boolean | undefined
+  ) => Promise<void>;
+  modifyReply: (reply_idx: number, content: string) => Promise<void>;
+  deleteReply: (reply_idx: number) => Promise<void>;
+  isPrivate: boolean;
+  setIsPrivateCallback: (status: boolean) => void;
+  refresh: number;
+  setRefresh: Dispatch<SetStateAction<number>>;
 }
 
 interface RepliesResponse {
@@ -65,7 +81,19 @@ const PostCommentItem = ({
   setModify,
   setModifyInput,
   modifyInput,
-  login
+  login,
+  reply,
+  setReply,
+  cancelReply,
+  replyInput,
+  setReplyInput,
+  createReply,
+  modifyReply,
+  deleteReply,
+  isPrivate,
+  setIsPrivateCallback,
+  refresh,
+  setRefresh
 }: PostCommentItemProps) => {
   return (
     <div className="post-comment-item">
@@ -88,6 +116,8 @@ const PostCommentItem = ({
               comment_idx={comment.idx}
               admin={admin}
               getReplies={getReplies}
+              refresh={refresh}
+              setRefresh={setRefresh}
             />
           )}
         </div>
@@ -109,6 +139,7 @@ const PostCommentItem = ({
                       setModify(false);
                     } else if (e.key === "Enter") {
                       modifyComment(comment.idx, modifyInput);
+                      cancelModify();
                     }
                   }}
                   placeholder="내용을 입력해주세요."
@@ -118,12 +149,17 @@ const PostCommentItem = ({
                   className="post-comment-item-input-box-cancel"
                 />
                 <GoPencil
-                  onClick={() => modifyComment(comment.idx, modifyInput)}
+                  onClick={() => {
+                    modifyComment(comment.idx, modifyInput);
+                    cancelModify();
+                  }}
                   className="post-comment-item-input-box-submit"
                 />
               </div>
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
+                  refresh={refresh}
+                  setRefresh={setRefresh}
                   userId={userId}
                   comment_idx={comment.idx}
                   admin={admin}
@@ -152,7 +188,12 @@ const PostCommentItem = ({
                 {comment.content}
               </span>
               <div className="post-comment-item-box-util">
-                <span className="post-comment-item-box-util-reply">답글</span>
+                <span
+                  className="post-comment-item-box-util-reply"
+                  onClick={() => setReply(true)}
+                >
+                  답글
+                </span>
                 {comment.fk_user_idx === userId && login && (
                   <span
                     className="post-comment-item-box-util-modify"
@@ -170,8 +211,59 @@ const PostCommentItem = ({
                   </span>
                 )}
               </div>
+              {reply && (
+                <div className="post-comment-item-input post-comment-item-input-mg">
+                  <div className="post-comment-item-input-box">
+                    <input
+                      autoFocus
+                      maxLength={255}
+                      value={replyInput}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        setReplyInput(e.target.value)
+                      }
+                      onKeyDown={async (
+                        e: React.KeyboardEvent<HTMLInputElement>
+                      ) => {
+                        if (e.key === "Escape") {
+                          setReply(false);
+                        } else if (e.key === "Enter") {
+                          await createReply(comment.idx, replyInput, isPrivate);
+                          cancelReply();
+                          setRefresh(refresh + 1);
+                        }
+                      }}
+                      placeholder="내용을 입력해주세요."
+                    />
+                    <MdCancel
+                      onClick={() => cancelReply()}
+                      className="post-comment-item-input-box-cancel"
+                    />
+                    {isPrivate ? (
+                      <IoIosLock
+                        onClick={() => setIsPrivateCallback(false)}
+                        className="post-comment-item-input-box-lock"
+                      />
+                    ) : (
+                      <IoIosUnlock
+                        onClick={() => setIsPrivateCallback(true)}
+                        className="post-comment-item-input-box-unlock"
+                      />
+                    )}
+                    <GoPencil
+                      onClick={async () => {
+                        await createReply(comment.idx, replyInput);
+                        cancelReply();
+                        setRefresh(refresh + 1);
+                      }}
+                      className="post-comment-item-input-box-submit"
+                    />
+                  </div>
+                </div>
+              )}
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
+                  refresh={refresh}
+                  setRefresh={setRefresh}
                   userId={userId}
                   comment_idx={comment.idx}
                   admin={admin}

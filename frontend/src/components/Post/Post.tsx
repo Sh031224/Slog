@@ -22,6 +22,13 @@ interface PostProps {
   userId: number;
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
   deleteComment: (comment_idx: number) => Promise<void>;
+  createReply: (
+    comment_idx: number,
+    content: string,
+    is_private?: boolean | undefined
+  ) => Promise<void>;
+  modifyReply: (reply_idx: number, content: string) => Promise<void>;
+  deleteReply: (reply_idx: number) => Promise<void>;
 }
 
 interface RepliesResponse {
@@ -90,7 +97,10 @@ const Post = ({
   getReplies,
   userId,
   modifyComment,
-  deleteComment
+  deleteComment,
+  createReply,
+  modifyReply,
+  deleteReply
 }: PostProps) => {
   return (
     <div className="post">
@@ -108,12 +118,15 @@ const Post = ({
             <ReactMarkdown className="post-content" source={post.content} />
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
             <PostComment
+              createComment={createComment}
               deleteComment={deleteComment}
               modifyComment={modifyComment}
+              createReply={createReply}
+              modifyReply={modifyReply}
+              deleteReply={deleteReply}
               userId={userId}
               getReplies={getReplies}
               post_idx={post.idx}
-              createComment={createComment}
               admin={admin}
               login={login}
               count={post.comment_count}

@@ -18,6 +18,13 @@ interface PostCommentProps {
   userId: number;
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
   deleteComment: (comment_idx: number) => Promise<void>;
+  createReply: (
+    comment_idx: number,
+    content: string,
+    is_private?: boolean | undefined
+  ) => Promise<void>;
+  modifyReply: (reply_idx: number, content: string) => Promise<void>;
+  deleteReply: (reply_idx: number) => Promise<void>;
 }
 
 interface RepliesResponse {
@@ -61,7 +68,10 @@ const PostComment = ({
   getReplies,
   userId,
   modifyComment,
-  deleteComment
+  deleteComment,
+  createReply,
+  modifyReply,
+  deleteReply
 }: PostCommentProps) => {
   return (
     <div className="post-comment">
@@ -76,6 +86,9 @@ const PostComment = ({
       {comments.map((comment: CommentType) => {
         return (
           <PostCommentContainer
+            createReply={createReply}
+            modifyReply={modifyReply}
+            deleteReply={deleteReply}
             login={login}
             deleteComment={deleteComment}
             modifyComment={modifyComment}

@@ -7,7 +7,6 @@ import UserStore from "../../stores/UserStore";
 import Post from "../../components/Post";
 import { Helmet } from "react-helmet-async";
 import { useCookies } from "react-cookie";
-import CommentApi from "../../assets/api/Comment";
 import axios from "axios";
 import { NotificationManager } from "react-notifications";
 
@@ -51,6 +50,26 @@ interface PostCommentResponse {
   message: string;
 }
 
+interface CommentTypeResponse {
+  status: number;
+  message: string;
+  data: {
+    comments: CommentType[];
+  };
+}
+
+interface CommentType {
+  idx: number;
+  content: string;
+  is_private: boolean;
+  fk_user_idx: number | undefined;
+  fk_user_name: string | undefined;
+  fk_post_idx: number;
+  created_at: Date;
+  updated_at: Date;
+  reply_count: number;
+}
+
 const PostContainer = ({ match, store }: PostContainerProps) => {
   const history = useHistory();
   const { idx } = match.params;
@@ -58,7 +77,16 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
   const { getPostInfo, hit_posts, handleHitPosts } = store!.PostStore;
-  const { getComments, comments, getReplies } = store!.CommentStore;
+  const {
+    getComments,
+    getReplies,
+    commentCreate,
+    commentModify,
+    commentDelete,
+    replyCreate,
+    replyModify,
+    replyDelete
+  } = store!.CommentStore;
   const {
     handleUser,
     admin,
@@ -67,6 +95,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     handleLoginChange
   } = store!.UserStore;
 
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [loading, setLoading] = useState(false);
   const [post_info, setPostInfo] = useState<
     PostInfoType | SetStateAction<PostInfoType | any>
@@ -95,7 +124,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   const getCommentsCallback = useCallback(
     async (post_idx: number) => {
-      await getComments(post_idx);
+      await getComments(post_idx).then((res: CommentTypeResponse) => {
+        setComments(res.data.comments);
+      });
     },
     [idx, post_info]
   );
@@ -127,17 +158,38 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     }
   };
 
+  const createComment = async (
+    post_idx: number,
+    content: string,
+    is_private?: boolean
+  ) => {
+    try {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      await commentCreate(post_idx, content, is_private);
+      await getCommentsCallback(post_idx);
+    } catch (err) {
+      if (err.message === "Error: Request failed with status code 401") {
+        NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
+      } else if (err.message === "Error: Request failed with status code 410") {
+        removeCookie("access_token", { path: "/" });
+        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
+      } else {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      }
+    }
+  };
+
   const modifyComment = async (comment_idx: number, content: string) => {
     try {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
-      await CommentApi.ModifyComment(comment_idx, content).then(
+      await commentModify(comment_idx, content).then(
         (res: PostCommentResponse) => {
           if (res.status === 200) {
             NotificationManager.success("댓글을 수정하였습니다.", "Success");
           }
         }
       );
-      await getAllContent();
+      await getCommentsCallback(post_info.idx);
     } catch (err) {
       if (err.message === "Error: Request failed with status code 401") {
         NotificationManager.warning("권한이 없습니다.", "Error");
@@ -153,14 +205,12 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   const deleteComment = async (comment_idx: number) => {
     try {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
-      await CommentApi.DeleteComment(comment_idx).then(
-        (res: PostCommentResponse) => {
-          if (res.status === 200) {
-            NotificationManager.success("댓글을 삭제하였습니다.", "Success");
-          }
+      await commentDelete(comment_idx).then((res: PostCommentResponse) => {
+        if (res.status === 200) {
+          NotificationManager.success("댓글을 삭제하였습니다.", "Success");
         }
-      );
-      await getAllContent();
+      });
+      await getCommentsCallback(post_info.idx);
     } catch (err) {
       if (err.message === "Error: Request failed with status code 401") {
         NotificationManager.warning("권한이 없습니다.", "Error");
@@ -173,18 +223,60 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     }
   };
 
-  const createComment = async (
-    post_idx: number,
+  const createReply = async (
+    comment_idx: number,
     content: string,
     is_private?: boolean
   ) => {
     try {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
-      await CommentApi.CreateComment(post_idx, content, is_private);
-      await getAllContent();
+      await replyCreate(comment_idx, content, is_private);
+      await getCommentsCallback(post_info.idx);
     } catch (err) {
       if (err.message === "Error: Request failed with status code 401") {
         NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
+      } else if (err.message === "Error: Request failed with status code 410") {
+        removeCookie("access_token", { path: "/" });
+        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
+      } else {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      }
+    }
+  };
+
+  const modifyReply = async (reply_idx: number, content: string) => {
+    try {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      await replyModify(reply_idx, content).then((res: PostCommentResponse) => {
+        if (res.status === 200) {
+          NotificationManager.success("댓글을 수정하였습니다.", "Success");
+        }
+      });
+      await getCommentsCallback(post_info.idx);
+    } catch (err) {
+      if (err.message === "Error: Request failed with status code 401") {
+        NotificationManager.warning("권한이 없습니다.", "Error");
+      } else if (err.message === "Error: Request failed with status code 410") {
+        removeCookie("access_token", { path: "/" });
+        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
+      } else {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      }
+    }
+  };
+
+  const deleteReply = async (reply_idx: number) => {
+    try {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      await replyDelete(reply_idx).then((res: PostCommentResponse) => {
+        if (res.status === 200) {
+          NotificationManager.success("댓글을 삭제하였습니다.", "Success");
+        }
+      });
+      await getCommentsCallback(post_info.idx);
+    } catch (err) {
+      if (err.message === "Error: Request failed with status code 401") {
+        NotificationManager.warning("권한이 없습니다.", "Error");
       } else if (err.message === "Error: Request failed with status code 410") {
         removeCookie("access_token", { path: "/" });
         NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
@@ -212,11 +304,14 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         ]}
       />
       <Post
+        createComment={createComment}
         modifyComment={modifyComment}
         deleteComment={deleteComment}
+        createReply={createReply}
+        modifyReply={modifyReply}
+        deleteReply={deleteReply}
         userId={userId}
         getReplies={getReplies}
-        createComment={createComment}
         admin={admin}
         login={login}
         loading={loading}

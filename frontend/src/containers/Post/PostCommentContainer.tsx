@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useCallback, useState } from "react";
+import React, { KeyboardEvent, useCallback, useEffect, useState } from "react";
 import PostCommentItem from "../../components/Post/PostComment/PostCommentItem";
 
 interface PostCommentContainerProps {
@@ -9,6 +9,13 @@ interface PostCommentContainerProps {
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
   deleteComment: (comment_idx: number) => Promise<void>;
   login: boolean;
+  createReply: (
+    comment_idx: number,
+    content: string,
+    is_private?: boolean | undefined
+  ) => Promise<void>;
+  modifyReply: (reply_idx: number, content: string) => Promise<void>;
+  deleteReply: (reply_idx: number) => Promise<void>;
 }
 
 interface RepliesResponse {
@@ -49,19 +56,52 @@ const PostCommentContainer = ({
   userId,
   modifyComment,
   deleteComment,
-  login
+  login,
+  createReply,
+  modifyReply,
+  deleteReply
 }: PostCommentContainerProps) => {
   const [modify, setModify] = useState<boolean>(false);
   const [modifyInput, setModifyInput] = useState<string>(comment.content);
+  const [reply, setReply] = useState<boolean>(false);
+  const [replyInput, setReplyInput] = useState<string>("");
+  const [isPrivate, setIsPrivate] = useState<boolean>(comment.is_private);
+  const [refresh, setRefresh] = useState<number>(0);
 
   const cancelModify = useCallback(() => {
     setModify(false);
     setModifyInput(comment.content);
   }, [comment]);
 
+  const cancelReply = useCallback(() => {
+    setReply(false);
+    setReplyInput("");
+  }, [comment]);
+
+  const setIsPrivateCallback = (status: boolean) => {
+    console.log(1);
+    if (comment.is_private) {
+      setIsPrivate(true);
+    } else {
+      setIsPrivate(status);
+    }
+  };
+
   return (
     <>
       <PostCommentItem
+        refresh={refresh}
+        setRefresh={setRefresh}
+        reply={reply}
+        cancelReply={cancelReply}
+        setReply={setReply}
+        replyInput={replyInput}
+        setReplyInput={setReplyInput}
+        isPrivate={isPrivate}
+        setIsPrivateCallback={setIsPrivateCallback}
+        createReply={createReply}
+        modifyReply={modifyReply}
+        deleteReply={deleteReply}
         login={login}
         modify={modify}
         setModify={setModify}
