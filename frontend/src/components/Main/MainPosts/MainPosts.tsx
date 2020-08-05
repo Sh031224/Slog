@@ -8,11 +8,12 @@ interface MainPostsProps {
   notfound: boolean;
   lastCardEl: React.MutableRefObject<HTMLDivElement | null>;
 }
+
 interface PostType {
   idx: number;
   title: string;
-  view: number;
-  comment_count: number;
+  view?: number;
+  comment_count?: number;
   thumbnail?: string;
   description?: string;
   created_at: Date;

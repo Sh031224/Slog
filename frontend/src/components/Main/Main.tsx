@@ -20,18 +20,11 @@ interface MainProps {
 interface PostType {
   idx: number;
   title: string;
-  view: number;
-  comment_count: number;
+  view?: number;
+  comment_count?: number;
   thumbnail?: string;
   description?: string;
   created_at: Date;
-}
-
-interface PostParmsType {
-  page: number;
-  limit: number;
-  order?: string;
-  category?: number;
 }
 
 interface CategoryType {

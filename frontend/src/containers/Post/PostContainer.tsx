@@ -76,7 +76,12 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
-  const { getPostInfo, hit_posts, handleHitPosts } = store!.PostStore;
+  const {
+    getPostInfo,
+    hit_posts,
+    handleHitPosts,
+    handleTempPosts
+  } = store!.PostStore;
   const {
     getComments,
     getReplies,
@@ -145,7 +150,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
           setComments(res.data.comments);
         })
         .catch((err: Error) => {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
+          if (err.message !== "Error: Request failed with status code 404") {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
+          }
         });
     },
     [idx, post_info]
