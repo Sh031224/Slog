@@ -119,10 +119,8 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     } catch (err) {
       if (err.message === "Error: Request failed with status code 401") {
         removeCookie("access_token", { path: "/" });
-        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
-      } else if (err.message === "Error: Request failed with status code 410") {
-        removeCookie("access_token", { path: "/" });
-        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
+        handleLoginChange(false);
+        NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
       } else {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       }
@@ -191,10 +189,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       await getCommentsCallback(post_idx);
     } catch (err) {
       if (err.message === "Error: Request failed with status code 401") {
-        NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
-      } else if (err.message === "Error: Request failed with status code 410") {
         removeCookie("access_token", { path: "/" });
-        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
+        handleLoginChange(false);
+        NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
       } else {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       }
@@ -212,11 +209,12 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         }
       );
     } catch (err) {
-      if (err.message === "Error: Request failed with status code 401") {
+      if (err.message === "Error: Request failed with status code 403") {
         NotificationManager.warning("권한이 없습니다.", "Error");
-      } else if (err.message === "Error: Request failed with status code 410") {
+      } else if (err.message === "Error: Request failed with status code 401") {
         removeCookie("access_token", { path: "/" });
-        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
+        handleLoginChange(false);
+        NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
       } else {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       }
@@ -232,9 +230,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         }
       });
     } catch (err) {
-      if (err.message === "Error: Request failed with status code 401") {
+      if (err.message === "Error: Request failed with status code 403") {
         NotificationManager.warning("권한이 없습니다.", "Error");
-      } else if (err.message === "Error: Request failed with status code 410") {
+      } else if (err.message === "Error: Request failed with status code 401") {
         removeCookie("access_token", { path: "/" });
         NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
       } else {
@@ -253,11 +251,12 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       await replyCreate(comment_idx, content, is_private);
       await getCommentsCallback(post_info.idx);
     } catch (err) {
-      if (err.message === "Error: Request failed with status code 401") {
-        NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
-      } else if (err.message === "Error: Request failed with status code 410") {
+      if (err.message === "Error: Request failed with status code 403") {
+        NotificationManager.warning("권한이 없습니다.", "Error");
+      } else if (err.message === "Error: Request failed with status code 401") {
         removeCookie("access_token", { path: "/" });
-        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
+        handleLoginChange(false);
+        NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
       } else {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       }
@@ -274,11 +273,12 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       });
       await getCommentsCallback(post_info.idx);
     } catch (err) {
-      if (err.message === "Error: Request failed with status code 401") {
+      if (err.message === "Error: Request failed with status code 403") {
         NotificationManager.warning("권한이 없습니다.", "Error");
-      } else if (err.message === "Error: Request failed with status code 410") {
+      } else if (err.message === "Error: Request failed with status code 401") {
         removeCookie("access_token", { path: "/" });
-        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
+        handleLoginChange(false);
+        NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
       } else {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       }
@@ -295,7 +295,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       });
       await getCommentsCallback(post_info.idx);
     } catch (err) {
-      if (err.message === "Error: Request failed with status code 401") {
+      if (err.message === "Error: Request failed with status code 403") {
         NotificationManager.warning("권한이 없습니다.", "Error");
       } else if (err.message === "Error: Request failed with status code 410") {
         removeCookie("access_token", { path: "/" });
