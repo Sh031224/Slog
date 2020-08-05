@@ -9,6 +9,18 @@ interface PostParmsType {
 }
 
 class PostList {
+  async GetTempPosts() {
+    try {
+      let url = `${server}/api/v1/post/temp`;
+
+      const { data } = await axios.get(url);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
   async GetPostList(query: PostParmsType) {
     try {
       let url = `${server}/api/v1/post/?page=${query.page}&limit=${query.limit}`;

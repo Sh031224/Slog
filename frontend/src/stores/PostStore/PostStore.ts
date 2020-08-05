@@ -20,8 +20,8 @@ interface PostResponseType {
 interface PostType {
   idx: number;
   title: string;
-  view: number;
-  comment_count: number;
+  view?: number;
+  comment_count?: number;
   thumbnail?: string;
   description?: string;
   created_at: Date;
@@ -46,6 +46,23 @@ class PostStore {
       } else {
         this.posts = response.data.posts;
       }
+
+      return new Promise((resolve, reject) => {
+        resolve(response);
+      });
+    } catch (error) {
+      return new Promise((resolve, reject) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
+  handleTempPosts = async () => {
+    try {
+      const response: PostResponseType = await Post.GetTempPosts();
+
+      this.posts = response.data.posts;
 
       return new Promise((resolve, reject) => {
         resolve(response);
