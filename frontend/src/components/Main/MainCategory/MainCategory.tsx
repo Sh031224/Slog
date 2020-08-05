@@ -57,6 +57,11 @@ const MainCategory = ({
         {categoryList.map((category: CategoryType) => {
           return <MainCategoryItem key={category.idx} item={category} />;
         })}
+        {admin && (
+          <MainCategoryItem
+            item={{ idx: -1, name: "임시저장", post_count: 0 }}
+          />
+        )}
       </div>
       <div
         onClick={arrowToggle}
@@ -71,6 +76,11 @@ const MainCategory = ({
         {categoryList.map((category: CategoryType) => {
           return <MainCategoryRowItem item={category} key={category.idx} />;
         })}
+        {admin && (
+          <MainCategoryRowItem
+            item={{ idx: -1, name: "임시저장", post_count: 0 }}
+          />
+        )}
         {admin && (
           <div
             onClick={() => setCategoryEdit(true)}
