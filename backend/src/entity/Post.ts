@@ -23,7 +23,7 @@ export default class Post extends BaseEntity {
 
   @Column({
     length: 255,
-    nullable: false
+    nullable: true
   })
   description: string;
 

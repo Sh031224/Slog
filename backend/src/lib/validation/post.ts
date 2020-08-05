@@ -20,7 +20,7 @@ export const validateCreateTemp = (req: Request, res: Response): boolean => {
     content: Joi.string().allow(null),
     category_idx: Joi.number().integer().allow(null),
     thumbnail: Joi.string().max(800).allow(null),
-    description: Joi.string().max(255)
+    description: Joi.string().max(255).allow(null)
   });
 
   return validate(req, res, schema);

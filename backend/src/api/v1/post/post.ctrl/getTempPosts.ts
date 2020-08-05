@@ -6,7 +6,7 @@ import Post from "../../../../entity/Post";
 export default async (req: Request, res: Response) => {
   try {
     const postOption: FindManyOptions = {
-      select: ["idx", "title"],
+      select: ["idx", "title", "description", "created_at"],
       where: {
         is_temp: true
       },
