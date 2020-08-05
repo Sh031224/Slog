@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import PostReply from "../../components/Post/PostReply";
 
 interface PostReplyContainerProps {
@@ -7,6 +7,8 @@ interface PostReplyContainerProps {
   userId: number;
   login: boolean;
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
+  refresh: number;
+  setRefresh: Dispatch<SetStateAction<number>>;
 }
 
 interface RepliesResponse {
@@ -33,7 +35,9 @@ const PostReplyContainer = ({
   admin,
   userId,
   comment_idx,
-  login
+  login,
+  refresh,
+  setRefresh
 }: PostReplyContainerProps) => {
   const [replies, setReplies] = useState<ReplyType[]>([]);
 
@@ -41,7 +45,7 @@ const PostReplyContainer = ({
     getReplies(comment_idx).then((res: RepliesResponse) => {
       setReplies(res.data.replies);
     });
-  }, []);
+  }, [refresh]);
 
   return (
     <>
