@@ -236,7 +236,7 @@ const PostCommentItem = ({
                     />
                     <MdCancel
                       onClick={() => cancelReply()}
-                      className="post-comment-item-input-box-cancel"
+                      className="post-comment-item-input-box-cancel post-comment-item-input-box-cancel-right"
                     />
                     {isPrivate ? (
                       <IoIosLock

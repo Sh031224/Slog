@@ -51,8 +51,11 @@
         cursor: pointer;
         color: $ft-gray;
         color: var(--ft-gray);
-        right: 5rem;
+        right: 3rem;
         opacity: 0.8;
+        &-right {
+          right: 5rem;
+        }
       }
       &-lock {
         right: 3rem;
