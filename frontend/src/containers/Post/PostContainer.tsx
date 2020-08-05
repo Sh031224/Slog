@@ -308,21 +308,23 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   return (
     <>
-      <Helmet
-        title={post_info.title}
-        meta={[
-          { property: "og:type", content: "article" },
-          {
-            property: "og:title",
-            content: `${post_info.description}`
-          },
-          { property: "og:image", content: `${post_info.thumbnail}` },
-          {
-            property: "og:url",
-            content: `http://example.com/post/${post_info.idx}`
-          }
-        ]}
-      />
+      {!post_info.is_temp && (
+        <Helmet
+          title={post_info.title}
+          meta={[
+            { property: "og:type", content: "article" },
+            {
+              property: "og:title",
+              content: `${post_info.description}`
+            },
+            { property: "og:image", content: `${post_info.thumbnail}` },
+            {
+              property: "og:url",
+              content: `http://example.com/post/${post_info.idx}`
+            }
+          ]}
+        />
+      )}
       <Post
         createComment={createComment}
         modifyComment={modifyComment}
