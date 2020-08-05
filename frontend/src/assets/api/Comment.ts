@@ -69,6 +69,55 @@ class Comment {
       throw new Error(`${error}`);
     }
   }
+  //
+
+  async ModifyReply(reply_idx: number, content: string) {
+    try {
+      const url = `${server}/api/v1/reply/${reply_idx}`;
+      const body = {
+        content: content
+      };
+
+      const { data } = await axios.put(url, body);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
+  async DeleteReply(reply_idx: number) {
+    try {
+      const url = `${server}/api/v1/reply/${reply_idx}`;
+
+      const { data } = await axios.delete(url);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
+  async CreateReply(
+    comment_idx: number,
+    content: string,
+    is_private?: boolean
+  ) {
+    try {
+      const url = `${server}/api/v1/reply`;
+      const body = {
+        comment_idx: comment_idx,
+        content: content,
+        is_private: is_private
+      };
+
+      const { data } = await axios.post(url, body);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
 }
 
 export default new Comment();

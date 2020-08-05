@@ -1,6 +1,14 @@
-import { observable, action } from "mobx";
+import { action } from "mobx";
 import { autobind } from "core-decorators";
 import Comment from "../../assets/api/Comment";
+
+interface CommentTypeResponse {
+  status: number;
+  message: string;
+  data: {
+    comments: CommentType[];
+  };
+}
 
 interface CommentType {
   idx: number;
@@ -33,22 +41,25 @@ interface ReplyType {
   updated_at: Date;
 }
 
+interface PostCommentResponse {
+  status: number;
+  message: string;
+}
+
 @autobind
 class LoginStore {
-  @observable comments: CommentType[] = [];
-
   @action
-  getComments = async (post_idx: number) => {
+  getComments = async (post_idx: number): Promise<CommentTypeResponse> => {
     try {
       const response = await Comment.GetComments(post_idx);
 
-      this.comments = response.data.comments;
-
-      return new Promise((resolve, reject) => {
-        resolve(response);
-      });
+      return new Promise(
+        (resolve: (response: CommentTypeResponse) => void, reject) => {
+          resolve(response);
+        }
+      );
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -72,30 +83,123 @@ class LoginStore {
   };
 
   @action
-  modifyComment = async (comment_idx: number, content: string) => {
+  commentCreate = async (
+    post_idx: number,
+    content: string,
+    is_private?: boolean
+  ): Promise<PostCommentResponse> => {
     try {
-      const response = await Comment.ModifyComment(comment_idx, content);
+      const response = await Comment.CreateComment(
+        post_idx,
+        content,
+        is_private
+      );
 
-      return new Promise((resolve, reject) => {
-        resolve(response);
-      });
+      return new Promise(
+        (resolve: (response: PostCommentResponse) => void, reject) => {
+          resolve(response);
+        }
+      );
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
   };
 
   @action
-  deleteComment = async (comment_idx: number) => {
+  commentModify = async (
+    comment_idx: number,
+    content: string
+  ): Promise<PostCommentResponse> => {
+    try {
+      const response = await Comment.ModifyComment(comment_idx, content);
+
+      return new Promise(
+        (resolve: (response: PostCommentResponse) => void, reject) => {
+          resolve(response);
+        }
+      );
+    } catch (error) {
+      return new Promise((resolve, reject: (error: Error) => void) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
+  commentDelete = async (comment_idx: number): Promise<PostCommentResponse> => {
     try {
       const response = await Comment.DeleteComment(comment_idx);
 
-      return new Promise((resolve, reject) => {
-        resolve(response);
-      });
+      return new Promise(
+        (resolve: (response: PostCommentResponse) => void, reject) => {
+          resolve(response);
+        }
+      );
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject: (error: Error) => void) => {
+        reject(error);
+      });
+    }
+  };
+  @action
+  replyCreate = async (
+    comment_idx: number,
+    content: string,
+    is_private?: boolean
+  ): Promise<PostCommentResponse> => {
+    try {
+      const response = await Comment.CreateReply(
+        comment_idx,
+        content,
+        is_private
+      );
+
+      return new Promise(
+        (resolve: (response: PostCommentResponse) => void, reject) => {
+          resolve(response);
+        }
+      );
+    } catch (error) {
+      return new Promise((resolve, reject: (error: Error) => void) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
+  replyModify = async (
+    reply_idx: number,
+    content: string
+  ): Promise<PostCommentResponse> => {
+    try {
+      const response = await Comment.ModifyReply(reply_idx, content);
+
+      return new Promise(
+        (resolve: (response: PostCommentResponse) => void, reject) => {
+          resolve(response);
+        }
+      );
+    } catch (error) {
+      return new Promise((resolve, reject: (error: Error) => void) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
+  replyDelete = async (reply_idx: number): Promise<PostCommentResponse> => {
+    try {
+      const response = await Comment.DeleteReply(reply_idx);
+
+      return new Promise(
+        (resolve: (response: PostCommentResponse) => void, reject) => {
+          resolve(response);
+        }
+      );
+    } catch (error) {
+      return new Promise((resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
