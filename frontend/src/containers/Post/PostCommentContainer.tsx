@@ -79,13 +79,16 @@ const PostCommentContainer = ({
   }, [comment]);
 
   const setIsPrivateCallback = (status: boolean) => {
-    console.log(1);
     if (comment.is_private) {
       setIsPrivate(true);
     } else {
       setIsPrivate(status);
     }
   };
+
+  useEffect(() => {
+    setRefresh(refresh + 1);
+  }, [comment]);
 
   return (
     <>

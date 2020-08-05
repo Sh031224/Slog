@@ -102,16 +102,32 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   >({});
 
   useEffect(() => {
-    axios.defaults.headers.common["access_token"] = cookies.access_token;
-    if (cookies.access_token !== undefined) {
-      handleLoginChange(true);
-      handleUser(cookies.access_token);
-    } else {
-      handleLoginChange(false);
-      handleUser(cookies.access_token);
-    }
     getAllContent();
-  }, [idx, login]);
+  }, [idx]);
+
+  useEffect(() => {
+    try {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      if (cookies.access_token !== undefined) {
+        handleLoginChange(true);
+        handleUser(cookies.access_token);
+      } else {
+        handleLoginChange(false);
+        handleUser(cookies.access_token);
+      }
+      getCommentsCallback(Number(idx));
+    } catch (err) {
+      if (err.message === "Error: Request failed with status code 401") {
+        removeCookie("access_token", { path: "/" });
+        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
+      } else if (err.message === "Error: Request failed with status code 410") {
+        removeCookie("access_token", { path: "/" });
+        NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
+      } else {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      }
+    }
+  }, [login]);
 
   const getPostInfoCallback = useCallback(
     async (idx: number) => {
@@ -124,9 +140,13 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   const getCommentsCallback = useCallback(
     async (post_idx: number) => {
-      await getComments(post_idx).then((res: CommentTypeResponse) => {
-        setComments(res.data.comments);
-      });
+      await getComments(post_idx)
+        .then((res: CommentTypeResponse) => {
+          setComments(res.data.comments);
+        })
+        .catch((err: Error) => {
+          NotificationManager.error("오류가 발생하였습니다.", "Error");
+        });
     },
     [idx, post_info]
   );
