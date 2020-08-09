@@ -115,7 +115,11 @@ const Post = ({
               created_at={post.created_at}
               updated_at={post.updated_at}
             />
-            <ReactMarkdown className="post-content" source={post.content} />
+            <ReactMarkdown
+              className="post-content"
+              skipHtml={false}
+              source={post.content}
+            />
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
             <PostComment
               createComment={createComment}
