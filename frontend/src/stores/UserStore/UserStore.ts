@@ -55,15 +55,19 @@ class UserStore {
       const response = await Profile.GetProfile(access_token);
 
       if (!response) {
+        this.userId = -1;
         this.admin = false;
-      } else {
-        this.admin = response.data.user.is_admin;
-        this.userId = response.data.user.idx;
-
         return new Promise((resolve, reject) => {
-          resolve(response);
+          reject(new Error("401"));
         });
       }
+
+      this.admin = response.data.user.is_admin;
+      this.userId = response.data.user.idx;
+
+      return new Promise((resolve, reject) => {
+        resolve(response);
+      });
     } catch (error) {
       this.userId = -1;
       this.admin = false;

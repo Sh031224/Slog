@@ -106,18 +106,27 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   }, []);
 
   const handleAll = async (access_token: string) => {
-    axios.defaults.headers.common["access_token"] = cookies.access_token;
-    await handleUser(access_token);
-    if (Notification.permission === "granted") {
-      getFcmToken();
-    } else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then(
-        (permission: NotificationPermission) => {
-          if (permission === "granted") {
-            getFcmToken();
-          }
+    if (cookies.access_token !== undefined) {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      await handleUser(access_token).catch((err) => {
+        if (err.message === "401") {
+          removeCookie("access_token", { path: "/" });
+          handleLoginChange(false);
+          axios.defaults.headers.common["access_token"] = "";
+          haldleAdminFalse();
         }
-      );
+      });
+      if (Notification.permission === "granted") {
+        getFcmToken();
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(
+          (permission: NotificationPermission) => {
+            if (permission === "granted") {
+              getFcmToken();
+            }
+          }
+        );
+      }
     }
   };
 
@@ -126,7 +135,14 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
       if (cookies.access_token !== undefined) {
         handleLoginChange(true);
         axios.defaults.headers.common["access_token"] = cookies.access_token;
-        handleUser(cookies.access_token);
+        handleUser(cookies.access_token).catch((err) => {
+          if (err.message === "401") {
+            removeCookie("access_token", { path: "/" });
+            handleLoginChange(false);
+            axios.defaults.headers.common["access_token"] = "";
+            haldleAdminFalse();
+          }
+        });
       }
     } catch (err) {
       NotificationManager.error("오류가 발생하였습니다.", "Error");

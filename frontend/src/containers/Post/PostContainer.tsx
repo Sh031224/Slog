@@ -110,20 +110,19 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
       if (cookies.access_token !== undefined) {
         handleLoginChange(true);
-        handleUser(cookies.access_token);
+        handleUser(cookies.access_token).catch((err) => {
+          if (err.message === "401") {
+            removeCookie("access_token", { path: "/" });
+            handleLoginChange(false);
+            axios.defaults.headers.common["access_token"] = "";
+          }
+        });
       } else {
         handleLoginChange(false);
-        handleUser(cookies.access_token);
       }
       getCommentsCallback(Number(idx));
     } catch (err) {
-      if (err.message === "Error: Request failed with status code 401") {
-        removeCookie("access_token", { path: "/" });
-        handleLoginChange(false);
-        NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
-      } else {
-        NotificationManager.error("오류가 발생하였습니다.", "Error");
-      }
+      NotificationManager.error("오류가 발생하였습니다.", "Error");
     }
   }, [login]);
 
