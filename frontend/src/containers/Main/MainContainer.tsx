@@ -20,10 +20,6 @@ interface StoreType {
   PostStore: PostStore;
 }
 
-interface RefObject<T> {
-  readonly current: T | null;
-}
-
 const MainContainer = ({ store }: MainContainerProps) => {
   const {
     total_post,
@@ -84,11 +80,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
 
   useEffect(() => {
     handleCategoryList().catch((err) => {
-      if (err.status === 401) {
-        NotificationManager.warning("권한이 없습니다.", "Error");
-      } else {
-        NotificationManager.error("오류가 발생하였습니다.", "Error");
-      }
+      NotificationManager.error("오류가 발생하였습니다.", "Error");
     });
   }, []);
 
