@@ -1,5 +1,5 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
+import MarkdownContainer from "../../containers/Markdown/MarkdownContainer";
 import "./Post.scss";
 import PostComment from "./PostComment";
 import PostHeader from "./PostHeader";
@@ -115,11 +115,10 @@ const Post = ({
               created_at={post.created_at}
               updated_at={post.updated_at}
             />
-            <ReactMarkdown
-              className="post-content"
-              skipHtml={false}
-              source={post.content}
-            />
+
+            <MarkdownContainer className="post-content">
+              {post.content}
+            </MarkdownContainer>
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
             <PostComment
               createComment={createComment}
