@@ -1,16 +1,15 @@
 import React from "react";
 import MarkDown from "markdown-to-jsx";
-import "highlight.js/styles/magula.css";
+import "prismjs/themes/prism.css";
 import "./Markdown.scss";
 
 interface MarkdownProps {
   children: string;
-  rootRef: React.RefObject<HTMLDivElement>;
 }
 
-const Markdown = ({ rootRef, children }: MarkdownProps) => {
+const Markdown = ({ children }: MarkdownProps) => {
   return (
-    <div className="markdown-code" ref={rootRef}>
+    <div className="markdown-code">
       <MarkDown options={{ forceBlock: true }}>{children}</MarkDown>
     </div>
   );
