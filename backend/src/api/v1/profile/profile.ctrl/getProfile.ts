@@ -18,6 +18,7 @@ export default async (req: Request, res: Response) => {
   try {
     const userRepo = getRepository(User);
     const user = await userRepo.findOne({
+      select: ["idx", "name", "is_admin", "created_at"],
       where: {
         idx: idx
       }

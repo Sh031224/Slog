@@ -7,6 +7,10 @@ export default async (req: AuthRequest, res: Response) => {
   let user: User = req.user;
 
   try {
+    delete user.fcm;
+    delete user.fcm_allow;
+    delete user.id;
+
     logger.green("[GET] 프로필 조회 성공.");
     res.status(200).json({
       status: 200,
