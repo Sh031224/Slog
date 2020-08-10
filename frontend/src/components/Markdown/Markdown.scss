@@ -1,0 +1,34 @@
+@import "../../util/colors.scss";
+
+.markdown-code {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  blockquote {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    margin-left: 0px;
+    margin-right: 0px;
+    color: rgb(33, 37, 41);
+    border-left: 4px solid;
+    border-color: $ft-blue;
+    border-color: var(--ft-blue);
+    background-color: $bg-light-gray;
+    background-color: var(--bg-light-gray);
+    padding: 1rem 1rem 1rem 2rem;
+    & :first-child {
+      margin-top: 0px;
+    }
+    & :last-child {
+      margin-bottom: 0px;
+    }
+  }
+}
