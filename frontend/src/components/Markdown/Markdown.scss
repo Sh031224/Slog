@@ -1,6 +1,12 @@
 @import "../../util/colors.scss";
 
 .markdown-code {
+  font-size: 1.125rem;
+  color: rgb(34, 36, 38);
+  line-height: 1.7;
+  letter-spacing: -0.004em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
   h1,
   h2,
   h3,
@@ -30,5 +36,20 @@
     & :last-child {
       margin-bottom: 0px;
     }
+  }
+  pre {
+    font-family: "Fira Mono", source-code-pro, Menlo, Monaco, Consolas,
+      "Courier New", monospace;
+    font-size: 1rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    letter-spacing: 0px;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+  p > code {
+    background: rgba(27, 31, 35, 0.05);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
   }
 }
