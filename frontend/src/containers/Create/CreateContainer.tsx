@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import CategoryStore from "../../stores/CategoryStore";
@@ -37,6 +37,8 @@ const CreateContainer = ({ store }: CreateContainerProps) => {
   const { handleUser, admin, login, handleLoginChange } = store!.UserStore;
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const [source, setSource] = useState<string>("");
 
@@ -81,7 +83,7 @@ const CreateContainer = ({ store }: CreateContainerProps) => {
 
   return (
     <>
-      <Create source={source} setSource={setSource} />
+      <Create source={source} textAreaRef={textAreaRef} setSource={setSource} />
     </>
   );
 };
