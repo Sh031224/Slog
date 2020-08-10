@@ -24,7 +24,7 @@ const CreateContainer = ({ store }: CreateContainerProps) => {
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
-  const [source, setSource] = useState<string>("#asdf");
+  const [source, setSource] = useState<string>("");
 
   useEffect(() => {
     try {

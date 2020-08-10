@@ -1,5 +1,5 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
+import MarkdownContainer from "../../containers/Markdown/MarkdownContainer";
 import "./Create.scss";
 
 interface CreateProps {
@@ -15,8 +15,8 @@ const Create = ({ source, setSource }: CreateProps) => {
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
           setSource(e.target.value)
         }
-      ></textarea>
-      <ReactMarkdown source={source} />
+      />
+      <MarkdownContainer>{source}</MarkdownContainer>
     </>
   );
 };

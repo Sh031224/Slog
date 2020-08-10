@@ -2,12 +2,12 @@ import React, { useEffect, useRef } from "react";
 import Markdown from "../../components/Markdown";
 import hljs from "highlight.js";
 
-interface MarkDownContainerProps {
+interface MarkdownContainerProps {
   className?: string;
   children: string;
 }
 
-const MarkDownContainer = ({ children, className }: MarkDownContainerProps) => {
+const MarkdownContainer = ({ children, className }: MarkdownContainerProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,4 +36,4 @@ const MarkDownContainer = ({ children, className }: MarkDownContainerProps) => {
   );
 };
 
-export default MarkDownContainer;
+export default MarkdownContainer;
