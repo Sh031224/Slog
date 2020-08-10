@@ -7,7 +7,6 @@ import {
   ReactFacebookFailureResponse,
   ReactFacebookLoginInfo
 } from "react-facebook-login";
-import Swal from "sweetalert2";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import firebase from "firebase";
