@@ -114,7 +114,7 @@ export default async (req: Request, res: Response) => {
       let total_count = 0;
 
       if (posts[i].thumbnail) {
-        posts[i].thumbnail = generateURL(req, posts[i].idx, posts[i].thumbnail);
+        posts[i].thumbnail = generateURL(req, posts[i].thumbnail);
       }
       const commentRepo = getRepository(Comment);
       const [comments, comment_count] = await commentRepo.findAndCount({

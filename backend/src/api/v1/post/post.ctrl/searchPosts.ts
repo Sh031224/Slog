@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { getRepository, FindManyOptions, Like } from "typeorm";
+import { getRepository, Like } from "typeorm";
 import logger from "../../../../lib/logger";
 import Post from "../../../../entity/Post";
 import generateURL from "../../../../lib/util/generateURL";
@@ -21,7 +21,7 @@ export default async (req: Request, res: Response) => {
 
     posts.forEach((post: Post) => {
       if (!post.thumbnail) return;
-      post.thumbnail = generateURL(req, post.idx, post.thumbnail);
+      post.thumbnail = generateURL(req, post.thumbnail);
     });
 
     logger.green("[GET] 글 검색 성공.");

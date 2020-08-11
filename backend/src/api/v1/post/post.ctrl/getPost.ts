@@ -112,7 +112,7 @@ export default async (req: AuthRequest, res: Response) => {
     post.comment_count = total_count;
 
     if (post.thumbnail) {
-      post.thumbnail = generateURL(req, post.idx, post.thumbnail);
+      post.thumbnail = generateURL(req, post.thumbnail);
     }
 
     logger.green("[GET] 글 조회 성공.");
