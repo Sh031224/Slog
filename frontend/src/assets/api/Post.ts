@@ -70,6 +70,21 @@ class PostList {
       throw new Error(`${error}`);
     }
   }
+
+  async UploadFiles(files: File[]) {
+    try {
+      const url = `${server}/api/v1/upload`;
+
+      const formData = new FormData();
+      formData.append("files", files[0]);
+
+      const { data } = await axios.post(url, formData);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
 }
 
 export default new PostList();

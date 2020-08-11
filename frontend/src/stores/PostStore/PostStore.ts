@@ -27,6 +27,14 @@ interface PostType {
   created_at: Date;
 }
 
+interface UploadFilesResponse {
+  status: number;
+  message: string;
+  data: {
+    files: string[];
+  };
+}
+
 @autobind
 class PostStore {
   @observable
@@ -128,11 +136,28 @@ class PostStore {
     try {
       const response: Response = await Post.GetPostInfo(idx);
 
-      return new Promise((resolve: (arg1: Response) => void, reject) => {
+      return new Promise((resolve: (response: Response) => void, reject) => {
         resolve(response);
       });
     } catch (error) {
       return new Promise((resolve, reject) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
+  uploadFiles = async (files: File[]): Promise<UploadFilesResponse> => {
+    try {
+      const response: UploadFilesResponse = await Post.UploadFiles(files);
+
+      return new Promise(
+        (resolve: (response: UploadFilesResponse) => void, reject) => {
+          resolve(response);
+        }
+      );
+    } catch (error) {
+      return new Promise((resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
