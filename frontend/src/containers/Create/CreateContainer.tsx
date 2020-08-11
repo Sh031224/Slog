@@ -6,8 +6,8 @@ import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import { NotificationManager } from "react-notifications";
 import { inject, observer } from "mobx-react";
-import Create from "../../components/Create";
 import { useHistory } from "react-router-dom";
+import HandlePost from "../../components/common/HandlePost";
 
 interface CreateContainerProps {
   store?: StoreType;
@@ -34,13 +34,17 @@ interface GetProfileResponse {
 
 const CreateContainer = ({ store }: CreateContainerProps) => {
   const { categoryList, handleCategoryList } = store!.CategoryStore;
-  const { handleUser, admin, login, handleLoginChange } = store!.UserStore;
+  const { handleUser, login, handleLoginChange } = store!.UserStore;
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-  const [source, setSource] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [categoryIdx, setCategoryIdx] = useState<number>(-1);
+  const [thumbnail, setThumbnail] = useState<string>("");
 
   const history = useHistory();
 
@@ -83,7 +87,21 @@ const CreateContainer = ({ store }: CreateContainerProps) => {
 
   return (
     <>
-      <Create source={source} textAreaRef={textAreaRef} setSource={setSource} />
+      <HandlePost
+        edit={false}
+        loading={false}
+        title={title}
+        setTitle={setTitle}
+        description={description}
+        setDescription={setDescription}
+        content={content}
+        setContent={setContent}
+        categoryIdx={categoryIdx}
+        setCategoryIdx={setCategoryIdx}
+        thumbnail={thumbnail}
+        setThumbnail={setThumbnail}
+        textAreaRef={textAreaRef}
+      />
     </>
   );
 };
