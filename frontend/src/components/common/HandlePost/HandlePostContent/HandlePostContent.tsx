@@ -1,6 +1,7 @@
 import React from "react";
 import MarkdownContainer from "../../../../containers/Markdown/MarkdownContainer";
 import "./HandlePostContent.scss";
+import { FiCode, FiEye } from "react-icons/fi";
 
 interface HandlePostContentProps {
   content: string;
@@ -13,20 +14,61 @@ const HandlePostContent = ({
   setContent,
   textAreaRef
 }: HandlePostContentProps) => {
+  const toggleClass = (idx: number) => {
+    if (idx === 0) {
+      document
+        .getElementsByClassName("handle-post-content-box-header-change-item")[0]
+        .classList.add("handle-post-content-box-header-active");
+      document
+        .getElementsByClassName("handle-post-content-box-header-change-item")[1]
+        .classList.remove("handle-post-content-box-header-active");
+
+      document
+        .getElementsByClassName("handle-post-content-preview")[0]
+        .classList.remove("handle-post-content-selected");
+      document
+        .getElementsByClassName("handle-post-content-box-textarea")[0]
+        .classList.add("handle-post-content-selected");
+    } else {
+      document
+        .getElementsByClassName("handle-post-content-box-header-change-item")[1]
+        .classList.add("handle-post-content-box-header-active");
+      document
+        .getElementsByClassName("handle-post-content-box-header-change-item")[0]
+        .classList.remove("handle-post-content-box-header-active");
+
+      document
+        .getElementsByClassName("handle-post-content-preview")[0]
+        .classList.add("handle-post-content-selected");
+      document
+        .getElementsByClassName("handle-post-content-box-textarea")[0]
+        .classList.remove("handle-post-content-selected");
+    }
+  };
+
   return (
     <div className="handle-post-content">
       <div className="handle-post-content-box">
         <div className="handle-post-content-box-header">
           <div className="handle-post-content-box-header-change">
-            <div className="handle-post-content-box-header-active handle-post-content-box-header-change-item">
+            <div
+              onClick={() => toggleClass(0)}
+              className="handle-post-content-box-header-active handle-post-content-box-header-change-item"
+            >
+              <FiCode className="handle-post-content-box-header-change-item-icon" />
               Edit
             </div>
-            <div className="handle-post-content-box-header-change-item">
+            <div
+              onClick={() => toggleClass(1)}
+              className="handle-post-content-box-header-change-item"
+            >
+              <FiEye className="handle-post-content-box-header-change-item-icon" />
               Preview
             </div>
           </div>
         </div>
         <textarea
+          className="handle-post-content-box-textarea handle-post-content-selected"
           ref={textAreaRef}
           value={content}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -48,7 +90,9 @@ const HandlePostContent = ({
             }
           }}
         />
-        <MarkdownContainer>{content}</MarkdownContainer>
+        <MarkdownContainer className="handle-post-content-preview">
+          {content}
+        </MarkdownContainer>
       </div>
     </div>
   );
