@@ -2,19 +2,30 @@ import React from "react";
 import MarkdownContainer from "../../../../containers/Markdown/MarkdownContainer";
 import "./HandlePostContent.scss";
 import { FiCode, FiEye } from "react-icons/fi";
+import { AiOutlinePicture } from "react-icons/ai";
+import HandlePostUpload from "../HandlePostUpload";
 
 interface HandlePostContentProps {
   content: string;
   setContent: React.Dispatch<React.SetStateAction<string>>;
+  isUpload: boolean;
+  setIsUpload: React.Dispatch<React.SetStateAction<boolean>>;
+  setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  uploadFilesCallback: (files: File[]) => Promise<void>;
   textAreaRef: React.RefObject<HTMLTextAreaElement>;
 }
 
 const HandlePostContent = ({
   content,
   setContent,
+  setFiles,
+  isUpload,
+  setIsUpload,
+  uploadFilesCallback,
   textAreaRef
 }: HandlePostContentProps) => {
   const toggleClass = (idx: number) => {
+    setIsUpload(false);
     if (idx === 0) {
       document
         .getElementsByClassName("handle-post-content-box-header-change-item")[0]
@@ -56,7 +67,7 @@ const HandlePostContent = ({
               className="handle-post-content-box-header-active handle-post-content-box-header-change-item"
             >
               <FiCode className="handle-post-content-box-header-change-item-icon" />
-              Edit
+              Edit Content
             </div>
             <div
               onClick={() => toggleClass(1)}
@@ -66,7 +77,16 @@ const HandlePostContent = ({
               Preview
             </div>
           </div>
+          <div className="handle-post-content-box-header-image">
+            <AiOutlinePicture onClick={() => setIsUpload(!isUpload)} />
+          </div>
         </div>
+        {isUpload && (
+          <HandlePostUpload
+            setFiles={setFiles}
+            uploadFilesCallback={uploadFilesCallback}
+          />
+        )}
         <textarea
           className="handle-post-content-box-textarea handle-post-content-selected"
           ref={textAreaRef}

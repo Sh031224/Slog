@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import CategoryStore from "../../stores/CategoryStore";
@@ -32,9 +32,18 @@ interface GetProfileResponse {
   };
 }
 
+interface UploadFilesResponse {
+  status: number;
+  message: string;
+  data: {
+    files: string[];
+  };
+}
+
 const CreateContainer = ({ store }: CreateContainerProps) => {
   const { categoryList, handleCategoryList } = store!.CategoryStore;
   const { handleUser, login, handleLoginChange } = store!.UserStore;
+  const { uploadFiles } = store!.PostStore;
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
@@ -45,8 +54,25 @@ const CreateContainer = ({ store }: CreateContainerProps) => {
   const [content, setContent] = useState<string>("");
   const [categoryIdx, setCategoryIdx] = useState<number>(-1);
   const [thumbnail, setThumbnail] = useState<string>("");
+  const [isUpload, setIsUpload] = useState<boolean>(false);
+  const [files, setFiles] = useState<File[]>([]);
 
   const history = useHistory();
+
+  const uploadFilesCallback = useCallback(
+    async (files: File[]) => {
+      await uploadFiles(files)
+        .then((res: UploadFilesResponse) => {
+          setContent(`${content}\n![image](${res.data.files[0]})`);
+          setIsUpload(false);
+          NotificationManager.success("사진이 업로드 되었습니다.", "Success");
+        })
+        .catch((err: Error) => {
+          NotificationManager.error("오류가 발생하였습니다.", "Error");
+        });
+    },
+    [files]
+  );
 
   const validateAdmin = () => {
     try {
@@ -100,6 +126,10 @@ const CreateContainer = ({ store }: CreateContainerProps) => {
         setCategoryIdx={setCategoryIdx}
         thumbnail={thumbnail}
         setThumbnail={setThumbnail}
+        isUpload={isUpload}
+        setIsUpload={setIsUpload}
+        setFiles={setFiles}
+        uploadFilesCallback={uploadFilesCallback}
         textAreaRef={textAreaRef}
       />
     </>

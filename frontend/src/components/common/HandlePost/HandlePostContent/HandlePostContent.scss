@@ -8,6 +8,8 @@
   &-preview {
     display: none;
     width: 100%;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
     padding: 0.3rem 1rem;
     height: 40rem;
     overflow: scroll;
@@ -18,6 +20,7 @@
     border: 1px solid;
     border-color: $bd-light-light-gray;
     border-color: var(--bd-light-light-gray);
+    position: relative;
     &-header {
       display: table;
       width: 100%;
@@ -45,9 +48,20 @@
             border-top-left-radius: 5px;
           }
           &-icon {
+            font-size: 1.1rem;
             color: $ft-little-gray;
             margin-right: 0.8rem;
           }
+        }
+      }
+      &-image {
+        display: inline-block;
+        width: calc(100% - 20rem);
+        text-align: center;
+        font-size: 1.2rem;
+        color: $ft-dark-gray;
+        svg {
+          cursor: pointer;
         }
       }
       &-active {
@@ -60,6 +74,7 @@
       }
     }
     &-textarea {
+      font-family: NotoSansKR;
       padding: 1rem;
       font-size: 1rem;
       border: none;
@@ -68,6 +83,8 @@
       height: 40rem;
       overflow: scroll;
       display: none;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
       &:focus {
         outline: none;
       }

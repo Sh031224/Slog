@@ -16,6 +16,10 @@ interface HandlePostProps {
   setCategoryIdx: React.Dispatch<React.SetStateAction<number>>;
   thumbnail: string;
   setThumbnail: React.Dispatch<React.SetStateAction<string>>;
+  isUpload: boolean;
+  setIsUpload: React.Dispatch<React.SetStateAction<boolean>>;
+  setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  uploadFilesCallback: (files: File[]) => Promise<void>;
   textAreaRef: React.RefObject<HTMLTextAreaElement>;
 }
 
@@ -32,6 +36,10 @@ const HandlePost = ({
   setCategoryIdx,
   thumbnail,
   setThumbnail,
+  isUpload,
+  setIsUpload,
+  setFiles,
+  uploadFilesCallback,
   textAreaRef
 }: HandlePostProps) => {
   return (
@@ -44,7 +52,11 @@ const HandlePost = ({
             textAreaRef={textAreaRef}
             content={content}
             setContent={setContent}
-          ></HandlePostContent>
+            setFiles={setFiles}
+            isUpload={isUpload}
+            setIsUpload={setIsUpload}
+            uploadFilesCallback={uploadFilesCallback}
+          />
         )}
       </div>
     </div>
