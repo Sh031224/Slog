@@ -1,7 +1,7 @@
 import React from "react";
 import MarkDown from "markdown-to-jsx";
-import "prismjs/themes/prism.css";
 import "./Markdown.scss";
+import "prismjs/themes/prism.css";
 
 interface MarkdownProps {
   children: string;

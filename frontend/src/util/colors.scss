@@ -4,7 +4,7 @@
 $bg-white: #ffff;
 $bg-fb: #3578e5;
 $bg-light-gray: rgb(241, 243, 245);
-$bg-so-light-gray: rgb(250, 250, 250);
+$bg-so-light-gray: #fafbfc;
 $bg-pop-up: rgba(0, 0, 0, 0.329);
 $bg-gray: #ededed;
 
@@ -25,6 +25,7 @@ $ft-black: black;
 $bd-light-gray: #c0c0c0;
 $bd-so-light-gray: #e0e0e0;
 $bd-dark-white: #dfdfdf85;
+$bd-light-light-gray: #e1e4e8;
 
 $sd-black: rgba(0, 0, 0, 0.096);
 $sd-light-black: rgba(0, 0, 0, 0.055);
@@ -36,7 +37,7 @@ $sd-light-black: rgba(0, 0, 0, 0.055);
   --bg-white: #ffff;
   --bg-fb: #3578e5;
   --bg-light-gray: rgb(241, 243, 245);
-  --bg-so-light-gray: rgb(250, 250, 250);
+  --bg-so-light-gray: #fafbfc;
 
   /*
     color
@@ -54,4 +55,5 @@ $sd-light-black: rgba(0, 0, 0, 0.055);
   --bd-light-gray: #c0c0c0;
   --bd-dark-white: #dfdfdf85;
   --bd-so-light-gray: #e0e0e0;
+  --bd-light-light-gray: #e1e4e8;
 }
