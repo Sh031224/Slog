@@ -9,8 +9,6 @@ interface PostReplyProps {
   login: boolean;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
   deleteReply: (reply_idx: number) => Promise<void>;
-  setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  refresh: number;
 }
 
 interface ReplyType {
@@ -30,9 +28,7 @@ const PostReply = ({
   userId,
   login,
   modifyReply,
-  deleteReply,
-  setRefresh,
-  refresh
+  deleteReply
 }: PostReplyProps) => {
   return (
     <>
@@ -41,8 +37,6 @@ const PostReply = ({
           return (
             <PostReplyHandleContainer
               key={index}
-              refresh={refresh}
-              setRefresh={setRefresh}
               modifyReply={modifyReply}
               deleteReply={deleteReply}
               reply={reply}

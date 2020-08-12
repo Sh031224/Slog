@@ -66,7 +66,6 @@ const PostCommentContainer = ({
   const [reply, setReply] = useState<boolean>(false);
   const [replyInput, setReplyInput] = useState<string>("");
   const [isPrivate, setIsPrivate] = useState<boolean>(comment.is_private);
-  const [refresh, setRefresh] = useState<number>(0);
 
   const cancelModify = useCallback(() => {
     setModify(false);
@@ -76,25 +75,22 @@ const PostCommentContainer = ({
   const cancelReply = useCallback(() => {
     setReply(false);
     setReplyInput("");
-  }, [comment]);
+  }, []);
 
-  const setIsPrivateCallback = (status: boolean) => {
-    if (comment.is_private) {
-      setIsPrivate(true);
-    } else {
-      setIsPrivate(status);
-    }
-  };
-
-  useEffect(() => {
-    setRefresh(refresh + 1);
-  }, [comment]);
+  const setIsPrivateCallback = useCallback(
+    (status: boolean) => {
+      if (comment.is_private) {
+        setIsPrivate(true);
+      } else {
+        setIsPrivate(status);
+      }
+    },
+    [comment]
+  );
 
   return (
     <>
       <PostCommentItem
-        refresh={refresh}
-        setRefresh={setRefresh}
         reply={reply}
         cancelReply={cancelReply}
         setReply={setReply}

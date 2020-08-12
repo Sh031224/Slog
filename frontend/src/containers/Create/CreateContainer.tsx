@@ -59,22 +59,25 @@ const CreateContainer = ({ store }: CreateContainerProps) => {
 
   const history = useHistory();
 
-  const uploadFilesCallback = useCallback(
-    async (files: File[]) => {
-      await uploadFiles(files)
-        .then((res: UploadFilesResponse) => {
-          setContent(`${content}\n![image](${res.data.files[0]})`);
-          setIsUpload(false);
-          NotificationManager.success("사진이 업로드 되었습니다.", "Success");
-        })
-        .catch((err: Error) => {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
-        });
-    },
-    [files]
-  );
+  const uploadFilesCallback = useCallback(async (files: File[]) => {
+    await uploadFiles(files)
+      .then((res: UploadFilesResponse) => {
+        setContent(`${content}\n![image](${res.data.files[0]})`);
+        setIsUpload(false);
+        NotificationManager.success("사진이 업로드 되었습니다.", "Success");
+      })
+      .catch((err: Error) => {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      });
+  }, []);
 
-  const validateAdmin = () => {
+  const handleCategoryListCallback = useCallback(() => {
+    handleCategoryList().catch(() =>
+      NotificationManager.error("오류가 발생하였습니다.", "Error")
+    );
+  }, []);
+
+  const validateAdmin = useCallback(() => {
     try {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
       if (cookies.access_token !== undefined) {
@@ -99,17 +102,15 @@ const CreateContainer = ({ store }: CreateContainerProps) => {
     } catch (err) {
       NotificationManager.error("오류가 발생하였습니다.", "Error");
     }
-  };
-
-  useEffect(() => {
-    validateAdmin();
   }, [login]);
 
   useEffect(() => {
-    handleCategoryList().catch((err) => {
-      NotificationManager.error("오류가 발생하였습니다.", "Error");
-    });
-  }, []);
+    validateAdmin();
+  }, [validateAdmin]);
+
+  useEffect(() => {
+    handleCategoryListCallback();
+  }, [handleCategoryListCallback]);
 
   return (
     <>

@@ -1,5 +1,6 @@
 import React, { KeyboardEvent, useCallback, useState } from "react";
 import PostCommentCreate from "../../components/Post/PostComment/PostCommentCreate";
+import { NotificationManager } from "react-notifications";
 
 interface PostCommentCreateContainerProps {
   createComment: (
@@ -22,9 +23,13 @@ const PostCommentCreateContainer = ({
   const commentEnter = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {
-        createComment(post_idx, commentInput, isPrivate).catch(() =>
-          alert("로그인 후 작성 가능합니다.")
-        );
+        createComment(post_idx, commentInput, isPrivate).catch((err: Error) => {
+          if (err.message === "Error: Request failed with status code 401") {
+            NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
+          } else {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
+          }
+        });
         setCommentInput("");
         setIsPrivate(false);
       }
@@ -33,8 +38,14 @@ const PostCommentCreateContainer = ({
   );
 
   const commentCreate = useCallback(async () => {
-    await createComment(post_idx, commentInput, isPrivate).catch(() =>
-      alert("로그인 후 작성 가능합니다.")
+    await createComment(post_idx, commentInput, isPrivate).catch(
+      (err: Error) => {
+        if (err.message === "Error: Request failed with status code 401") {
+          NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
+        } else {
+          NotificationManager.error("오류가 발생하였습니다.", "Error");
+        }
+      }
     );
     setCommentInput("");
     setIsPrivate(false);

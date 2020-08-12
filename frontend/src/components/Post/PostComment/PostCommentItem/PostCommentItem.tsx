@@ -34,8 +34,6 @@ interface PostCommentItemProps {
   deleteReply: (reply_idx: number) => Promise<void>;
   isPrivate: boolean;
   setIsPrivateCallback: (status: boolean) => void;
-  refresh: number;
-  setRefresh: Dispatch<SetStateAction<number>>;
 }
 
 interface RepliesResponse {
@@ -91,9 +89,7 @@ const PostCommentItem = ({
   modifyReply,
   deleteReply,
   isPrivate,
-  setIsPrivateCallback,
-  refresh,
-  setRefresh
+  setIsPrivateCallback
 }: PostCommentItemProps) => {
   return (
     <div className="post-comment-item">
@@ -116,8 +112,7 @@ const PostCommentItem = ({
               comment_idx={comment.idx}
               admin={admin}
               getReplies={getReplies}
-              refresh={refresh}
-              setRefresh={setRefresh}
+              comment={comment}
               modifyReply={modifyReply}
               deleteReply={deleteReply}
             />
@@ -162,10 +157,9 @@ const PostCommentItem = ({
               </div>
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
+                  comment={comment}
                   modifyReply={modifyReply}
                   deleteReply={deleteReply}
-                  refresh={refresh}
-                  setRefresh={setRefresh}
                   userId={userId}
                   comment_idx={comment.idx}
                   admin={admin}
@@ -235,7 +229,6 @@ const PostCommentItem = ({
                         } else if (e.key === "Enter") {
                           await createReply(comment.idx, replyInput, isPrivate);
                           cancelReply();
-                          setRefresh(refresh + 1);
                         }
                       }}
                       placeholder="내용을 입력해주세요."
@@ -259,7 +252,6 @@ const PostCommentItem = ({
                       onClick={async () => {
                         await createReply(comment.idx, replyInput);
                         cancelReply();
-                        setRefresh(refresh + 1);
                       }}
                       className="post-comment-item-input-box-submit"
                     />
@@ -268,10 +260,9 @@ const PostCommentItem = ({
               )}
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
-                  refresh={refresh}
+                  comment={comment}
                   modifyReply={modifyReply}
                   deleteReply={deleteReply}
-                  setRefresh={setRefresh}
                   userId={userId}
                   comment_idx={comment.idx}
                   admin={admin}

@@ -18,8 +18,6 @@ interface PostReplyItemProps {
   setModifyInput: React.Dispatch<React.SetStateAction<string>>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
   deleteReply: (reply_idx: number) => Promise<void>;
-  setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  refresh: number;
 }
 
 interface ReplyType {
@@ -44,9 +42,7 @@ const PostReplyItem = ({
   setModifyInput,
   modifyInput,
   modifyReply,
-  deleteReply,
-  setRefresh,
-  refresh
+  deleteReply
 }: PostReplyItemProps) => {
   return (
     <div className="post-reply-item">
@@ -81,7 +77,6 @@ const PostReplyItem = ({
                     if (e.key === "Enter") {
                       await modifyReply(reply.idx, modifyInput);
                       cancelModify();
-                      setRefresh(refresh + 1);
                     }
                   }}
                   placeholder="내용을 입력해주세요."
@@ -94,7 +89,6 @@ const PostReplyItem = ({
                   onClick={async () => {
                     await modifyReply(reply.idx, modifyInput);
                     cancelModify();
-                    setRefresh(refresh + 1);
                   }}
                   className="post-reply-item-input-box-submit"
                 />
