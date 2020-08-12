@@ -1,93 +1,14 @@
 @import "../../../../util/colors.scss";
 
-.handle-post-content {
-  margin-top: 2.5rem;
-  &-selected {
-    display: block !important;
-  }
-  &-preview {
-    display: none;
-    width: 100%;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    padding: 0.3rem 1rem;
-    height: 40rem;
-    overflow: scroll;
-  }
-  &-box {
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid;
-    border-color: $bd-light-light-gray;
-    border-color: var(--bd-light-light-gray);
-    position: relative;
-    &-header {
-      display: table;
-      width: 100%;
-      border-bottom: 1px solid;
-      border-color: $bd-light-light-gray;
-      border-color: var(--bd-light-light-gray);
-      background-color: $bg-so-light-gray;
-      background-color: var(--bg-so-light-gray);
-      border-top-left-radius: 5px;
-      border-top-right-radius: 5px;
-      position: relative;
-      padding: 0.25rem 0.5rem;
-      &-change {
-        margin: calc(-0.25rem - 1px) 0 calc(-0.25rem - 1px) calc(-0.5rem - 1px);
-        cursor: pointer;
-        display: inline-block;
-        &-item {
-          display: inline-flex;
-          align-items: center;
-          padding: 0.8rem 1.2rem;
-          color: #24292e;
-          line-height: 23px;
-          font-size: 0.9rem;
-          &:first-child {
-            border-top-left-radius: 5px;
-          }
-          &-icon {
-            font-size: 1.1rem;
-            color: $ft-little-gray;
-            margin-right: 0.8rem;
-          }
-        }
-      }
-      &-image {
-        display: inline-block;
-        width: calc(100% - 20rem);
-        text-align: center;
-        font-size: 1.2rem;
-        color: $ft-dark-gray;
-        svg {
-          cursor: pointer;
-        }
-      }
-      &-active {
-        background-color: #fff;
-        border: 1px solid transparent;
-        border-bottom: 0;
-        border-color: $bd-light-light-gray;
-        border-color: var(--bd-light-light-gray);
-        font-weight: 600;
-      }
-    }
-    &-textarea {
-      font-family: NotoSansKR;
-      padding: 1rem;
-      font-size: 1rem;
-      border: none;
-      resize: none;
-      width: 100%;
-      height: 40rem;
-      overflow: scroll;
-      display: none;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-      &:focus {
-        outline: none;
-      }
+.handle-post-content-thumbnail {
+  display: flex;
+  align-items: center;
+  margin-top: 0.8rem;
+  input {
+    margin-left: 3rem;
+    width: calc(100% - 20% - 3rem);
+    &:focus {
+      outline: none;
     }
   }
 }
