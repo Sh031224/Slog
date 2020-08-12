@@ -1,11 +1,13 @@
 import React from "react";
 import PostLoading from "../../Post/PostLoading";
 import "./HandlePost.scss";
+import HandlePostCategory from "./HandlePostCategory";
 import HandlePostContent from "./HandlePostContent";
 import HandlePostHeader from "./HandlePostHeader";
 import HandlePostThumbnail from "./HandlePostThumbnail";
 
 interface HandlePostProps {
+  categoryList: CategoryType[];
   edit: boolean;
   loading: boolean;
   title: string;
@@ -25,7 +27,14 @@ interface HandlePostProps {
   textAreaRef: React.RefObject<HTMLTextAreaElement>;
 }
 
+interface CategoryType {
+  idx: number;
+  name: string;
+  post_count: number;
+}
+
 const HandlePost = ({
+  categoryList,
   edit,
   loading,
   title,
@@ -52,7 +61,17 @@ const HandlePost = ({
         ) : (
           <>
             <HandlePostHeader />
-            {/* <HandlePostThumbnail /> */}
+            <div className="handle-post-box-util">
+              <HandlePostThumbnail
+                thumbnail={thumbnail}
+                setThumbnail={setThumbnail}
+              />
+              <HandlePostCategory
+                categoryList={categoryList}
+                categoryIdx={categoryIdx}
+                setCategoryIdx={setCategoryIdx}
+              />
+            </div>
             <HandlePostContent
               textAreaRef={textAreaRef}
               content={content}

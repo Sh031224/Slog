@@ -115,6 +115,7 @@ const CreateContainer = ({ store }: CreateContainerProps) => {
   return (
     <>
       <HandlePost
+        categoryList={categoryList}
         edit={false}
         loading={false}
         title={title}
