@@ -159,9 +159,6 @@ const MainContainer = ({ store }: MainContainerProps) => {
     setNotfound(true);
     if (search.indexOf("tab=") !== -1 || search === "") {
       setPage(1);
-      handlePostsCallback().catch(() => {
-        NotificationManager.error("오류가 발생하였습니다.", "Error");
-      });
     } else if (search.indexOf("temp") !== -1) {
       handleTempPostsCallback();
     } else {

@@ -20,7 +20,7 @@ class Profile {
 
       return data;
     } catch (error) {
-      return false;
+      throw new Error(`${error}`);
     }
   }
 
