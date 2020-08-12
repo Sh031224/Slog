@@ -2,6 +2,8 @@ import React from "react";
 import PostLoading from "../../Post/PostLoading";
 import "./HandlePost.scss";
 import HandlePostContent from "./HandlePostContent";
+import HandlePostHeader from "./HandlePostHeader";
+import HandlePostThumbnail from "./HandlePostThumbnail";
 
 interface HandlePostProps {
   edit: boolean;
@@ -48,15 +50,19 @@ const HandlePost = ({
         {loading ? (
           <PostLoading />
         ) : (
-          <HandlePostContent
-            textAreaRef={textAreaRef}
-            content={content}
-            setContent={setContent}
-            setFiles={setFiles}
-            isUpload={isUpload}
-            setIsUpload={setIsUpload}
-            uploadFilesCallback={uploadFilesCallback}
-          />
+          <>
+            <HandlePostHeader />
+            {/* <HandlePostThumbnail /> */}
+            <HandlePostContent
+              textAreaRef={textAreaRef}
+              content={content}
+              setContent={setContent}
+              setFiles={setFiles}
+              isUpload={isUpload}
+              setIsUpload={setIsUpload}
+              uploadFilesCallback={uploadFilesCallback}
+            />
+          </>
         )}
       </div>
     </div>

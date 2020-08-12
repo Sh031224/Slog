@@ -88,6 +88,7 @@ const HandlePostContent = ({
           />
         )}
         <textarea
+          onClick={() => toggleClass(0)}
           className="handle-post-content-box-textarea handle-post-content-selected"
           ref={textAreaRef}
           value={content}
