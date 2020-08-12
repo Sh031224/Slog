@@ -8,6 +8,30 @@ interface PostParmsType {
   category?: number;
 }
 
+interface CreateTempPostType {
+  title: string;
+  description: string | null;
+  content: string | null;
+  thumbnail: string | null;
+  category_idx: number | null;
+}
+
+interface CreatePostType {
+  title: string;
+  description: string;
+  content: string;
+  thumbnail: string | null;
+  category_idx: number;
+}
+
+interface ModifyPostType {
+  title: string;
+  description: string;
+  content: string;
+  thumbnail: string | null;
+  category_idx: number;
+}
+
 class PostList {
   async GetTempPosts() {
     try {
@@ -79,6 +103,54 @@ class PostList {
       formData.append("files", files[0]);
 
       const { data } = await axios.post(url, formData);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
+  async CreateTempPost(body: CreateTempPostType) {
+    try {
+      const url = `${server}/api/v1/post/temp`;
+
+      const { data } = await axios.post(url, body);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
+  async CreatePost(body: CreatePostType) {
+    try {
+      const url = `${server}/api/v1/post`;
+
+      const { data } = await axios.post(url, body);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
+  async ModifyPost(post_idx: number, body: ModifyPostType) {
+    try {
+      const url = `${server}/api/v1/post/${post_idx}`;
+
+      const { data } = await axios.put(url, body);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
+  async DeletePost(post_idx: number) {
+    try {
+      const url = `${server}/api/v1/post/${post_idx}`;
+
+      const { data } = await axios.delete(url);
 
       return data;
     } catch (error) {
