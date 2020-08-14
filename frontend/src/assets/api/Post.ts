@@ -26,10 +26,11 @@ interface CreatePostType {
 
 interface ModifyPostType {
   title: string;
-  description: string;
-  content: string;
+  description: string | null;
+  content: string | null;
   thumbnail: string | null;
-  category_idx: number;
+  category_idx?: number;
+  is_temp?: boolean;
 }
 
 class PostList {

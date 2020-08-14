@@ -3,16 +3,15 @@ import AuthRequest from "../../../../type/AuthRequest";
 import { getRepository } from "typeorm";
 import { validateCreateTemp } from "../../../../lib/validation/post";
 import logger from "../../../../lib/logger";
-import User from "../../../../entity/User";
 import Category from "../../../../entity/Category";
 import Post from "../../../../entity/Post";
 
 export default async (req: AuthRequest, res: Response) => {
   if (!validateCreateTemp(req, res)) return;
 
-  const user: User = req.user;
   type RequestBody = {
     title: string;
+    description: string;
     content: string;
     category_idx: number;
     thumbnail: string;
@@ -44,6 +43,7 @@ export default async (req: AuthRequest, res: Response) => {
     const post = new Post();
 
     post.title = data.title;
+    post.description = data.description;
     post.content = data.content || "임시저장";
     post.is_temp = true;
     post.thumbnail = data.thumbnail;
@@ -54,7 +54,10 @@ export default async (req: AuthRequest, res: Response) => {
     logger.green("[POST] 글 임시 저장 성공.");
     res.status(200).json({
       status: 200,
-      message: "글 임시 저장 성공."
+      message: "글 임시 저장 성공.",
+      data: {
+        idx: post.idx
+      }
     });
   } catch (err) {
     logger.red("[POST] 글 임시 저장 서버 오류.", err.message);
