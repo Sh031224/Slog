@@ -9868,6 +9868,11 @@ react-transition-group@^1.2.0:
     prop-types "^15.5.6"
     warning "^3.0.0"
 
+react-useinterval@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-useinterval/-/react-useinterval-1.0.1.tgz#4bb90349d18b0fc04d6567edacf476d515b5cf49"
+  integrity sha512-+UxgKd7p7D3cBS6/o2uwBStsFcoKIagRdN21so/ud1k1e6r4WDCHsSjY36aT3n6WvVgpZPk3JtbN4IFfxt69Pg==
+
 react@^16.12.0, react@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
@@ -11183,11 +11188,6 @@ svgo@^1.0.0, svgo@^1.2.2:
     stable "^0.1.8"
     unquote "~1.1.1"
     util.promisify "~1.0.0"
-
-sweetalert2@^9.17.0:
-  version "9.17.1"
-  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-9.17.1.tgz#3d3c8d2dd8b44aeec6a01bf611be265143586bd1"
-  integrity sha512-D/VE2lT/bKd64/RBglLUtQ+3nsftzjzIiP2iqN6zPzPwf+2djIY+4k8Bg430zxRUn4DkZzyIuU58q3n0J43lvw==
 
 symbol-tree@^3.2.2:
   version "3.2.4"

@@ -38,7 +38,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-scroll-to-top": "^1.0.5",
-    "sweetalert2": "^9.17.0",
+    "react-useinterval": "^1.0.1",
     "time-counting": "^1.0.5",
     "typescript": "~3.7.2"
   },
