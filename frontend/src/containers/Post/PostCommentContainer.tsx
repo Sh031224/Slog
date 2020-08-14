@@ -7,7 +7,7 @@ interface PostCommentContainerProps {
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
   userId: number;
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
-  deleteComment: (comment_idx: number) => Promise<void>;
+  deleteComment: (comment_idx: number) => void;
   login: boolean;
   createReply: (
     comment_idx: number,
@@ -15,7 +15,7 @@ interface PostCommentContainerProps {
     is_private?: boolean | undefined
   ) => Promise<void>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => Promise<void>;
+  deleteReply: (reply_idx: number) => void;
 }
 
 interface RepliesResponse {

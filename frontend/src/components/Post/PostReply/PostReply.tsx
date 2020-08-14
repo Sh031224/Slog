@@ -8,7 +8,7 @@ interface PostReplyProps {
   userId: number;
   login: boolean;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => Promise<void>;
+  deleteReply: (reply_idx: number) => void;
 }
 
 interface ReplyType {

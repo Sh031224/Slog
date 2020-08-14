@@ -9,6 +9,8 @@ import { Helmet } from "react-helmet-async";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { NotificationManager } from "react-notifications";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 interface PostContainerProps extends RouteComponentProps<MatchType> {
   store?: StoreType;
@@ -45,6 +47,14 @@ interface PostInfoType {
   comment_count: number;
 }
 
+interface GetPostInfoResponse {
+  status: number;
+  message: string;
+  data: {
+    post: PostInfoType;
+  };
+}
+
 interface PostCommentResponse {
   status: number;
   message: string;
@@ -70,13 +80,27 @@ interface CommentType {
   reply_count: number;
 }
 
+interface GetPostCommentCountResponse {
+  status: number;
+  message: string;
+  data: {
+    total_count: number;
+  };
+}
+
 const PostContainer = ({ match, store }: PostContainerProps) => {
   const history = useHistory();
   const { idx } = match.params;
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
-  const { getPostInfo, hit_posts, handleHitPosts } = store!.PostStore;
+  const {
+    getPostInfo,
+    hit_posts,
+    handleHitPosts,
+    deletePost,
+    getPostCommentCount
+  } = store!.PostStore;
   const {
     getComments,
     getReplies,
@@ -87,24 +111,21 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     replyModify,
     replyDelete
   } = store!.CommentStore;
-  const {
-    handleUser,
-    admin,
-    login,
-    userId,
-    handleLoginChange
-  } = store!.UserStore;
+  const { admin, login, userId, handleLoginChange } = store!.UserStore;
 
   const [comments, setComments] = useState<CommentType[]>([]);
   const [loading, setLoading] = useState(false);
+  const [handler, setHandler] = useState<boolean>(false);
+  const [commentCount, setCommentCount] = useState<number>(0);
   const [post_info, setPostInfo] = useState<
     PostInfoType | SetStateAction<PostInfoType | any>
   >({});
 
   const getPostInfoCallback = useCallback(
     async (idx: number) => {
-      await getPostInfo(idx).then((response: any) => {
+      await getPostInfo(idx).then((response: GetPostInfoResponse) => {
         setPostInfo(response.data.post);
+        setCommentCount(response.data.post.comment_count);
       });
     },
     [idx]
@@ -156,6 +177,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
       try {
         await commentCreate(post_idx, content, is_private);
         await getCommentsCallback(post_idx);
+        await getPostCommentCount(post_idx).then(
+          (res: GetPostCommentCountResponse) => {
+            setCommentCount(res.data.total_count);
+          }
+        );
       } catch (err) {
         if (err.message === "Error: Request failed with status code 401") {
           removeCookie("access_token", { path: "/" });
@@ -197,7 +223,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     [login, idx]
   );
 
-  const deleteComment = useCallback(
+  const deleteCommentCallback = useCallback(
     async (comment_idx: number) => {
       try {
         await commentDelete(comment_idx).then((res: PostCommentResponse) => {
@@ -206,6 +232,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
           }
         });
         await getCommentsCallback(Number(idx));
+        await getPostCommentCount(Number(idx)).then(
+          (res: GetPostCommentCountResponse) => {
+            setCommentCount(res.data.total_count);
+          }
+        );
       } catch (err) {
         if (err.message === "Error: Request failed with status code 403") {
           NotificationManager.warning("권한이 없습니다.", "Error");
@@ -222,11 +253,38 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     [login, idx]
   );
 
+  const deleteComment = useCallback(
+    async (comment_idx: number) => {
+      confirmAlert({
+        title: "Warning",
+        message: "정말로 삭제하시겠습니까?",
+        buttons: [
+          {
+            label: "Yes",
+            onClick: () => deleteCommentCallback(comment_idx)
+          },
+          {
+            label: "No",
+            onClick: () => {
+              return;
+            }
+          }
+        ]
+      });
+    },
+    [deleteCommentCallback]
+  );
+
   const createReply = useCallback(
     async (comment_idx: number, content: string, is_private?: boolean) => {
       try {
         await replyCreate(comment_idx, content, is_private);
-        await getCommentsCallback(post_info.idx);
+        await getCommentsCallback(Number(idx));
+        await getPostCommentCount(Number(idx)).then(
+          (res: GetPostCommentCountResponse) => {
+            setCommentCount(res.data.total_count);
+          }
+        );
       } catch (err) {
         if (err.message === "Error: Request failed with status code 403") {
           NotificationManager.warning("권한이 없습니다.", "Error");
@@ -254,7 +312,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
             }
           }
         );
-        await getCommentsCallback(post_info.idx);
+        await getCommentsCallback(Number(idx));
       } catch (err) {
         if (err.message === "Error: Request failed with status code 403") {
           NotificationManager.warning("권한이 없습니다.", "Error");
@@ -272,7 +330,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     [login]
   );
 
-  const deleteReply = useCallback(
+  const deleteReplyCallback = useCallback(
     async (reply_idx: number) => {
       try {
         await replyDelete(reply_idx).then((res: PostCommentResponse) => {
@@ -280,7 +338,12 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
             NotificationManager.success("댓글을 삭제하였습니다.", "Success");
           }
         });
-        await getCommentsCallback(post_info.idx);
+        await getCommentsCallback(Number(idx));
+        await getPostCommentCount(Number(idx)).then(
+          (res: GetPostCommentCountResponse) => {
+            setCommentCount(res.data.total_count);
+          }
+        );
       } catch (err) {
         if (err.message === "Error: Request failed with status code 403") {
           NotificationManager.warning("권한이 없습니다.", "Error");
@@ -296,6 +359,60 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     },
     [login]
   );
+
+  const deleteReply = useCallback(
+    (reply_idx: number) => {
+      confirmAlert({
+        title: "Warning",
+        message: "정말로 삭제하시겠습니까?",
+        buttons: [
+          {
+            label: "Yes",
+            onClick: () => deleteReplyCallback(reply_idx)
+          },
+          {
+            label: "No",
+            onClick: () => {
+              return;
+            }
+          }
+        ]
+      });
+    },
+    [deleteReplyCallback]
+  );
+
+  const editPost = useCallback(() => {
+    history.push(`/handle/${Number(idx)}`);
+  }, [idx]);
+
+  const deletePostCallback = useCallback(() => {
+    deletePost(Number(idx))
+      .then((res) => {
+        history.push("/");
+        NotificationManager.success("게시글을 삭제하였습니다.", "Success");
+      })
+      .catch((err: Error) => {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      });
+  }, [idx]);
+
+  const deletePostAlert = useCallback(() => {
+    confirmAlert({
+      title: "Warning",
+      message: "정말로 삭제하시겠습니까?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => deletePostCallback()
+        },
+        {
+          label: "No",
+          onClick: () => setHandler(false)
+        }
+      ]
+    });
+  }, [idx]);
 
   useEffect(() => {
     getAllContent();
@@ -325,6 +442,10 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         />
       )}
       <Post
+        commentCount={commentCount}
+        deletePostAlert={deletePostAlert}
+        handler={handler}
+        setHandler={setHandler}
         createComment={createComment}
         modifyComment={modifyComment}
         deleteComment={deleteComment}
@@ -339,6 +460,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         comments={comments}
         post={post_info}
         hit_posts={hit_posts}
+        editPost={editPost}
       />
     </>
   );
