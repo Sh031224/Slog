@@ -352,7 +352,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
   }, [isNew]);
 
   const cancelBtn = () => {
-    history.goForward();
+    history.goBack();
   };
 
   const savePostHandle = useCallback(() => {
