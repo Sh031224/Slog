@@ -1,0 +1,23 @@
+@import "../../../../util/colors.scss";
+
+.handle-post-header {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3rem;
+  input {
+    border: 1px solid;
+    border-color: $bd-light-light-gray;
+    border-color: var(--bd-light-light-gray);
+    border-radius: 5px;
+    padding: 0.75rem;
+    outline: none;
+    margin-bottom: 1rem;
+    &:focus {
+      border: 2px solid;
+      border-color: $bd-light-gray;
+    }
+    &:first-child {
+      font-size: 1.3rem;
+    }
+  }
+}

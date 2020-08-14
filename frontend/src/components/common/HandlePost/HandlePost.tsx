@@ -60,7 +60,12 @@ const HandlePost = ({
           <PostLoading />
         ) : (
           <>
-            <HandlePostHeader />
+            <HandlePostHeader
+              title={title}
+              setTitle={setTitle}
+              description={description}
+              setDescription={setDescription}
+            />
             <div className="handle-post-box-util">
               <HandlePostThumbnail
                 thumbnail={thumbnail}
