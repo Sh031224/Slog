@@ -2,11 +2,11 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import MainPage from "../pages/MainPage";
 import PostPage from "../pages/PostPage";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import CreatePage from "../pages/CreatePage";
-const config = require("../config/firebase.json");
+import { option } from "../config/firebase.json";
 
-firebase.initializeApp(config);
+firebase.initializeApp(option);
 
 const App = () => {
   return (
