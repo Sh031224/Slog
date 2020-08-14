@@ -7,6 +7,7 @@ import Post from "../../../../entity/Post";
 import logger from "../../../../lib/logger";
 import Comment from "../../../../entity/Comment";
 import * as admin from "firebase-admin";
+import generateURL from "../../../../lib/util/generateURL";
 
 export default async (req: AuthRequest, res: Response) => {
   if (!validateCreate) return;
@@ -58,7 +59,9 @@ export default async (req: AuthRequest, res: Response) => {
       const message = {
         webpush: {
           notification: {
+            icon: generateURL(req, "logo.png"),
             title: `${user.name}님께서 댓글을 남겼습니다.`,
+            body: `${comment.content.substring(0, 20)}`,
             click_action: `http://localhost:3000/post/${post.idx}`
           }
         },
