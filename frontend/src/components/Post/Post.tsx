@@ -34,6 +34,7 @@ interface PostProps {
   deletePostAlert: () => void;
   editPost: () => void;
   commentCount: number;
+  adminId: number;
 }
 
 interface RepliesResponse {
@@ -110,7 +111,8 @@ const Post = ({
   setHandler,
   deletePostAlert,
   editPost,
-  commentCount
+  commentCount,
+  adminId
 }: PostProps) => {
   return (
     <div className="post">
@@ -136,6 +138,7 @@ const Post = ({
             </MarkdownContainer>
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
             <PostComment
+              adminId={adminId}
               commentCount={commentCount}
               createComment={createComment}
               deleteComment={deleteComment}

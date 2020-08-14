@@ -24,6 +24,8 @@ class UserStore {
 
   @observable userId = -1;
 
+  @observable adminId!: number;
+
   @action
   handleLogin = async (access_token: string) => {
     try {
@@ -63,11 +65,31 @@ class UserStore {
     }
   };
 
+  @action handleAdminProfile = async (): Promise<GetProfileResponse> => {
+    try {
+      const response: GetProfileResponse = await Profile.GetAdminProfile();
+
+      this.adminId = response.data.user.idx;
+
+      return new Promise(
+        (resolve: (response: GetProfileResponse) => void, reject) => {
+          resolve(response);
+        }
+      );
+    } catch (error) {
+      return new Promise((resolve, reject: (error: Error) => void) => {
+        reject(error);
+      });
+    }
+  };
+
   @action handleUser = async (
     access_token: string
   ): Promise<GetProfileResponse> => {
     try {
-      const response = await Profile.GetProfile(access_token);
+      const response: GetProfileResponse = await Profile.GetProfile(
+        access_token
+      );
 
       this.admin = response.data.user.is_admin;
       this.userId = response.data.user.idx;

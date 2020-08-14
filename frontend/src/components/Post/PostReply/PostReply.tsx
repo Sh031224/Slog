@@ -9,6 +9,7 @@ interface PostReplyProps {
   login: boolean;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
   deleteReply: (reply_idx: number) => void;
+  adminId: number;
 }
 
 interface ReplyType {
@@ -28,7 +29,8 @@ const PostReply = ({
   userId,
   login,
   modifyReply,
-  deleteReply
+  deleteReply,
+  adminId
 }: PostReplyProps) => {
   return (
     <>
@@ -36,6 +38,7 @@ const PostReply = ({
         {replies.map((reply: ReplyType, index: number) => {
           return (
             <PostReplyHandleContainer
+              adminId={adminId}
               key={index}
               modifyReply={modifyReply}
               deleteReply={deleteReply}

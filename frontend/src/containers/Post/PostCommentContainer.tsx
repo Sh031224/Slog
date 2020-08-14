@@ -16,6 +16,7 @@ interface PostCommentContainerProps {
   ) => Promise<void>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
   deleteReply: (reply_idx: number) => void;
+  adminId: number;
 }
 
 interface RepliesResponse {
@@ -59,7 +60,8 @@ const PostCommentContainer = ({
   login,
   createReply,
   modifyReply,
-  deleteReply
+  deleteReply,
+  adminId
 }: PostCommentContainerProps) => {
   const [modify, setModify] = useState<boolean>(false);
   const [modifyInput, setModifyInput] = useState<string>(comment.content);
@@ -91,6 +93,7 @@ const PostCommentContainer = ({
   return (
     <>
       <PostCommentItem
+        adminId={adminId}
         reply={reply}
         cancelReply={cancelReply}
         setReply={setReply}

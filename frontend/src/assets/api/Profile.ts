@@ -35,6 +35,18 @@ class Profile {
       return false;
     }
   }
+
+  async GetAdminProfile() {
+    try {
+      const url = `${server}/api/v1/profile/admin`;
+
+      const { data } = await axios.get(url);
+
+      return data;
+    } catch (error) {
+      return false;
+    }
+  }
 }
 
 export default new Profile();

@@ -26,6 +26,7 @@ interface PostCommentProps {
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
   deleteReply: (reply_idx: number) => void;
   commentCount: number;
+  adminId: number;
 }
 
 interface RepliesResponse {
@@ -73,7 +74,8 @@ const PostComment = ({
   createReply,
   modifyReply,
   deleteReply,
-  commentCount
+  commentCount,
+  adminId
 }: PostCommentProps) => {
   return (
     <div className="post-comment">
@@ -88,6 +90,7 @@ const PostComment = ({
       {comments.map((comment: CommentType) => {
         return (
           <PostCommentContainer
+            adminId={adminId}
             createReply={createReply}
             modifyReply={modifyReply}
             deleteReply={deleteReply}

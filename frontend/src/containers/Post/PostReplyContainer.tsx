@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState
-} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PostReply from "../../components/Post/PostReply";
 
 interface PostReplyContainerProps {
@@ -16,6 +10,7 @@ interface PostReplyContainerProps {
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
   deleteReply: (reply_idx: number) => void;
+  adminId: number;
 }
 
 interface RepliesResponse {
@@ -57,7 +52,8 @@ const PostReplyContainer = ({
   login,
   modifyReply,
   deleteReply,
-  comment
+  comment,
+  adminId
 }: PostReplyContainerProps) => {
   const [replies, setReplies] = useState<ReplyType[]>([]);
 
@@ -74,6 +70,7 @@ const PostReplyContainer = ({
   return (
     <>
       <PostReply
+        adminId={adminId}
         modifyReply={modifyReply}
         deleteReply={deleteReply}
         replies={replies}

@@ -8,6 +8,7 @@ interface PostReplyHandleContainerProps {
   login: boolean;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
   deleteReply: (reply_idx: number) => void;
+  adminId: number;
 }
 
 interface ReplyType {
@@ -27,7 +28,8 @@ const PostReplyHandleContainer = ({
   reply,
   login,
   modifyReply,
-  deleteReply
+  deleteReply,
+  adminId
 }: PostReplyHandleContainerProps) => {
   const [modify, setModify] = useState<boolean>(false);
   const [modifyInput, setModifyInput] = useState<string>(reply.content);
@@ -40,6 +42,7 @@ const PostReplyHandleContainer = ({
   return (
     <>
       <PostReplyItem
+        adminId={adminId}
         setModifyInput={setModifyInput}
         modifyInput={modifyInput}
         modifyReply={modifyReply}

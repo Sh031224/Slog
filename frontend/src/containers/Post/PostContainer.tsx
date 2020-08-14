@@ -111,7 +111,14 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     replyModify,
     replyDelete
   } = store!.CommentStore;
-  const { admin, login, userId, handleLoginChange } = store!.UserStore;
+  const {
+    admin,
+    login,
+    userId,
+    adminId,
+    handleLoginChange,
+    handleAdminProfile
+  } = store!.UserStore;
 
   const [comments, setComments] = useState<CommentType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -161,6 +168,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     try {
       await getHitPostsCallback();
       await getPostInfoCallback(Number(idx));
+      await handleAdminProfile().catch((err: Error) => {
+        console.log(err);
+      });
       setLoading(false);
     } catch (err) {
       if (err.message === "Error: Request failed with status code 404") {
@@ -442,6 +452,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         />
       )}
       <Post
+        adminId={adminId}
         commentCount={commentCount}
         deletePostAlert={deletePostAlert}
         handler={handler}

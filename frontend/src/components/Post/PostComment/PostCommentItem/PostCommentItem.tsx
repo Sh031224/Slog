@@ -5,7 +5,11 @@ import PostReplyContainer from "../../../../containers/Post/PostReplyContainer";
 import TimeCounting from "time-counting";
 import { GoPencil } from "react-icons/go";
 import { MdCancel } from "react-icons/md";
-import { IoIosLock, IoIosUnlock } from "react-icons/io";
+import {
+  IoIosLock,
+  IoIosUnlock,
+  IoMdCheckmarkCircleOutline
+} from "react-icons/io";
 
 interface PostCommentItemProps {
   comment: CommentType;
@@ -34,6 +38,7 @@ interface PostCommentItemProps {
   isPrivate: boolean;
   setIsPrivateCallback: (status: boolean) => void;
   deleteReply: (reply_idx: number) => void;
+  adminId: number;
 }
 
 interface RepliesResponse {
@@ -89,7 +94,8 @@ const PostCommentItem = ({
   modifyReply,
   deleteReply,
   isPrivate,
-  setIsPrivateCallback
+  setIsPrivateCallback,
+  adminId
 }: PostCommentItemProps) => {
   return (
     <div className="post-comment-item">
@@ -107,6 +113,7 @@ const PostCommentItem = ({
           </div>
           {comment.reply_count !== 0 && (
             <PostReplyContainer
+              adminId={adminId}
               login={login}
               userId={userId}
               comment_idx={comment.idx}
@@ -157,6 +164,7 @@ const PostCommentItem = ({
               </div>
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
+                  adminId={adminId}
                   comment={comment}
                   modifyReply={modifyReply}
                   deleteReply={deleteReply}
@@ -172,6 +180,9 @@ const PostCommentItem = ({
             <div className="post-comment-item-box">
               <div className="post-comment-item-box-title">
                 {comment.fk_user_name}
+                {comment.fk_user_idx === adminId && (
+                  <IoMdCheckmarkCircleOutline className="post-comment-item-box-title-admin" />
+                )}
                 {comment.is_private && (
                   <IoIosLock className="post-comment-item-box-title-lock" />
                 )}
@@ -260,6 +271,7 @@ const PostCommentItem = ({
               )}
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
+                  adminId={adminId}
                   comment={comment}
                   modifyReply={modifyReply}
                   deleteReply={deleteReply}
