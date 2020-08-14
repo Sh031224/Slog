@@ -1,13 +1,13 @@
 import React from "react";
 import MainTemplate from "../components/common/Template/MainTemplate";
-import CreateContainer from "../containers/Create/CreateContainer";
+import HandleContainer from "../containers/Handle/HandleContainer";
 
-const CreatePage = () => {
+const HandlePage = () => {
   return (
     <MainTemplate>
-      <CreateContainer />
+      <HandleContainer />
     </MainTemplate>
   );
 };
 
-export default CreatePage;
+export default HandlePage;

@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import MainPage from "../pages/MainPage";
 import PostPage from "../pages/PostPage";
 import firebase from "firebase/app";
-import CreatePage from "../pages/CreatePage";
+import HandlePage from "../pages/HandlePage";
 import { option } from "../config/firebase.json";
 
 firebase.initializeApp(option);
@@ -14,7 +14,7 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={MainPage} />
         <Route path="/post/:idx" component={PostPage} />
-        <Route path="/create" component={CreatePage} />
+        <Route path="/handle/:idx" component={HandlePage} />
       </Switch>
     </div>
   );
