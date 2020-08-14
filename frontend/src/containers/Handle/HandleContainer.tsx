@@ -8,6 +8,7 @@ import { NotificationManager } from "react-notifications";
 import { inject, observer } from "mobx-react";
 import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
 import HandlePost from "../../components/common/HandlePost";
+import useInterval from "react-useinterval";
 
 interface HandleContainerProps extends RouteComponentProps<MatchType> {
   store?: StoreType;
@@ -140,13 +141,13 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
       };
 
       if (content === "") {
-        body.content = null;
+        body.content = "임시 저장";
       }
       if (categoryIdx === -1) {
         delete body.category_idx;
       }
       if (description === "") {
-        body.description = null;
+        body.description = "임시저장 글입니다.";
       }
 
       if (thumbnail === "") {
@@ -155,7 +156,15 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
 
       await modifyPost(Number(idx), body)
         .then((res) => {
-          history.push(`/post/${idx}`);
+          if (content === "") {
+            setContent("임시 저장");
+          }
+          if (description === "") {
+            setDescription("임시저장 글입니다.");
+          }
+          if (!isTemp) {
+            history.push(`/post/${idx}`);
+          }
           NotificationManager.success("저장 되었습니다.", "Success");
         })
         .catch((err: Error) => {
@@ -238,7 +247,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
             delete body.category_idx;
           }
           if (description === "") {
-            body.description = null;
+            body.description = "";
           }
         }
 
@@ -263,7 +272,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
   const uploadFilesCallback = useCallback(async (files: File[]) => {
     await uploadFiles(files)
       .then((res: UploadFilesResponse) => {
-        setContent(`${content}\n![image](${res.data.files[0]})`);
+        setContent((content) => content + `\n![image](${res.data.files[0]})`);
         setIsUpload(false);
         NotificationManager.success("사진이 업로드 되었습니다.", "Success");
       })
@@ -342,6 +351,10 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
     }
   }, [isNew]);
 
+  const cancelBtn = () => {
+    history.goForward();
+  };
+
   const savePostHandle = useCallback(() => {
     if (isNew) {
       createPostCallback();
@@ -374,10 +387,21 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
     handleCategoryListCallback();
   }, [handleCategoryListCallback]);
 
+  const autoSaveCallback = useCallback(() => {
+    if (isTemp) {
+      if (title !== "") {
+        tempPostHandle();
+      }
+    }
+  }, [title, isTemp]);
+
+  useInterval(autoSaveCallback, 250000);
+
   return (
     <>
       {isNew ? (
         <HandlePost
+          cancelBtn={cancelBtn}
           categoryList={categoryList}
           loading={false}
           title={title}
@@ -401,6 +425,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
         />
       ) : (
         <HandlePost
+          cancelBtn={cancelBtn}
           categoryList={categoryList}
           loading={loading}
           title={title}

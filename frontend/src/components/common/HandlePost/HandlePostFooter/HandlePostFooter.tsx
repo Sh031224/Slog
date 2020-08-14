@@ -5,16 +5,20 @@ interface HandlePostFooterProps {
   tempPostHandle: () => void;
   savePostHandle: () => void;
   isTemp: boolean;
+  cancelBtn: () => void;
 }
 
 const HandlePostFooter = ({
   tempPostHandle,
   savePostHandle,
-  isTemp
+  isTemp,
+  cancelBtn
 }: HandlePostFooterProps) => {
   return (
     <div className="handle-post-footer">
-      <div className="handle-post-footer-cancel">취소</div>
+      <div className="handle-post-footer-cancel" onClick={() => cancelBtn()}>
+        취소
+      </div>
       {isTemp && (
         <div
           className="handle-post-footer-temp"

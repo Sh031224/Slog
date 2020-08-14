@@ -28,6 +28,7 @@ interface HandlePostProps {
   savePostHandle: () => void;
   tempPostHandle: () => void;
   isTemp: boolean;
+  cancelBtn: () => void;
 }
 
 interface CategoryType {
@@ -56,7 +57,8 @@ const HandlePost = ({
   textAreaRef,
   savePostHandle,
   isTemp,
-  tempPostHandle
+  tempPostHandle,
+  cancelBtn
 }: HandlePostProps) => {
   return (
     <div className="handle-post">
@@ -92,6 +94,7 @@ const HandlePost = ({
               uploadFilesCallback={uploadFilesCallback}
             />
             <HandlePostFooter
+              cancelBtn={cancelBtn}
               isTemp={isTemp}
               savePostHandle={savePostHandle}
               tempPostHandle={tempPostHandle}
