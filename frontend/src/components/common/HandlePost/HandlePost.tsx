@@ -3,12 +3,12 @@ import PostLoading from "../../Post/PostLoading";
 import "./HandlePost.scss";
 import HandlePostCategory from "./HandlePostCategory";
 import HandlePostContent from "./HandlePostContent";
+import HandlePostFooter from "./HandlePostFooter";
 import HandlePostHeader from "./HandlePostHeader";
 import HandlePostThumbnail from "./HandlePostThumbnail";
 
 interface HandlePostProps {
   categoryList: CategoryType[];
-  edit: boolean;
   loading: boolean;
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -25,6 +25,9 @@ interface HandlePostProps {
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
   uploadFilesCallback: (files: File[]) => Promise<void>;
   textAreaRef: React.RefObject<HTMLTextAreaElement>;
+  savePostHandle: () => void;
+  tempPostHandle: () => void;
+  isTemp: boolean;
 }
 
 interface CategoryType {
@@ -35,7 +38,6 @@ interface CategoryType {
 
 const HandlePost = ({
   categoryList,
-  edit,
   loading,
   title,
   setTitle,
@@ -51,7 +53,10 @@ const HandlePost = ({
   setIsUpload,
   setFiles,
   uploadFilesCallback,
-  textAreaRef
+  textAreaRef,
+  savePostHandle,
+  isTemp,
+  tempPostHandle
 }: HandlePostProps) => {
   return (
     <div className="handle-post">
@@ -85,6 +90,11 @@ const HandlePost = ({
               isUpload={isUpload}
               setIsUpload={setIsUpload}
               uploadFilesCallback={uploadFilesCallback}
+            />
+            <HandlePostFooter
+              isTemp={isTemp}
+              savePostHandle={savePostHandle}
+              tempPostHandle={tempPostHandle}
             />
           </>
         )}

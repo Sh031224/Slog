@@ -146,6 +146,10 @@ const MainContainer = ({ store }: MainContainerProps) => {
       });
   }, [search, page]);
 
+  const createPost = () => {
+    history.push("/handle/new");
+  };
+
   const handleTempPostsCallback = useCallback(async () => {
     setLoading(true);
     await handleTempPosts()
@@ -160,11 +164,17 @@ const MainContainer = ({ store }: MainContainerProps) => {
       });
   }, []);
 
-  useEffect(() => {
+  const handleQueryCallbacks = useCallback(() => {
     initPosts();
     setNotfound(true);
     if (search.indexOf("tab=") !== -1 || search === "") {
-      setPage(1);
+      if (page === 1) {
+        handlePostsCallback().catch(() => {
+          NotificationManager.error("오류가 발생하였습니다.", "Error");
+        });
+      } else {
+        setPage(1);
+      }
     } else if (search.indexOf("temp") !== -1) {
       handleTempPostsCallback();
     } else {
@@ -172,6 +182,10 @@ const MainContainer = ({ store }: MainContainerProps) => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
     }
+  }, [search, page]);
+
+  useEffect(() => {
+    handleQueryCallbacks();
   }, [search]);
 
   return (
@@ -189,6 +203,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
         ]}
       />
       <Main
+        createPost={createPost}
         lastCardEl={lastCardEl}
         notfound={notfound}
         loading={loading}
