@@ -12,6 +12,8 @@ const HandlePostThumbnail = ({
 }: HandlePostThumbnailProps) => {
   return (
     <input
+      placeholder="미리보기 이미지를 넣어주세요."
+      className="handle-post-thumbnail"
       type="text"
       value={thumbnail}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
