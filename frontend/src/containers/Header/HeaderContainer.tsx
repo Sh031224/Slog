@@ -9,7 +9,7 @@ import {
 } from "react-facebook-login";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import {
   NotificationContainer,
   NotificationManager
@@ -130,19 +130,21 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   }, []);
 
   const handleLoginCallback = useCallback(() => {
-    if (cookies.access_token !== undefined) {
-      axios.defaults.headers.common["access_token"] = cookies.access_token;
-      handleLoginChange(true);
-      handleUser(cookies.access_token).catch((err) => {
-        if (err.message === "Error: Request failed with status code 401") {
-          removeCookie("access_token", { path: "/" });
-          handleLoginChange(false);
-          axios.defaults.headers.common["access_token"] = "";
-        } else {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
-          handleLoginChange(false);
-        }
-      });
+    if (!login) {
+      if (cookies.access_token !== undefined) {
+        axios.defaults.headers.common["access_token"] = cookies.access_token;
+        handleLoginChange(true);
+        handleUser(cookies.access_token).catch((err) => {
+          if (err.message === "Error: Request failed with status code 401") {
+            removeCookie("access_token", { path: "/" });
+            handleLoginChange(false);
+            axios.defaults.headers.common["access_token"] = "";
+          } else {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
+            handleLoginChange(false);
+          }
+        });
+      }
     }
   }, [login, cookies]);
 

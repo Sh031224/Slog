@@ -78,11 +78,17 @@ const MainContainer = ({ store }: MainContainerProps) => {
     }
   });
 
-  useEffect(() => {
-    handleCategoryList().catch((err) => {
-      NotificationManager.error("오류가 발생하였습니다.", "Error");
-    });
+  const handleCategoryListCallback = useCallback(() => {
+    if (categoryList.length === 0) {
+      handleCategoryList().catch(() =>
+        NotificationManager.error("오류가 발생하였습니다.", "Error")
+      );
+    }
   }, []);
+
+  useEffect(() => {
+    handleCategoryListCallback();
+  }, [handleCategoryListCallback]);
 
   useEffect(() => {
     if (search.indexOf("temp") !== 1) {
