@@ -21,14 +21,19 @@ interface PostProps {
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
   userId: number;
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
-  deleteComment: (comment_idx: number) => Promise<void>;
+  deleteComment: (comment_idx: number) => void;
   createReply: (
     comment_idx: number,
     content: string,
     is_private?: boolean | undefined
   ) => Promise<void>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => Promise<void>;
+  deleteReply: (reply_idx: number) => void;
+  handler: boolean;
+  setHandler: React.Dispatch<React.SetStateAction<boolean>>;
+  deletePostAlert: () => void;
+  editPost: () => void;
+  commentCount: number;
 }
 
 interface RepliesResponse {
@@ -100,7 +105,12 @@ const Post = ({
   deleteComment,
   createReply,
   modifyReply,
-  deleteReply
+  deleteReply,
+  handler,
+  setHandler,
+  deletePostAlert,
+  editPost,
+  commentCount
 }: PostProps) => {
   return (
     <div className="post">
@@ -110,6 +120,11 @@ const Post = ({
         ) : (
           <>
             <PostHeader
+              editPost={editPost}
+              deletePostAlert={deletePostAlert}
+              handler={handler}
+              setHandler={setHandler}
+              admin={admin}
               thumbnail={post.thumbnail}
               title={post.title}
               created_at={post.created_at}
@@ -121,6 +136,7 @@ const Post = ({
             </MarkdownContainer>
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
             <PostComment
+              commentCount={commentCount}
               createComment={createComment}
               deleteComment={deleteComment}
               modifyComment={modifyComment}

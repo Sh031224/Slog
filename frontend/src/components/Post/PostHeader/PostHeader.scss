@@ -12,6 +12,40 @@
   }
   &-container {
     width: 100%;
+    &-handle {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+      &-btn {
+        cursor: pointer;
+        font-size: 1.3rem;
+        color: $ft-light-gray;
+        color: var(--ft-light-gray);
+      }
+      &-box {
+        position: absolute;
+        display: flex;
+        bottom: -5rem;
+        flex-direction: column;
+        border: 1px solid;
+        border-color: $bd-light-gray;
+        border-color: var(--bd-light-gray);
+        border-radius: 5px;
+        color: $ft-dark-gray;
+        color: var(--ft-dark-gray);
+        div {
+          padding: 0.5rem;
+          font-size: 0.9rem;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          svg {
+            margin-left: 0.5rem;
+          }
+        }
+      }
+    }
     &-title {
       width: 100%;
       font-size: 2.7rem;

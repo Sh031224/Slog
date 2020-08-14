@@ -13,7 +13,7 @@ interface PostCommentItemProps {
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
   userId: number;
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
-  deleteComment: (comment_idx: number) => Promise<void>;
+  deleteComment: (comment_idx: number) => void;
   modify: boolean;
   setModify: Dispatch<SetStateAction<boolean>>;
   modifyInput: string;
@@ -31,9 +31,9 @@ interface PostCommentItemProps {
     is_private?: boolean | undefined
   ) => Promise<void>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => Promise<void>;
   isPrivate: boolean;
   setIsPrivateCallback: (status: boolean) => void;
+  deleteReply: (reply_idx: number) => void;
 }
 
 interface RepliesResponse {
