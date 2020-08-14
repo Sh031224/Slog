@@ -26,6 +26,7 @@
     "node-sass": "^4.14.1",
     "prismjs": "^1.21.0",
     "react": "^16.13.1",
+    "react-confirm-alert": "^2.6.1",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
     "react-facebook-login": "^4.1.1",
