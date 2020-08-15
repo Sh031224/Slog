@@ -8,6 +8,8 @@ import stores from "./stores";
 import "./util/util.scss";
 import { HelmetProvider } from "react-helmet-async";
 
+const rootElement = document.getElementById("root");
+
 ReactDOM.render(
   <HelmetProvider>
     <Provider store={stores}>
@@ -16,7 +18,7 @@ ReactDOM.render(
       </BrowserRouter>
     </Provider>
   </HelmetProvider>,
-  document.getElementById("root")
+  rootElement
 );
 
 // If you want your app to work offline and load faster, you can change

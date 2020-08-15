@@ -5,10 +5,11 @@ import CategoryStore from "../../stores/CategoryStore";
 import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
-import { Helmet } from "react-helmet-async";
-import logo from "../../assets/images/logo.png";
 import { useHistory, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
+import Privacy from "../../components/Privacy";
+import { Helmet } from "react-helmet-async";
+import logo from "../../assets/images/op_img.png";
 
 interface MainContainerProps {
   store?: StoreType;
@@ -50,9 +51,10 @@ const MainContainer = ({ store }: MainContainerProps) => {
   const { search } = useLocation();
   const history = useHistory();
 
-  const [categoryEdit, setCategoryEdit] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [notfound, setNotfound] = useState(true);
+  const [categoryEdit, setCategoryEdit] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [notfound, setNotfound] = useState<boolean>(true);
+  const [privacy, setPrivacy] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(0);
 
@@ -165,6 +167,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
   }, []);
 
   const handleQueryCallbacks = useCallback(() => {
+    setPrivacy(false);
     initPosts();
     setNotfound(true);
     if (search.indexOf("tab=") !== -1 || search === "") {
@@ -177,6 +180,8 @@ const MainContainer = ({ store }: MainContainerProps) => {
       }
     } else if (search.indexOf("temp") !== -1) {
       handleTempPostsCallback();
+    } else if (search.indexOf("privacy") !== -1) {
+      setPrivacy(true);
     } else {
       handlePostSearchCallback().catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
@@ -190,43 +195,46 @@ const MainContainer = ({ store }: MainContainerProps) => {
 
   return (
     <>
-      <Helmet
-        title="Slog"
-        meta={[
-          { property: "og:type", content: "article" },
-          {
-            property: "og:title",
-            content: "포트폴리오를 위한 개인 블로그 입니다."
-          },
-          { property: "og:image", content: `${logo}` },
-          { property: "og:url", content: "https://slog.website" }
-        ]}
-      />
-      <Main
-        createPost={createPost}
-        lastCardEl={lastCardEl}
-        notfound={notfound}
-        loading={loading}
-        getPostLength={getPostLength}
-        posts={posts}
-        categoryRowEl={categoryRowEl}
-        arrowToggleEl={arrowToggleEl}
-        categoryList={categoryList}
-        total_post={total_post}
-        setCategoryEdit={setCategoryEdit}
-        admin={admin}
-      />
-      {admin && categoryEdit && (
-        <AdminCategoryContainer
-          createCategory={createCategory}
-          deleteCategory={deleteCategory}
-          modifyCategoryName={modifyCategoryName}
-          modifyOrderCategory={modifyOrderCategory}
-          setCategoryEdit={setCategoryEdit}
-          categoryList={categoryList}
-          handleCategoryList={handleCategoryList}
-          handlePosts={handlePosts}
+      <Helmet>
+        <title>{"Slog"}</title>
+        <meta
+          name="description"
+          content="📖 My Blog that contains various articles such as my activities and thoughts."
+          data-react-helmet="true"
         />
+        <meta property="og:image" content={logo} data-react-helmet="true" />
+      </Helmet>
+      {privacy ? (
+        <Privacy />
+      ) : (
+        <>
+          <Main
+            createPost={createPost}
+            lastCardEl={lastCardEl}
+            notfound={notfound}
+            loading={loading}
+            getPostLength={getPostLength}
+            posts={posts}
+            categoryRowEl={categoryRowEl}
+            arrowToggleEl={arrowToggleEl}
+            categoryList={categoryList}
+            total_post={total_post}
+            setCategoryEdit={setCategoryEdit}
+            admin={admin}
+          />
+          {admin && categoryEdit && (
+            <AdminCategoryContainer
+              createCategory={createCategory}
+              deleteCategory={deleteCategory}
+              modifyCategoryName={modifyCategoryName}
+              modifyOrderCategory={modifyOrderCategory}
+              setCategoryEdit={setCategoryEdit}
+              categoryList={categoryList}
+              handleCategoryList={handleCategoryList}
+              handlePosts={handlePosts}
+            />
+          )}
+        </>
       )}
     </>
   );

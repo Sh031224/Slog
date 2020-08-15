@@ -6,23 +6,23 @@ import firebase from "firebase/app";
 import HandlePage from "../pages/HandlePage";
 import { option } from "../config/firebase.json";
 import NotfoundPage from "../pages/NotfoundPage";
-import PrivacyPage from "../pages/PrivacyPage";
 
 firebase.initializeApp(option);
 
 const App = () => {
   return (
-    <div className="App">
-      <Switch>
-        <Route exact path="/" component={MainPage} />
-        <Route path="/post/:idx" component={PostPage} />
-        <Route path="/handle/:idx" component={HandlePage} />
-        <Route path="/handle" component={HandlePage} />
-        <Route path="/privacy" component={PrivacyPage} />
-        <Route component={NotfoundPage} />
-        <Redirect to="/notfound" />
-      </Switch>
-    </div>
+    <React.Fragment>
+      <div className="App">
+        <Switch>
+          <Route exact path="/" component={MainPage} />
+          <Route path="/post/:idx" component={PostPage} />
+          <Route path="/handle/:idx" component={HandlePage} />
+          <Route path="/handle" component={HandlePage} />
+          <Route component={NotfoundPage} />
+          <Redirect to="/notfound" />
+        </Switch>
+      </div>
+    </React.Fragment>
   );
 };
 
