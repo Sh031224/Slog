@@ -5,10 +5,18 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  &-container a {
-    text-decoration: none;
-    color: $ft-gray;
-    color: --var(--ft-gray);
-    font-size: 0.9rem;
+  &-container {
+    a {
+      text-decoration: none;
+      color: $ft-gray;
+      color: --var(--ft-gray);
+      font-size: 0.9rem;
+    }
+    &-privacy {
+      color: $ft-dark-gray;
+      color: --var(--ft-dark-gray);
+      margin-left: 1rem;
+      display: inline-block;
+    }
   }
 }
