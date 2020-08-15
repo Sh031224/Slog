@@ -199,7 +199,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
             content: "포트폴리오를 위한 개인 블로그 입니다."
           },
           { property: "og:image", content: `${logo}` },
-          { property: "og:url", content: "http://example.com/example" }
+          { property: "og:url", content: "https://slog.website" }
         ]}
       />
       <Main
