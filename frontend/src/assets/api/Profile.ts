@@ -20,7 +20,7 @@ class Profile {
 
       return data;
     } catch (error) {
-      return false;
+      throw new Error(`${error}`);
     }
   }
 
@@ -29,6 +29,18 @@ class Profile {
       const url = `${server}/api/v1/auth/fcm`;
 
       const { data } = await axios.post(url, { token: token });
+
+      return data;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async GetAdminProfile() {
+    try {
+      const url = `${server}/api/v1/profile/admin`;
+
+      const { data } = await axios.get(url);
 
       return data;
     } catch (error) {

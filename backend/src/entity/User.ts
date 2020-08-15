@@ -5,7 +5,8 @@ import {
   getRepository,
   PrimaryGeneratedColumn,
   OneToMany,
-  PrimaryColumn
+  PrimaryColumn,
+  CreateDateColumn
 } from "typeorm";
 import Comment from "./Comment";
 import Reply from "./Reply";
@@ -45,11 +46,15 @@ export default class User extends BaseEntity {
   })
   is_admin: boolean;
 
+  @Column("timestampz")
+  @CreateDateColumn()
+  created_at: Date;
+
   @OneToMany((type) => Comment, (comment) => comment.user)
   comments: Comment[];
 
   @OneToMany((type) => Reply, (reply) => reply.user)
-  replys: Reply[];
+  replies: Reply[];
 
   static async findOrCreate(id: string, name: string) {
     const userRepo = getRepository(User);

@@ -21,12 +21,10 @@ body {
   -webkit-overflow-scrolling: none;
 }
 
-.swal2-title {
-  font-weight: 500 !important;
-}
-
-.swal2-confirm {
-  background-color: #3085d6 !important;
+.react-confirm-alert-button-group > button:last-child {
+  background-color: #fff;
+  border: 1px solid gray;
+  color: gray;
 }
 
 a {

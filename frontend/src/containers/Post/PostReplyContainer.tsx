@@ -1,16 +1,16 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PostReply from "../../components/Post/PostReply";
 
 interface PostReplyContainerProps {
+  comment: CommentType;
   comment_idx: number;
   admin: boolean;
   userId: number;
   login: boolean;
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
-  refresh: number;
-  setRefresh: Dispatch<SetStateAction<number>>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => Promise<void>;
+  deleteReply: (reply_idx: number) => void;
+  adminId: number;
 }
 
 interface RepliesResponse {
@@ -19,6 +19,18 @@ interface RepliesResponse {
   data: {
     replies: ReplyType[];
   };
+}
+
+interface CommentType {
+  idx: number;
+  content: string;
+  is_private: boolean;
+  fk_user_idx: number | undefined;
+  fk_user_name: string | undefined;
+  fk_post_idx: number;
+  created_at: Date;
+  updated_at: Date;
+  reply_count: number;
 }
 
 interface ReplyType {
@@ -38,26 +50,29 @@ const PostReplyContainer = ({
   userId,
   comment_idx,
   login,
-  refresh,
-  setRefresh,
   modifyReply,
-  deleteReply
+  deleteReply,
+  comment,
+  adminId
 }: PostReplyContainerProps) => {
   const [replies, setReplies] = useState<ReplyType[]>([]);
 
-  useEffect(() => {
+  const getRepliesCallback = useCallback(() => {
     getReplies(comment_idx).then((res: RepliesResponse) => {
       setReplies(res.data.replies);
     });
-  }, [refresh]);
+  }, [comment, comment_idx]);
+
+  useEffect(() => {
+    getRepliesCallback();
+  }, [getRepliesCallback]);
 
   return (
     <>
       <PostReply
-        refresh={refresh}
+        adminId={adminId}
         modifyReply={modifyReply}
         deleteReply={deleteReply}
-        setRefresh={setRefresh}
         replies={replies}
         admin={admin}
         userId={userId}

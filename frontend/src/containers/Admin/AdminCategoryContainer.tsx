@@ -1,6 +1,14 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState
+} from "react";
 import AdminCategory from "../../components/Admin/AdminCategory";
+import { NotificationManager } from "react-notifications";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 interface AdminCategoryContainerProps {
   categoryList: CategoryType[];
@@ -36,8 +44,7 @@ const AdminCategoryContainer = ({
   handleCategoryList,
   modifyCategoryName,
   deleteCategory,
-  createCategory,
-  handlePosts
+  createCategory
 }: AdminCategoryContainerProps) => {
   const escFunction = (e: KeyboardEvent) => {
     if (e.keyCode === 27) {
@@ -54,44 +61,60 @@ const AdminCategoryContainer = ({
     if (!(order_number < 1) && !(order_number > categoryList.length)) {
       await modifyOrderCategory(category_idx, order_number).catch(
         (err: Error) => {
-          Swal.fire("Error !", "오류가 발생하였습니다.", "error");
+          NotificationManager.error("오류가 발생하였습니다.", "Error");
         }
       );
-      handleCategoryList().catch(() => alert("서버가 불안정합니다."));
+      handleCategoryList().catch(() => {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      });
     }
   };
 
   const modifyName = async (category_idx: number, name: string) => {
     if (name !== "") {
       await modifyCategoryName(category_idx, name).catch((err: Error) => {
-        Swal.fire("Error !", "오류가 발생하였습니다.", "error");
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
-      handleCategoryList().catch(() => alert("서버가 불안정합니다."));
+      handleCategoryList().catch(() => {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      });
     }
   };
 
+  const removeCategoryCallback = useCallback(async (category_idx: number) => {
+    await deleteCategory(category_idx);
+    history.go(0);
+    handleCategoryList().catch(() => {
+      NotificationManager.error("오류가 발생하였습니다.", "Error");
+    });
+  }, []);
+
   const removeCategory = (category_idx: number) => {
-    Swal.fire({
-      title: "정말 삭제하시겠습니까?",
-      text: "해당 카테고리의 게시글도 함께 삭제됩니다.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "삭제",
-      cancelButtonText: "취소"
-    }).then(async (result) => {
-      if (result.value) {
-        await deleteCategory(category_idx);
-        history.go(0);
-        handleCategoryList().catch(() => alert("서버가 불안정합니다."));
-      }
+    confirmAlert({
+      title: "Warning",
+      message: "정말로 삭제하시겠습니까?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => removeCategoryCallback(category_idx)
+        },
+        {
+          label: "No",
+          onClick: () => {
+            return;
+          }
+        }
+      ]
     });
   };
 
   const createTempCategory = async () => {
     await createCategory("이름을 입력하세요.").catch((err: Error) => {
-      Swal.fire("Error !", "오류가 발생하였습니다.", "error");
+      NotificationManager.error("오류가 발생하였습니다.", "Error");
     });
-    handleCategoryList().catch(() => alert("서버가 불안정합니다."));
+    handleCategoryList().catch(() => {
+      NotificationManager.error("오류가 발생하였습니다.", "Error");
+    });
   };
 
   useEffect(() => {

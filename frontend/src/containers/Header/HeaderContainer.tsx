@@ -7,10 +7,9 @@ import {
   ReactFacebookFailureResponse,
   ReactFacebookLoginInfo
 } from "react-facebook-login";
-import Swal from "sweetalert2";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import {
   NotificationContainer,
   NotificationManager
@@ -71,12 +70,12 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
       });
   };
 
-  const tryLogout = () => {
+  const tryLogout = useCallback(() => {
     removeCookie("access_token", { path: "/" });
     handleLoginChange(false);
     axios.defaults.headers.common["access_token"] = "";
     haldleAdminFalse();
-  };
+  }, []);
 
   const searchSubmit = useCallback(() => {
     if (searchEl.current) {
@@ -105,33 +104,53 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
     });
   }, []);
 
-  const handleAll = async (access_token: string) => {
-    axios.defaults.headers.common["access_token"] = cookies.access_token;
-    await handleUser(access_token);
-    if (Notification.permission === "granted") {
-      getFcmToken();
-    } else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then(
-        (permission: NotificationPermission) => {
-          if (permission === "granted") {
-            getFcmToken();
-          }
+  const handleAll = useCallback(async (access_token: string) => {
+    if (cookies.access_token !== undefined) {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      await handleUser(access_token).catch((err) => {
+        if (err.message === "401") {
+          removeCookie("access_token", { path: "/" });
+          handleLoginChange(false);
+          axios.defaults.headers.common["access_token"] = "";
+          haldleAdminFalse();
         }
-      );
+      });
+      if (Notification.permission === "granted") {
+        getFcmToken();
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(
+          (permission: NotificationPermission) => {
+            if (permission === "granted") {
+              getFcmToken();
+            }
+          }
+        );
+      }
     }
-  };
+  }, []);
+
+  const handleLoginCallback = useCallback(() => {
+    if (!login) {
+      if (cookies.access_token !== undefined) {
+        axios.defaults.headers.common["access_token"] = cookies.access_token;
+        handleLoginChange(true);
+        handleUser(cookies.access_token).catch((err) => {
+          if (err.message === "Error: Request failed with status code 401") {
+            removeCookie("access_token", { path: "/" });
+            handleLoginChange(false);
+            axios.defaults.headers.common["access_token"] = "";
+          } else {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
+            handleLoginChange(false);
+          }
+        });
+      }
+    }
+  }, [login, cookies]);
 
   useEffect(() => {
-    try {
-      if (cookies.access_token !== undefined) {
-        handleLoginChange(true);
-        axios.defaults.headers.common["access_token"] = cookies.access_token;
-        handleUser(cookies.access_token);
-      }
-    } catch (err) {
-      NotificationManager.error("오류가 발생하였습니다.", "Error");
-    }
-  }, [login]);
+    handleLoginCallback();
+  }, [handleLoginCallback]);
 
   return (
     <>

@@ -1,0 +1,16 @@
+@import "../../../../util/colors.scss";
+
+.handle-post-thumbnail {
+  border: 1px solid;
+  border-color: $bd-light-light-gray;
+  border-color: var(--bd-light-light-gray);
+  border-radius: 5px;
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  outline: none;
+  width: 70%;
+  &:focus {
+    border: 2px solid;
+    border-color: $bd-light-gray;
+  }
+}

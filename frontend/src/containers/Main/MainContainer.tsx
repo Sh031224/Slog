@@ -20,10 +20,6 @@ interface StoreType {
   PostStore: PostStore;
 }
 
-interface RefObject<T> {
-  readonly current: T | null;
-}
-
 const MainContainer = ({ store }: MainContainerProps) => {
   const {
     total_post,
@@ -82,15 +78,17 @@ const MainContainer = ({ store }: MainContainerProps) => {
     }
   });
 
-  useEffect(() => {
-    handleCategoryList().catch((err) => {
-      if (err.status === 401) {
-        NotificationManager.warning("권한이 없습니다.", "Error");
-      } else {
-        NotificationManager.error("오류가 발생하였습니다.", "Error");
-      }
-    });
+  const handleCategoryListCallback = useCallback(() => {
+    if (categoryList.length === 0) {
+      handleCategoryList().catch(() =>
+        NotificationManager.error("오류가 발생하였습니다.", "Error")
+      );
+    }
   }, []);
+
+  useEffect(() => {
+    handleCategoryListCallback();
+  }, [handleCategoryListCallback]);
 
   useEffect(() => {
     if (search.indexOf("temp") !== 1) {
@@ -148,6 +146,10 @@ const MainContainer = ({ store }: MainContainerProps) => {
       });
   }, [search, page]);
 
+  const createPost = () => {
+    history.push("/handle/new");
+  };
+
   const handleTempPostsCallback = useCallback(async () => {
     setLoading(true);
     await handleTempPosts()
@@ -162,14 +164,17 @@ const MainContainer = ({ store }: MainContainerProps) => {
       });
   }, []);
 
-  useEffect(() => {
+  const handleQueryCallbacks = useCallback(() => {
     initPosts();
     setNotfound(true);
     if (search.indexOf("tab=") !== -1 || search === "") {
-      setPage(1);
-      handlePostsCallback().catch(() => {
-        NotificationManager.error("오류가 발생하였습니다.", "Error");
-      });
+      if (page === 1) {
+        handlePostsCallback().catch(() => {
+          NotificationManager.error("오류가 발생하였습니다.", "Error");
+        });
+      } else {
+        setPage(1);
+      }
     } else if (search.indexOf("temp") !== -1) {
       handleTempPostsCallback();
     } else {
@@ -177,6 +182,10 @@ const MainContainer = ({ store }: MainContainerProps) => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
     }
+  }, [search, page]);
+
+  useEffect(() => {
+    handleQueryCallbacks();
   }, [search]);
 
   return (
@@ -190,10 +199,11 @@ const MainContainer = ({ store }: MainContainerProps) => {
             content: "포트폴리오를 위한 개인 블로그 입니다."
           },
           { property: "og:image", content: `${logo}` },
-          { property: "og:url", content: "http://example.com/example" }
+          { property: "og:url", content: "https://slog.website" }
         ]}
       />
       <Main
+        createPost={createPost}
         lastCardEl={lastCardEl}
         notfound={notfound}
         loading={loading}

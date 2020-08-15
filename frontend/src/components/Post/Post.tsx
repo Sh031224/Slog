@@ -1,5 +1,5 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
+import MarkdownContainer from "../../containers/Markdown/MarkdownContainer";
 import "./Post.scss";
 import PostComment from "./PostComment";
 import PostHeader from "./PostHeader";
@@ -21,14 +21,20 @@ interface PostProps {
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
   userId: number;
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
-  deleteComment: (comment_idx: number) => Promise<void>;
+  deleteComment: (comment_idx: number) => void;
   createReply: (
     comment_idx: number,
     content: string,
     is_private?: boolean | undefined
   ) => Promise<void>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => Promise<void>;
+  deleteReply: (reply_idx: number) => void;
+  handler: boolean;
+  setHandler: React.Dispatch<React.SetStateAction<boolean>>;
+  deletePostAlert: () => void;
+  editPost: () => void;
+  commentCount: number;
+  adminId: number;
 }
 
 interface RepliesResponse {
@@ -100,7 +106,13 @@ const Post = ({
   deleteComment,
   createReply,
   modifyReply,
-  deleteReply
+  deleteReply,
+  handler,
+  setHandler,
+  deletePostAlert,
+  editPost,
+  commentCount,
+  adminId
 }: PostProps) => {
   return (
     <div className="post">
@@ -110,14 +122,24 @@ const Post = ({
         ) : (
           <>
             <PostHeader
+              editPost={editPost}
+              deletePostAlert={deletePostAlert}
+              handler={handler}
+              setHandler={setHandler}
+              admin={admin}
               thumbnail={post.thumbnail}
               title={post.title}
               created_at={post.created_at}
               updated_at={post.updated_at}
             />
-            <ReactMarkdown className="post-content" source={post.content} />
+
+            <MarkdownContainer className="post-content">
+              {post.content}
+            </MarkdownContainer>
             <PostHit hit_posts={hit_posts} post_idx={post.idx} />
             <PostComment
+              adminId={adminId}
+              commentCount={commentCount}
               createComment={createComment}
               deleteComment={deleteComment}
               modifyComment={modifyComment}

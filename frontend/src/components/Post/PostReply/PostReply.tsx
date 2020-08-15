@@ -8,9 +8,8 @@ interface PostReplyProps {
   userId: number;
   login: boolean;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => Promise<void>;
-  setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  refresh: number;
+  deleteReply: (reply_idx: number) => void;
+  adminId: number;
 }
 
 interface ReplyType {
@@ -31,8 +30,7 @@ const PostReply = ({
   login,
   modifyReply,
   deleteReply,
-  setRefresh,
-  refresh
+  adminId
 }: PostReplyProps) => {
   return (
     <>
@@ -40,9 +38,8 @@ const PostReply = ({
         {replies.map((reply: ReplyType, index: number) => {
           return (
             <PostReplyHandleContainer
+              adminId={adminId}
               key={index}
-              refresh={refresh}
-              setRefresh={setRefresh}
               modifyReply={modifyReply}
               deleteReply={deleteReply}
               reply={reply}

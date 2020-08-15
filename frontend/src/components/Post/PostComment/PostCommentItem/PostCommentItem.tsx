@@ -5,7 +5,11 @@ import PostReplyContainer from "../../../../containers/Post/PostReplyContainer";
 import TimeCounting from "time-counting";
 import { GoPencil } from "react-icons/go";
 import { MdCancel } from "react-icons/md";
-import { IoIosLock, IoIosUnlock } from "react-icons/io";
+import {
+  IoIosLock,
+  IoIosUnlock,
+  IoMdCheckmarkCircleOutline
+} from "react-icons/io";
 
 interface PostCommentItemProps {
   comment: CommentType;
@@ -13,7 +17,7 @@ interface PostCommentItemProps {
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
   userId: number;
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
-  deleteComment: (comment_idx: number) => Promise<void>;
+  deleteComment: (comment_idx: number) => void;
   modify: boolean;
   setModify: Dispatch<SetStateAction<boolean>>;
   modifyInput: string;
@@ -31,11 +35,10 @@ interface PostCommentItemProps {
     is_private?: boolean | undefined
   ) => Promise<void>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => Promise<void>;
   isPrivate: boolean;
   setIsPrivateCallback: (status: boolean) => void;
-  refresh: number;
-  setRefresh: Dispatch<SetStateAction<number>>;
+  deleteReply: (reply_idx: number) => void;
+  adminId: number;
 }
 
 interface RepliesResponse {
@@ -92,8 +95,7 @@ const PostCommentItem = ({
   deleteReply,
   isPrivate,
   setIsPrivateCallback,
-  refresh,
-  setRefresh
+  adminId
 }: PostCommentItemProps) => {
   return (
     <div className="post-comment-item">
@@ -111,13 +113,13 @@ const PostCommentItem = ({
           </div>
           {comment.reply_count !== 0 && (
             <PostReplyContainer
+              adminId={adminId}
               login={login}
               userId={userId}
               comment_idx={comment.idx}
               admin={admin}
               getReplies={getReplies}
-              refresh={refresh}
-              setRefresh={setRefresh}
+              comment={comment}
               modifyReply={modifyReply}
               deleteReply={deleteReply}
             />
@@ -162,10 +164,10 @@ const PostCommentItem = ({
               </div>
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
+                  adminId={adminId}
+                  comment={comment}
                   modifyReply={modifyReply}
                   deleteReply={deleteReply}
-                  refresh={refresh}
-                  setRefresh={setRefresh}
                   userId={userId}
                   comment_idx={comment.idx}
                   admin={admin}
@@ -178,6 +180,9 @@ const PostCommentItem = ({
             <div className="post-comment-item-box">
               <div className="post-comment-item-box-title">
                 {comment.fk_user_name}
+                {comment.fk_user_idx === adminId && (
+                  <IoMdCheckmarkCircleOutline className="post-comment-item-box-title-admin" />
+                )}
                 {comment.is_private && (
                   <IoIosLock className="post-comment-item-box-title-lock" />
                 )}
@@ -235,7 +240,6 @@ const PostCommentItem = ({
                         } else if (e.key === "Enter") {
                           await createReply(comment.idx, replyInput, isPrivate);
                           cancelReply();
-                          setRefresh(refresh + 1);
                         }
                       }}
                       placeholder="내용을 입력해주세요."
@@ -259,7 +263,6 @@ const PostCommentItem = ({
                       onClick={async () => {
                         await createReply(comment.idx, replyInput);
                         cancelReply();
-                        setRefresh(refresh + 1);
                       }}
                       className="post-comment-item-input-box-submit"
                     />
@@ -268,10 +271,10 @@ const PostCommentItem = ({
               )}
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
-                  refresh={refresh}
+                  adminId={adminId}
+                  comment={comment}
                   modifyReply={modifyReply}
                   deleteReply={deleteReply}
-                  setRefresh={setRefresh}
                   userId={userId}
                   comment_idx={comment.idx}
                   admin={admin}

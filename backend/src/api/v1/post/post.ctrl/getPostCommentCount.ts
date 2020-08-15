@@ -1,13 +1,6 @@
 import { Response, Request } from "express";
-import * as moment from "moment";
 import { getRepository } from "typeorm";
 import logger from "../../../../lib/logger";
-import Post from "../../../../entity/Post";
-import generateURL from "../../../../lib/util/generateURL";
-import PostView from "../../../../entity/PostView";
-import encrypt from "../../../../lib/encrypt";
-import AuthRequest from "../../../../type/AuthRequest";
-import User from "../../../../entity/User";
 import Reply from "../../../../entity/Reply";
 import Comment from "../../../../entity/Comment";
 
@@ -24,10 +17,6 @@ export default async (req: Request, res: Response) => {
   }
 
   try {
-    interface PostCountType {
-      comment_count?: number;
-    }
-
     let total_count = 0;
 
     const commentRepo = getRepository(Comment);

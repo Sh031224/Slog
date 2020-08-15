@@ -3,6 +3,19 @@ import { autobind } from "core-decorators";
 import Profile from "../../assets/api/Profile";
 import Login from "../../assets/api/Login";
 
+interface GetProfileResponse {
+  status: number;
+  message: string;
+  data: {
+    user: {
+      idx: number;
+      name: string;
+      is_admin: boolean;
+      created_at: Date;
+    };
+  };
+}
+
 @autobind
 class UserStore {
   @observable admin = false;
@@ -10,6 +23,8 @@ class UserStore {
   @observable login = false;
 
   @observable userId = -1;
+
+  @observable adminId!: number;
 
   @action
   handleLogin = async (access_token: string) => {
@@ -50,20 +65,40 @@ class UserStore {
     }
   };
 
-  @action handleUser = async (access_token: string) => {
+  @action handleAdminProfile = async (): Promise<GetProfileResponse> => {
     try {
-      const response = await Profile.GetProfile(access_token);
+      const response: GetProfileResponse = await Profile.GetAdminProfile();
 
-      if (!response) {
-        this.admin = false;
-      } else {
-        this.admin = response.data.user.is_admin;
-        this.userId = response.data.user.idx;
+      this.adminId = response.data.user.idx;
 
-        return new Promise((resolve, reject) => {
+      return new Promise(
+        (resolve: (response: GetProfileResponse) => void, reject) => {
           resolve(response);
-        });
-      }
+        }
+      );
+    } catch (error) {
+      return new Promise((resolve, reject: (error: Error) => void) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action handleUser = async (
+    access_token: string
+  ): Promise<GetProfileResponse> => {
+    try {
+      const response: GetProfileResponse = await Profile.GetProfile(
+        access_token
+      );
+
+      this.admin = response.data.user.is_admin;
+      this.userId = response.data.user.idx;
+
+      return new Promise(
+        (resolve: (response: GetProfileResponse) => void, reject) => {
+          resolve(response);
+        }
+      );
     } catch (error) {
       this.userId = -1;
       this.admin = false;

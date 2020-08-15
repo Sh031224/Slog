@@ -1,0 +1,14 @@
+.handle-post {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  &-box {
+    max-width: 900px;
+    position: relative;
+    width: 100%;
+    padding: 0 1rem;
+    &-util {
+      display: flex;
+    }
+  }
+}

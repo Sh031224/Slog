@@ -82,6 +82,10 @@
       font-size: 0.9rem;
       word-break: break-all;
       font-weight: 600;
+      &-admin {
+        color: green;
+        margin-left: 0.5rem;
+      }
       &-lock {
         margin-left: 0.5rem;
         opacity: 0.6;

@@ -1,0 +1,111 @@
+@import "../../util/colors.scss";
+
+.markdown-code {
+  font-size: 1.125rem;
+  color: rgb(34, 36, 38);
+  line-height: 1.7;
+  letter-spacing: -0.004em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    @media screen and (max-width: 768px) {
+      margin-bottom: 0.75rem;
+    }
+  }
+  h1 {
+    font-size: 2.5rem;
+    @media screen and (max-width: 768px) {
+      font-size: 2.25rem;
+    }
+  }
+  h2 {
+    font-size: 2rem;
+    @media screen and (max-width: 768px) {
+      font-size: 1.75rem;
+    }
+  }
+  h3 {
+    font-size: 1.5rem;
+    @media screen and (max-width: 768px) {
+      font-size: 1.25rem;
+    }
+  }
+  h4 {
+    font-size: 1.125rem;
+    @media screen and (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+  hr {
+    height: 1px;
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-width: initial;
+    border-style: none;
+    border-color: initial;
+    border-image: initial;
+    background: rgb(222, 222, 222);
+  }
+  blockquote {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    margin-left: 0px;
+    margin-right: 0px;
+    color: rgb(33, 37, 41);
+    border-left: 4px solid;
+    border-color: $ft-blue;
+    border-color: var(--ft-blue);
+    background-color: $bg-light-gray;
+    background-color: var(--bg-light-gray);
+    padding: 1rem 1rem 1rem 2rem;
+    & :first-child {
+      margin-top: 0px;
+    }
+    & :last-child {
+      margin-bottom: 0px;
+    }
+  }
+  pre {
+    font-family: "Fira Mono", source-code-pro, Menlo, Monaco, Consolas,
+      "Courier New", monospace;
+    font-size: 1rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    letter-spacing: 0px;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+  code {
+    font-family: "Fira Mono", source-code-pro, Menlo, Monaco, Consolas,
+      "Courier New", monospace;
+  }
+  p > code {
+    background: rgba(27, 31, 35, 0.05);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 85%;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  p > img {
+    display: block;
+    max-width: 100%;
+    margin: 3rem auto;
+  }
+}

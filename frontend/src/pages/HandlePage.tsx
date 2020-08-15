@@ -1,13 +1,13 @@
 import React from "react";
 import MainTemplate from "../components/common/Template/MainTemplate";
-import WriteContainer from "../containers/Write/WriteContainer";
+import HandleContainer from "../containers/Handle/HandleContainer";
 
-const Write = () => {
+const HandlePage = () => {
   return (
     <MainTemplate>
-      <WriteContainer />
+      <HandleContainer />
     </MainTemplate>
   );
 };
 
-export default Write;
+export default HandlePage;

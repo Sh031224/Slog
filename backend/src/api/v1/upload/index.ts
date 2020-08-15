@@ -7,7 +7,7 @@ import authMiddleware from "../../../lib/middleware/auth";
 
 const storage = multer.diskStorage({
   destination: (_req: Request, _file, cb: Function) => {
-    cb(null, "./public/tmp/");
+    cb(null, "./public/");
   },
   filename: (_req: Request, file, cb: Function) => {
     cb(null, `${file.fieldname}-${uuidv4()}-${file.originalname}`);

@@ -6,7 +6,8 @@ import logger from "../../../../lib/logger";
 import User from "../../../../entity/User";
 import Comment from "../../../../entity/Comment";
 import Reply from "../../../../entity/Reply";
-import Post from "../../../../entity/Post";
+import * as admin from "firebase-admin";
+import generateURL from "../../../../lib/util/generateURL";
 
 export default async (req: AuthRequest, res: Response) => {
   if (!validateCreate(req, res)) return;
@@ -58,6 +59,33 @@ export default async (req: AuthRequest, res: Response) => {
     reply.user = user;
     reply.comment = comment;
     await replyRepo.save(reply);
+
+    const userRepo = getRepository(User);
+    const commentUser = await userRepo.findOne({
+      where: {
+        idx: comment.fk_user_idx
+      }
+    });
+
+    if (commentUser.fcm_allow && commentUser.fcm) {
+      const message = {
+        webpush: {
+          notification: {
+            icon: generateURL(req, "logo.png"),
+            title: `${commentUser.name}님께서 답글을 남겼습니다.`,
+            body: `${reply.content.substring(0, 20)}`,
+            click_action: `http://localhost:3000/post/${comment.fk_post_idx}`
+          }
+        },
+        data: {
+          score: "850",
+          time: "2:45"
+        },
+        token: commentUser.fcm
+      };
+
+      admin.messaging().send(message);
+    }
 
     logger.green("[POST] 답글 생성 성공.");
     res.status(200).json({

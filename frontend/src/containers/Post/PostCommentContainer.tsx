@@ -7,7 +7,7 @@ interface PostCommentContainerProps {
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
   userId: number;
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
-  deleteComment: (comment_idx: number) => Promise<void>;
+  deleteComment: (comment_idx: number) => void;
   login: boolean;
   createReply: (
     comment_idx: number,
@@ -15,7 +15,8 @@ interface PostCommentContainerProps {
     is_private?: boolean | undefined
   ) => Promise<void>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => Promise<void>;
+  deleteReply: (reply_idx: number) => void;
+  adminId: number;
 }
 
 interface RepliesResponse {
@@ -59,14 +60,14 @@ const PostCommentContainer = ({
   login,
   createReply,
   modifyReply,
-  deleteReply
+  deleteReply,
+  adminId
 }: PostCommentContainerProps) => {
   const [modify, setModify] = useState<boolean>(false);
   const [modifyInput, setModifyInput] = useState<string>(comment.content);
   const [reply, setReply] = useState<boolean>(false);
   const [replyInput, setReplyInput] = useState<string>("");
   const [isPrivate, setIsPrivate] = useState<boolean>(comment.is_private);
-  const [refresh, setRefresh] = useState<number>(0);
 
   const cancelModify = useCallback(() => {
     setModify(false);
@@ -76,25 +77,23 @@ const PostCommentContainer = ({
   const cancelReply = useCallback(() => {
     setReply(false);
     setReplyInput("");
-  }, [comment]);
+  }, []);
 
-  const setIsPrivateCallback = (status: boolean) => {
-    if (comment.is_private) {
-      setIsPrivate(true);
-    } else {
-      setIsPrivate(status);
-    }
-  };
-
-  useEffect(() => {
-    setRefresh(refresh + 1);
-  }, [comment]);
+  const setIsPrivateCallback = useCallback(
+    (status: boolean) => {
+      if (comment.is_private) {
+        setIsPrivate(true);
+      } else {
+        setIsPrivate(status);
+      }
+    },
+    [comment]
+  );
 
   return (
     <>
       <PostCommentItem
-        refresh={refresh}
-        setRefresh={setRefresh}
+        adminId={adminId}
         reply={reply}
         cancelReply={cancelReply}
         setReply={setReply}

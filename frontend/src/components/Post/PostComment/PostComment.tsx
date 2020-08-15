@@ -17,14 +17,16 @@ interface PostCommentProps {
   getReplies: (comment_idx: number) => Promise<RepliesResponse>;
   userId: number;
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
-  deleteComment: (comment_idx: number) => Promise<void>;
+  deleteComment: (comment_idx: number) => void;
   createReply: (
     comment_idx: number,
     content: string,
     is_private?: boolean | undefined
   ) => Promise<void>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => Promise<void>;
+  deleteReply: (reply_idx: number) => void;
+  commentCount: number;
+  adminId: number;
 }
 
 interface RepliesResponse {
@@ -71,12 +73,14 @@ const PostComment = ({
   deleteComment,
   createReply,
   modifyReply,
-  deleteReply
+  deleteReply,
+  commentCount,
+  adminId
 }: PostCommentProps) => {
   return (
     <div className="post-comment">
       <div className="post-comment-count">
-        댓글 <b>{count}</b>
+        댓글 <b>{commentCount}</b>
       </div>
       <PostCommentCreateContainer
         post_idx={post_idx}
@@ -86,6 +90,7 @@ const PostComment = ({
       {comments.map((comment: CommentType) => {
         return (
           <PostCommentContainer
+            adminId={adminId}
             createReply={createReply}
             modifyReply={modifyReply}
             deleteReply={deleteReply}

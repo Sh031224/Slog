@@ -1,6 +1,7 @@
 import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
 import "./Main.scss";
 import MainCategory from "./MainCategory";
+import MainCreate from "./MainCreate";
 import MainPosts from "./MainPosts";
 
 interface MainProps {
@@ -15,6 +16,7 @@ interface MainProps {
   notfound: boolean;
   loading: boolean;
   lastCardEl: React.MutableRefObject<HTMLDivElement | null>;
+  createPost: () => void;
 }
 
 interface PostType {
@@ -43,10 +45,12 @@ const Main = ({
   admin,
   notfound,
   loading,
-  lastCardEl
+  lastCardEl,
+  createPost
 }: MainProps) => {
   return (
     <div className="main">
+      {admin && <MainCreate createPost={createPost} />}
       <div className="main-container">
         <MainPosts
           lastCardEl={lastCardEl}

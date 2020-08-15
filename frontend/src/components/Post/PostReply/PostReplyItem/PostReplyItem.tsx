@@ -4,7 +4,7 @@ import { GoPencil } from "react-icons/go";
 import { MdCancel } from "react-icons/md";
 import profile from "../../../../assets/images/profile.png";
 import TimeCounting from "time-counting";
-import { IoIosLock } from "react-icons/io";
+import { IoIosLock, IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 interface PostReplyItemProps {
   userId: number;
@@ -17,9 +17,8 @@ interface PostReplyItemProps {
   modifyInput: string;
   setModifyInput: React.Dispatch<React.SetStateAction<string>>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => Promise<void>;
-  setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  refresh: number;
+  deleteReply: (reply_idx: number) => void;
+  adminId: number;
 }
 
 interface ReplyType {
@@ -45,8 +44,7 @@ const PostReplyItem = ({
   modifyInput,
   modifyReply,
   deleteReply,
-  setRefresh,
-  refresh
+  adminId
 }: PostReplyItemProps) => {
   return (
     <div className="post-reply-item">
@@ -81,7 +79,6 @@ const PostReplyItem = ({
                     if (e.key === "Enter") {
                       await modifyReply(reply.idx, modifyInput);
                       cancelModify();
-                      setRefresh(refresh + 1);
                     }
                   }}
                   placeholder="내용을 입력해주세요."
@@ -94,7 +91,6 @@ const PostReplyItem = ({
                   onClick={async () => {
                     await modifyReply(reply.idx, modifyInput);
                     cancelModify();
-                    setRefresh(refresh + 1);
                   }}
                   className="post-reply-item-input-box-submit"
                 />
@@ -104,6 +100,9 @@ const PostReplyItem = ({
             <div className="post-reply-item-box">
               <div className="post-reply-item-box-title">
                 {reply.fk_user_name}
+                {reply.fk_user_idx === adminId && (
+                  <IoMdCheckmarkCircleOutline className="post-comment-item-box-title-admin" />
+                )}
                 {reply.is_private && (
                   <IoIosLock className="post-reply-item-box-title-lock" />
                 )}
