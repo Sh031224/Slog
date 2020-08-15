@@ -435,21 +435,64 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   return (
     <>
       {!post_info.is_temp && (
-        <Helmet
-          title={post_info.title}
-          meta={[
-            { property: "og:type", content: "article" },
-            {
-              property: "og:title",
-              content: `${post_info.description}`
-            },
-            { property: "og:image", content: `${post_info.thumbnail}` },
-            {
-              property: "og:url",
-              content: `http://example.com/post/${post_info.idx}`
-            }
-          ]}
-        />
+        <Helmet>
+          <title>{post_info.title}</title>
+          <meta
+            name="description"
+            content={post_info.description}
+            data-react-helmet="true"
+          />
+          <link
+            rel="canonical"
+            href={`https://slog.website/post/${post_info.idx}`}
+            data-react-helmet="true"
+          />
+          <meta
+            property="og:url"
+            content={`https://slog.website/post/${post_info.idx}`}
+            data-react-helmet="true"
+          />
+          <meta property="og:type" content="article" data-react-helmet="true" />
+          <meta
+            property="og:title"
+            content={post_info.title}
+            data-react-helmet="true"
+          />
+          <meta
+            property="og:description"
+            content={post_info.description}
+            data-react-helmet="true"
+          />
+          {post_info.thumbnail && (
+            <meta
+              property="og:image"
+              content={post_info.thumbnail}
+              data-react-helmet="true"
+            />
+          )}
+          <meta
+            name="twitter:card"
+            content="summary_large_image"
+            data-react-helmet="true"
+          />
+          <meta
+            name="twitter:title"
+            content={post_info.title}
+            data-react-helmet="true"
+          />
+          <meta
+            name="twitter:description"
+            content={post_info.description}
+            data-react-helmet="true"
+          />
+          {post_info.thumbnail && (
+            <meta
+              name="twitter:image"
+              content={post_info.thumbnail}
+              data-react-helmet="true"
+            />
+          )}
+        </Helmet>
       )}
       <Post
         adminId={adminId}

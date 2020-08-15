@@ -9,7 +9,7 @@ import {
 } from "react-facebook-login";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
-import firebase from "firebase/app";
+import firebase from "firebase";
 import {
   NotificationContainer,
   NotificationManager
@@ -115,17 +115,13 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
           haldleAdminFalse();
         }
       });
-      if (Notification.permission === "granted") {
-        getFcmToken();
-      } else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(
-          (permission: NotificationPermission) => {
-            if (permission === "granted") {
-              getFcmToken();
-            }
+      Notification.requestPermission().then(
+        (permission: NotificationPermission) => {
+          if (permission === "granted") {
+            getFcmToken();
           }
-        );
-      }
+        }
+      );
     }
   }, []);
 
@@ -141,7 +137,6 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
             axios.defaults.headers.common["access_token"] = "";
           } else {
             NotificationManager.error("오류가 발생하였습니다.", "Error");
-            handleLoginChange(false);
           }
         });
       }
