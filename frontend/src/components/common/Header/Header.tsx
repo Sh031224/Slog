@@ -74,6 +74,7 @@ const Header = ({
                   <FacebookLogin
                     appId={appId}
                     fields="name,email"
+                    disableMobileRedirect={true}
                     callback={tryLogin}
                     render={(renderProps: any) => {
                       return (
