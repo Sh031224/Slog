@@ -6,6 +6,12 @@
   justify-content: center;
   padding: 2rem;
   &-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @media screen and (max-width: 500px) {
+      flex-direction: column;
+    }
     a {
       text-decoration: none;
       color: $ft-gray;
@@ -13,6 +19,9 @@
       font-size: 0.9rem;
     }
     &-privacy {
+      @media screen and (max-width: 500px) {
+        margin-left: 0;
+      }
       color: $ft-dark-gray;
       color: --var(--ft-dark-gray);
       margin-left: 1rem;

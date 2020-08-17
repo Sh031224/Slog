@@ -1,5 +1,14 @@
 @import "../../../../util/colors.scss";
 
+.upload-image {
+  @media screen and (max-width: 500px) {
+    width: 15rem !important;
+    p {
+      font-size: 0.7rem !important;
+    }
+  }
+}
+
 .handle-post-content {
   margin-top: 2rem;
   &-selected {
@@ -44,6 +53,10 @@
           color: #24292e;
           line-height: 23px;
           font-size: 0.9rem;
+          @media screen and (max-width: 500px) {
+            font-size: 0.7rem;
+            padding: 0.5rem 0.9rem;
+          }
           &:first-child {
             border-top-left-radius: 5px;
           }
@@ -51,6 +64,10 @@
             font-size: 1.1rem;
             color: $ft-little-gray;
             margin-right: 0.8rem;
+            @media screen and (max-width: 500px) {
+              font-size: 0.8rem;
+              margin-right: 0.5rem;
+            }
           }
         }
       }
@@ -60,6 +77,10 @@
         text-align: center;
         font-size: 1.2rem;
         color: $ft-dark-gray;
+        @media screen and (max-width: 500px) {
+          width: calc(100% - 13rem);
+          font-size: 1rem;
+        }
         svg {
           cursor: pointer;
         }
