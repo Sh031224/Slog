@@ -182,6 +182,8 @@ const MainContainer = ({ store }: MainContainerProps) => {
       handleTempPostsCallback();
     } else if (search.indexOf("privacy") !== -1) {
       setPrivacy(true);
+    } else if (search.indexOf("code=") !== -1) {
+      history.push("/");
     } else {
       handlePostSearchCallback().catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");

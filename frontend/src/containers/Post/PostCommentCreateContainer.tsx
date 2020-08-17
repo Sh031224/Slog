@@ -23,32 +23,44 @@ const PostCommentCreateContainer = ({
   const commentEnter = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {
-        createComment(post_idx, commentInput, isPrivate).catch((err: Error) => {
-          if (err.message === "Error: Request failed with status code 401") {
-            NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
-          } else {
-            NotificationManager.error("오류가 발생하였습니다.", "Error");
-          }
-        });
-        setCommentInput("");
-        setIsPrivate(false);
+        if (commentInput.replace(" ", "") !== "") {
+          createComment(post_idx, commentInput, isPrivate).catch(
+            (err: Error) => {
+              if (
+                err.message === "Error: Request failed with status code 401"
+              ) {
+                NotificationManager.warning(
+                  "로그인 후 작성가능합니다.",
+                  "Error"
+                );
+              } else {
+                NotificationManager.error("오류가 발생하였습니다.", "Error");
+              }
+            }
+          );
+
+          setCommentInput("");
+          setIsPrivate(false);
+        }
       }
     },
     [commentInput, isPrivate]
   );
 
   const commentCreate = useCallback(async () => {
-    await createComment(post_idx, commentInput, isPrivate).catch(
-      (err: Error) => {
-        if (err.message === "Error: Request failed with status code 401") {
-          NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
-        } else {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
+    if (commentInput.replace(" ", "") !== "") {
+      await createComment(post_idx, commentInput, isPrivate).catch(
+        (err: Error) => {
+          if (err.message === "Error: Request failed with status code 401") {
+            NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
+          } else {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
+          }
         }
-      }
-    );
-    setCommentInput("");
-    setIsPrivate(false);
+      );
+      setCommentInput("");
+      setIsPrivate(false);
+    }
   }, [commentInput, isPrivate]);
 
   return (

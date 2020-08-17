@@ -100,6 +100,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
   const [isUpload, setIsUpload] = useState<boolean>(false);
   const [files, setFiles] = useState<File[]>([]);
   const [isNew, setIsNew] = useState<boolean>(true);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isTemp, setIsTemp] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [post_info, setPostInfo] = useState<
@@ -121,6 +122,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
     } else {
       NotificationManager.warning("제목을 입력하세요.", "Warning");
     }
+    setIsSaving(false);
   }, [title, description, content, categoryIdx, thumbnail]);
 
   const modifyTempPostCallback = useCallback(async () => {
@@ -173,6 +175,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
     } else {
       NotificationManager.warning("제목을 입력하세요.", "Warning");
     }
+    setIsSaving(false);
   }, [title, description, content, categoryIdx, thumbnail]);
 
   const createPostCallback = useCallback(async () => {
@@ -209,6 +212,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
       history.push(`/`);
       NotificationManager.success("저장 되었습니다.", "Success");
     }
+    setIsSaving(false);
   }, [title, description, content, categoryIdx, thumbnail]);
 
   const modifyPostCallback = useCallback(async () => {
@@ -267,6 +271,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
     } else {
       NotificationManager.warning("제목을 입력하세요.", "Warning");
     }
+    setIsSaving(false);
   }, [title, description, content, categoryIdx, thumbnail, idx]);
 
   const uploadFilesCallback = useCallback(async (files: File[]) => {
@@ -356,18 +361,24 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
   };
 
   const savePostHandle = useCallback(() => {
-    if (isNew) {
-      createPostCallback();
-    } else {
-      modifyPostCallback();
+    if (!isSaving) {
+      setIsSaving(true);
+      if (isNew) {
+        createPostCallback();
+      } else {
+        modifyPostCallback();
+      }
     }
   }, [createPostCallback, modifyPostCallback, isNew]);
 
   const tempPostHandle = useCallback(() => {
-    if (isNew) {
-      createTempPostCallback();
-    } else {
-      modifyTempPostCallback();
+    if (!isSaving) {
+      setIsSaving(true);
+      if (isNew) {
+        createTempPostCallback();
+      } else {
+        modifyTempPostCallback();
+      }
     }
   }, [createTempPostCallback, modifyTempPostCallback, isNew]);
 
