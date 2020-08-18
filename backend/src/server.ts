@@ -1,10 +1,7 @@
 import "dotenv/config";
 import { createConnection } from "typeorm";
-import * as http from "http";
 import app from "./app";
 import logger from "./lib/logger";
-
-const { PORT } = process.env;
 
 createConnection()
   .then((connection) => {
@@ -12,6 +9,11 @@ createConnection()
   })
   .catch((error) => logger.red("[DB] Connection Error", error.message));
 
-http.createServer(app).listen(PORT || 8080, () => {
-  logger.green(`[HTTP] Server is listening to ${PORT}`);
-});
+require("greenlock-express")
+  .init({
+    packageRoot: "/root/blog_server",
+    configDor: "./greenlock.d",
+    cluster: false,
+    maintainerEmail: "1cktmdgh2@gmail.com"
+  })
+  .serve(app);

@@ -493,7 +493,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
           ) : (
             <meta
               property="og:image"
-              content={"https://data.slog.website/op_logo.png"}
+              content={"https://data.slog.website/public/op_logo.png"}
               data-react-helmet="true"
             />
           )}

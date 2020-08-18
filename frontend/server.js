@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 5000;
 const path = require("path");
 const request = require("request");
 const fs = require("fs");
@@ -19,7 +18,7 @@ app.get("/", function (request, response) {
     data = data.replace(/\$OG_URL/g, `https://slog.website/`);
     result = data.replace(
       /\$OG_IMAGE/g,
-      "https://data.slog.website/op_logo.png"
+      "https://data.slog.website/public/op_logo.png"
     );
     response.send(result);
   });
@@ -47,7 +46,7 @@ app.get("/post/*", function (resApp, response) {
           data = data.replace(/\$OG_URL/g, `https://slog.website/`);
           data = data.replace(
             /\$OG_IMAGE/g,
-            "https://data.slog.website/op_logo.png"
+            "https://data.slog.website/public/op_logo.png"
           );
         } else {
           data = data.replace(/\$OG_TITLE/g, body.data.post.title);
@@ -65,7 +64,7 @@ app.get("/post/*", function (resApp, response) {
           } else {
             data = data.replace(
               /\$OG_IMAGE/g,
-              "https://data.slog.website/op_logo.png"
+              "https://data.slog.website/public/op_logo.png"
             );
           }
         }
@@ -78,7 +77,7 @@ app.get("/post/*", function (resApp, response) {
         data = data.replace(/\$OG_URL/g, `https://slog.website/`);
         data = data.replace(
           /\$OG_IMAGE/g,
-          "https://data.slog.website/op_logo.png"
+          "https://data.slog.website/public/op_logo.png"
         );
       }
       result = data;
@@ -103,10 +102,17 @@ app.get("*", function (request, response) {
     data = data.replace(/\$OG_URL/g, `https://slog.website/`);
     result = data.replace(
       /\$OG_IMAGE/g,
-      "https://data.slog.website/op_logo.png"
+      "https://data.slog.website/public/op_logo.png"
     );
     response.send(result);
   });
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+require("greenlock-express")
+  .init({
+    packageRoot: "/root/blog_web",
+    configDor: "./src/greenlock.d",
+    cluster: false,
+    maintainerEmail: "1cktmdgh2@gmail.com"
+  })
+  .serve(app);
