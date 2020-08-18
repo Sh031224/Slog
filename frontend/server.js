@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 5000;
 const path = require("path");
 const request = require("request");
 const fs = require("fs");
@@ -109,4 +108,11 @@ app.get("*", function (request, response) {
   });
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+require("greenlock-express")
+  .init({
+    packageRoot: "/root/blog_server",
+    configDor: "./greenlock.d",
+    cluster: false,
+    maintainerEmail: "1cktmdgh2@gmail.com"
+  })
+  .serve(app);

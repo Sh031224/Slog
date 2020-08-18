@@ -25,6 +25,7 @@
     "classnames": "^2.2.6",
     "express": "^4.17.1",
     "firebase": "^7.17.1",
+    "greenlock-express": "^4.0.3",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "mobx-react-router": "^4.1.0",
