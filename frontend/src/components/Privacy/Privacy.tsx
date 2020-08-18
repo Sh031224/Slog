@@ -91,7 +91,6 @@ const Privacy = () => {
           ④ 위탁업무의 내용이나 수탁자가 변경될 경우에는 지체없이 본 개인정보
           처리방침을 통하여 공개하도록 하겠습니다.
         </p>
-
         <br />
         <br />
         <p className="lh6 bs4">
@@ -129,12 +128,11 @@ const Privacy = () => {
         <br />
         <br />
         <p className="lh6 bs4">
-          <strong>
-            6. 개인정보의 파기<em className="emphasis">{"<Slog>('Slog')"}</em>
-            은(는) 원칙적으로 개인정보 처리목적이 달성된 경우에는 지체없이 해당
-            개인정보를 파기합니다. 파기의 절차, 기한 및 방법은 다음과 같습니다.
-          </strong>
+          <strong>6. 개인정보의 파기</strong>
         </p>
+        <em className="emphasis">{"<Slog>('Slog')"}</em>
+        은(는) 원칙적으로 개인정보 처리목적이 달성된 경우에는 지체없이 해당
+        개인정보를 파기합니다. 파기의 절차, 기한 및 방법은 다음과 같습니다.
         <p className="ls2">
           -파기절차
           <br />
@@ -215,13 +213,11 @@ const Privacy = () => {
         <br />
         <br />
         <p className="lh6 bs4">
-          <strong>
-            10. 개인정보의 안전성 확보 조치
-            <em className="emphasis">{"<Slog>('Slog')"}</em>
-            은(는) 개인정보보호법 제29조에 따라 다음과 같이 안전성 확보에 필요한
-            기술적/관리적 및 물리적 조치를 하고 있습니다.
-          </strong>
+          <strong>10. 개인정보의 안전성 확보 조치</strong>
         </p>
+        <em className="emphasis">{"<Slog>('Slog')"}</em>
+        은(는) 개인정보보호법 제29조에 따라 다음과 같이 안전성 확보에 필요한
+        기술적/관리적 및 물리적 조치를 하고 있습니다.
         <p className="sub_p mgt10">
           1. 해킹 등에 대비한 기술적 대책
           <br /> {"<"}
