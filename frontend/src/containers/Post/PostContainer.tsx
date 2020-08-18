@@ -469,17 +469,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
             content={post_info.description}
             data-react-helmet="true"
           />
-          <link
-            rel="canonical"
-            href={`https://slog.website/post/${post_info.idx}`}
-            data-react-helmet="true"
-          />
           <meta
             property="og:url"
             content={`https://slog.website/post/${post_info.idx}`}
             data-react-helmet="true"
           />
-          <meta property="og:type" content="article" data-react-helmet="true" />
           <meta
             property="og:title"
             content={post_info.title}
@@ -490,32 +484,16 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
             content={post_info.description}
             data-react-helmet="true"
           />
-          {post_info.thumbnail && (
+          {post_info.thumbnail ? (
             <meta
               property="og:image"
               content={post_info.thumbnail}
               data-react-helmet="true"
             />
-          )}
-          <meta
-            name="twitter:card"
-            content="summary_large_image"
-            data-react-helmet="true"
-          />
-          <meta
-            name="twitter:title"
-            content={post_info.title}
-            data-react-helmet="true"
-          />
-          <meta
-            name="twitter:description"
-            content={post_info.description}
-            data-react-helmet="true"
-          />
-          {post_info.thumbnail && (
+          ) : (
             <meta
-              name="twitter:image"
-              content={post_info.thumbnail}
+              property="og:image"
+              content={"https://data.slog.website/op_logo.png"}
               data-react-helmet="true"
             />
           )}

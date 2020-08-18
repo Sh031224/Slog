@@ -9,7 +9,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
 import Privacy from "../../components/Privacy";
 import { Helmet } from "react-helmet-async";
-import logo from "../../assets/images/op_img.png";
 
 interface MainContainerProps {
   store?: StoreType;
@@ -201,10 +200,24 @@ const MainContainer = ({ store }: MainContainerProps) => {
         <title>{"Slog"}</title>
         <meta
           name="description"
-          content="📖 My Blog that contains various articles such as my activities and thoughts."
+          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
           data-react-helmet="true"
         />
-        <meta property="og:image" content={logo} data-react-helmet="true" />
+        <meta
+          property="og:description"
+          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
+          data-react-helmet="true"
+        />
+        <meta
+          property="og:url"
+          content="https://slog.website/"
+          data-react-helmet="true"
+        />
+        <meta
+          property="og:image"
+          content="https://data.slog.website/op_logo.png"
+          data-react-helmet="true"
+        />
       </Helmet>
       {privacy ? (
         <Privacy />
