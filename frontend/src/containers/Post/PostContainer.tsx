@@ -124,6 +124,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   const [loading, setLoading] = useState(false);
   const [handler, setHandler] = useState<boolean>(false);
   const [commentCount, setCommentCount] = useState<number>(0);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [post_info, setPostInfo] = useState<
     PostInfoType | SetStateAction<PostInfoType | any>
   >({});
@@ -184,21 +185,26 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   const createComment = useCallback(
     async (post_idx: number, content: string, is_private?: boolean) => {
-      try {
-        await commentCreate(post_idx, content, is_private);
-        await getCommentsCallback(post_idx);
-        await getPostCommentCount(post_idx).then(
-          (res: GetPostCommentCountResponse) => {
-            setCommentCount(res.data.total_count);
+      if (!isSaving) {
+        setIsSaving(true);
+        try {
+          await commentCreate(post_idx, content, is_private);
+          await getCommentsCallback(post_idx);
+          await getPostCommentCount(post_idx).then(
+            (res: GetPostCommentCountResponse) => {
+              setCommentCount(res.data.total_count);
+            }
+          );
+          setIsSaving(false);
+        } catch (err) {
+          if (err.message === "Error: Request failed with status code 401") {
+            removeCookie("access_token", { path: "/" });
+            handleLoginChange(false);
+            NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
+          } else {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
           }
-        );
-      } catch (err) {
-        if (err.message === "Error: Request failed with status code 401") {
-          removeCookie("access_token", { path: "/" });
-          handleLoginChange(false);
-          NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
-        } else {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
+          setIsSaving(false);
         }
       }
     },
@@ -207,26 +213,34 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   const modifyComment = useCallback(
     async (comment_idx: number, content: string) => {
-      try {
-        await commentModify(comment_idx, content).then(
-          (res: PostCommentResponse) => {
-            if (res.status === 200) {
-              NotificationManager.success("댓글을 수정하였습니다.", "Success");
+      if (!isSaving) {
+        setIsSaving(true);
+        try {
+          await commentModify(comment_idx, content).then(
+            (res: PostCommentResponse) => {
+              if (res.status === 200) {
+                NotificationManager.success(
+                  "댓글을 수정하였습니다.",
+                  "Success"
+                );
+              }
             }
+          );
+          await getCommentsCallback(Number(idx));
+          setIsSaving(false);
+        } catch (err) {
+          if (err.message === "Error: Request failed with status code 403") {
+            NotificationManager.warning("권한이 없습니다.", "Error");
+          } else if (
+            err.message === "Error: Request failed with status code 401"
+          ) {
+            removeCookie("access_token", { path: "/" });
+            handleLoginChange(false);
+            NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
+          } else {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
           }
-        );
-        await getCommentsCallback(Number(idx));
-      } catch (err) {
-        if (err.message === "Error: Request failed with status code 403") {
-          NotificationManager.warning("권한이 없습니다.", "Error");
-        } else if (
-          err.message === "Error: Request failed with status code 401"
-        ) {
-          removeCookie("access_token", { path: "/" });
-          handleLoginChange(false);
-          NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
-        } else {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
+          setIsSaving(false);
         }
       }
     },
@@ -287,25 +301,30 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   const createReply = useCallback(
     async (comment_idx: number, content: string, is_private?: boolean) => {
-      try {
-        await replyCreate(comment_idx, content, is_private);
-        await getCommentsCallback(Number(idx));
-        await getPostCommentCount(Number(idx)).then(
-          (res: GetPostCommentCountResponse) => {
-            setCommentCount(res.data.total_count);
+      if (!isSaving) {
+        setIsSaving(true);
+        try {
+          await replyCreate(comment_idx, content, is_private);
+          await getCommentsCallback(Number(idx));
+          await getPostCommentCount(Number(idx)).then(
+            (res: GetPostCommentCountResponse) => {
+              setCommentCount(res.data.total_count);
+            }
+          );
+          setIsSaving(false);
+        } catch (err) {
+          if (err.message === "Error: Request failed with status code 403") {
+            NotificationManager.warning("권한이 없습니다.", "Error");
+          } else if (
+            err.message === "Error: Request failed with status code 401"
+          ) {
+            removeCookie("access_token", { path: "/" });
+            handleLoginChange(false);
+            NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
+          } else {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
           }
-        );
-      } catch (err) {
-        if (err.message === "Error: Request failed with status code 403") {
-          NotificationManager.warning("권한이 없습니다.", "Error");
-        } else if (
-          err.message === "Error: Request failed with status code 401"
-        ) {
-          removeCookie("access_token", { path: "/" });
-          handleLoginChange(false);
-          NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
-        } else {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
+          setIsSaving(false);
         }
       }
     },
@@ -314,26 +333,34 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   const modifyReply = useCallback(
     async (reply_idx: number, content: string) => {
-      try {
-        await replyModify(reply_idx, content).then(
-          (res: PostCommentResponse) => {
-            if (res.status === 200) {
-              NotificationManager.success("댓글을 수정하였습니다.", "Success");
+      if (!isSaving) {
+        setIsSaving(true);
+        try {
+          await replyModify(reply_idx, content).then(
+            (res: PostCommentResponse) => {
+              if (res.status === 200) {
+                NotificationManager.success(
+                  "댓글을 수정하였습니다.",
+                  "Success"
+                );
+              }
             }
+          );
+          await getCommentsCallback(Number(idx));
+          setIsSaving(false);
+        } catch (err) {
+          if (err.message === "Error: Request failed with status code 403") {
+            NotificationManager.warning("권한이 없습니다.", "Error");
+          } else if (
+            err.message === "Error: Request failed with status code 401"
+          ) {
+            removeCookie("access_token", { path: "/" });
+            handleLoginChange(false);
+            NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
+          } else {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
           }
-        );
-        await getCommentsCallback(Number(idx));
-      } catch (err) {
-        if (err.message === "Error: Request failed with status code 403") {
-          NotificationManager.warning("권한이 없습니다.", "Error");
-        } else if (
-          err.message === "Error: Request failed with status code 401"
-        ) {
-          removeCookie("access_token", { path: "/" });
-          handleLoginChange(false);
-          NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
-        } else {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
+          setIsSaving(false);
         }
       }
     },
@@ -435,21 +462,42 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   return (
     <>
       {!post_info.is_temp && (
-        <Helmet
-          title={post_info.title}
-          meta={[
-            { property: "og:type", content: "article" },
-            {
-              property: "og:title",
-              content: `${post_info.description}`
-            },
-            { property: "og:image", content: `${post_info.thumbnail}` },
-            {
-              property: "og:url",
-              content: `http://example.com/post/${post_info.idx}`
-            }
-          ]}
-        />
+        <Helmet>
+          <title>{post_info.title}</title>
+          <meta
+            name="description"
+            content={post_info.description}
+            data-react-helmet="true"
+          />
+          <meta
+            property="og:url"
+            content={`https://slog.website/post/${post_info.idx}`}
+            data-react-helmet="true"
+          />
+          <meta
+            property="og:title"
+            content={post_info.title}
+            data-react-helmet="true"
+          />
+          <meta
+            property="og:description"
+            content={post_info.description}
+            data-react-helmet="true"
+          />
+          {post_info.thumbnail ? (
+            <meta
+              property="og:image"
+              content={post_info.thumbnail}
+              data-react-helmet="true"
+            />
+          ) : (
+            <meta
+              property="og:image"
+              content={"https://data.slog.website/op_logo.png"}
+              data-react-helmet="true"
+            />
+          )}
+        </Helmet>
       )}
       <Post
         adminId={adminId}

@@ -21,6 +21,24 @@ body {
   -webkit-overflow-scrolling: none;
 }
 
+.notification {
+  @media screen and (max-width: 500px) {
+    width: 250px;
+    &-title {
+      font-size: 1rem;
+    }
+    &-message {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.react-confirm-alert-body {
+  @media screen and (max-width: 500px) {
+    width: 300px !important;
+  }
+}
+
 .react-confirm-alert-button-group > button:last-child {
   background-color: #fff;
   border: 1px solid gray;

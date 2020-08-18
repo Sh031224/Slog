@@ -11,16 +11,18 @@ firebase.initializeApp(option);
 
 const App = () => {
   return (
-    <div className="App">
-      <Switch>
-        <Route exact path="/" component={MainPage} />
-        <Route path="/post/:idx" component={PostPage} />
-        <Route path="/handle/:idx" component={HandlePage} />
-        <Route path="/handle" component={HandlePage} />
-        <Route component={NotfoundPage} />
-        <Redirect to="/notfound" />
-      </Switch>
-    </div>
+    <React.Fragment>
+      <div className="App">
+        <Switch>
+          <Route exact path="/" component={MainPage} />
+          <Route path="/post/:idx" component={PostPage} />
+          <Route path="/handle/:idx" component={HandlePage} />
+          <Route path="/handle" component={HandlePage} />
+          <Route component={NotfoundPage} />
+          <Redirect to="/notfound" />
+        </Switch>
+      </div>
+    </React.Fragment>
   );
 };
 

@@ -30,7 +30,7 @@ export default class User extends BaseEntity {
 
   @Column({
     length: 255,
-    nullable: false
+    nullable: true
   })
   fcm: string;
 
