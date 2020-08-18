@@ -9,6 +9,7 @@ import { inject, observer } from "mobx-react";
 import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
 import HandlePost from "../../components/common/HandlePost";
 import useInterval from "react-useinterval";
+import { Helmet } from "react-helmet-async";
 
 interface HandleContainerProps extends RouteComponentProps<MatchType> {
   store?: StoreType;
@@ -277,7 +278,10 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
   const uploadFilesCallback = useCallback(async (files: File[]) => {
     await uploadFiles(files)
       .then((res: UploadFilesResponse) => {
-        setContent((content) => content + `\n![image](${res.data.files[0]})`);
+        setContent(
+          (content) =>
+            content + `\n![image](${res.data.files[0].replace(" ", "%20")})`
+        );
         setIsUpload(false);
         NotificationManager.success("사진이 업로드 되었습니다.", "Success");
       })
@@ -410,6 +414,29 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
 
   return (
     <>
+      <Helmet>
+        <title>{"Slog"}</title>
+        <meta
+          name="description"
+          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
+          data-react-helmet="true"
+        />
+        <meta
+          property="og:description"
+          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
+          data-react-helmet="true"
+        />
+        <meta
+          property="og:url"
+          content="https://slog.website/"
+          data-react-helmet="true"
+        />
+        <meta
+          property="og:image"
+          content="https://data.slog.website/public/op_logo.png"
+          data-react-helmet="true"
+        />
+      </Helmet>
       {isNew ? (
         <HandlePost
           cancelBtn={cancelBtn}
