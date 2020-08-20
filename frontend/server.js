@@ -3,6 +3,11 @@ const app = express();
 const path = require("path");
 const request = require("request");
 const fs = require("fs");
+const cors = require("cors");
+const robots = require("express-robots-txt");
+
+app.use(cors());
+app.use(robots({ UserAgent: "*", Disallow: "/" }));
 
 app.get("/", function (request, response) {
   const filePath = path.resolve(__dirname, "./build", "index.html");
