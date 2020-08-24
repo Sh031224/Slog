@@ -6,6 +6,8 @@ import firebase from "firebase/app";
 import HandlePage from "../pages/HandlePage";
 import { option } from "../config/firebase.json";
 import NotfoundPage from "../pages/NotfoundPage";
+import { NotificationContainer } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 firebase.initializeApp(option);
 
@@ -21,6 +23,7 @@ const App = () => {
           <Route component={NotfoundPage} />
           <Redirect to="/notfound" />
         </Switch>
+        <NotificationContainer />
       </div>
     </React.Fragment>
   );

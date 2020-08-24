@@ -10,11 +10,7 @@ import {
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import firebase from "firebase";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
-import "react-notifications/lib/notifications.css";
+import { NotificationManager } from "react-notifications";
 
 interface HeaderContainerProps {
   store?: StoreType;
@@ -159,7 +155,6 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         tryLogout={tryLogout}
         searchSubmit={searchSubmit}
       />
-      <NotificationContainer />
     </>
   );
 };
