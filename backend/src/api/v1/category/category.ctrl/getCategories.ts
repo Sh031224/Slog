@@ -23,6 +23,7 @@ export default async (req: Request, res: Response) => {
       const postRepo = getRepository(Post);
       const post_count: number = await postRepo.count({
         where: {
+          is_temp: false,
           category: categories[i]
         }
       });

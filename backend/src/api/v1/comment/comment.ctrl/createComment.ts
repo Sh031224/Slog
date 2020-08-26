@@ -62,7 +62,7 @@ export default async (req: AuthRequest, res: Response) => {
             icon: generateURL(req, "logo.png"),
             title: `${user.name}님께서 댓글을 남겼습니다.`,
             body: `${comment.content.substring(0, 20)}`,
-            click_action: `http://localhost:3000/post/${post.idx}`
+            click_action: `https://slog.website/post/${post.idx}`
           }
         },
         data: {

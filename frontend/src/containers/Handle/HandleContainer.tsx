@@ -408,7 +408,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
         tempPostHandle();
       }
     }
-  }, [title, isTemp]);
+  }, [title, isTemp, content, thumbnail, categoryIdx, description]);
 
   useInterval(autoSaveCallback, 250000);
 
