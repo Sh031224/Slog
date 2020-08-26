@@ -83,8 +83,7 @@
     "@types/react-dom": "^16.9.8",
     "core-decorators": "^0.20.0",
     "customize-cra": "^1.0.0",
-    "react-app-rewired": "^2.1.6",
-    "webpack-cli": "^3.3.12"
+    "react-app-rewired": "^2.1.6"
   },
   "babel": {
     "presets": [
