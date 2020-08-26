@@ -10,6 +10,15 @@
   @media screen and (max-width: 768px) {
     font-size: 1rem;
   }
+  p + h1,
+  p + h2,
+  p + h3,
+  p + h4 {
+    margin-top: 2.5rem;
+    @media screen and (max-width: 768px) {
+      margin-top: 2rem;
+    }
+  }
   h1,
   h2,
   h3,
