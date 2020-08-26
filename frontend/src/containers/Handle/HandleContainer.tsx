@@ -350,7 +350,12 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
             setCategoryIdx(res.data.post.fk_category_idx);
           }
           if (res.data.post.thumbnail !== null) {
-            setThumbnail(res.data.post.thumbnail);
+            setThumbnail(
+              res.data.post.thumbnail.replace(
+                "https://data.slog.website/public/",
+                ""
+              )
+            );
           }
         })
         .catch((err: Error) => {
