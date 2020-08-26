@@ -484,18 +484,42 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
             content={post_info.description}
             data-react-helmet="true"
           />
+          <meta
+            property="twitter:title"
+            content={post_info.title}
+            data-react-helmet="true"
+          />
+          <meta
+            property="twitter:description"
+            content={post_info.description}
+            data-react-helmet="true"
+          />
           {post_info.thumbnail ? (
-            <meta
-              property="og:image"
-              content={post_info.thumbnail}
-              data-react-helmet="true"
-            />
+            <>
+              <meta
+                property="og:image"
+                content={post_info.thumbnail}
+                data-react-helmet="true"
+              />
+              <meta
+                property="twitter:image"
+                content={post_info.thumbnail}
+                data-react-helmet="true"
+              />
+            </>
           ) : (
-            <meta
-              property="og:image"
-              content={"https://data.slog.website/public/op_logo.png"}
-              data-react-helmet="true"
-            />
+            <>
+              <meta
+                property="og:image"
+                content={"https://data.slog.website/public/op_logo.png"}
+                data-react-helmet="true"
+              />
+              <meta
+                property="twitter:image"
+                content={"https://data.slog.website/public/op_logo.png"}
+                data-react-helmet="true"
+              />
+            </>
           )}
         </Helmet>
       )}
