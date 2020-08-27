@@ -4,6 +4,7 @@ import profile from "../../../../assets/images/profile.png";
 import PostReplyContainer from "../../../../containers/Post/PostReplyContainer";
 import TimeCounting from "time-counting";
 import { GoPencil } from "react-icons/go";
+import { FaTelegramPlane } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import {
   IoIosLock,
@@ -259,7 +260,7 @@ const PostCommentItem = ({
                         className="post-comment-item-input-box-unlock"
                       />
                     )}
-                    <GoPencil
+                    <FaTelegramPlane
                       onClick={async () => {
                         await createReply(comment.idx, replyInput);
                         cancelReply();
