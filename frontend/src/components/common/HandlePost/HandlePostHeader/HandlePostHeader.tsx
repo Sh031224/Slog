@@ -19,7 +19,7 @@ const HandlePostHeader = ({
       <input
         type="text"
         placeholder="제목을 입력하세요."
-        maxLength={50}
+        maxLength={255}
         value={title}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setTitle(e.target.value)

@@ -117,4 +117,26 @@
     max-width: 100%;
     margin: 3rem auto;
   }
+  table {
+    border-collapse: collapse;
+    display: block;
+    width: 100%;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    max-width: 100%;
+    overflow: auto;
+    tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+    tr {
+      background-color: #fff;
+      border-top: 1px solid #c6cbd1;
+    }
+    td,
+    th {
+      padding: 6px 13px;
+      border: 1px solid #dfe2e5;
+    }
+  }
 }
