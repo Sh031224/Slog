@@ -32,8 +32,11 @@
         border-color: $bd-light-gray;
         border-color: var(--bd-light-gray);
         border-radius: 5px;
+        background-color: $bg-white;
+        background-color: var(--bg-white);
         color: $ft-dark-gray;
         color: var(--ft-dark-gray);
+        z-index: 10;
         div {
           padding: 0.5rem;
           font-size: 0.9rem;
