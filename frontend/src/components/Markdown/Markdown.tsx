@@ -31,6 +31,14 @@ const markedH6 = ({ children, ...props }: { children: string }) => {
   return <h6 id={children.toString().replace(/\ /g, "-")}>{children}</h6>;
 };
 
+const markedA = ({ children, ...props }: { children: string }) => {
+  return (
+    <a {...props} target="_blank">
+      {children}
+    </a>
+  );
+};
+
 const Markdown = ({ children }: MarkdownProps) => {
   return (
     <div className="markdown-code">
@@ -42,7 +50,8 @@ const Markdown = ({ children }: MarkdownProps) => {
             h3: markedH3,
             h4: markedH4,
             h5: markedH5,
-            h6: markedH6
+            h6: markedH6,
+            a: markedA
           },
           forceBlock: true
         }}
