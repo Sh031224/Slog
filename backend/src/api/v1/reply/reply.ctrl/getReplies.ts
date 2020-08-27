@@ -54,7 +54,7 @@ export default async (req: AuthRequest, res: Response) => {
     replies.map((reply) => {
       if (reply.is_private) {
         if (user) {
-          if (user.idx !== reply.fk_user_idx) {
+          if (user.idx !== reply.fk_user_idx && !user.is_admin) {
             reply.content = "비밀 댓글입니다.";
             delete reply.user;
             delete reply.fk_user_idx;
