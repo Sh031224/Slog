@@ -111,13 +111,30 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
           haldleAdminFalse();
         }
       });
-      Notification.requestPermission().then(
-        (permission: NotificationPermission) => {
-          if (permission === "granted") {
-            getFcmToken();
+      try {
+        Notification.requestPermission().then(
+          (permission: NotificationPermission) => {
+            if (permission === "granted") {
+              getFcmToken();
+            }
           }
+        );
+      } catch (error) {
+        // Safari doesn't return a promise for requestPermissions and it
+        // throws a TypeError. It takes a callback as the first argument
+        // instead.
+        if (error instanceof TypeError) {
+          Notification.requestPermission(
+            (permission: NotificationPermission) => {
+              if (permission === "granted") {
+                getFcmToken();
+              }
+            }
+          );
+        } else {
+          throw error;
         }
-      );
+      }
     }
   }, []);
 
