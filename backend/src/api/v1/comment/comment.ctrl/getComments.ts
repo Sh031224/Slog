@@ -45,7 +45,7 @@ export default async (req: AuthRequest, res: Response) => {
     for (let i in comments) {
       if (comments[i].is_private) {
         if (user) {
-          if (user.idx !== comments[i].fk_user_idx) {
+          if (user.idx !== comments[i].fk_user_idx && !user.is_admin) {
             comments[i].content = "비밀 댓글입니다.";
             delete comments[i].fk_user_idx;
             delete comments[i].fk_user_name;
