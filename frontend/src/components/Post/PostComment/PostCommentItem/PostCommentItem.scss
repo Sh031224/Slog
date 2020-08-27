@@ -10,8 +10,8 @@
   border-color: var(--bd-so-light-gray);
   position: relative;
   &-img {
-    width: 2.8rem;
-    height: 2.8rem;
+    max-width: 2.8rem;
+    max-height: 2.8rem;
   }
   &-input {
     padding-left: 0.8rem;
