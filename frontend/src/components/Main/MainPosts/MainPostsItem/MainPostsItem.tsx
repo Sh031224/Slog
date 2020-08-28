@@ -59,12 +59,14 @@ const MainPostsItem = ({ post, lastCardEl }: MainPostsItemProps) => {
             </div>
           </div>
           <div className="main-posts-item-info">
-            <AiOutlineEye className="main-posts-item-info-icon" />
-            <span className="main-posts-item-info-count">{post.view}</span>
-            <GoCommentDiscussion className="main-posts-item-info-icon" />
-            <span className="main-posts-item-info-count">
-              {post.comment_count}
-            </span>
+            <div>
+              <AiOutlineEye className="main-posts-item-info-icon" />
+              <span className="main-posts-item-info-count">{post.view}</span>
+              <GoCommentDiscussion className="main-posts-item-info-icon" />
+              <span className="main-posts-item-info-count">
+                {post.comment_count}
+              </span>
+            </div>
           </div>
         </div>
       ) : (
@@ -102,12 +104,14 @@ const MainPostsItem = ({ post, lastCardEl }: MainPostsItemProps) => {
             </div>
           </div>
           <div className="main-posts-item-info">
-            <AiOutlineEye className="main-posts-item-info-icon" />
-            <span className="main-posts-item-info-count">{post.view}</span>
-            <GoCommentDiscussion className="main-posts-item-info-icon" />
-            <span className="main-posts-item-info-count">
-              {post.comment_count}
-            </span>
+            <div>
+              <AiOutlineEye className="main-posts-item-info-icon" />
+              <span className="main-posts-item-info-count">{post.view}</span>
+              <GoCommentDiscussion className="main-posts-item-info-icon" />
+              <span className="main-posts-item-info-count">
+                {post.comment_count}
+              </span>
+            </div>
           </div>
         </div>
       )}

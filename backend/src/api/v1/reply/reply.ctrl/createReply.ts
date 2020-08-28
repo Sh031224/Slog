@@ -72,7 +72,7 @@ export default async (req: AuthRequest, res: Response) => {
         webpush: {
           notification: {
             icon: generateURL(req, "logo.png"),
-            title: `${commentUser.name}님께서 답글을 남겼습니다.`,
+            title: `${user.name}님께서 답글을 남겼습니다.`,
             body: `${reply.content.substring(0, 20)}`,
             click_action: `https://slog.website/post/${comment.fk_post_idx}`
           }
