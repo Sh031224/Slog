@@ -4,6 +4,7 @@ import MainPage from "../pages/MainPage";
 import PostPage from "../pages/PostPage";
 import firebase from "firebase/app";
 import HandlePage from "../pages/HandlePage";
+import PrivacyPage from "../pages/PrivacyPage";
 import { option } from "../config/firebase.json";
 import NotfoundPage from "../pages/NotfoundPage";
 import { NotificationContainer } from "react-notifications";
@@ -19,6 +20,7 @@ const App = () => {
           <Route exact path="/" component={MainPage} />
           <Route path="/post/:idx" component={PostPage} />
           <Route path="/handle/:idx" component={HandlePage} />
+          <Route path="/privacy" component={PrivacyPage} />
           <Route component={NotfoundPage} />
           <Redirect to="/notfound" />
         </Switch>
