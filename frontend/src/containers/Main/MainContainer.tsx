@@ -90,7 +90,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
   }, [handleCategoryListCallback]);
 
   useEffect(() => {
-    if (search.indexOf("temp") !== 1) {
+    if (search.indexOf("temp") !== 1 && search.indexOf("search=") === -1) {
       handlePostsCallback().catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
