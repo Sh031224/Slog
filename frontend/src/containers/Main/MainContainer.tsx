@@ -7,7 +7,6 @@ import UserStore from "../../stores/UserStore";
 import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
 import { useHistory, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
-import Privacy from "../../components/Privacy";
 import { Helmet } from "react-helmet-async";
 
 interface MainContainerProps {
@@ -53,7 +52,6 @@ const MainContainer = ({ store }: MainContainerProps) => {
   const [categoryEdit, setCategoryEdit] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [notfound, setNotfound] = useState<boolean>(true);
-  const [privacy, setPrivacy] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(0);
 
@@ -166,7 +164,6 @@ const MainContainer = ({ store }: MainContainerProps) => {
   }, []);
 
   const handleQueryCallbacks = useCallback(() => {
-    setPrivacy(false);
     initPosts();
     setNotfound(true);
     if (search.indexOf("tab=") !== -1 || search === "") {
@@ -179,8 +176,6 @@ const MainContainer = ({ store }: MainContainerProps) => {
       }
     } else if (search.indexOf("temp") !== -1) {
       handleTempPostsCallback();
-    } else if (search.indexOf("privacy") !== -1) {
-      setPrivacy(true);
     } else if (search.indexOf("code=") !== -1) {
       history.push("/");
     } else {
@@ -231,37 +226,31 @@ const MainContainer = ({ store }: MainContainerProps) => {
           data-react-helmet="true"
         />
       </Helmet>
-      {privacy ? (
-        <Privacy />
-      ) : (
-        <>
-          <Main
-            createPost={createPost}
-            lastCardEl={lastCardEl}
-            notfound={notfound}
-            loading={loading}
-            getPostLength={getPostLength}
-            posts={posts}
-            categoryRowEl={categoryRowEl}
-            arrowToggleEl={arrowToggleEl}
-            categoryList={categoryList}
-            total_post={total_post}
-            setCategoryEdit={setCategoryEdit}
-            admin={admin}
-          />
-          {admin && categoryEdit && (
-            <AdminCategoryContainer
-              createCategory={createCategory}
-              deleteCategory={deleteCategory}
-              modifyCategoryName={modifyCategoryName}
-              modifyOrderCategory={modifyOrderCategory}
-              setCategoryEdit={setCategoryEdit}
-              categoryList={categoryList}
-              handleCategoryList={handleCategoryList}
-              handlePosts={handlePosts}
-            />
-          )}
-        </>
+      <Main
+        createPost={createPost}
+        lastCardEl={lastCardEl}
+        notfound={notfound}
+        loading={loading}
+        getPostLength={getPostLength}
+        posts={posts}
+        categoryRowEl={categoryRowEl}
+        arrowToggleEl={arrowToggleEl}
+        categoryList={categoryList}
+        total_post={total_post}
+        setCategoryEdit={setCategoryEdit}
+        admin={admin}
+      />
+      {admin && categoryEdit && (
+        <AdminCategoryContainer
+          createCategory={createCategory}
+          deleteCategory={deleteCategory}
+          modifyCategoryName={modifyCategoryName}
+          modifyOrderCategory={modifyOrderCategory}
+          setCategoryEdit={setCategoryEdit}
+          categoryList={categoryList}
+          handleCategoryList={handleCategoryList}
+          handlePosts={handlePosts}
+        />
       )}
     </>
   );
