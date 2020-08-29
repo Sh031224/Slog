@@ -22,7 +22,7 @@ export default class User extends BaseEntity {
   })
   id: string;
 
-  @Column({
+  @PrimaryColumn({
     length: 255,
     nullable: false,
     unique: false
