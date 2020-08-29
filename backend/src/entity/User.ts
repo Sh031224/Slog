@@ -22,10 +22,9 @@ export default class User extends BaseEntity {
   })
   id: string;
 
-  @PrimaryColumn({
+  @Column({
     length: 255,
-    nullable: false,
-    unique: false
+    nullable: false
   })
   name: string;
 
@@ -46,6 +45,12 @@ export default class User extends BaseEntity {
     nullable: false
   })
   is_admin: boolean;
+
+  @Column({
+    default: false,
+    nullable: false
+  })
+  is_deleted: boolean;
 
   @Column("timestampz")
   @CreateDateColumn()

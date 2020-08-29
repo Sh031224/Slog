@@ -45,6 +45,7 @@ export default async (req: AuthRequest, res: Response) => {
     comment.content = data.content;
     comment.user = user;
     comment.post = post;
+    comment.fk_user_name = user.name;
 
     await coommentRepo.save(comment);
 
@@ -55,7 +56,7 @@ export default async (req: AuthRequest, res: Response) => {
       }
     });
 
-    if (adminUser.fcm_allow && adminUser.fcm) {
+    if (!adminUser.is_deleted && adminUser.fcm_allow && adminUser.fcm) {
       const message = {
         webpush: {
           notification: {

@@ -34,6 +34,14 @@ export default async (req: Request, res: Response) => {
 
     const isExist: User = await User.findOrCreate(id, name);
 
+    if (isExist.is_deleted) {
+      logger.yellow("[POST] 로그인 삭제된 유저.");
+      res.status(401).json({
+        message: "인증 실패."
+      });
+      return;
+    }
+
     if (!isExist) {
       logger.yellow("[POST] 로그인 인증 실패.");
       res.status(401).json({

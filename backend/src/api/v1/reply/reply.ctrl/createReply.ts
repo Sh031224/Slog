@@ -58,6 +58,7 @@ export default async (req: AuthRequest, res: Response) => {
     reply.content = data.content;
     reply.user = user;
     reply.comment = comment;
+    reply.fk_user_name = user.name;
     await replyRepo.save(reply);
 
     const userRepo = getRepository(User);
@@ -67,7 +68,7 @@ export default async (req: AuthRequest, res: Response) => {
       }
     });
 
-    if (commentUser.fcm_allow && commentUser.fcm) {
+    if (!commentUser.is_deleted && commentUser.fcm_allow && commentUser.fcm) {
       const message = {
         webpush: {
           notification: {
