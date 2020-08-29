@@ -24,7 +24,8 @@ export default class User extends BaseEntity {
 
   @PrimaryColumn({
     length: 255,
-    nullable: false
+    nullable: false,
+    unique: false
   })
   name: string;
 

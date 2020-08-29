@@ -27,7 +27,7 @@ export default class Reply extends BaseEntity {
   })
   is_private: boolean;
 
-  @ManyToOne((type) => User, (user) => user.name, { onDelete: "SET NULL" })
+  @ManyToOne((type) => User, (user) => user.replies, { onDelete: "SET NULL" })
   @JoinColumn([
     { name: "fk_user_idx", referencedColumnName: "idx" },
     { name: "fk_user_name", referencedColumnName: "name" }
