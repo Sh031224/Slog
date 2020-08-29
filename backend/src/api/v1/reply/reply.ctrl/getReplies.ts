@@ -52,6 +52,9 @@ export default async (req: AuthRequest, res: Response) => {
     });
 
     replies.map((reply) => {
+      if (reply.fk_user_is_deleted) {
+        reply.fk_user_name = "삭제된 유저";
+      }
       if (reply.is_private) {
         if (user) {
           if (user.idx !== reply.fk_user_idx && !user.is_admin) {
