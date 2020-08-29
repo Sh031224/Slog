@@ -2,6 +2,8 @@
 
 📖 My Blog that contains various articles such as my activities and thoughts.
 
+[Go to slog](https://slog.website)
+
 ## 기술 스택
 
 ### Front-End
