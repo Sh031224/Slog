@@ -27,11 +27,8 @@ export default class Reply extends BaseEntity {
   })
   is_private: boolean;
 
-  @ManyToOne((type) => User, (user) => user.replies, { onDelete: "SET NULL" })
-  @JoinColumn([
-    { name: "fk_user_idx", referencedColumnName: "idx" },
-    { name: "fk_user_name", referencedColumnName: "name" }
-  ])
+  @ManyToOne((type) => User, (user) => user.replies)
+  @JoinColumn([{ name: "fk_user_idx", referencedColumnName: "idx" }])
   user: User;
 
   @Column({
@@ -40,9 +37,16 @@ export default class Reply extends BaseEntity {
   fk_user_idx: number;
 
   @Column({
-    nullable: true
+    length: 255,
+    nullable: false
   })
   fk_user_name: string;
+
+  @Column({
+    default: false,
+    nullable: false
+  })
+  fk_user_is_deleted: boolean;
 
   @ManyToOne((type) => Comment, { onDelete: "CASCADE" })
   @JoinColumn({ name: "fk_comment_idx" })
