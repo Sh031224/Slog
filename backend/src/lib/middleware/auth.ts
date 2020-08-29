@@ -9,6 +9,15 @@ const admin = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const user: User = await validateAuth(req);
 
+    if (user.is_deleted) {
+      logger.yellow("[MIDDLEWARE] 삭제된 유저.");
+      res.status(404).json({
+        status: 404,
+        message: "댓글 없음."
+      });
+      return;
+    }
+
     if (!user.is_admin) {
       return res.status(403).json({
         status: 403,
@@ -48,6 +57,14 @@ const user = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const user: User = await validateAuth(req);
     req.user = user;
+    if (user.is_deleted) {
+      logger.yellow("[MIDDLEWARE] 삭제된 유저.");
+      res.status(404).json({
+        status: 404,
+        message: "댓글 없음."
+      });
+      return;
+    }
     next();
   } catch (err) {
     switch (err.message) {
