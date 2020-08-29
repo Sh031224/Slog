@@ -10,6 +10,7 @@ module.exports = {
   entities: ["src/entity/**/*.ts"],
   migrations: ["src/migration/**/*.ts"],
   subscribers: ["src/subscriber/**/*.ts"],
+  charset: "utf8mb4_unicode_ci",
   cli: {
     entitiesDir: "src/entity",
     migrationsDir: "src/migration",
