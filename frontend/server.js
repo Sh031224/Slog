@@ -4,11 +4,14 @@ const path = require("path");
 const request = require("request");
 const fs = require("fs");
 const cors = require("cors");
-const robots = require("express-robots-txt");
+const http = require("http");
 
 app.use(cors());
-app.use(robots({ UserAgent: "*", Disallow: "/" }));
 
+app.get("/robots.txt", function (req, res) {
+  res.type("text/plain");
+  res.send("User-agent: *\nDisallow: /privacy");
+});
 app.get("/", function (request, response) {
   const filePath = path.resolve(__dirname, "./build", "index.html");
   fs.readFile(filePath, "utf8", function (err, data) {
@@ -112,6 +115,8 @@ app.get("*", function (request, response) {
     response.send(result);
   });
 });
+
+// http.createServer(app).listen(3000);
 
 require("greenlock-express")
   .init({
