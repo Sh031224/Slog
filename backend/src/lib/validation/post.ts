@@ -16,7 +16,7 @@ export const validateCreate = (req: Request, res: Response): boolean => {
 
 export const validateCreateTemp = (req: Request, res: Response): boolean => {
   const schema = Joi.object().keys({
-    title: Joi.string().min(1).max(50).required(),
+    title: Joi.string().min(1).max(255).required(),
     content: Joi.string().allow(null),
     category_idx: Joi.number().integer().allow(null),
     thumbnail: Joi.string().max(800).allow(null),
@@ -28,7 +28,7 @@ export const validateCreateTemp = (req: Request, res: Response): boolean => {
 
 export const validateModify = (req: Request, res: Response): boolean => {
   const schema = Joi.object().keys({
-    title: Joi.string().min(1).max(50),
+    title: Joi.string().min(1).max(255),
     content: Joi.string(),
     category_idx: Joi.number().integer(),
     thumbnail: Joi.string().max(800).allow(null),
