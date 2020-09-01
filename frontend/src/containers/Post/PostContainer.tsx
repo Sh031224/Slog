@@ -208,7 +208,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         }
       }
     },
-    [login]
+    [login, isSaving]
   );
 
   const modifyComment = useCallback(
@@ -328,7 +328,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         }
       }
     },
-    [login]
+    [login, isSaving]
   );
 
   const modifyReply = useCallback(
