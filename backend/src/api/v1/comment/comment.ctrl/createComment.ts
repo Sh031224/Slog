@@ -7,7 +7,6 @@ import Post from "../../../../entity/Post";
 import logger from "../../../../lib/logger";
 import Comment from "../../../../entity/Comment";
 import * as admin from "firebase-admin";
-import generateURL from "../../../../lib/util/generateURL";
 
 export default async (req: AuthRequest, res: Response) => {
   if (!validateCreate) return;
@@ -57,10 +56,17 @@ export default async (req: AuthRequest, res: Response) => {
     });
 
     if (!adminUser.is_deleted && adminUser.fcm_allow && adminUser.fcm) {
+      const postRepo = getRepository(Post);
+      const post: Post = await postRepo.findOne({
+        where: {
+          idx: comment.fk_post_idx
+        }
+      });
+
       const message = {
         webpush: {
           notification: {
-            icon: generateURL(req, "logo.png"),
+            icon: null,
             title: `${user.name}님께서 댓글을 남겼습니다.`,
             body: `${comment.content.substring(0, 20)}`,
             click_action: `https://slog.website/post/${post.idx}`
@@ -72,6 +78,10 @@ export default async (req: AuthRequest, res: Response) => {
         },
         token: adminUser.fcm
       };
+
+      if (post.thumbnail) {
+        message.webpush.notification.icon = post.thumbnail;
+      }
 
       admin.messaging().send(message);
     }
