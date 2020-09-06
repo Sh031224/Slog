@@ -8,6 +8,7 @@ import Comment from "../../../../entity/Comment";
 import Reply from "../../../../entity/Reply";
 import * as admin from "firebase-admin";
 import Post from "../../../../entity/Post";
+import generateURL from "../../../../lib/util/generateURL";
 
 export default async (req: AuthRequest, res: Response) => {
   if (!validateCreate(req, res)) return;
@@ -93,7 +94,7 @@ export default async (req: AuthRequest, res: Response) => {
       };
 
       if (post.thumbnail) {
-        message.webpush.notification.icon = post.thumbnail;
+        message.webpush.notification.icon = generateURL(req, post.thumbnail);
       }
 
       admin.messaging().send(message);
