@@ -7,7 +7,7 @@ import User from "../../../../entity/User";
 import Comment from "../../../../entity/Comment";
 import Reply from "../../../../entity/Reply";
 import * as admin from "firebase-admin";
-import generateURL from "../../../../lib/util/generateURL";
+import Post from "../../../../entity/Post";
 
 export default async (req: AuthRequest, res: Response) => {
   if (!validateCreate(req, res)) return;
@@ -69,10 +69,17 @@ export default async (req: AuthRequest, res: Response) => {
     });
 
     if (!commentUser.is_deleted && commentUser.fcm_allow && commentUser.fcm) {
+      const postRepo = getRepository(Post);
+      const post: Post = await postRepo.findOne({
+        where: {
+          idx: comment.fk_post_idx
+        }
+      });
+
       const message = {
         webpush: {
           notification: {
-            icon: generateURL(req, "logo.png"),
+            icon: null,
             title: `${user.name}님께서 답글을 남겼습니다.`,
             body: `${reply.content.substring(0, 20)}`,
             click_action: `https://slog.website/post/${comment.fk_post_idx}`
@@ -84,6 +91,10 @@ export default async (req: AuthRequest, res: Response) => {
         },
         token: commentUser.fcm
       };
+
+      if (post.thumbnail) {
+        message.webpush.notification.icon = post.thumbnail;
+      }
 
       admin.messaging().send(message);
     }

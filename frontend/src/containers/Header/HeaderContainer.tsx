@@ -100,6 +100,31 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
     });
   }, []);
 
+  const requestNotification = useCallback(() => {
+    try {
+      Notification.requestPermission().then(
+        (permission: NotificationPermission) => {
+          if (permission === "granted") {
+            getFcmToken();
+          }
+        }
+      );
+    } catch (error) {
+      // Safari doesn't return a promise for requestPermissions and it
+      // throws a TypeError. It takes a callback as the first argument
+      // instead.
+      if (error instanceof TypeError) {
+        Notification.requestPermission((permission: NotificationPermission) => {
+          if (permission === "granted") {
+            getFcmToken();
+          }
+        });
+      } else {
+        throw error;
+      }
+    }
+  }, [getFcmToken]);
+
   const handleAll = useCallback(async (access_token: string) => {
     if (cookies.access_token !== undefined) {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
@@ -111,30 +136,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
           haldleAdminFalse();
         }
       });
-      try {
-        Notification.requestPermission().then(
-          (permission: NotificationPermission) => {
-            if (permission === "granted") {
-              getFcmToken();
-            }
-          }
-        );
-      } catch (error) {
-        // Safari doesn't return a promise for requestPermissions and it
-        // throws a TypeError. It takes a callback as the first argument
-        // instead.
-        if (error instanceof TypeError) {
-          Notification.requestPermission(
-            (permission: NotificationPermission) => {
-              if (permission === "granted") {
-                getFcmToken();
-              }
-            }
-          );
-        } else {
-          throw error;
-        }
-      }
+      requestNotification();
     }
   }, []);
 
@@ -152,9 +154,10 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
             NotificationManager.error("오류가 발생하였습니다.", "Error");
           }
         });
+        requestNotification();
       }
     }
-  }, [login, cookies]);
+  }, [login, cookies, requestNotification]);
 
   useEffect(() => {
     handleLoginCallback();

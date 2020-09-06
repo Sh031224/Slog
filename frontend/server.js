@@ -10,7 +10,7 @@ app.use(cors());
 
 app.get("/robots.txt", function (req, res) {
   res.type("text/plain");
-  res.send("User-agent: *\nDisallow: /privacy");
+  res.send("User-agent: *\nDisallow: /privacy\nDisallow: /rss/1");
 });
 app.get("/", function (request, response) {
   const filePath = path.resolve(__dirname, "./build", "index.html");
