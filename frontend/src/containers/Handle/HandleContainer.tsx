@@ -7,7 +7,7 @@ import UserStore from "../../stores/UserStore";
 import { NotificationManager } from "react-notifications";
 import { inject, observer } from "mobx-react";
 import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
-import HandlePost from "../../components/common/HandlePost";
+import HandlePost from "../../components/Admin/HandlePost";
 import useInterval from "react-useinterval";
 import { Helmet } from "react-helmet-async";
 
