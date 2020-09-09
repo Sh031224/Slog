@@ -12,6 +12,7 @@ app.get("/robots.txt", function (req, res) {
   res.type("text/plain");
   res.send("User-agent: *\nDisallow: /privacy\nDisallow: /rss/1");
 });
+
 app.get("/", function (request, response) {
   const filePath = path.resolve(__dirname, "./build", "index.html");
   fs.readFile(filePath, "utf8", function (err, data) {
@@ -96,7 +97,27 @@ app.get("/post/*", function (resApp, response) {
 
 app.use(express.static(path.resolve(__dirname, "./build")));
 
-app.get("*", function (request, response) {
+app.get("/privacy", function (request, response) {
+  const filePath = path.resolve(__dirname, "./build", "index.html");
+  fs.readFile(filePath, "utf8", function (err, data) {
+    if (err) {
+      return console.log(err);
+    }
+    data = data.replace(/\$OG_TITLE/g, "Slog");
+    data = data.replace(
+      /\$OG_DESCRIPTION/g,
+      "많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
+    );
+    data = data.replace(/\$OG_URL/g, `https://slog.website/`);
+    result = data.replace(
+      /\$OG_IMAGE/g,
+      "https://data.slog.website/public/op_logo.png"
+    );
+    response.send(result);
+  });
+});
+
+app.get("/handle/*", function (request, response) {
   const filePath = path.resolve(__dirname, "./build", "index.html");
   fs.readFile(filePath, "utf8", function (err, data) {
     if (err) {
