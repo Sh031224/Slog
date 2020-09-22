@@ -24,7 +24,6 @@ const HandlePostHeader = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setTitle(e.target.value)
         }
-        autoFocus
       />
       <input
         type="text"

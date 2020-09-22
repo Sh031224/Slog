@@ -1,7 +1,6 @@
 {
   "name": "blog_backend",
   "version": "0.0.1",
-  "description": "Awesome project developed with TypeORM.",
   "devDependencies": {
     "@types/node": "^8.0.29",
     "nodemon": "^2.0.4",

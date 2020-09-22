@@ -110,6 +110,7 @@ const HandlePostContent = ({
               }
             }
           }}
+          autoFocus
         />
         <MarkdownContainer className="handle-post-content-preview">
           {content}
