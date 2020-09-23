@@ -176,7 +176,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
       }
     } else if (search.indexOf("temp") !== -1) {
       handleTempPostsCallback();
-    } else if (search.indexOf("code=") !== -1) {
+    } else if (search.indexOf("?search=") === -1) {
       history.push("/");
     } else {
       handlePostSearchCallback().catch(() => {
