@@ -3,7 +3,7 @@ importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js");
 
 firebase.initializeApp({
   // Project Settings => Add Firebase to your web app
-  messagingSenderId: "364878267366"
+  messagingSenderId: "82474298430"
 });
 
 const messaging = firebase.messaging();
