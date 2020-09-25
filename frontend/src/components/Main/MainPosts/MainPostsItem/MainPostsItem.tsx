@@ -1,9 +1,9 @@
-import React, { Dispatch } from "react";
+import React from "react";
 import Link from "next/link";
 import { AiOutlineEye } from "react-icons/ai";
 import { GoCommentDiscussion } from "react-icons/go";
 import "./MainPostsItem.scss";
-import TimeCalc from "../../../../lib/TimeCalc";
+import TimeCalc from "../../../../lib/timeCalc";
 import TimeCounting from "time-counting";
 
 interface MainPostsItemProps {
@@ -27,7 +27,7 @@ const MainPostsItem = ({ post, lastCardEl }: MainPostsItemProps) => {
       {lastCardEl ? (
         <div ref={lastCardEl} className="main-posts-item">
           {post.thumbnail && (
-            <Link href={`/post/${post.idx}`}>
+            <Link href={`/post/[idx]`} as={`/post/${post.idx}`}>
               <a className="main-posts-item-thumbnail">
                 <img
                   className="main-posts-item-thumbnail-img"
@@ -38,7 +38,7 @@ const MainPostsItem = ({ post, lastCardEl }: MainPostsItemProps) => {
             </Link>
           )}
           <div className="main-posts-item-content">
-            <Link href={`/post/${post.idx}`}>
+            <Link href={`/post/[idx]`} as={`/post/${post.idx}`}>
               <a>
                 <h4 className="main-posts-item-content-title">{post.title}</h4>
                 <div
@@ -73,7 +73,7 @@ const MainPostsItem = ({ post, lastCardEl }: MainPostsItemProps) => {
       ) : (
         <div className="main-posts-item">
           {post.thumbnail && (
-            <Link href={`/post/${post.idx}`}>
+            <Link href={`/post/[idx]`} as={`/post/${post.idx}`}>
               <a className="main-posts-item-thumbnail">
                 <img
                   className="main-posts-item-thumbnail-img"
@@ -84,7 +84,7 @@ const MainPostsItem = ({ post, lastCardEl }: MainPostsItemProps) => {
             </Link>
           )}
           <div className="main-posts-item-content">
-            <Link href={`/post/${post.idx}`}>
+            <Link href={`/post/[idx]`} as={`/post/${post.idx}`}>
               <a>
                 <h4 className="main-posts-item-content-title">{post.title}</h4>
                 <div
