@@ -89,7 +89,7 @@ interface GetPostCommentCountResponse {
 
 const PostContainer = ({ store }: PostContainerProps) => {
   const router = useRouter();
-  const idx = router.pathname.replace("/post/", "");
+  const { idx } = router.query;
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
@@ -130,21 +130,25 @@ const PostContainer = ({ store }: PostContainerProps) => {
 
   const getPostInfoCallback = useCallback(
     async (idx: number) => {
-      await getPostInfo(idx).then((response: GetPostInfoResponse) => {
-        setPostInfo(response.data.post);
-        setCommentCount(response.data.post.comment_count);
-      });
+      if (!isNaN(idx)) {
+        await getPostInfo(idx).then((response: GetPostInfoResponse) => {
+          setPostInfo(response.data.post);
+          setCommentCount(response.data.post.comment_count);
+        });
+      }
     },
     [idx]
   );
 
   const getCommentsCallback = useCallback(
     async (postIdx: number) => {
-      await getComments(postIdx).catch((err: Error) => {
-        if (err.message !== "Error: Request failed with status code 404") {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
-        }
-      });
+      if (!isNaN(postIdx)) {
+        await getComments(postIdx).catch((err: Error) => {
+          if (err.message !== "Error: Request failed with status code 404") {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
+          }
+        });
+      }
     },
     [idx, login]
   );
@@ -160,20 +164,22 @@ const PostContainer = ({ store }: PostContainerProps) => {
 
   const getAllContent = useCallback(async () => {
     setLoading(true);
-    axios.defaults.headers.common["access_token"] = cookies.access_token;
-    try {
-      await getHitPostsCallback();
-      await getPostInfoCallback(Number(idx));
-      await handleAdminProfile().catch((err: Error) => {
-        console.log(err);
-      });
-      setLoading(false);
-    } catch (err) {
-      if (err.message === "Error: Request failed with status code 404") {
-        NotificationManager.warning("해당 게시글이 없습니다.", "Error");
-        router.push("/");
-      } else {
-        NotificationManager.error("오류가 발생하였습니다.", "Error");
+    if (!isNaN(Number(idx))) {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      try {
+        await getHitPostsCallback();
+        await getPostInfoCallback(Number(idx));
+        await handleAdminProfile().catch((err: Error) => {
+          console.log(err);
+        });
+        setLoading(false);
+      } catch (err) {
+        if (err.message === "Error: Request failed with status code 404") {
+          NotificationManager.warning("해당 게시글이 없습니다.", "Error");
+          router.push("/");
+        } else {
+          NotificationManager.error("오류가 발생하였습니다.", "Error");
+        }
       }
     }
   }, [idx]);
