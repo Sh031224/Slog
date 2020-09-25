@@ -1,18 +1,17 @@
 import { inject, observer } from "mobx-react";
 import React, { useCallback, useEffect, useState, SetStateAction } from "react";
-import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
+import { useRouter } from "next/router";
 import PostStore from "../../stores/PostStore";
 import CommentStore from "../../stores/CommentStore";
 import UserStore from "../../stores/UserStore";
 import Post from "../../components/Post";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { NotificationManager } from "react-notifications";
 import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
 
-interface PostContainerProps extends RouteComponentProps<MatchType> {
+interface PostContainerProps {
   store?: StoreType;
 }
 
@@ -88,20 +87,21 @@ interface GetPostCommentCountResponse {
   };
 }
 
-const PostContainer = ({ match, store }: PostContainerProps) => {
-  const history = useHistory();
-  const { idx } = match.params;
+const PostContainer = ({ store }: PostContainerProps) => {
+  const router = useRouter();
+  const idx = router.pathname.replace("/post/", "");
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
   const {
     getPostInfo,
-    hit_posts,
+    hitPosts,
     handleHitPosts,
     deletePost,
     getPostCommentCount
   } = store!.PostStore;
   const {
+    comments,
     getComments,
     getReplies,
     commentCreate,
@@ -120,7 +120,6 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     handleAdminProfile
   } = store!.UserStore;
 
-  const [comments, setComments] = useState<CommentType[]>([]);
   const [loading, setLoading] = useState(false);
   const [handler, setHandler] = useState<boolean>(false);
   const [commentCount, setCommentCount] = useState<number>(0);
@@ -140,16 +139,12 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const getCommentsCallback = useCallback(
-    async (post_idx: number) => {
-      await getComments(post_idx)
-        .then((res: CommentTypeResponse) => {
-          setComments(res.data.comments);
-        })
-        .catch((err: Error) => {
-          if (err.message !== "Error: Request failed with status code 404") {
-            NotificationManager.error("오류가 발생하였습니다.", "Error");
-          }
-        });
+    async (postIdx: number) => {
+      await getComments(postIdx).catch((err: Error) => {
+        if (err.message !== "Error: Request failed with status code 404") {
+          NotificationManager.error("오류가 발생하였습니다.", "Error");
+        }
+      });
     },
     [idx, login]
   );
@@ -176,7 +171,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     } catch (err) {
       if (err.message === "Error: Request failed with status code 404") {
         NotificationManager.warning("해당 게시글이 없습니다.", "Error");
-        history.push("/");
+        router.push("/");
       } else {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       }
@@ -184,13 +179,13 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   }, [idx]);
 
   const createComment = useCallback(
-    async (post_idx: number, content: string, is_private?: boolean) => {
+    async (postIdx: number, content: string, isPrivate?: boolean) => {
       if (!isSaving) {
         setIsSaving(true);
         try {
-          await commentCreate(post_idx, content, is_private);
-          await getCommentsCallback(post_idx);
-          await getPostCommentCount(post_idx).then(
+          await commentCreate(postIdx, content, isPrivate);
+          await getCommentsCallback(postIdx);
+          await getPostCommentCount(postIdx).then(
             (res: GetPostCommentCountResponse) => {
               setCommentCount(res.data.total_count);
             }
@@ -212,11 +207,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const modifyComment = useCallback(
-    async (comment_idx: number, content: string) => {
+    async (commentIdx: number, content: string) => {
       if (!isSaving) {
         setIsSaving(true);
         try {
-          await commentModify(comment_idx, content).then(
+          await commentModify(commentIdx, content).then(
             (res: PostCommentResponse) => {
               if (res.status === 200) {
                 NotificationManager.success(
@@ -248,9 +243,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const deleteCommentCallback = useCallback(
-    async (comment_idx: number) => {
+    async (commentIdx: number) => {
       try {
-        await commentDelete(comment_idx).then((res: PostCommentResponse) => {
+        await commentDelete(commentIdx).then((res: PostCommentResponse) => {
           if (res.status === 200) {
             NotificationManager.success("댓글을 삭제하였습니다.", "Success");
           }
@@ -278,14 +273,14 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const deleteComment = useCallback(
-    async (comment_idx: number) => {
+    async (commentIdx) => {
       confirmAlert({
         title: "Warning",
         message: "정말로 삭제하시겠습니까?",
         buttons: [
           {
             label: "Yes",
-            onClick: () => deleteCommentCallback(comment_idx)
+            onClick: () => deleteCommentCallback(commentIdx)
           },
           {
             label: "No",
@@ -300,11 +295,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const createReply = useCallback(
-    async (comment_idx: number, content: string, is_private?: boolean) => {
+    async (commentIdx: number, content: string, isPrivate?: boolean) => {
       if (!isSaving) {
         setIsSaving(true);
         try {
-          await replyCreate(comment_idx, content, is_private);
+          await replyCreate(commentIdx, content, isPrivate);
           await getCommentsCallback(Number(idx));
           await getPostCommentCount(Number(idx)).then(
             (res: GetPostCommentCountResponse) => {
@@ -332,11 +327,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const modifyReply = useCallback(
-    async (reply_idx: number, content: string) => {
+    async (replyIdx: number, content: string) => {
       if (!isSaving) {
         setIsSaving(true);
         try {
-          await replyModify(reply_idx, content).then(
+          await replyModify(replyIdx, content).then(
             (res: PostCommentResponse) => {
               if (res.status === 200) {
                 NotificationManager.success(
@@ -368,9 +363,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const deleteReplyCallback = useCallback(
-    async (reply_idx: number) => {
+    async (replyIdx: number) => {
       try {
-        await replyDelete(reply_idx).then((res: PostCommentResponse) => {
+        await replyDelete(replyIdx).then((res: PostCommentResponse) => {
           if (res.status === 200) {
             NotificationManager.success("댓글을 삭제하였습니다.", "Success");
           }
@@ -420,13 +415,13 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const editPost = useCallback(() => {
-    history.push(`/handle/${Number(idx)}`);
+    router.push(`/handle/${Number(idx)}`);
   }, [idx]);
 
   const deletePostCallback = useCallback(() => {
     deletePost(Number(idx))
       .then((res) => {
-        history.push("/");
+        router.push("/");
         NotificationManager.success("게시글을 삭제하였습니다.", "Success");
       })
       .catch((err: Error) => {
@@ -461,7 +456,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   return (
     <>
-      {!post_info.is_temp && (
+      {/* {!post_info.is_temp && (
         <Helmet>
           <title>{post_info.title}</title>
           <meta
@@ -522,7 +517,7 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
             </>
           )}
         </Helmet>
-      )}
+      )} */}
       <Post
         adminId={adminId}
         commentCount={commentCount}
@@ -542,11 +537,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         loading={loading}
         comments={comments}
         post={post_info}
-        hit_posts={hit_posts}
+        hitPosts={hitPosts}
         editPost={editPost}
       />
     </>
   );
 };
 
-export default inject("store")(observer(withRouter(PostContainer)));
+export default inject("store")(observer(PostContainer));

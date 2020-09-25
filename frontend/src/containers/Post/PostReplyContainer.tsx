@@ -3,12 +3,12 @@ import PostReply from "../../components/Post/PostReply";
 
 interface PostReplyContainerProps {
   comment: CommentType;
-  comment_idx: number;
+  commentIdx: number;
   admin: boolean;
   userId: number;
   login: boolean;
-  getReplies: (comment_idx: number) => Promise<RepliesResponse>;
-  modifyReply: (reply_idx: number, content: string) => Promise<void>;
+  getReplies: (commentIdx: number) => Promise<RepliesResponse>;
+  modifyReply: (replyIdx: number, content: string) => Promise<void>;
   deleteReply: (reply_idx: number) => void;
   adminId: number;
 }
@@ -48,7 +48,7 @@ const PostReplyContainer = ({
   getReplies,
   admin,
   userId,
-  comment_idx,
+  commentIdx,
   login,
   modifyReply,
   deleteReply,
@@ -58,10 +58,10 @@ const PostReplyContainer = ({
   const [replies, setReplies] = useState<ReplyType[]>([]);
 
   const getRepliesCallback = useCallback(() => {
-    getReplies(comment_idx).then((res: RepliesResponse) => {
+    getReplies(commentIdx).then((res: RepliesResponse) => {
       setReplies(res.data.replies);
     });
-  }, [comment, comment_idx]);
+  }, [comment, commentIdx]);
 
   useEffect(() => {
     getRepliesCallback();

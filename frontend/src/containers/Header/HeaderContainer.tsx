@@ -8,9 +8,10 @@ import {
   ReactFacebookLoginInfo
 } from "react-facebook-login";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
+// import { userouter } from "react-router-dom";
 import firebase from "firebase";
 import { NotificationManager } from "react-notifications";
+import { useRouter } from "next/router";
 
 interface HeaderContainerProps {
   store?: StoreType;
@@ -40,7 +41,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   const searchEl = useRef<HTMLElement>(null);
   const inputEl = useRef<HTMLElement>(null);
 
-  const history = useHistory();
+  const router = useRouter();
 
   const [search, setSearch] = useState("");
 
@@ -81,23 +82,25 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         )
       ) {
         if (search !== "") {
-          history.push(`/?search=${search}`);
+          router.push(`/?search=${search}`);
         } else {
-          history.push("/");
+          router.push("/");
         }
       }
     }
   }, [search]);
 
   const getFcmToken = useCallback(async () => {
-    axios.defaults.headers.common["access_token"] = cookies.access_token;
-    const messaging = firebase.messaging();
+    if (!firebase.app.length) {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      const messaging = firebase.messaging();
 
-    await messaging.requestPermission().then(() => {
-      messaging.getToken().then((res: string) => {
-        handleFcm(res);
+      await messaging.requestPermission().then(() => {
+        messaging.getToken().then((res: string) => {
+          handleFcm(res);
+        });
       });
-    });
+    }
   }, []);
 
   const requestNotification = useCallback(() => {

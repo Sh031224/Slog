@@ -1,5 +1,4 @@
 import { action, observable } from "mobx";
-import { autobind } from "core-decorators";
 import Profile from "../../assets/api/Profile";
 import Login from "../../assets/api/Login";
 
@@ -16,7 +15,6 @@ interface GetProfileResponse {
   };
 }
 
-@autobind
 class UserStore {
   @observable admin = false;
 

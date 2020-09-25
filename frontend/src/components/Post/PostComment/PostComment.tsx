@@ -5,26 +5,25 @@ import "./PostComment.scss";
 
 interface PostCommentProps {
   comments: CommentType[];
-  count: number;
   login: boolean;
   admin: boolean;
   createComment: (
-    post_idx: number,
+    postIdx: number,
     content: string,
-    is_private?: boolean | undefined
+    isPrivate?: boolean | undefined
   ) => Promise<void>;
-  post_idx: number;
-  getReplies: (comment_idx: number) => Promise<RepliesResponse>;
+  postIdx: number;
+  getReplies: (commentIdx: number) => Promise<RepliesResponse>;
   userId: number;
-  modifyComment: (comment_idx: number, content: string) => Promise<void>;
-  deleteComment: (comment_idx: number) => void;
+  modifyComment: (commentIdx: number, content: string) => Promise<void>;
+  deleteComment: (commentIdx: number) => void;
   createReply: (
-    comment_idx: number,
+    commentIdx: number,
     content: string,
-    is_private?: boolean | undefined
+    isPrivate?: boolean | undefined
   ) => Promise<void>;
-  modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => void;
+  modifyReply: (replyIdx: number, content: string) => Promise<void>;
+  deleteReply: (replyIdx: number) => void;
   commentCount: number;
   adminId: number;
 }
@@ -62,10 +61,9 @@ interface CommentType {
 
 const PostComment = ({
   comments,
-  count,
   login,
   admin,
-  post_idx,
+  postIdx,
   createComment,
   getReplies,
   userId,
@@ -83,7 +81,7 @@ const PostComment = ({
         댓글 <b>{commentCount}</b>
       </div>
       <PostCommentCreateContainer
-        post_idx={post_idx}
+        postIdx={postIdx}
         createComment={createComment}
         login={login}
       />

@@ -8,7 +8,6 @@ import React, {
 import AdminCategory from "../../components/Admin/AdminCategory";
 import { NotificationManager } from "react-notifications";
 import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
 
 interface AdminCategoryContainerProps {
   categoryList: CategoryType[];

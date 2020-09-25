@@ -1,8 +1,9 @@
 import React from "react";
+import { NextPage } from "next";
 import MainTemplate from "../components/common/Template/MainTemplate";
 import MainContainer from "../containers/Main/MainContainer";
 
-const MainPage = () => {
+const IndexPage: NextPage = () => {
   return (
     <MainTemplate>
       <MainContainer />
@@ -10,4 +11,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default IndexPage;

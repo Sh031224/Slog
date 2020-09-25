@@ -6,17 +6,14 @@ import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import { NotificationManager } from "react-notifications";
 import { inject, observer } from "mobx-react";
-import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
+import { useRouter } from "next/router";
+// import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
 import HandlePost from "../../components/Admin/HandlePost";
 import useInterval from "react-useinterval";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 
-interface HandleContainerProps extends RouteComponentProps<MatchType> {
+interface HandleContainerProps {
   store?: StoreType;
-}
-
-interface MatchType {
-  idx: string;
 }
 
 interface StoreType {
@@ -76,7 +73,7 @@ interface CreateTempPostResponse {
   };
 }
 
-const HandleContainer = ({ store, match }: HandleContainerProps) => {
+const HandleContainer = ({ store }: HandleContainerProps) => {
   const { categoryList, handleCategoryList } = store!.CategoryStore;
   const { handleUser, login, handleLoginChange } = store!.UserStore;
   const {
@@ -89,7 +86,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
-  const { idx } = match.params;
+  let idx = "1";
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -108,7 +105,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
     PostInfoType | React.SetStateAction<PostInfoType | any>
   >({});
 
-  const history = useHistory();
+  const history = useRouter();
 
   const createTempPostCallback = useCallback(async () => {
     if (title !== "") {
@@ -366,7 +363,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
   }, [isNew]);
 
   const cancelBtn = () => {
-    history.goBack();
+    history.back();
   };
 
   const savePostHandle = useCallback(() => {
@@ -419,7 +416,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>{"Slog"}</title>
         <meta
           name="description"
@@ -441,7 +438,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
           content="https://data.slog.website/public/op_logo.png"
           data-react-helmet="true"
         />
-      </Helmet>
+      </Helmet> */}
       {isNew ? (
         <HandlePost
           cancelBtn={cancelBtn}
@@ -495,4 +492,4 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
   );
 };
 
-export default inject("store")(observer(withRouter(HandleContainer)));
+export default inject("store")(observer(HandleContainer));

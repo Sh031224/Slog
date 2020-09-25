@@ -9,13 +9,13 @@ interface PostCommentCreateContainerProps {
     is_private?: boolean | undefined
   ) => Promise<void>;
   login: boolean;
-  post_idx: number;
+  postIdx: number;
 }
 
 const PostCommentCreateContainer = ({
   createComment,
   login,
-  post_idx
+  postIdx
 }: PostCommentCreateContainerProps) => {
   const [commentInput, setCommentInput] = useState<string>("");
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
@@ -24,7 +24,7 @@ const PostCommentCreateContainer = ({
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {
         if (commentInput.replace(" ", "") !== "") {
-          createComment(post_idx, commentInput, isPrivate).catch(
+          createComment(postIdx, commentInput, isPrivate).catch(
             (err: Error) => {
               if (
                 err.message === "Error: Request failed with status code 401"
@@ -49,7 +49,7 @@ const PostCommentCreateContainer = ({
 
   const commentCreate = useCallback(async () => {
     if (commentInput.replace(" ", "") !== "") {
-      await createComment(post_idx, commentInput, isPrivate).catch(
+      await createComment(postIdx, commentInput, isPrivate).catch(
         (err: Error) => {
           if (err.message === "Error: Request failed with status code 401") {
             NotificationManager.warning("로그인 후 작성가능합니다.", "Error");

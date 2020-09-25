@@ -1,14 +1,14 @@
 import React from "react";
 import "./PostHeader.scss";
-import TimeCalc from "../../../util/lib/TimeCalc";
+import TimeCalc from "../../../lib/TimeCalc";
 import TimeCounting from "time-counting";
 import { FiMoreHorizontal, FiEdit3, FiDelete } from "react-icons/fi";
 
 interface PostHeaderProps {
   thumbnail: string | null;
   title: string;
-  created_at: Date;
-  updated_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
   handler: boolean;
   setHandler: React.Dispatch<React.SetStateAction<boolean>>;
   admin: boolean;
@@ -18,8 +18,8 @@ interface PostHeaderProps {
 
 const PostHeader = ({
   title,
-  created_at,
-  updated_at,
+  createdAt,
+  updatedAt,
   thumbnail,
   admin,
   handler,
@@ -63,12 +63,12 @@ const PostHeader = ({
           onClick={() => setHandler(false)}
         >
           <span
-            title={TimeCalc.getTime(created_at)}
+            title={TimeCalc.getTime(createdAt)}
             className="post-header-container-date-time"
           >
-            {TimeCounting(created_at, { lang: "ko" })}
+            {TimeCounting(createdAt, { lang: "ko" })}
           </span>
-          {TimeCalc.checkModify(created_at, updated_at) && (
+          {TimeCalc.checkModify(createdAt, updatedAt) && (
             <>
               <span className="post-header-container-comma">·</span>
               <span>수정됨</span>

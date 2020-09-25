@@ -16,8 +16,8 @@ interface PostReplyItemProps {
   setModify: React.Dispatch<React.SetStateAction<boolean>>;
   modifyInput: string;
   setModifyInput: React.Dispatch<React.SetStateAction<string>>;
-  modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => void;
+  modifyReply: (replyIdx: number, content: string) => Promise<void>;
+  deleteReply: (replyIdx: number) => void;
   adminId: number;
 }
 

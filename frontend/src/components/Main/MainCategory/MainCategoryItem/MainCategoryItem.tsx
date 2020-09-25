@@ -1,9 +1,9 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import classNames from "classnames/bind";
+// import { Link, useLocation } from "react-router-dom";
+// import classNames from "classnames/bind";
 const styled = require("./MainCategoryItem.scss");
 
-const cx = classNames.bind(styled);
+// const cx = classNames.bind(styled);
 
 interface MainCategoryItemProps {
   item: CategoryType;
@@ -16,13 +16,14 @@ interface CategoryType {
 }
 
 const MainCategoryItem = ({ item }: MainCategoryItemProps) => {
-  const { pathname, search } = useLocation();
+  // const { pathname, search } = useLocation();
   const isTotal = item.idx === 0;
   const temp = item.idx === -1;
   const path = `?tab=${item.idx}`;
 
   return (
-    <>
+    <div>
+      {/* <>
       {isTotal ? (
         <Link to={`/`}>
           <div
@@ -68,7 +69,8 @@ const MainCategoryItem = ({ item }: MainCategoryItemProps) => {
           )}
         </>
       )}
-    </>
+    </> */}
+    </div>
   );
 };
 

@@ -1,5 +1,4 @@
 import { observable, action } from "mobx";
-import { autobind } from "core-decorators";
 import Post from "../../assets/api/Post";
 
 interface PostParmsType {
@@ -97,13 +96,12 @@ interface GetPostCommentCountResponse {
   };
 }
 
-@autobind
 class PostStore {
   @observable
   posts: PostType[] = [];
 
   @observable
-  hit_posts: PostType[] = [];
+  hitPosts: PostType[] = [];
 
   @action
   handlePosts = async (query: PostParmsType) => {
@@ -150,10 +148,10 @@ class PostStore {
       const response: PostResponseType = await Post.GetPostList(query);
       if (query.page > 1) {
         response.data.posts.map((post: PostType) => {
-          this.hit_posts.push(post);
+          this.hitPosts.push(post);
         });
       } else {
-        this.hit_posts = response.data.posts;
+        this.hitPosts = response.data.posts;
       }
 
       return new Promise((resolve, reject) => {

@@ -1,5 +1,4 @@
-import { action } from "mobx";
-import { autobind } from "core-decorators";
+import { action, observable } from "mobx";
 import Comment from "../../assets/api/Comment";
 
 interface CommentTypeResponse {
@@ -46,12 +45,15 @@ interface PostCommentResponse {
   message: string;
 }
 
-@autobind
 class LoginStore {
+  @observable comments: CommentType[] = [];
+
   @action
   getComments = async (post_idx: number): Promise<CommentTypeResponse> => {
     try {
-      const response = await Comment.GetComments(post_idx);
+      const response: CommentTypeResponse = await Comment.GetComments(post_idx);
+
+      this.comments = response.data.comments;
 
       return new Promise(
         (resolve: (response: CommentTypeResponse) => void, reject) => {

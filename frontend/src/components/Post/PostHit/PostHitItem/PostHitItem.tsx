@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 import TimeCounting from "time-counting";
 import "./PostHitItem.scss";
 
@@ -20,7 +20,7 @@ interface PostType {
 const PostHitItem = ({ post }: PostHitItemProps) => {
   return (
     <div className="post-hit-item">
-      <NavLink
+      {/* <NavLink
         to={`/post/${post.idx}`}
         activeClassName={"post-hit-item-active"}
       >
@@ -28,7 +28,7 @@ const PostHitItem = ({ post }: PostHitItemProps) => {
       </NavLink>
       <div className="post-hit-item-date">
         {TimeCounting(post.created_at, { lang: "ko" })}
-      </div>
+      </div> */}
     </div>
   );
 };
