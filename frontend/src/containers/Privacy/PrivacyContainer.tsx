@@ -1,7 +1,7 @@
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import React, { useEffect } from "react";
-// import { Helmet } from "react-helmet-async";
-import Privacy from "../../components/Privacy";
+const Privacy = dynamic(() => import("../../components/Privacy"));
 
 const PrivacyContainer = () => {
   useEffect(() => {

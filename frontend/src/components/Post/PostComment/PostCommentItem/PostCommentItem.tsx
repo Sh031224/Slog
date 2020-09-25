@@ -1,7 +1,6 @@
 import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
 import "./PostCommentItem.scss";
 import profile from "../../../../assets/images/profile.png";
-import PostReplyContainer from "../../../../containers/Post/PostReplyContainer";
 import TimeCounting from "time-counting";
 import { GoPencil } from "react-icons/go";
 import { FaTelegramPlane } from "react-icons/fa";
@@ -11,6 +10,11 @@ import {
   IoIosUnlock,
   IoMdCheckmarkCircleOutline
 } from "react-icons/io";
+import dynamic from "next/dynamic";
+
+const PostReplyContainer = dynamic(
+  () => import("../../../../containers/Post/PostReplyContainer")
+);
 
 interface PostCommentItemProps {
   comment: CommentType;

@@ -1,6 +1,5 @@
 import { inject, observer } from "mobx-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import Header from "../../components/common/Header";
 import UserStore from "../../stores/UserStore";
 import axios from "axios";
 import {
@@ -11,6 +10,9 @@ import { useCookies } from "react-cookie";
 import { firebaseCloudMessaging } from "../../lib/firebaseCloudMessaging";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+
+const Header = dynamic(() => import("../../components/common/Header"));
 
 interface HeaderContainerProps {
   store?: StoreType;
@@ -62,6 +64,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
       })
       .catch(() => {
         haldleAdminFalse();
+        console.log(1);
         NotificationManager.error("로그인에 실패하였습니다.", "Error");
       });
   };

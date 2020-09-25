@@ -7,9 +7,11 @@ import UserStore from "../../stores/UserStore";
 import { NotificationManager } from "react-notifications";
 import { inject, observer } from "mobx-react";
 import { useRouter } from "next/router";
-import HandlePost from "../../components/Admin/HandlePost";
 import useInterval from "react-useinterval";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+
+const HandlePost = dynamic(() => import("../../components/Admin/HandlePost"));
 
 interface HandleContainerProps {
   store?: StoreType;
@@ -107,7 +109,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
     if (title !== "") {
       await createTempPost(title, description, content, thumbnail, categoryIdx)
         .then((res: CreateTempPostResponse) => {
-          router.push(`/handle/${res.data.idx}`);
+          router.push(`/handle/[idx]`, `/handle/${res.data.idx}`);
           NotificationManager.success("임시저장 되었습니다.", "Success");
         })
         .catch(() => {
@@ -120,56 +122,59 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
   }, [title, description, content, categoryIdx, thumbnail]);
 
   const modifyTempPostCallback = useCallback(async () => {
-    if (title !== "") {
-      const body: {
-        title: string;
-        description: string | null;
-        content: string | null;
-        thumbnail: string | null;
-        category_idx?: number;
-        is_temp?: boolean;
-      } = {
-        title,
-        description,
-        content,
-        thumbnail,
-        category_idx: categoryIdx
-      };
+    if (!isNaN(Number(idx))) {
+      if (title !== "") {
+        const body: {
+          title: string;
+          description: string | null;
+          content: string | null;
+          thumbnail: string | null;
+          category_idx?: number;
+          is_temp?: boolean;
+        } = {
+          title,
+          description,
+          content,
+          thumbnail,
+          category_idx: categoryIdx
+        };
 
-      if (content === "") {
-        body.content = "임시 저장";
-      }
-      if (categoryIdx === -1) {
-        delete body.category_idx;
-      }
-      if (description === "") {
-        body.description = "임시저장 글입니다.";
-      }
+        if (content === "") {
+          body.content = "임시 저장";
+        }
+        if (categoryIdx === -1) {
+          delete body.category_idx;
+        }
+        if (description === "") {
+          body.description = "임시저장 글입니다.";
+        }
 
-      if (thumbnail === "") {
-        body.thumbnail = null;
-      }
+        if (thumbnail === "") {
+          body.thumbnail = null;
+        }
 
-      await modifyPost(Number(idx), body)
-        .then(() => {
-          if (content === "") {
-            setContent("임시 저장");
-          }
-          if (description === "") {
-            setDescription("임시저장 글입니다.");
-          }
-          if (!isTemp) {
-            router.push(`/post/${idx}`);
-          }
-          NotificationManager.success("저장 되었습니다.", "Success");
-        })
-        .catch(() => {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
-        });
-    } else {
-      NotificationManager.warning("제목을 입력하세요.", "Warning");
+        await modifyPost(Number(idx), body)
+          .then(() => {
+            if (content === "") {
+              setContent("임시 저장");
+            }
+            if (description === "") {
+              setDescription("임시저장 글입니다.");
+            }
+            if (!isTemp) {
+              // router.push(`/handle/[idx]`, `/handle/${res.data.idx}`);
+              router.push(`/post/${idx}`);
+            }
+            NotificationManager.success("저장 되었습니다.", "Success");
+          })
+          .catch(() => {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
+          });
+      } else {
+        NotificationManager.warning("제목을 입력하세요.", "Warning");
+      }
+      setIsSaving(false);
     }
-    setIsSaving(false);
   }, [title, description, content, categoryIdx, thumbnail]);
 
   const createPostCallback = useCallback(async () => {

@@ -49,6 +49,11 @@ class LoginStore {
   @observable comments: CommentType[] = [];
 
   @action
+  initComments = () => {
+    this.comments = [];
+  };
+
+  @action
   getComments = async (post_idx: number): Promise<CommentTypeResponse> => {
     try {
       const response: CommentTypeResponse = await Comment.GetComments(post_idx);

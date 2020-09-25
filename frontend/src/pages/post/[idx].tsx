@@ -1,8 +1,10 @@
 import React from "react";
-import MainTemplate from "../../components/common/Template/MainTemplate";
 import PostApi from "../../assets/api/Post";
 import dynamic from "next/dynamic";
 
+const MainTemplate = dynamic(
+  () => import("../../components/common/Template/MainTemplate")
+);
 const PostContainer = dynamic(
   () => import("../../containers/Post/PostContainer")
 );
@@ -31,10 +33,12 @@ class Post extends React.Component<PostProps> {
 
     if (isServer) {
       const postIdx = req.url.replace("/post/", "");
-      const {
-        data: { post }
-      } = await PostApi.GetPostInfo(Number(postIdx));
-      return { post };
+      const data = await PostApi.GetPostInfo(Number(postIdx)).catch(
+        (err: Error) => {
+          return { post: {} };
+        }
+      );
+      return { post: data.data.post };
     }
     return { post: {} };
   }

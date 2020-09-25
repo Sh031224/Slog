@@ -30,7 +30,7 @@ const MainCategoryItem = ({ item }: MainCategoryItemProps) => {
             <div
               className={cx("main-category-item", {
                 "main-category-item-active":
-                  query && !query.tab && !query.search
+                  query && !query.tab && !query.search && query.temp !== ""
               })}
             >
               {item.name}
