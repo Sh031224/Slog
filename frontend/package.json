@@ -7,7 +7,6 @@
     "build": "next build",
     "start:server": "NODE_ENV=production ts-node server/server.ts",
     "start:client": "next",
-    "bundle": "BUNDLE_ANALYZE=both yarn run build",
     "deploy": "rm -rf node_modules/.cache && next build && yarn start:server",
     "sitemap": "sh server/sitemap/sitemap.sh",
     "type-check": "tsc"
