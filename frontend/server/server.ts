@@ -27,9 +27,17 @@ app
       });
     });
 
-    server.listen(3000, () => {
-      console.log("> Ready on http://localhost:3000");
-    });
+    require("greenlock-express")
+      .init({
+        packageRoot: "/root/blog_web",
+        configDor: "../src/greenlock.d",
+        cluster: false,
+        maintainerEmail: "1cktmdgh2@gmail.com"
+      })
+      .serve(server);
+
+    console.log("> Ready on http://localhost");
+    console.log("> Ready on https://localhost");
   })
   .catch((ex: Error) => {
     console.error(ex.stack);
