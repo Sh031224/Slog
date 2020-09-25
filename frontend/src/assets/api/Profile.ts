@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { server } from "../../config/index.json";
 
 class Profile {
