@@ -8,7 +8,7 @@
 
 ### Front-End
 
-- React & SSR
+- NextJS & SSR
 - sass
 - FCM
 
@@ -40,4 +40,5 @@
 <img src="https://user-images.githubusercontent.com/51149996/91630729-cc860b80-ea0e-11ea-81d1-243d3dba7228.png" width="100%" />
 
 ## 문의
+
 - 1cktmdgh2@gmail.com
