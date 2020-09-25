@@ -15,6 +15,13 @@ module.exports = withPlugins([
       }
     }
   ],
-  [withCss],
+  [
+    withCss,
+    {
+      cssLoaderOptions: {
+        url: false
+      }
+    }
+  ],
   [withImages]
 ]);
