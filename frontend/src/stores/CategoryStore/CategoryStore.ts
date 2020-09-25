@@ -1,24 +1,22 @@
 import { observable, action } from "mobx";
-import { autobind } from "core-decorators";
 import Category from "../../assets/api/Category";
 
-@autobind
 class CategoryStore {
   @observable categoryList = [];
-  @observable total_post = 0;
+  @observable totalPost = 0;
 
   @action
   handleCategoryList = async () => {
     try {
       const response = await Category.GetCategoryList();
       this.categoryList = response.data.categories;
-      this.total_post = response.data.total;
+      this.totalPost = response.data.total;
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }
@@ -32,11 +30,11 @@ class CategoryStore {
         order_number
       );
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }
@@ -47,11 +45,11 @@ class CategoryStore {
     try {
       const response = await Category.ModifyCategory(category_idx, name);
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }
@@ -62,11 +60,11 @@ class CategoryStore {
     try {
       const response = await Category.DeleteCategory(category_idx);
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }
@@ -77,11 +75,11 @@ class CategoryStore {
     try {
       const response = await Category.CreateCategory(name);
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }

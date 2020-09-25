@@ -15,10 +15,10 @@ import {
 interface PostCommentItemProps {
   comment: CommentType;
   admin: boolean;
-  getReplies: (comment_idx: number) => Promise<RepliesResponse>;
+  getReplies: (commentIdx: number) => Promise<RepliesResponse>;
   userId: number;
-  modifyComment: (comment_idx: number, content: string) => Promise<void>;
-  deleteComment: (comment_idx: number) => void;
+  modifyComment: (commentIdx: number, content: string) => Promise<void>;
+  deleteComment: (commentIdx: number) => void;
   modify: boolean;
   setModify: Dispatch<SetStateAction<boolean>>;
   modifyInput: string;
@@ -31,14 +31,14 @@ interface PostCommentItemProps {
   setReplyInput: Dispatch<SetStateAction<string>>;
   cancelReply: () => void;
   createReply: (
-    comment_idx: number,
+    commentIdx: number,
     content: string,
-    is_private?: boolean | undefined
+    isPrivate?: boolean | undefined
   ) => Promise<void>;
-  modifyReply: (reply_idx: number, content: string) => Promise<void>;
+  modifyReply: (replyIdx: number, content: string) => Promise<void>;
   isPrivate: boolean;
   setIsPrivateCallback: (status: boolean) => void;
-  deleteReply: (reply_idx: number) => void;
+  deleteReply: (replyIdx: number) => void;
   adminId: number;
 }
 
@@ -117,7 +117,7 @@ const PostCommentItem = ({
               adminId={adminId}
               login={login}
               userId={userId}
-              comment_idx={comment.idx}
+              commentIdx={comment.idx}
               admin={admin}
               getReplies={getReplies}
               comment={comment}
@@ -170,7 +170,7 @@ const PostCommentItem = ({
                   modifyReply={modifyReply}
                   deleteReply={deleteReply}
                   userId={userId}
-                  comment_idx={comment.idx}
+                  commentIdx={comment.idx}
                   admin={admin}
                   getReplies={getReplies}
                   login={login}
@@ -277,7 +277,7 @@ const PostCommentItem = ({
                   modifyReply={modifyReply}
                   deleteReply={deleteReply}
                   userId={userId}
-                  comment_idx={comment.idx}
+                  commentIdx={comment.idx}
                   admin={admin}
                   getReplies={getReplies}
                   login={login}

@@ -1,5 +1,4 @@
 import { action, observable } from "mobx";
-import { autobind } from "core-decorators";
 import Profile from "../../assets/api/Profile";
 import Login from "../../assets/api/Login";
 
@@ -16,7 +15,6 @@ interface GetProfileResponse {
   };
 }
 
-@autobind
 class UserStore {
   @observable admin = false;
 
@@ -36,11 +34,11 @@ class UserStore {
         this.login = true;
       }
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }
@@ -55,11 +53,11 @@ class UserStore {
     try {
       const response = await Profile.FcmToken(token);
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }
@@ -72,12 +70,12 @@ class UserStore {
       this.adminId = response.data.user.idx;
 
       return new Promise(
-        (resolve: (response: GetProfileResponse) => void, reject) => {
+        (resolve: (response: GetProfileResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -95,14 +93,14 @@ class UserStore {
       this.userId = response.data.user.idx;
 
       return new Promise(
-        (resolve: (response: GetProfileResponse) => void, reject) => {
+        (resolve: (response: GetProfileResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
       this.userId = -1;
       this.admin = false;
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }

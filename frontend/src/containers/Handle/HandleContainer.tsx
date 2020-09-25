@@ -6,17 +6,13 @@ import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import { NotificationManager } from "react-notifications";
 import { inject, observer } from "mobx-react";
-import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
+import { useRouter } from "next/router";
 import HandlePost from "../../components/Admin/HandlePost";
 import useInterval from "react-useinterval";
-import { Helmet } from "react-helmet-async";
+import Head from "next/head";
 
-interface HandleContainerProps extends RouteComponentProps<MatchType> {
+interface HandleContainerProps {
   store?: StoreType;
-}
-
-interface MatchType {
-  idx: string;
 }
 
 interface StoreType {
@@ -76,7 +72,7 @@ interface CreateTempPostResponse {
   };
 }
 
-const HandleContainer = ({ store, match }: HandleContainerProps) => {
+const HandleContainer = ({ store }: HandleContainerProps) => {
   const { categoryList, handleCategoryList } = store!.CategoryStore;
   const { handleUser, login, handleLoginChange } = store!.UserStore;
   const {
@@ -89,8 +85,6 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
-  const { idx } = match.params;
-
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const [title, setTitle] = useState<string>("");
@@ -98,8 +92,6 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
   const [content, setContent] = useState<string>("");
   const [categoryIdx, setCategoryIdx] = useState<number>(-1);
   const [thumbnail, setThumbnail] = useState<string>("");
-  const [isUpload, setIsUpload] = useState<boolean>(false);
-  const [files, setFiles] = useState<File[]>([]);
   const [isNew, setIsNew] = useState<boolean>(true);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isTemp, setIsTemp] = useState<boolean>(false);
@@ -108,16 +100,17 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
     PostInfoType | React.SetStateAction<PostInfoType | any>
   >({});
 
-  const history = useHistory();
+  const router = useRouter();
+  const { idx } = router.query;
 
   const createTempPostCallback = useCallback(async () => {
     if (title !== "") {
       await createTempPost(title, description, content, thumbnail, categoryIdx)
         .then((res: CreateTempPostResponse) => {
-          history.push(`/handle/${res.data.idx}`);
+          router.push(`/handle/${res.data.idx}`);
           NotificationManager.success("임시저장 되었습니다.", "Success");
         })
-        .catch((err: Error) => {
+        .catch(() => {
           NotificationManager.error("오류가 발생하였습니다.", "Error");
         });
     } else {
@@ -158,7 +151,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
       }
 
       await modifyPost(Number(idx), body)
-        .then((res) => {
+        .then(() => {
           if (content === "") {
             setContent("임시 저장");
           }
@@ -166,11 +159,11 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
             setDescription("임시저장 글입니다.");
           }
           if (!isTemp) {
-            history.push(`/post/${idx}`);
+            router.push(`/post/${idx}`);
           }
           NotificationManager.success("저장 되었습니다.", "Success");
         })
-        .catch((err: Error) => {
+        .catch(() => {
           NotificationManager.error("오류가 발생하였습니다.", "Error");
         });
     } else {
@@ -207,10 +200,10 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
         body.thumbnail = null;
       }
 
-      await createPost(body).catch((err: Error) => {
+      await createPost(body).catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
-      history.push(`/`);
+      router.push(`/`);
       NotificationManager.success("저장 되었습니다.", "Success");
     }
     setIsSaving(false);
@@ -261,11 +254,11 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
         }
 
         await modifyPost(Number(idx), body)
-          .then((res) => {
-            history.push(`/post/${idx}`);
+          .then(() => {
+            router.push(`/post/${idx}`);
             NotificationManager.success("저장 되었습니다.", "Success");
           })
-          .catch((err: Error) => {
+          .catch(() => {
             NotificationManager.error("오류가 발생하였습니다.", "Error");
           });
       }
@@ -282,10 +275,9 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
           (content) =>
             content + `\n![image](${res.data.files[0].replace(" ", "%20")})`
         );
-        setIsUpload(false);
         NotificationManager.success("사진이 업로드 되었습니다.", "Success");
       })
-      .catch((err: Error) => {
+      .catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
   }, []);
@@ -298,7 +290,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
         handleUser(cookies.access_token)
           .then((res: GetProfileResponse) => {
             if (!res.data.user.is_admin) {
-              history.push("/");
+              router.push("/");
             }
           })
           .catch((err) => {
@@ -309,7 +301,7 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
             }
           });
       } else {
-        history.push("/");
+        router.push("/");
         handleLoginChange(false);
       }
     } catch (err) {
@@ -358,15 +350,15 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
             );
           }
         })
-        .catch((err: Error) => {
-          history.push("/");
+        .catch(() => {
+          router.push("/");
           NotificationManager.error("오류가 발생하였습니다.", "Error");
         });
     }
   }, [isNew]);
 
   const cancelBtn = () => {
-    history.goBack();
+    router.back();
   };
 
   const savePostHandle = useCallback(() => {
@@ -419,29 +411,32 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>{"Slog"}</title>
         <meta
           name="description"
           content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
-          data-react-helmet="true"
         />
+        <meta name="og:title" content="Slog" />
         <meta
           property="og:description"
           content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
-          data-react-helmet="true"
         />
-        <meta
-          property="og:url"
-          content="https://slog.website/"
-          data-react-helmet="true"
-        />
+        <meta property="og:url" content="https://slog.website/" />
         <meta
           property="og:image"
           content="https://data.slog.website/public/op_logo.png"
-          data-react-helmet="true"
         />
-      </Helmet>
+        <meta name="twitter:title" content="Slog" />
+        <meta
+          property="twitter:description"
+          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
+        />
+        <meta
+          property="twitter:image"
+          content="https://data.slog.website/public/op_logo.png"
+        />
+      </Head>
       {isNew ? (
         <HandlePost
           cancelBtn={cancelBtn}
@@ -457,9 +452,6 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
           setCategoryIdx={setCategoryIdx}
           thumbnail={thumbnail}
           setThumbnail={setThumbnail}
-          isUpload={isUpload}
-          setIsUpload={setIsUpload}
-          setFiles={setFiles}
           uploadFilesCallback={uploadFilesCallback}
           textAreaRef={textAreaRef}
           tempPostHandle={tempPostHandle}
@@ -481,9 +473,6 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
           setCategoryIdx={setCategoryIdx}
           thumbnail={thumbnail}
           setThumbnail={setThumbnail}
-          isUpload={isUpload}
-          setIsUpload={setIsUpload}
-          setFiles={setFiles}
           uploadFilesCallback={uploadFilesCallback}
           textAreaRef={textAreaRef}
           savePostHandle={savePostHandle}
@@ -495,4 +484,4 @@ const HandleContainer = ({ store, match }: HandleContainerProps) => {
   );
 };
 
-export default inject("store")(observer(withRouter(HandleContainer)));
+export default inject("store")(observer(HandleContainer));

@@ -6,7 +6,7 @@ import MainPosts from "./MainPosts";
 
 interface MainProps {
   categoryList: CategoryType[];
-  total_post: number;
+  totalPost: number;
   arrowToggleEl: MutableRefObject<any>;
   categoryRowEl: MutableRefObject<any>;
   setCategoryEdit: Dispatch<SetStateAction<boolean>>;
@@ -38,7 +38,7 @@ interface CategoryType {
 const Main = ({
   posts,
   categoryList,
-  total_post,
+  totalPost,
   arrowToggleEl,
   categoryRowEl,
   setCategoryEdit,
@@ -62,7 +62,7 @@ const Main = ({
           categoryRowEl={categoryRowEl}
           arrowToggleEl={arrowToggleEl}
           categoryList={categoryList}
-          total_post={total_post}
+          totalPost={totalPost}
           setCategoryEdit={setCategoryEdit}
           admin={admin}
         />

@@ -1,20 +1,23 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": "src",
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
+    "jsx": "preserve",
+    "lib": ["es5", "es6", "dom"],
+    "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "jsx": "react",
-    "experimentalDecorators": true
+    "esModuleInterop": true,
+    "isolatedModules": true
   },
-  "include": ["src"]
+  "exclude": ["node_modules"],
+  "include": ["**/*.ts", "**/*.tsx", "next.config.js"]
 }

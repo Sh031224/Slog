@@ -1,29 +1,25 @@
 import { inject, observer } from "mobx-react";
 import React, { useCallback, useEffect, useState, SetStateAction } from "react";
-import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
+import { useRouter } from "next/router";
 import PostStore from "../../stores/PostStore";
 import CommentStore from "../../stores/CommentStore";
 import UserStore from "../../stores/UserStore";
 import Post from "../../components/Post";
-import { Helmet } from "react-helmet-async";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { NotificationManager } from "react-notifications";
 import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
+import Head from "next/head";
 
-interface PostContainerProps extends RouteComponentProps<MatchType> {
+interface PostContainerProps {
   store?: StoreType;
+  post: PostInfoType;
 }
 
 interface StoreType {
   PostStore: PostStore;
   CommentStore: CommentStore;
   UserStore: UserStore;
-}
-
-interface MatchType {
-  idx: string;
 }
 
 interface PostParmsType {
@@ -60,26 +56,6 @@ interface PostCommentResponse {
   message: string;
 }
 
-interface CommentTypeResponse {
-  status: number;
-  message: string;
-  data: {
-    comments: CommentType[];
-  };
-}
-
-interface CommentType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_post_idx: number;
-  created_at: Date;
-  updated_at: Date;
-  reply_count: number;
-}
-
 interface GetPostCommentCountResponse {
   status: number;
   message: string;
@@ -88,20 +64,21 @@ interface GetPostCommentCountResponse {
   };
 }
 
-const PostContainer = ({ match, store }: PostContainerProps) => {
-  const history = useHistory();
-  const { idx } = match.params;
+const PostContainer = ({ store, post }: PostContainerProps) => {
+  const router = useRouter();
+  const { idx } = router.query;
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
   const {
     getPostInfo,
-    hit_posts,
+    hitPosts,
     handleHitPosts,
     deletePost,
     getPostCommentCount
   } = store!.PostStore;
   const {
+    comments,
     getComments,
     getReplies,
     commentCreate,
@@ -120,36 +97,35 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
     handleAdminProfile
   } = store!.UserStore;
 
-  const [comments, setComments] = useState<CommentType[]>([]);
   const [loading, setLoading] = useState(false);
   const [handler, setHandler] = useState<boolean>(false);
   const [commentCount, setCommentCount] = useState<number>(0);
   const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [post_info, setPostInfo] = useState<
+  const [postInfo, setPostInfo] = useState<
     PostInfoType | SetStateAction<PostInfoType | any>
   >({});
 
   const getPostInfoCallback = useCallback(
     async (idx: number) => {
-      await getPostInfo(idx).then((response: GetPostInfoResponse) => {
-        setPostInfo(response.data.post);
-        setCommentCount(response.data.post.comment_count);
-      });
+      if (!isNaN(idx)) {
+        await getPostInfo(idx).then((response: GetPostInfoResponse) => {
+          setPostInfo(response.data.post);
+          setCommentCount(response.data.post.comment_count);
+        });
+      }
     },
     [idx]
   );
 
   const getCommentsCallback = useCallback(
-    async (post_idx: number) => {
-      await getComments(post_idx)
-        .then((res: CommentTypeResponse) => {
-          setComments(res.data.comments);
-        })
-        .catch((err: Error) => {
+    async (postIdx: number) => {
+      if (!isNaN(postIdx)) {
+        await getComments(postIdx).catch((err: Error) => {
           if (err.message !== "Error: Request failed with status code 404") {
             NotificationManager.error("오류가 발생하였습니다.", "Error");
           }
         });
+      }
     },
     [idx, login]
   );
@@ -165,32 +141,40 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   const getAllContent = useCallback(async () => {
     setLoading(true);
-    axios.defaults.headers.common["access_token"] = cookies.access_token;
-    try {
-      await getHitPostsCallback();
-      await getPostInfoCallback(Number(idx));
-      await handleAdminProfile().catch((err: Error) => {
-        console.log(err);
-      });
-      setLoading(false);
-    } catch (err) {
-      if (err.message === "Error: Request failed with status code 404") {
-        NotificationManager.warning("해당 게시글이 없습니다.", "Error");
-        history.push("/");
-      } else {
-        NotificationManager.error("오류가 발생하였습니다.", "Error");
+    if (!isNaN(Number(idx))) {
+      axios.defaults.headers.common["access_token"] = cookies.access_token;
+      try {
+        if (!post.idx) {
+          //csr
+          await getPostInfoCallback(Number(idx));
+        } else {
+          // ssr
+          setPostInfo(post);
+        }
+        await getHitPostsCallback();
+        await handleAdminProfile().catch((err: Error) => {
+          console.log(err);
+        });
+        setLoading(false);
+      } catch (err) {
+        if (err.message === "Error: Request failed with status code 404") {
+          NotificationManager.warning("해당 게시글이 없습니다.", "Error");
+          router.push("/");
+        } else {
+          NotificationManager.error("오류가 발생하였습니다.", "Error");
+        }
       }
     }
   }, [idx]);
 
   const createComment = useCallback(
-    async (post_idx: number, content: string, is_private?: boolean) => {
+    async (postIdx: number, content: string, isPrivate?: boolean) => {
       if (!isSaving) {
         setIsSaving(true);
         try {
-          await commentCreate(post_idx, content, is_private);
-          await getCommentsCallback(post_idx);
-          await getPostCommentCount(post_idx).then(
+          await commentCreate(postIdx, content, isPrivate);
+          await getCommentsCallback(postIdx);
+          await getPostCommentCount(postIdx).then(
             (res: GetPostCommentCountResponse) => {
               setCommentCount(res.data.total_count);
             }
@@ -212,11 +196,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const modifyComment = useCallback(
-    async (comment_idx: number, content: string) => {
+    async (commentIdx: number, content: string) => {
       if (!isSaving) {
         setIsSaving(true);
         try {
-          await commentModify(comment_idx, content).then(
+          await commentModify(commentIdx, content).then(
             (res: PostCommentResponse) => {
               if (res.status === 200) {
                 NotificationManager.success(
@@ -248,9 +232,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const deleteCommentCallback = useCallback(
-    async (comment_idx: number) => {
+    async (commentIdx: number) => {
       try {
-        await commentDelete(comment_idx).then((res: PostCommentResponse) => {
+        await commentDelete(commentIdx).then((res: PostCommentResponse) => {
           if (res.status === 200) {
             NotificationManager.success("댓글을 삭제하였습니다.", "Success");
           }
@@ -278,14 +262,14 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const deleteComment = useCallback(
-    async (comment_idx: number) => {
+    async (commentIdx) => {
       confirmAlert({
         title: "Warning",
         message: "정말로 삭제하시겠습니까?",
         buttons: [
           {
             label: "Yes",
-            onClick: () => deleteCommentCallback(comment_idx)
+            onClick: () => deleteCommentCallback(commentIdx)
           },
           {
             label: "No",
@@ -300,11 +284,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const createReply = useCallback(
-    async (comment_idx: number, content: string, is_private?: boolean) => {
+    async (commentIdx: number, content: string, isPrivate?: boolean) => {
       if (!isSaving) {
         setIsSaving(true);
         try {
-          await replyCreate(comment_idx, content, is_private);
+          await replyCreate(commentIdx, content, isPrivate);
           await getCommentsCallback(Number(idx));
           await getPostCommentCount(Number(idx)).then(
             (res: GetPostCommentCountResponse) => {
@@ -332,11 +316,11 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const modifyReply = useCallback(
-    async (reply_idx: number, content: string) => {
+    async (replyIdx: number, content: string) => {
       if (!isSaving) {
         setIsSaving(true);
         try {
-          await replyModify(reply_idx, content).then(
+          await replyModify(replyIdx, content).then(
             (res: PostCommentResponse) => {
               if (res.status === 200) {
                 NotificationManager.success(
@@ -368,9 +352,9 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const deleteReplyCallback = useCallback(
-    async (reply_idx: number) => {
+    async (replyIdx: number) => {
       try {
-        await replyDelete(reply_idx).then((res: PostCommentResponse) => {
+        await replyDelete(replyIdx).then((res: PostCommentResponse) => {
           if (res.status === 200) {
             NotificationManager.success("댓글을 삭제하였습니다.", "Success");
           }
@@ -420,16 +404,16 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
   );
 
   const editPost = useCallback(() => {
-    history.push(`/handle/${Number(idx)}`);
+    router.push(`/handle/${Number(idx)}`);
   }, [idx]);
 
   const deletePostCallback = useCallback(() => {
     deletePost(Number(idx))
-      .then((res) => {
-        history.push("/");
+      .then(() => {
+        router.push("/");
         NotificationManager.success("게시글을 삭제하였습니다.", "Success");
       })
-      .catch((err: Error) => {
+      .catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
   }, [idx]);
@@ -461,50 +445,81 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
 
   return (
     <>
-      {!post_info.is_temp && (
-        <Helmet>
-          <title>{post_info.title}</title>
+      {(postInfo.idx || post.idx) && !postInfo.is_temp && (
+        <Head>
+          <title>{post.title || postInfo.title}</title>
           <meta
             name="description"
-            content={post_info.description}
-            data-react-helmet="true"
+            content={
+              post.content
+                ? post.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+                : postInfo.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+            }
           />
           <meta
             property="og:url"
-            content={`https://slog.website/post/${post_info.idx}`}
-            data-react-helmet="true"
+            content={`https://slog.website/post/${post.idx || postInfo.idx}`}
           />
-          <meta
-            property="og:title"
-            content={post_info.title}
-            data-react-helmet="true"
-          />
+          <meta property="og:title" content={post.title || postInfo.title} />
           <meta
             property="og:description"
-            content={post_info.description}
-            data-react-helmet="true"
+            content={
+              post.content
+                ? post.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+                : postInfo.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+            }
           />
           <meta
             property="twitter:title"
-            content={post_info.title}
-            data-react-helmet="true"
+            content={post.title || postInfo.title}
           />
           <meta
             property="twitter:description"
-            content={post_info.description}
-            data-react-helmet="true"
+            content={
+              post.content
+                ? post.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+                : postInfo.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+            }
           />
-          {post_info.thumbnail ? (
+          {post.title || postInfo.thumbnail ? (
             <>
               <meta
                 property="og:image"
-                content={post_info.thumbnail}
-                data-react-helmet="true"
+                content={post.title || postInfo.thumbnail}
               />
               <meta
                 property="twitter:image"
-                content={post_info.thumbnail}
-                data-react-helmet="true"
+                content={post.thumbnail || postInfo.thumbnail}
               />
             </>
           ) : (
@@ -512,16 +527,14 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
               <meta
                 property="og:image"
                 content={"https://data.slog.website/public/op_logo.png"}
-                data-react-helmet="true"
               />
               <meta
                 property="twitter:image"
                 content={"https://data.slog.website/public/op_logo.png"}
-                data-react-helmet="true"
               />
             </>
           )}
-        </Helmet>
+        </Head>
       )}
       <Post
         adminId={adminId}
@@ -541,12 +554,12 @@ const PostContainer = ({ match, store }: PostContainerProps) => {
         login={login}
         loading={loading}
         comments={comments}
-        post={post_info}
-        hit_posts={hit_posts}
+        post={postInfo}
+        hitPosts={hitPosts}
         editPost={editPost}
       />
     </>
   );
 };
 
-export default inject("store")(observer(withRouter(PostContainer)));
+export default inject("store")(observer(PostContainer));

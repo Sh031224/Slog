@@ -7,8 +7,8 @@ interface PostReplyProps {
   admin: boolean;
   userId: number;
   login: boolean;
-  modifyReply: (reply_idx: number, content: string) => Promise<void>;
-  deleteReply: (reply_idx: number) => void;
+  modifyReply: (replyIdx: number, content: string) => Promise<void>;
+  deleteReply: (replyIdx: number) => void;
   adminId: number;
 }
 

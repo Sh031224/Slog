@@ -1,9 +1,9 @@
-import React, { Dispatch } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import Link from "next/link";
 import { AiOutlineEye } from "react-icons/ai";
 import { GoCommentDiscussion } from "react-icons/go";
 import "./MainPostsItem.scss";
-import TimeCalc from "../../../../util/lib/TimeCalc";
+import TimeCalc from "../../../../lib/TimeCalc";
 import TimeCounting from "time-counting";
 
 interface MainPostsItemProps {
@@ -27,30 +27,31 @@ const MainPostsItem = ({ post, lastCardEl }: MainPostsItemProps) => {
       {lastCardEl ? (
         <div ref={lastCardEl} className="main-posts-item">
           {post.thumbnail && (
-            <Link
-              className="main-posts-item-thumbnail"
-              to={`/post/${post.idx}`}
-            >
-              <img
-                className="main-posts-item-thumbnail-img"
-                src={post.thumbnail}
-                alt={post.title}
-              />
+            <Link href={`/post/[idx]`} as={`/post/${post.idx}`}>
+              <a className="main-posts-item-thumbnail">
+                <img
+                  className="main-posts-item-thumbnail-img"
+                  src={post.thumbnail}
+                  alt={post.title}
+                />
+              </a>
             </Link>
           )}
           <div className="main-posts-item-content">
-            <Link to={`/post/${post.idx}`}>
-              <h4 className="main-posts-item-content-title">{post.title}</h4>
-              <div
-                className={
-                  "main-posts-item-content-description" +
-                  (post.thumbnail
-                    ? " main-posts-item-content-description-thumbnail"
-                    : "")
-                }
-              >
-                {post.description}
-              </div>
+            <Link href={`/post/[idx]`} as={`/post/${post.idx}`}>
+              <a>
+                <h4 className="main-posts-item-content-title">{post.title}</h4>
+                <div
+                  className={
+                    "main-posts-item-content-description" +
+                    (post.thumbnail
+                      ? " main-posts-item-content-description-thumbnail"
+                      : "")
+                  }
+                >
+                  {post.description}
+                </div>
+              </a>
             </Link>
             <div className="main-posts-item-content-subinfo">
               <span title={TimeCalc.getTime(post.created_at)}>
@@ -72,30 +73,31 @@ const MainPostsItem = ({ post, lastCardEl }: MainPostsItemProps) => {
       ) : (
         <div className="main-posts-item">
           {post.thumbnail && (
-            <Link
-              className="main-posts-item-thumbnail"
-              to={`/post/${post.idx}`}
-            >
-              <img
-                className="main-posts-item-thumbnail-img"
-                src={post.thumbnail}
-                alt={post.title}
-              />
+            <Link href={`/post/[idx]`} as={`/post/${post.idx}`}>
+              <a className="main-posts-item-thumbnail">
+                <img
+                  className="main-posts-item-thumbnail-img"
+                  src={post.thumbnail}
+                  alt={post.title}
+                />
+              </a>
             </Link>
           )}
           <div className="main-posts-item-content">
-            <Link to={`/post/${post.idx}`}>
-              <h4 className="main-posts-item-content-title">{post.title}</h4>
-              <div
-                className={
-                  "main-posts-item-content-description" +
-                  (post.thumbnail
-                    ? " main-posts-item-content-description-thumbnail"
-                    : "")
-                }
-              >
-                {post.description}
-              </div>
+            <Link href={`/post/[idx]`} as={`/post/${post.idx}`}>
+              <a>
+                <h4 className="main-posts-item-content-title">{post.title}</h4>
+                <div
+                  className={
+                    "main-posts-item-content-description" +
+                    (post.thumbnail
+                      ? " main-posts-item-content-description-thumbnail"
+                      : "")
+                  }
+                >
+                  {post.description}
+                </div>
+              </a>
             </Link>
             <div className="main-posts-item-content-subinfo">
               <span title={TimeCalc.getTime(post.created_at)}>

@@ -4,7 +4,7 @@ import UserStore from "./UserStore";
 import CommentStore from "./CommentStore";
 import "mobx-react-lite/batchingForReactDom";
 
-const stores: object = {
+const stores = {
   PostStore: new PostStore(),
   CategoryStore: new CategoryStore(),
   UserStore: new UserStore(),

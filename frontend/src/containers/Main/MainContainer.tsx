@@ -5,9 +5,9 @@ import CategoryStore from "../../stores/CategoryStore";
 import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
-import { useHistory, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
-import { Helmet } from "react-helmet-async";
+import { useRouter } from "next/router";
+import Head from "next/head";
 
 interface MainContainerProps {
   store?: StoreType;
@@ -21,7 +21,7 @@ interface StoreType {
 
 const MainContainer = ({ store }: MainContainerProps) => {
   const {
-    total_post,
+    totalPost,
     categoryList,
     handleCategoryList,
     modifyOrderCategory,
@@ -46,8 +46,8 @@ const MainContainer = ({ store }: MainContainerProps) => {
     category?: number;
   }
 
-  const { search } = useLocation();
-  const history = useHistory();
+  const router = useRouter();
+  const { asPath } = router;
 
   const [categoryEdit, setCategoryEdit] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -58,24 +58,6 @@ const MainContainer = ({ store }: MainContainerProps) => {
   const arrowToggleEl = useRef<HTMLElement>(null);
   const categoryRowEl = useRef<HTMLElement>(null);
   const lastCardEl = useRef<HTMLDivElement | null>(null);
-
-  const intersectionObserver = new IntersectionObserver((entries, observer) => {
-    const lastCard = entries[0];
-
-    if (
-      search.indexOf("search=") === -1 &&
-      !loading &&
-      getPostLength() < total
-    ) {
-      if (lastCard.intersectionRatio > 0 && lastCardEl.current) {
-        observer.unobserve(lastCard.target);
-        lastCardEl.current = null;
-        setTimeout(() => {
-          setPage(page + 1);
-        }, 100);
-      }
-    }
-  });
 
   const handleCategoryListCallback = useCallback(() => {
     if (categoryList.length === 0) {
@@ -90,7 +72,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
   }, [handleCategoryListCallback]);
 
   useEffect(() => {
-    if (search.indexOf("temp") !== 1 && search.indexOf("search=") === -1) {
+    if (asPath.indexOf("temp") !== 1 && asPath.indexOf("search=") === -1) {
       handlePostsCallback().catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
@@ -98,15 +80,35 @@ const MainContainer = ({ store }: MainContainerProps) => {
   }, [page]);
 
   useEffect(() => {
+    const intersectionObserver = new IntersectionObserver(
+      (entries, observer) => {
+        const lastCard = entries[0];
+
+        if (
+          asPath.indexOf("search=") === -1 &&
+          !loading &&
+          getPostLength() < total
+        ) {
+          if (lastCard.intersectionRatio > 0 && lastCardEl.current) {
+            observer.unobserve(lastCard.target);
+            lastCardEl.current = null;
+            setTimeout(() => {
+              setPage(page + 1);
+            }, 100);
+          }
+        }
+      }
+    );
+
     if (lastCardEl.current) {
       intersectionObserver.observe(lastCardEl.current);
     }
-  });
+  }, []);
 
   const handlePostSearchCallback = useCallback(async () => {
     setLoading(true);
     setNotfound(true);
-    const query = search.replace("?search=", "");
+    const query = asPath.replace("/?search=", "");
 
     await handlePostSearch(query)
       .then((res: any) => {
@@ -115,10 +117,10 @@ const MainContainer = ({ store }: MainContainerProps) => {
           setNotfound(false);
         }
       })
-      .catch((error: Error) => {
-        history.push("/");
+      .catch(() => {
+        router.push("/");
       });
-  }, [search]);
+  }, [asPath]);
 
   const handlePostsCallback = useCallback(async () => {
     setLoading(true);
@@ -126,7 +128,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
       page: page,
       limit: 20
     };
-    const tab = Number(search.replace("?tab=", ""));
+    const tab = Number(asPath.replace("/?tab=", ""));
     if (tab) {
       query.category = tab;
     } else {
@@ -140,13 +142,13 @@ const MainContainer = ({ store }: MainContainerProps) => {
           setNotfound(false);
         }
       })
-      .catch((error: Error) => {
-        history.push("/");
+      .catch(() => {
+        router.push("/");
       });
-  }, [search, page]);
+  }, [asPath, page]);
 
   const createPost = () => {
-    history.push("/handle/new");
+    router.push("/handle/new");
   };
 
   const handleTempPostsCallback = useCallback(async () => {
@@ -158,15 +160,15 @@ const MainContainer = ({ store }: MainContainerProps) => {
           setNotfound(false);
         }
       })
-      .catch((error: Error) => {
-        console.log(error);
+      .catch(() => {
+        router.push("/");
       });
   }, []);
 
   const handleQueryCallbacks = useCallback(() => {
     initPosts();
     setNotfound(true);
-    if (search.indexOf("tab=") !== -1 || search === "") {
+    if (asPath.indexOf("tab=") !== -1 || asPath === "/") {
       if (page === 1) {
         handlePostsCallback().catch(() => {
           NotificationManager.error("오류가 발생하였습니다.", "Error");
@@ -174,58 +176,49 @@ const MainContainer = ({ store }: MainContainerProps) => {
       } else {
         setPage(1);
       }
-    } else if (search.indexOf("temp") !== -1) {
+    } else if (asPath.indexOf("temp") !== -1) {
       handleTempPostsCallback();
-    } else if (search.indexOf("?search=") === -1) {
-      history.push("/");
+    } else if (asPath.indexOf("?search=") === -1) {
+      router.push("/");
     } else {
       handlePostSearchCallback().catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
     }
-  }, [search, page]);
+  }, [asPath, page]);
 
   useEffect(() => {
     handleQueryCallbacks();
-  }, [search]);
+  }, [asPath]);
 
   return (
-    <>
-      <Helmet>
+    <React.Fragment>
+      <Head>
         <title>{"Slog"}</title>
         <meta
           name="description"
           content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
-          data-react-helmet="true"
         />
-        <meta name="og:title" content="Slog" data-react-helmet="true" />
+        <meta name="og:title" content="Slog" />
         <meta
           property="og:description"
           content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
-          data-react-helmet="true"
         />
-        <meta
-          property="og:url"
-          content="https://slog.website/"
-          data-react-helmet="true"
-        />
+        <meta property="og:url" content="https://slog.website/" />
         <meta
           property="og:image"
           content="https://data.slog.website/public/op_logo.png"
-          data-react-helmet="true"
         />
-        <meta name="twitter:title" content="Slog" data-react-helmet="true" />
+        <meta name="twitter:title" content="Slog" />
         <meta
           property="twitter:description"
           content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
-          data-react-helmet="true"
         />
         <meta
           property="twitter:image"
           content="https://data.slog.website/public/op_logo.png"
-          data-react-helmet="true"
         />
-      </Helmet>
+      </Head>
       <Main
         createPost={createPost}
         lastCardEl={lastCardEl}
@@ -236,7 +229,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
         categoryRowEl={categoryRowEl}
         arrowToggleEl={arrowToggleEl}
         categoryList={categoryList}
-        total_post={total_post}
+        totalPost={totalPost}
         setCategoryEdit={setCategoryEdit}
         admin={admin}
       />
@@ -252,7 +245,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
           handlePosts={handlePosts}
         />
       )}
-    </>
+    </React.Fragment>
   );
 };
 

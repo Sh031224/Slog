@@ -7,7 +7,7 @@ import "./MainCategory.scss";
 
 interface MainCategoryProps {
   categoryList: CategoryType[];
-  total_post: number;
+  totalPost: number;
   arrowToggleEl: MutableRefObject<any>;
   categoryRowEl: MutableRefObject<any>;
   setCategoryEdit: Dispatch<SetStateAction<boolean>>;
@@ -22,7 +22,7 @@ interface CategoryType {
 
 const MainCategory = ({
   categoryList,
-  total_post,
+  totalPost,
   arrowToggleEl,
   categoryRowEl,
   setCategoryEdit,
@@ -31,7 +31,7 @@ const MainCategory = ({
   const total_view = {
     idx: 0,
     name: "전체 보기",
-    post_count: total_post
+    post_count: totalPost
   };
 
   const arrowToggle = () => {

@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import classNames from "classnames/bind";
 const styled = require("./MainCategoryItem.scss");
 
@@ -16,7 +17,7 @@ interface CategoryType {
 }
 
 const MainCategoryItem = ({ item }: MainCategoryItemProps) => {
-  const { pathname, search } = useLocation();
+  const { pathname, asPath, query } = useRouter();
   const isTotal = item.idx === 0;
   const temp = item.idx === -1;
   const path = `?tab=${item.idx}`;
@@ -24,46 +25,59 @@ const MainCategoryItem = ({ item }: MainCategoryItemProps) => {
   return (
     <>
       {isTotal ? (
-        <Link to={`/`}>
-          <div
-            className={cx("main-category-item", {
-              "main-category-item-active": pathname === "/" && search === ""
-            })}
-          >
-            {item.name}
-            <span className="main-category-item-count">
-              {" "}
-              ({item.post_count}){" "}
-            </span>
-          </div>
+        <Link href={`/`}>
+          <a>
+            <div
+              className={cx("main-category-item", {
+                "main-category-item-active":
+                  query && !query.tab && !query.search
+              })}
+            >
+              {item.name}
+              <span className="main-category-item-count">
+                {" "}
+                ({item.post_count}){" "}
+              </span>
+            </div>
+          </a>
         </Link>
       ) : (
         <>
           {temp ? (
-            <Link to={`/?temp`}>
-              <div
-                className={cx("main-category-item", {
-                  "main-category-item-active":
-                    pathname === "/" && search === "?temp"
-                })}
-              >
-                {item.name}
-              </div>
+            <Link href={`/?temp`}>
+              <a>
+                <div
+                  className={cx("main-category-item", {
+                    "main-category-item-active":
+                      pathname &&
+                      asPath &&
+                      pathname === "/" &&
+                      asPath === "/?temp"
+                  })}
+                >
+                  {item.name}
+                </div>
+              </a>
             </Link>
           ) : (
-            <Link to={`/${path}`}>
-              <div
-                className={cx("main-category-item", {
-                  "main-category-item-active":
-                    pathname === "/" && search === path
-                })}
-              >
-                {item.name}
-                <span className="main-category-item-count">
-                  {" "}
-                  ({item.post_count}){" "}
-                </span>
-              </div>
+            <Link href={`/${path}`}>
+              <a>
+                <div
+                  className={cx("main-category-item", {
+                    "main-category-item-active":
+                      pathname &&
+                      asPath &&
+                      pathname === "/" &&
+                      asPath === `/${path}`
+                  })}
+                >
+                  {item.name}
+                  <span className="main-category-item-count">
+                    {" "}
+                    ({item.post_count}){" "}
+                  </span>
+                </div>
+              </a>
             </Link>
           )}
         </>

@@ -8,7 +8,6 @@ import React, {
 import AdminCategory from "../../components/Admin/AdminCategory";
 import { NotificationManager } from "react-notifications";
 import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
 
 interface AdminCategoryContainerProps {
   categoryList: CategoryType[];
@@ -59,11 +58,9 @@ const AdminCategoryContainer = ({
     order_number: number
   ) => {
     if (!(order_number < 1) && !(order_number > categoryList.length)) {
-      await modifyOrderCategory(category_idx, order_number).catch(
-        (err: Error) => {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
-        }
-      );
+      await modifyOrderCategory(category_idx, order_number).catch(() => {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      });
       handleCategoryList().catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
@@ -72,7 +69,7 @@ const AdminCategoryContainer = ({
 
   const modifyName = async (category_idx: number, name: string) => {
     if (name !== "") {
-      await modifyCategoryName(category_idx, name).catch((err: Error) => {
+      await modifyCategoryName(category_idx, name).catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
       handleCategoryList().catch(() => {
@@ -109,7 +106,7 @@ const AdminCategoryContainer = ({
   };
 
   const createTempCategory = async () => {
-    await createCategory("이름을 입력하세요.").catch((err: Error) => {
+    await createCategory("이름을 입력하세요.").catch(() => {
       NotificationManager.error("오류가 발생하였습니다.", "Error");
     });
     handleCategoryList().catch(() => {

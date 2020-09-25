@@ -3,8 +3,7 @@ import "./PostHit.scss";
 import PostHitItem from "./PostHitItem";
 
 interface PostHitProps {
-  hit_posts: PostType[];
-  post_idx: number;
+  hitPosts: PostType[];
 }
 
 interface PostType {
@@ -17,12 +16,12 @@ interface PostType {
   created_at: Date;
 }
 
-const PostHit = ({ hit_posts, post_idx }: PostHitProps) => {
+const PostHit = ({ hitPosts }: PostHitProps) => {
   return (
     <div className="post-hit">
       <div className="post-hit-box">
         <h3>이 블로그의 인기 글</h3>
-        {hit_posts.map((post: PostType, index: number) => {
+        {hitPosts.map((post: PostType, index: number) => {
           return <PostHitItem key={index} post={post} />;
         })}
       </div>

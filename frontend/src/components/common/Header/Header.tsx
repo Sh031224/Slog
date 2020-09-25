@@ -1,10 +1,10 @@
 import React, { Dispatch, MutableRefObject } from "react";
-import { Link } from "react-router-dom";
 import HeadRoom from "react-headroom";
 import "./Header.scss";
 import logo from "../../../assets/images/logo.png";
 import ScrollToTop from "react-scroll-to-top";
 import HeaderSearch from "./HeaderSearch";
+import Link from "next/link";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { appId } from "../../../config/index.json";
 import { GrLinkTop } from "react-icons/gr";
@@ -48,7 +48,7 @@ const Header = ({
         <header className="header">
           <div className="header-container">
             <div className="header-container-main">
-              <Link to="/">
+              <Link href="/">
                 <img
                   className="header-container-main-logo"
                   src={logo}

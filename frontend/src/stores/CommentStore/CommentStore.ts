@@ -1,5 +1,4 @@
-import { action } from "mobx";
-import { autobind } from "core-decorators";
+import { action, observable } from "mobx";
 import Comment from "../../assets/api/Comment";
 
 interface CommentTypeResponse {
@@ -46,20 +45,23 @@ interface PostCommentResponse {
   message: string;
 }
 
-@autobind
 class LoginStore {
+  @observable comments: CommentType[] = [];
+
   @action
   getComments = async (post_idx: number): Promise<CommentTypeResponse> => {
     try {
-      const response = await Comment.GetComments(post_idx);
+      const response: CommentTypeResponse = await Comment.GetComments(post_idx);
+
+      this.comments = response.data.comments;
 
       return new Promise(
-        (resolve: (response: CommentTypeResponse) => void, reject) => {
+        (resolve: (response: CommentTypeResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -71,12 +73,12 @@ class LoginStore {
       const response: RepliesResponse = await Comment.GetReplies(comment_idx);
 
       return new Promise(
-        (resolve: (response: RepliesResponse) => void, reject) => {
+        (resolve: (response: RepliesResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -96,12 +98,12 @@ class LoginStore {
       );
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, reject) => {
+        (resolve: (response: PostCommentResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -116,12 +118,12 @@ class LoginStore {
       const response = await Comment.ModifyComment(comment_idx, content);
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, reject) => {
+        (resolve: (response: PostCommentResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -133,12 +135,12 @@ class LoginStore {
       const response = await Comment.DeleteComment(comment_idx);
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, reject) => {
+        (resolve: (response: PostCommentResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -157,12 +159,12 @@ class LoginStore {
       );
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, reject) => {
+        (resolve: (response: PostCommentResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -177,12 +179,12 @@ class LoginStore {
       const response = await Comment.ModifyReply(reply_idx, content);
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, reject) => {
+        (resolve: (response: PostCommentResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -194,12 +196,12 @@ class LoginStore {
       const response = await Comment.DeleteReply(reply_idx);
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, reject) => {
+        (resolve: (response: PostCommentResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }

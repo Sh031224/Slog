@@ -8,9 +8,9 @@ import {
   ReactFacebookLoginInfo
 } from "react-facebook-login";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
-import firebase from "firebase";
+import { firebaseCloudMessaging } from "../../lib/firebaseCloudMessaging";
 import { NotificationManager } from "react-notifications";
+import { useRouter } from "next/router";
 
 interface HeaderContainerProps {
   store?: StoreType;
@@ -40,7 +40,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   const searchEl = useRef<HTMLElement>(null);
   const inputEl = useRef<HTMLElement>(null);
 
-  const history = useHistory();
+  const router = useRouter();
 
   const [search, setSearch] = useState("");
 
@@ -60,7 +60,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         NotificationManager.success("로그인 되었습니다.", "Success");
         handleAll(response.data.access_token);
       })
-      .catch((err: Error) => {
+      .catch(() => {
         haldleAdminFalse();
         NotificationManager.error("로그인에 실패하였습니다.", "Error");
       });
@@ -81,9 +81,9 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         )
       ) {
         if (search !== "") {
-          history.push(`/?search=${search}`);
+          router.push(`/?search=${search}`);
         } else {
-          history.push("/");
+          router.push("/");
         }
       }
     }
@@ -91,13 +91,11 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
 
   const getFcmToken = useCallback(async () => {
     axios.defaults.headers.common["access_token"] = cookies.access_token;
-    const messaging = firebase.messaging();
 
-    await messaging.requestPermission().then(() => {
-      messaging.getToken().then((res: string) => {
-        handleFcm(res);
-      });
-    });
+    const token = await firebaseCloudMessaging.init();
+    if (token && typeof cookies.access_token === "string") {
+      handleFcm(token);
+    }
   }, []);
 
   const requestNotification = useCallback(() => {
@@ -126,7 +124,10 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   }, [getFcmToken]);
 
   const handleAll = useCallback(async (access_token: string) => {
-    if (cookies.access_token !== undefined) {
+    if (
+      cookies.access_token !== undefined &&
+      typeof cookies.access_token === "string"
+    ) {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
       await handleUser(access_token).catch((err) => {
         if (err.message === "401") {
@@ -142,7 +143,10 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
 
   const handleLoginCallback = useCallback(() => {
     if (!login) {
-      if (cookies.access_token !== undefined) {
+      if (
+        cookies.access_token !== undefined &&
+        typeof cookies.access_token === "string"
+      ) {
         axios.defaults.headers.common["access_token"] = cookies.access_token;
         handleLoginChange(true);
         handleUser(cookies.access_token).catch((err) => {
@@ -157,7 +161,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         requestNotification();
       }
     }
-  }, [login, cookies, requestNotification]);
+  }, [login, requestNotification]);
 
   useEffect(() => {
     handleLoginCallback();

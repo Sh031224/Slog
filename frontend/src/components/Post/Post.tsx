@@ -10,22 +10,22 @@ interface PostProps {
   loading: boolean;
   comments: CommentType[];
   post: PostInfoType;
-  hit_posts: PostType[];
+  hitPosts: PostType[];
   login: boolean;
   admin: boolean;
   createComment: (
-    post_idx: number,
+    postIdx: number,
     content: string,
-    is_private?: boolean | undefined
+    isPrivate?: boolean | undefined
   ) => Promise<void>;
-  getReplies: (comment_idx: number) => Promise<RepliesResponse>;
+  getReplies: (commentIdx: number) => Promise<RepliesResponse>;
   userId: number;
-  modifyComment: (comment_idx: number, content: string) => Promise<void>;
-  deleteComment: (comment_idx: number) => void;
+  modifyComment: (commentIdx: number, content: string) => Promise<void>;
+  deleteComment: (commentIdx: number) => void;
   createReply: (
-    comment_idx: number,
+    commentIdx: number,
     content: string,
-    is_private?: boolean | undefined
+    isPrivate?: boolean | undefined
   ) => Promise<void>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
   deleteReply: (reply_idx: number) => void;
@@ -96,7 +96,7 @@ const Post = ({
   loading,
   comments,
   post,
-  hit_posts,
+  hitPosts,
   login,
   admin,
   createComment,
@@ -129,14 +129,14 @@ const Post = ({
               admin={admin}
               thumbnail={post.thumbnail}
               title={post.title}
-              created_at={post.created_at}
-              updated_at={post.updated_at}
+              createdAt={post.created_at}
+              updatedAt={post.updated_at}
             />
 
             <MarkdownContainer className="post-content">
               {post.content}
             </MarkdownContainer>
-            <PostHit hit_posts={hit_posts} post_idx={post.idx} />
+            <PostHit hitPosts={hitPosts} />
             <PostComment
               adminId={adminId}
               commentCount={commentCount}
@@ -148,10 +148,9 @@ const Post = ({
               deleteReply={deleteReply}
               userId={userId}
               getReplies={getReplies}
-              post_idx={post.idx}
+              postIdx={post.idx}
               admin={admin}
               login={login}
-              count={post.comment_count}
               comments={comments}
             />
           </>
