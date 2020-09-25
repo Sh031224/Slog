@@ -8,8 +8,7 @@ import {
   ReactFacebookLoginInfo
 } from "react-facebook-login";
 import { useCookies } from "react-cookie";
-// import { userouter } from "react-router-dom";
-import firebase from "firebase";
+import { firebaseCloudMessaging } from "../../lib/firebaseCloudMessaging";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
 
@@ -91,15 +90,11 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   }, [search]);
 
   const getFcmToken = useCallback(async () => {
-    if (!firebase.app.length) {
-      axios.defaults.headers.common["access_token"] = cookies.access_token;
-      const messaging = firebase.messaging();
+    axios.defaults.headers.common["access_token"] = cookies.access_token;
 
-      await messaging.requestPermission().then(() => {
-        messaging.getToken().then((res: string) => {
-          handleFcm(res);
-        });
-      });
+    const token = await firebaseCloudMessaging.init();
+    if (token) {
+      handleFcm(token);
     }
   }, []);
 
