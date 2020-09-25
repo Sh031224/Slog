@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import Privacy from "../../components/Privacy";
 
 const PrivacyContainer = () => {
@@ -9,7 +9,7 @@ const PrivacyContainer = () => {
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>{"Slog"}</title>
         <meta
           name="description"
@@ -43,7 +43,7 @@ const PrivacyContainer = () => {
           content="https://data.slog.website/public/op_logo.png"
           data-react-helmet="true"
         />
-      </Helmet>
+      </Helmet> */}
       <Privacy />
     </>
   );
