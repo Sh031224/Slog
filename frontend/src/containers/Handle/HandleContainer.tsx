@@ -6,11 +6,9 @@ import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import { NotificationManager } from "react-notifications";
 import { inject, observer } from "mobx-react";
-import { useRouter } from "next/router";
-// import { RouteComponentProps, useHistory, withRouter } from "react-router-dom";
+import { useRouter, withRouter } from "next/router";
 import HandlePost from "../../components/Admin/HandlePost";
 import useInterval from "react-useinterval";
-// import { Helmet } from "react-helmet-async";
 
 interface HandleContainerProps {
   store?: StoreType;
@@ -482,4 +480,4 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
   );
 };
 
-export default inject("store")(observer(HandleContainer));
+export default inject("store")(observer(withRouter(HandleContainer)));
