@@ -12,7 +12,6 @@ interface PostCommentCreateProps {
   commentCreate: () => void;
   commentInput: string;
   setCommentInput: Dispatch<SetStateAction<string>>;
-  login: boolean;
   setIsPrivate: Dispatch<SetStateAction<boolean>>;
   isPrivate: boolean;
   commentEnter: (e: KeyboardEvent<HTMLInputElement>) => void;
@@ -22,7 +21,6 @@ const PostCommentCreate = ({
   commentCreate,
   commentInput,
   setCommentInput,
-  login,
   isPrivate,
   setIsPrivate,
   commentEnter
