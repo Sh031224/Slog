@@ -6,9 +6,10 @@ import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import { NotificationManager } from "react-notifications";
 import { inject, observer } from "mobx-react";
-import { useRouter, withRouter } from "next/router";
+import { useRouter } from "next/router";
 import HandlePost from "../../components/Admin/HandlePost";
 import useInterval from "react-useinterval";
+import Head from "next/head";
 
 interface HandleContainerProps {
   store?: StoreType;
@@ -109,7 +110,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
           router.push(`/handle/${res.data.idx}`);
           NotificationManager.success("임시저장 되었습니다.", "Success");
         })
-        .catch((err: Error) => {
+        .catch(() => {
           NotificationManager.error("오류가 발생하였습니다.", "Error");
         });
     } else {
@@ -150,7 +151,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
       }
 
       await modifyPost(Number(idx), body)
-        .then((res) => {
+        .then(() => {
           if (content === "") {
             setContent("임시 저장");
           }
@@ -162,7 +163,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
           }
           NotificationManager.success("저장 되었습니다.", "Success");
         })
-        .catch((err: Error) => {
+        .catch(() => {
           NotificationManager.error("오류가 발생하였습니다.", "Error");
         });
     } else {
@@ -199,7 +200,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
         body.thumbnail = null;
       }
 
-      await createPost(body).catch((err: Error) => {
+      await createPost(body).catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
       router.push(`/`);
@@ -253,11 +254,11 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
         }
 
         await modifyPost(Number(idx), body)
-          .then((res) => {
+          .then(() => {
             router.push(`/post/${idx}`);
             NotificationManager.success("저장 되었습니다.", "Success");
           })
-          .catch((err: Error) => {
+          .catch(() => {
             NotificationManager.error("오류가 발생하였습니다.", "Error");
           });
       }
@@ -276,7 +277,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
         );
         NotificationManager.success("사진이 업로드 되었습니다.", "Success");
       })
-      .catch((err: Error) => {
+      .catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
   }, []);
@@ -349,7 +350,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
             );
           }
         })
-        .catch((err: Error) => {
+        .catch(() => {
           router.push("/");
           NotificationManager.error("오류가 발생하였습니다.", "Error");
         });
@@ -410,13 +411,14 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
 
   return (
     <>
-      {/* <Helmet>
+      <Head>
         <title>{"Slog"}</title>
         <meta
           name="description"
           content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
           data-react-helmet="true"
         />
+        <meta name="og:title" content="Slog" data-react-helmet="true" />
         <meta
           property="og:description"
           content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
@@ -432,7 +434,18 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
           content="https://data.slog.website/public/op_logo.png"
           data-react-helmet="true"
         />
-      </Helmet> */}
+        <meta name="twitter:title" content="Slog" data-react-helmet="true" />
+        <meta
+          property="twitter:description"
+          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
+          data-react-helmet="true"
+        />
+        <meta
+          property="twitter:image"
+          content="https://data.slog.website/public/op_logo.png"
+          data-react-helmet="true"
+        />
+      </Head>
       {isNew ? (
         <HandlePost
           cancelBtn={cancelBtn}
@@ -480,4 +493,4 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
   );
 };
 
-export default inject("store")(observer(withRouter(HandleContainer)));
+export default inject("store")(observer(HandleContainer));

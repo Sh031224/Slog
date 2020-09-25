@@ -5,10 +5,9 @@ import CategoryStore from "../../stores/CategoryStore";
 import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
 import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
-// import { userouter, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
-// import { Helmet } from "react-helmet-async";
+import Head from "next/head";
 
 interface MainContainerProps {
   store?: StoreType;
@@ -47,7 +46,6 @@ const MainContainer = ({ store }: MainContainerProps) => {
     category?: number;
   }
 
-  // let search = "";
   const router = useRouter();
   const { asPath } = router;
 
@@ -119,7 +117,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
           setNotfound(false);
         }
       })
-      .catch((error: Error) => {
+      .catch(() => {
         router.push("/");
       });
   }, [asPath]);
@@ -144,7 +142,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
           setNotfound(false);
         }
       })
-      .catch((error: Error) => {
+      .catch(() => {
         router.push("/");
       });
   }, [asPath, page]);
@@ -162,8 +160,8 @@ const MainContainer = ({ store }: MainContainerProps) => {
           setNotfound(false);
         }
       })
-      .catch((error: Error) => {
-        console.log(error);
+      .catch(() => {
+        router.push("/");
       });
   }, []);
 
@@ -195,7 +193,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
 
   return (
     <React.Fragment>
-      {/* <Helmet>
+      <Head>
         <title>{"Slog"}</title>
         <meta
           name="description"
@@ -229,7 +227,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
           content="https://data.slog.website/public/op_logo.png"
           data-react-helmet="true"
         />
-      </Helmet> */}
+      </Head>
       <Main
         createPost={createPost}
         lastCardEl={lastCardEl}

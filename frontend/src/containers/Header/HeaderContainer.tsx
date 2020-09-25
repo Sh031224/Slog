@@ -60,7 +60,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         NotificationManager.success("로그인 되었습니다.", "Success");
         handleAll(response.data.access_token);
       })
-      .catch((err: Error) => {
+      .catch(() => {
         haldleAdminFalse();
         NotificationManager.error("로그인에 실패하였습니다.", "Error");
       });
@@ -93,7 +93,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
     axios.defaults.headers.common["access_token"] = cookies.access_token;
 
     const token = await firebaseCloudMessaging.init();
-    if (token) {
+    if (token && typeof cookies.access_token === "string") {
       handleFcm(token);
     }
   }, []);
@@ -124,7 +124,10 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   }, [getFcmToken]);
 
   const handleAll = useCallback(async (access_token: string) => {
-    if (cookies.access_token !== undefined) {
+    if (
+      cookies.access_token !== undefined &&
+      typeof cookies.access_token === "string"
+    ) {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
       await handleUser(access_token).catch((err) => {
         if (err.message === "401") {
@@ -140,7 +143,10 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
 
   const handleLoginCallback = useCallback(() => {
     if (!login) {
-      if (cookies.access_token !== undefined) {
+      if (
+        cookies.access_token !== undefined &&
+        typeof cookies.access_token === "string"
+      ) {
         axios.defaults.headers.common["access_token"] = cookies.access_token;
         handleLoginChange(true);
         handleUser(cookies.access_token).catch((err) => {
@@ -155,7 +161,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         requestNotification();
       }
     }
-  }, [login, cookies, requestNotification]);
+  }, [login, requestNotification]);
 
   useEffect(() => {
     handleLoginCallback();
