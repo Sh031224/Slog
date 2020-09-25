@@ -7,7 +7,6 @@
     "build": "next build",
     "start:server": "NODE_ENV=production ts-node server/server.ts",
     "start:client": "next",
-    "bundle": "BUNDLE_ANALYZE=both yarn run build",
     "deploy": "rm -rf node_modules/.cache && next build && yarn start:server",
     "sitemap": "sh server/sitemap/sitemap.sh",
     "type-check": "tsc"
@@ -66,7 +65,6 @@
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
     "@types/react-facebook-login": "^4.1.2",
-    "@zeit/next-bundle-analyzer": "^0.1.2",
     "babel-plugin-styled-components": "^1.11.1",
     "typescript": "4.0"
   },
