@@ -16,7 +16,7 @@ const firebaseCloudMessaging = {
         const tokenInLocalForage = await this.tokenInlocalforage();
 
         if (tokenInLocalForage) {
-          return tokenInLocalForage;
+          return String(tokenInLocalForage);
         }
 
         const status = await Notification.requestPermission();
