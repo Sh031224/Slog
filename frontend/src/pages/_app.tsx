@@ -1,10 +1,11 @@
 import React from "react";
 import App from "next/app";
 import { useStaticRendering, Provider } from "mobx-react";
+import { NotificationContainer } from "react-notifications";
 import Head from "next/head";
 import stores from "../stores";
-import "react-notifications/lib/notifications.css";
-import "react-confirm-alert/src/react-confirm-alert.css";
+import "../util/react-confirm.scss";
+import "../util/notification.scss";
 import "../util/util.scss";
 
 const isServer = typeof window === "undefined";
@@ -33,6 +34,7 @@ class MyApp extends App {
           />
           <title>Slog</title>
         </Head>
+        <NotificationContainer />
         <Component {...pageProps} />
       </Provider>
     );
