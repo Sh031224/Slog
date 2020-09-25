@@ -3,14 +3,10 @@ import MarkdownContainer from "../../../../containers/Markdown/MarkdownContainer
 import "./HandlePostContent.scss";
 import { FiCode, FiEye } from "react-icons/fi";
 import { AiOutlinePicture } from "react-icons/ai";
-import HandlePostUpload from "../HandlePostUpload";
 
 interface HandlePostContentProps {
   content: string;
   setContent: React.Dispatch<React.SetStateAction<string>>;
-  isUpload: boolean;
-  setIsUpload: React.Dispatch<React.SetStateAction<boolean>>;
-  setFiles: React.Dispatch<React.SetStateAction<File[]>>;
   uploadFilesCallback: (files: File[]) => Promise<void>;
   textAreaRef: React.RefObject<HTMLTextAreaElement>;
 }
@@ -18,14 +14,10 @@ interface HandlePostContentProps {
 const HandlePostContent = ({
   content,
   setContent,
-  setFiles,
-  isUpload,
-  setIsUpload,
   uploadFilesCallback,
   textAreaRef
 }: HandlePostContentProps) => {
   const toggleClass = (idx: number) => {
-    setIsUpload(false);
     if (idx === 0) {
       document
         .getElementsByClassName("handle-post-content-box-header-change-item")[0]
@@ -78,15 +70,22 @@ const HandlePostContent = ({
             </div>
           </div>
           <div className="handle-post-content-box-header-image">
-            <AiOutlinePicture onClick={() => setIsUpload(!isUpload)} />
+            <label htmlFor="file_upload">
+              <AiOutlinePicture />
+            </label>
+            <input
+              type="file"
+              id="file_upload"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                if (e.target.files && e.target.files.length) {
+                  const file = e.target.files[0];
+                  const files: File[] = [file];
+                  uploadFilesCallback(files);
+                }
+              }}
+            />
           </div>
         </div>
-        {isUpload && (
-          <HandlePostUpload
-            setFiles={setFiles}
-            uploadFilesCallback={uploadFilesCallback}
-          />
-        )}
         <textarea
           onClick={() => toggleClass(0)}
           className="handle-post-content-box-textarea handle-post-content-selected"

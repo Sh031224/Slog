@@ -86,8 +86,6 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
 
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
-  let idx = "1";
-
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const [title, setTitle] = useState<string>("");
@@ -95,8 +93,6 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
   const [content, setContent] = useState<string>("");
   const [categoryIdx, setCategoryIdx] = useState<number>(-1);
   const [thumbnail, setThumbnail] = useState<string>("");
-  const [isUpload, setIsUpload] = useState<boolean>(false);
-  const [files, setFiles] = useState<File[]>([]);
   const [isNew, setIsNew] = useState<boolean>(true);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isTemp, setIsTemp] = useState<boolean>(false);
@@ -105,13 +101,14 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
     PostInfoType | React.SetStateAction<PostInfoType | any>
   >({});
 
-  const history = useRouter();
+  const router = useRouter();
+  const { idx } = router.query;
 
   const createTempPostCallback = useCallback(async () => {
     if (title !== "") {
       await createTempPost(title, description, content, thumbnail, categoryIdx)
         .then((res: CreateTempPostResponse) => {
-          history.push(`/handle/${res.data.idx}`);
+          router.push(`/handle/${res.data.idx}`);
           NotificationManager.success("임시저장 되었습니다.", "Success");
         })
         .catch((err: Error) => {
@@ -163,7 +160,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
             setDescription("임시저장 글입니다.");
           }
           if (!isTemp) {
-            history.push(`/post/${idx}`);
+            router.push(`/post/${idx}`);
           }
           NotificationManager.success("저장 되었습니다.", "Success");
         })
@@ -207,7 +204,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
       await createPost(body).catch((err: Error) => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
-      history.push(`/`);
+      router.push(`/`);
       NotificationManager.success("저장 되었습니다.", "Success");
     }
     setIsSaving(false);
@@ -259,7 +256,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
 
         await modifyPost(Number(idx), body)
           .then((res) => {
-            history.push(`/post/${idx}`);
+            router.push(`/post/${idx}`);
             NotificationManager.success("저장 되었습니다.", "Success");
           })
           .catch((err: Error) => {
@@ -279,7 +276,6 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
           (content) =>
             content + `\n![image](${res.data.files[0].replace(" ", "%20")})`
         );
-        setIsUpload(false);
         NotificationManager.success("사진이 업로드 되었습니다.", "Success");
       })
       .catch((err: Error) => {
@@ -295,7 +291,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
         handleUser(cookies.access_token)
           .then((res: GetProfileResponse) => {
             if (!res.data.user.is_admin) {
-              history.push("/");
+              router.push("/");
             }
           })
           .catch((err) => {
@@ -306,7 +302,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
             }
           });
       } else {
-        history.push("/");
+        router.push("/");
         handleLoginChange(false);
       }
     } catch (err) {
@@ -356,14 +352,14 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
           }
         })
         .catch((err: Error) => {
-          history.push("/");
+          router.push("/");
           NotificationManager.error("오류가 발생하였습니다.", "Error");
         });
     }
   }, [isNew]);
 
   const cancelBtn = () => {
-    history.back();
+    router.back();
   };
 
   const savePostHandle = useCallback(() => {
@@ -454,9 +450,6 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
           setCategoryIdx={setCategoryIdx}
           thumbnail={thumbnail}
           setThumbnail={setThumbnail}
-          isUpload={isUpload}
-          setIsUpload={setIsUpload}
-          setFiles={setFiles}
           uploadFilesCallback={uploadFilesCallback}
           textAreaRef={textAreaRef}
           tempPostHandle={tempPostHandle}
@@ -478,9 +471,6 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
           setCategoryIdx={setCategoryIdx}
           thumbnail={thumbnail}
           setThumbnail={setThumbnail}
-          isUpload={isUpload}
-          setIsUpload={setIsUpload}
-          setFiles={setFiles}
           uploadFilesCallback={uploadFilesCallback}
           textAreaRef={textAreaRef}
           savePostHandle={savePostHandle}
