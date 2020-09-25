@@ -3,7 +3,6 @@ import HeadRoom from "react-headroom";
 import "./Header.scss";
 import logo from "../../../assets/images/logo.png";
 import ScrollToTop from "react-scroll-to-top";
-import HeaderSearch from "./HeaderSearch";
 import Link from "next/link";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { appId } from "../../../config/index.json";
@@ -12,6 +11,9 @@ import {
   ReactFacebookFailureResponse,
   ReactFacebookLoginInfo
 } from "react-facebook-login";
+import dynamic from "next/dynamic";
+
+const HeaderSearch = dynamic(() => import("./HeaderSearch"));
 
 interface HeaderProps {
   searchEl: MutableRefObject<any>;

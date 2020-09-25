@@ -1,7 +1,13 @@
+import dynamic from "next/dynamic";
 import React from "react";
-import PostCommentContainer from "../../../containers/Post/PostCommentContainer";
-import PostCommentCreateContainer from "../../../containers/Post/PostCommentCreateContainer";
 import "./PostComment.scss";
+
+const PostCommentContainer = dynamic(
+  () => import("../../../containers/Post/PostCommentContainer")
+);
+const PostCommentCreateContainer = dynamic(
+  () => import("../../../containers/Post/PostCommentCreateContainer")
+);
 
 interface PostCommentProps {
   comments: CommentType[];

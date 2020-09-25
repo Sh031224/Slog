@@ -1,7 +1,9 @@
 import React, { Dispatch, SetStateAction } from "react";
 import "./AdminCategory.scss";
-import AdminCategoryItem from "./AdminCategoryItem";
 import { GrFormAdd } from "react-icons/gr";
+import dynamic from "next/dynamic";
+
+const AdminCategoryItem = dynamic(() => import("./AdminCategoryItem"));
 
 interface AdminCategoryProps {
   categoryList: CategoryType[];
