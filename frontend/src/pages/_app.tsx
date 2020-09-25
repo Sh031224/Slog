@@ -1,6 +1,7 @@
 import React from "react";
 import App from "next/app";
 import { useStaticRendering, Provider } from "mobx-react";
+import Head from "next/head";
 import firebase from "firebase";
 import option from "../config/firebase.json";
 import stores from "../stores";
@@ -22,6 +23,12 @@ class MyApp extends App {
 
     return (
       <Provider store={stores}>
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, user-scalable=no"
+          />
+        </Head>
         <Component {...pageProps} />
       </Provider>
     );
