@@ -47,9 +47,9 @@ const MainContainer = ({ store }: MainContainerProps) => {
     category?: number;
   }
 
-  let search = "";
-  // const { search } = useLocation();
+  // let search = "";
   const router = useRouter();
+  const { asPath } = router;
 
   const [categoryEdit, setCategoryEdit] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -74,7 +74,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
   }, [handleCategoryListCallback]);
 
   useEffect(() => {
-    if (search.indexOf("temp") !== 1 && search.indexOf("search=") === -1) {
+    if (asPath.indexOf("temp") !== 1 && asPath.indexOf("search=") === -1) {
       handlePostsCallback().catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
@@ -87,7 +87,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
         const lastCard = entries[0];
 
         if (
-          search.indexOf("search=") === -1 &&
+          asPath.indexOf("search=") === -1 &&
           !loading &&
           getPostLength() < total
         ) {
@@ -110,7 +110,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
   const handlePostSearchCallback = useCallback(async () => {
     setLoading(true);
     setNotfound(true);
-    const query = search.replace("?search=", "");
+    const query = asPath.replace("/?search=", "");
 
     await handlePostSearch(query)
       .then((res: any) => {
@@ -122,7 +122,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
       .catch((error: Error) => {
         router.push("/");
       });
-  }, [search]);
+  }, [asPath]);
 
   const handlePostsCallback = useCallback(async () => {
     setLoading(true);
@@ -130,7 +130,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
       page: page,
       limit: 20
     };
-    const tab = Number(search.replace("?tab=", ""));
+    const tab = Number(asPath.replace("/?tab=", ""));
     if (tab) {
       query.category = tab;
     } else {
@@ -147,7 +147,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
       .catch((error: Error) => {
         router.push("/");
       });
-  }, [search, page]);
+  }, [asPath, page]);
 
   const createPost = () => {
     router.push("/handle/new");
@@ -170,7 +170,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
   const handleQueryCallbacks = useCallback(() => {
     initPosts();
     setNotfound(true);
-    if (search.indexOf("tab=") !== -1 || search === "") {
+    if (asPath.indexOf("tab=") !== -1 || asPath === "/") {
       if (page === 1) {
         handlePostsCallback().catch(() => {
           NotificationManager.error("오류가 발생하였습니다.", "Error");
@@ -178,20 +178,20 @@ const MainContainer = ({ store }: MainContainerProps) => {
       } else {
         setPage(1);
       }
-    } else if (search.indexOf("temp") !== -1) {
+    } else if (asPath.indexOf("temp") !== -1) {
       handleTempPostsCallback();
-    } else if (search.indexOf("?search=") === -1) {
+    } else if (asPath.indexOf("?search=") === -1) {
       router.push("/");
     } else {
       handlePostSearchCallback().catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
     }
-  }, [search, page]);
+  }, [asPath, page]);
 
   useEffect(() => {
     handleQueryCallbacks();
-  }, [search]);
+  }, [asPath]);
 
   return (
     <React.Fragment>
