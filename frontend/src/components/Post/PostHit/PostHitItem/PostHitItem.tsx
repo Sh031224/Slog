@@ -28,7 +28,7 @@ const PostHitItem = ({ post }: PostHitItemProps) => {
 
   return (
     <div className="post-hit-item">
-      <Link href={`/post/${post.idx}`}>
+      <Link href={`/post/[idx]`} as={`/post/${post.idx}`}>
         <a
           className={cx({
             "post-hit-item-active": router.query.idx === `${post.idx}`
