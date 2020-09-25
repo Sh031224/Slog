@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AiOutlineEye } from "react-icons/ai";
 import { GoCommentDiscussion } from "react-icons/go";
 import "./MainPostsItem.scss";
-import TimeCalc from "../../../../lib/timeCalc";
+import TimeCalc from "../../../../lib/TimeCalc";
 import TimeCounting from "time-counting";
 
 interface MainPostsItemProps {

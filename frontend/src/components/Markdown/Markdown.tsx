@@ -6,27 +6,27 @@ interface MarkdownProps {
   children: string;
 }
 
-const markedH1 = ({ children, ...props }: { children: string }) => {
+const markedH1 = ({ children }: { children: string }) => {
   return <h1 id={children.toString().replace(/\ /g, "-")}>{children}</h1>;
 };
 
-const markedH2 = ({ children, ...props }: { children: string }) => {
+const markedH2 = ({ children }: { children: string }) => {
   return <h2 id={children.toString().replace(/\ /g, "-")}>{children}</h2>;
 };
 
-const markedH3 = ({ children, ...props }: { children: string }) => {
+const markedH3 = ({ children }: { children: string }) => {
   return <h3 id={children.toString().replace(/\ /g, "-")}>{children}</h3>;
 };
 
-const markedH4 = ({ children, ...props }: { children: string }) => {
+const markedH4 = ({ children }: { children: string }) => {
   return <h4 id={children.toString().replace(/\ /g, "-")}>{children}</h4>;
 };
 
-const markedH5 = ({ children, ...props }: { children: string }) => {
+const markedH5 = ({ children }: { children: string }) => {
   return <h5 id={children.toString().replace(/\ /g, "-")}>{children}</h5>;
 };
 
-const markedH6 = ({ children, ...props }: { children: string }) => {
+const markedH6 = ({ children }: { children: string }) => {
   return <h6 id={children.toString().replace(/\ /g, "-")}>{children}</h6>;
 };
 
