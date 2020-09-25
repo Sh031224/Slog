@@ -1,6 +1,5 @@
 import { inject, observer } from "mobx-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import Main from "../../components/Main";
 import CategoryStore from "../../stores/CategoryStore";
 import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
@@ -8,6 +7,9 @@ import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+
+const Main = dynamic(() => import("../../components/Main"));
 
 interface MainContainerProps {
   store?: StoreType;
@@ -72,14 +74,6 @@ const MainContainer = ({ store }: MainContainerProps) => {
   }, [handleCategoryListCallback]);
 
   useEffect(() => {
-    if (asPath.indexOf("temp") !== 1 && asPath.indexOf("search=") === -1) {
-      handlePostsCallback().catch(() => {
-        NotificationManager.error("오류가 발생하였습니다.", "Error");
-      });
-    }
-  }, [page]);
-
-  useEffect(() => {
     const intersectionObserver = new IntersectionObserver(
       (entries, observer) => {
         const lastCard = entries[0];
@@ -140,6 +134,8 @@ const MainContainer = ({ store }: MainContainerProps) => {
         setLoading(false);
         if (res.data.posts.length > 0) {
           setNotfound(false);
+        } else {
+          setNotfound(true);
         }
       })
       .catch(() => {
@@ -166,9 +162,12 @@ const MainContainer = ({ store }: MainContainerProps) => {
   }, []);
 
   const handleQueryCallbacks = useCallback(() => {
-    initPosts();
-    setNotfound(true);
-    if (asPath.indexOf("tab=") !== -1 || asPath === "/") {
+    if (page === 1) {
+      initPosts();
+    }
+    if (asPath.indexOf("?temp") !== -1) {
+      handleTempPostsCallback();
+    } else if (asPath.indexOf("tab=") !== -1 || asPath === "/") {
       if (page === 1) {
         handlePostsCallback().catch(() => {
           NotificationManager.error("오류가 발생하였습니다.", "Error");
@@ -176,8 +175,6 @@ const MainContainer = ({ store }: MainContainerProps) => {
       } else {
         setPage(1);
       }
-    } else if (asPath.indexOf("temp") !== -1) {
-      handleTempPostsCallback();
     } else if (asPath.indexOf("?search=") === -1) {
       router.push("/");
     } else {
@@ -189,7 +186,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
 
   useEffect(() => {
     handleQueryCallbacks();
-  }, [asPath]);
+  }, [asPath, page]);
 
   return (
     <React.Fragment>
