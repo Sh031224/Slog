@@ -5,24 +5,21 @@ import PostStore from "../../stores/PostStore";
 import CommentStore from "../../stores/CommentStore";
 import UserStore from "../../stores/UserStore";
 import Post from "../../components/Post";
-// import { Helmet } from "react-helmet-async";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { NotificationManager } from "react-notifications";
 import { confirmAlert } from "react-confirm-alert";
+import Head from "next/head";
 
 interface PostContainerProps {
   store?: StoreType;
+  post: PostInfoType;
 }
 
 interface StoreType {
   PostStore: PostStore;
   CommentStore: CommentStore;
   UserStore: UserStore;
-}
-
-interface MatchType {
-  idx: string;
 }
 
 interface PostParmsType {
@@ -59,26 +56,6 @@ interface PostCommentResponse {
   message: string;
 }
 
-interface CommentTypeResponse {
-  status: number;
-  message: string;
-  data: {
-    comments: CommentType[];
-  };
-}
-
-interface CommentType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_post_idx: number;
-  created_at: Date;
-  updated_at: Date;
-  reply_count: number;
-}
-
 interface GetPostCommentCountResponse {
   status: number;
   message: string;
@@ -87,7 +64,7 @@ interface GetPostCommentCountResponse {
   };
 }
 
-const PostContainer = ({ store }: PostContainerProps) => {
+const PostContainer = ({ store, post }: PostContainerProps) => {
   const router = useRouter();
   const { idx } = router.query;
 
@@ -124,7 +101,7 @@ const PostContainer = ({ store }: PostContainerProps) => {
   const [handler, setHandler] = useState<boolean>(false);
   const [commentCount, setCommentCount] = useState<number>(0);
   const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [post_info, setPostInfo] = useState<
+  const [postInfo, setPostInfo] = useState<
     PostInfoType | SetStateAction<PostInfoType | any>
   >({});
 
@@ -167,8 +144,14 @@ const PostContainer = ({ store }: PostContainerProps) => {
     if (!isNaN(Number(idx))) {
       axios.defaults.headers.common["access_token"] = cookies.access_token;
       try {
+        if (!post.idx) {
+          //csr
+          await getPostInfoCallback(Number(idx));
+        } else {
+          // ssr
+          setPostInfo(post);
+        }
         await getHitPostsCallback();
-        await getPostInfoCallback(Number(idx));
         await handleAdminProfile().catch((err: Error) => {
           console.log(err);
         });
@@ -426,11 +409,11 @@ const PostContainer = ({ store }: PostContainerProps) => {
 
   const deletePostCallback = useCallback(() => {
     deletePost(Number(idx))
-      .then((res) => {
+      .then(() => {
         router.push("/");
         NotificationManager.success("게시글을 삭제하였습니다.", "Success");
       })
-      .catch((err: Error) => {
+      .catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
   }, [idx]);
@@ -462,50 +445,81 @@ const PostContainer = ({ store }: PostContainerProps) => {
 
   return (
     <>
-      {/* {!post_info.is_temp && (
-        <Helmet>
-          <title>{post_info.title}</title>
+      {(postInfo.idx || post.idx) && !postInfo.is_temp && (
+        <Head>
+          <title>{post.title || postInfo.title}</title>
           <meta
             name="description"
-            content={post_info.description}
-            data-react-helmet="true"
+            content={
+              post.content
+                ? post.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+                : postInfo.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+            }
           />
           <meta
             property="og:url"
-            content={`https://slog.website/post/${post_info.idx}`}
-            data-react-helmet="true"
+            content={`https://slog.website/post/${post.idx || postInfo.idx}`}
           />
-          <meta
-            property="og:title"
-            content={post_info.title}
-            data-react-helmet="true"
-          />
+          <meta property="og:title" content={post.title || postInfo.title} />
           <meta
             property="og:description"
-            content={post_info.description}
-            data-react-helmet="true"
+            content={
+              post.content
+                ? post.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+                : postInfo.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+            }
           />
           <meta
             property="twitter:title"
-            content={post_info.title}
-            data-react-helmet="true"
+            content={post.title || postInfo.title}
           />
           <meta
             property="twitter:description"
-            content={post_info.description}
-            data-react-helmet="true"
+            content={
+              post.content
+                ? post.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+                : postInfo.content
+                    .replace(/ +/g, " ")
+                    .replace(
+                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                      ""
+                    )
+            }
           />
-          {post_info.thumbnail ? (
+          {post.title || postInfo.thumbnail ? (
             <>
               <meta
                 property="og:image"
-                content={post_info.thumbnail}
-                data-react-helmet="true"
+                content={post.title || postInfo.thumbnail}
               />
               <meta
                 property="twitter:image"
-                content={post_info.thumbnail}
-                data-react-helmet="true"
+                content={post.thumbnail || postInfo.thumbnail}
               />
             </>
           ) : (
@@ -513,17 +527,15 @@ const PostContainer = ({ store }: PostContainerProps) => {
               <meta
                 property="og:image"
                 content={"https://data.slog.website/public/op_logo.png"}
-                data-react-helmet="true"
               />
               <meta
                 property="twitter:image"
                 content={"https://data.slog.website/public/op_logo.png"}
-                data-react-helmet="true"
               />
             </>
           )}
-        </Helmet>
-      )} */}
+        </Head>
+      )}
       <Post
         adminId={adminId}
         commentCount={commentCount}
@@ -542,7 +554,7 @@ const PostContainer = ({ store }: PostContainerProps) => {
         login={login}
         loading={loading}
         comments={comments}
-        post={post_info}
+        post={postInfo}
         hitPosts={hitPosts}
         editPost={editPost}
       />
