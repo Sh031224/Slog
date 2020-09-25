@@ -115,11 +115,11 @@ class PostStore {
         this.posts = response.data.posts;
       }
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }
@@ -132,11 +132,11 @@ class PostStore {
 
       this.posts = response.data.posts;
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }
@@ -154,11 +154,11 @@ class PostStore {
         this.hitPosts = response.data.posts;
       }
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }
@@ -171,11 +171,11 @@ class PostStore {
 
       this.posts = response.data.posts;
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject) => {
+      return new Promise((_resolve, reject) => {
         reject(error);
       });
     }
@@ -197,12 +197,12 @@ class PostStore {
       const response: GetPostInfoResponse = await Post.GetPostInfo(idx);
 
       return new Promise(
-        (resolve: (response: GetPostInfoResponse) => void, reject) => {
+        (resolve: (response: GetPostInfoResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -218,12 +218,12 @@ class PostStore {
       );
 
       return new Promise(
-        (resolve: (response: GetPostCommentCountResponse) => void, reject) => {
+        (resolve: (response: GetPostCommentCountResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -235,12 +235,12 @@ class PostStore {
       const response: UploadFilesResponse = await Post.UploadFiles(files);
 
       return new Promise(
-        (resolve: (response: UploadFilesResponse) => void, reject) => {
+        (resolve: (response: UploadFilesResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -279,12 +279,12 @@ class PostStore {
       const response: CreateTempPostResponse = await Post.CreateTempPost(body);
 
       return new Promise(
-        (resolve: (response: CreateTempPostResponse) => void, reject) => {
+        (resolve: (response: CreateTempPostResponse) => void, _reject) => {
           resolve(response);
         }
       );
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -295,11 +295,11 @@ class PostStore {
     try {
       const response = await Post.ModifyPost(post_idx, body);
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -310,11 +310,11 @@ class PostStore {
     try {
       const response = await Post.CreatePost(body);
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
@@ -325,11 +325,11 @@ class PostStore {
     try {
       const response = await Post.DeletePost(post_idx);
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve, reject: (error: Error) => void) => {
+      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
