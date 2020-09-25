@@ -1,6 +1,10 @@
+import dynamic from "next/dynamic";
 import React from "react";
 import MainTemplate from "../../components/common/Template/MainTemplate";
-import PrivacyContainer from "../../containers/Privacy/PrivacyContainer";
+
+const PrivacyContainer = dynamic(
+  () => import("../../containers/Privacy/PrivacyContainer")
+);
 
 const Privacy = () => {
   return (

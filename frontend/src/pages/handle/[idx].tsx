@@ -1,6 +1,10 @@
+import dynamic from "next/dynamic";
 import React from "react";
 import MainTemplate from "../../components/common/Template/MainTemplate";
-import HandleContainer from "../../containers/Handle/HandleContainer";
+
+const HandleContainer = dynamic(
+  () => import("../../containers/Handle/HandleContainer")
+);
 
 const Handle = () => {
   return (
