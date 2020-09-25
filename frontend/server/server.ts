@@ -1,5 +1,6 @@
 const express = require("express");
 const next = require("next");
+const path = require("path");
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -10,21 +11,10 @@ app
   .then(() => {
     const server = express();
 
+    server.use("/", express.static(path.join(__dirname, "../public")));
+
     server.get("*", (req: Request, res: Response) => {
       return handle(req, res);
-    });
-
-    const serviceWorkers = [
-      {
-        filename: "firebase-messaging-sw.js",
-        path: "./public/firebase-messaging-sw.js"
-      }
-    ];
-
-    serviceWorkers.forEach(({ filename, path }) => {
-      server.get(`/${filename}`, (req: Request, res: Response) => {
-        app.serveStatic(req, res, path);
-      });
     });
 
     require("greenlock-express")
