@@ -4,12 +4,14 @@ import { useRouter } from "next/router";
 import PostStore from "../../stores/PostStore";
 import CommentStore from "../../stores/CommentStore";
 import UserStore from "../../stores/UserStore";
-import Post from "../../components/Post";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { NotificationManager } from "react-notifications";
 import { confirmAlert } from "react-confirm-alert";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+
+const Post = dynamic(() => import("../../components/Post"));
 
 interface PostContainerProps {
   store?: StoreType;
@@ -79,6 +81,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
   } = store!.PostStore;
   const {
     comments,
+    initComments,
     getComments,
     getReplies,
     commentCreate,
@@ -97,7 +100,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
     handleAdminProfile
   } = store!.UserStore;
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [handler, setHandler] = useState<boolean>(false);
   const [commentCount, setCommentCount] = useState<number>(0);
   const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -120,6 +123,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
   const getCommentsCallback = useCallback(
     async (postIdx: number) => {
       if (!isNaN(postIdx)) {
+        initComments();
         await getComments(postIdx).catch((err: Error) => {
           if (err.message !== "Error: Request failed with status code 404") {
             NotificationManager.error("오류가 발생하였습니다.", "Error");
@@ -161,6 +165,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
           NotificationManager.warning("해당 게시글이 없습니다.", "Error");
           router.push("/");
         } else {
+          router.push("/");
           NotificationManager.error("오류가 발생하였습니다.", "Error");
         }
       }
@@ -445,7 +450,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
 
   return (
     <>
-      {(postInfo.idx || post.idx) && !postInfo.is_temp && (
+      {(postInfo.idx || (post && post.idx)) && !postInfo.is_temp && (
         <Head>
           <title>{post.title || postInfo.title}</title>
           <meta
