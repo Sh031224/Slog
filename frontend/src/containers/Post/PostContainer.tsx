@@ -450,97 +450,98 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
 
   return (
     <>
-      {(postInfo.idx || (post && post.idx)) && !postInfo.is_temp && (
-        <Head>
-          <title>{post.title || postInfo.title}</title>
-          <meta
-            name="description"
-            content={
-              post.content
-                ? post.content
-                    .replace(/ +/g, " ")
-                    .replace(
-                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                      ""
-                    )
-                : postInfo.content
-                    .replace(/ +/g, " ")
-                    .replace(
-                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                      ""
-                    )
-            }
-          />
-          <meta
-            property="og:url"
-            content={`https://slog.website/post/${post.idx || postInfo.idx}`}
-          />
-          <meta property="og:title" content={post.title || postInfo.title} />
-          <meta
-            property="og:description"
-            content={
-              post.content
-                ? post.content
-                    .replace(/ +/g, " ")
-                    .replace(
-                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                      ""
-                    )
-                : postInfo.content
-                    .replace(/ +/g, " ")
-                    .replace(
-                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                      ""
-                    )
-            }
-          />
-          <meta
-            property="twitter:title"
-            content={post.title || postInfo.title}
-          />
-          <meta
-            property="twitter:description"
-            content={
-              post.content
-                ? post.content
-                    .replace(/ +/g, " ")
-                    .replace(
-                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                      ""
-                    )
-                : postInfo.content
-                    .replace(/ +/g, " ")
-                    .replace(
-                      /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                      ""
-                    )
-            }
-          />
-          {post.title || postInfo.thumbnail ? (
-            <>
-              <meta
-                property="og:image"
-                content={post.title || postInfo.thumbnail}
-              />
-              <meta
-                property="twitter:image"
-                content={post.thumbnail || postInfo.thumbnail}
-              />
-            </>
-          ) : (
-            <>
-              <meta
-                property="og:image"
-                content={"https://data.slog.website/public/op_logo.png"}
-              />
-              <meta
-                property="twitter:image"
-                content={"https://data.slog.website/public/op_logo.png"}
-              />
-            </>
-          )}
-        </Head>
-      )}
+      {(postInfo.idx || (post && post.idx)) &&
+        (!postInfo.is_temp || !post.is_temp) && (
+          <Head>
+            <title>{post.title || postInfo.title}</title>
+            <meta
+              name="description"
+              content={
+                post.content
+                  ? post.content
+                      .replace(/ +/g, " ")
+                      .replace(
+                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                        ""
+                      )
+                  : postInfo.content
+                      .replace(/ +/g, " ")
+                      .replace(
+                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                        ""
+                      )
+              }
+            />
+            <meta
+              property="og:url"
+              content={`https://slog.website/post/${post.idx || postInfo.idx}`}
+            />
+            <meta property="og:title" content={post.title || postInfo.title} />
+            <meta
+              property="og:description"
+              content={
+                post.content
+                  ? post.content
+                      .replace(/ +/g, " ")
+                      .replace(
+                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                        ""
+                      )
+                  : postInfo.content
+                      .replace(/ +/g, " ")
+                      .replace(
+                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                        ""
+                      )
+              }
+            />
+            <meta
+              property="twitter:title"
+              content={post.title || postInfo.title}
+            />
+            <meta
+              property="twitter:description"
+              content={
+                post.content
+                  ? post.content
+                      .replace(/ +/g, " ")
+                      .replace(
+                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                        ""
+                      )
+                  : postInfo.content
+                      .replace(/ +/g, " ")
+                      .replace(
+                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
+                        ""
+                      )
+              }
+            />
+            {post.title || postInfo.thumbnail ? (
+              <>
+                <meta
+                  property="og:image"
+                  content={post.title || postInfo.thumbnail}
+                />
+                <meta
+                  property="twitter:image"
+                  content={post.thumbnail || postInfo.thumbnail}
+                />
+              </>
+            ) : (
+              <>
+                <meta
+                  property="og:image"
+                  content={"https://data.slog.website/public/op_logo.png"}
+                />
+                <meta
+                  property="twitter:image"
+                  content={"https://data.slog.website/public/op_logo.png"}
+                />
+              </>
+            )}
+          </Head>
+        )}
       <Post
         adminId={adminId}
         commentCount={commentCount}
