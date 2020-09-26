@@ -123,7 +123,6 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
   const getCommentsCallback = useCallback(
     async (postIdx: number) => {
       if (!isNaN(postIdx)) {
-        initComments();
         await getComments(postIdx).catch((err: Error) => {
           if (err.message !== "Error: Request failed with status code 404") {
             NotificationManager.error("오류가 발생하였습니다.", "Error");
@@ -445,6 +444,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
   }, [getAllContent]);
 
   useEffect(() => {
+    initComments();
     getCommentsCallback(Number(idx));
   }, [getCommentsCallback]);
 
