@@ -12,6 +12,7 @@ interface PostProps {
   loading: boolean;
   comments: CommentType[];
   post: PostInfoType;
+  postInfo: PostInfoType;
   hitPosts: PostType[];
   login: boolean;
   admin: boolean;
@@ -98,6 +99,7 @@ const Post = ({
   loading,
   comments,
   post,
+  postInfo,
   hitPosts,
   login,
   admin,
@@ -119,7 +121,7 @@ const Post = ({
   return (
     <div className="post">
       <div className="post-box">
-        {loading ? (
+        {!post.idx && loading ? (
           <PostLoading />
         ) : (
           <>
@@ -129,32 +131,36 @@ const Post = ({
               handler={handler}
               setHandler={setHandler}
               admin={admin}
-              thumbnail={post.thumbnail}
-              title={post.title}
-              createdAt={post.created_at}
-              updatedAt={post.updated_at}
+              thumbnail={post.thumbnail || postInfo.thumbnail}
+              title={post.title || postInfo.title}
+              createdAt={post.created_at || postInfo.created_at}
+              updatedAt={post.updated_at || postInfo.updated_at}
             />
 
             <MarkdownContainer className="post-content">
-              {post.content}
+              {post.content || postInfo.content}
             </MarkdownContainer>
-            <PostHit hitPosts={hitPosts} />
-            <PostComment
-              adminId={adminId}
-              commentCount={commentCount}
-              createComment={createComment}
-              deleteComment={deleteComment}
-              modifyComment={modifyComment}
-              createReply={createReply}
-              modifyReply={modifyReply}
-              deleteReply={deleteReply}
-              userId={userId}
-              getReplies={getReplies}
-              postIdx={post.idx}
-              admin={admin}
-              login={login}
-              comments={comments}
-            />
+            {!loading && (
+              <>
+                <PostHit hitPosts={hitPosts} />
+                <PostComment
+                  adminId={adminId}
+                  commentCount={commentCount}
+                  createComment={createComment}
+                  deleteComment={deleteComment}
+                  modifyComment={modifyComment}
+                  createReply={createReply}
+                  modifyReply={modifyReply}
+                  deleteReply={deleteReply}
+                  userId={userId}
+                  getReplies={getReplies}
+                  postIdx={post.idx}
+                  admin={admin}
+                  login={login}
+                  comments={comments}
+                />
+              </>
+            )}
           </>
         )}
       </div>
