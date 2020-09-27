@@ -457,14 +457,14 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
             <meta
               name="description"
               content={
-                post.content
-                  ? post.content
+                post.description
+                  ? post.description
                       .replace(/ +/g, " ")
                       .replace(
                         /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
                         ""
                       )
-                  : postInfo.content
+                  : postInfo.description
                       .replace(/ +/g, " ")
                       .replace(
                         /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
@@ -480,14 +480,14 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
             <meta
               property="og:description"
               content={
-                post.content
-                  ? post.content
+                post.description
+                  ? post.description
                       .replace(/ +/g, " ")
                       .replace(
                         /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
                         ""
                       )
-                  : postInfo.content
+                  : postInfo.description
                       .replace(/ +/g, " ")
                       .replace(
                         /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
@@ -502,19 +502,14 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
             <meta
               property="twitter:description"
               content={
-                post.content
-                  ? post.content
+                post.description
+                  ? post.description
                       .replace(/ +/g, " ")
                       .replace(
                         /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
                         ""
                       )
-                  : postInfo.content
-                      .replace(/ +/g, " ")
-                      .replace(
-                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                        ""
-                      )
+                  : postInfo.description
               }
             />
             {post.title || postInfo.thumbnail ? (
@@ -560,7 +555,8 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
         login={login}
         loading={loading}
         comments={comments}
-        post={postInfo}
+        postInfo={postInfo}
+        post={post}
         hitPosts={hitPosts}
         editPost={editPost}
       />
