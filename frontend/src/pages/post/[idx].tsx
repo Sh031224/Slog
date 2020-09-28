@@ -46,7 +46,7 @@ class Post extends React.Component<PostProps> {
   render() {
     return (
       <MainTemplate>
-        <PostContainer post={this.props.post} />
+        <PostContainer post={this.props.post || null} />
       </MainTemplate>
     );
   }

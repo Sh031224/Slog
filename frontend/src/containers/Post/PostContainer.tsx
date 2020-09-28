@@ -556,7 +556,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
         loading={loading}
         comments={comments}
         postInfo={postInfo}
-        post={post}
+        post={post || null}
         hitPosts={hitPosts}
         editPost={editPost}
       />
