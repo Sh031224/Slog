@@ -1,19 +1,16 @@
-import dynamic from "next/dynamic";
+import HeaderContainer from "containers/Header/HeaderContainer";
 import React, { ReactNode } from "react";
-
-const HeaderContainer = dynamic(
-  () => import("../../../containers/Header/HeaderContainer")
-);
-const Footer = dynamic(() => import("../Footer"));
+import Footer from "../Footer";
 
 interface MainTemplateProps {
   children: ReactNode;
+  token?: string;
 }
 
-const MainTemplate = ({ children }: MainTemplateProps) => {
+const MainTemplate = ({ children, token }: MainTemplateProps) => {
   return (
     <>
-      <HeaderContainer />
+      <HeaderContainer token={token} />
       {children}
       <Footer />
     </>

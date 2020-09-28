@@ -1,8 +1,6 @@
-import dynamic from "next/dynamic";
 import React from "react";
 import "./PostHit.scss";
-
-const PostHitItem = dynamic(() => import("./PostHitItem"));
+import PostHitItem from "./PostHitItem";
 
 interface PostHitProps {
   hitPosts: PostType[];

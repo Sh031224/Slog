@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useCookies } from "react-cookie";
+import cookies from "js-cookie";
 import CategoryStore from "../../stores/CategoryStore";
 import PostStore from "../../stores/PostStore";
 import UserStore from "../../stores/UserStore";
@@ -9,9 +9,7 @@ import { inject, observer } from "mobx-react";
 import { useRouter } from "next/router";
 import useInterval from "react-useinterval";
 import Head from "next/head";
-import dynamic from "next/dynamic";
-
-const HandlePost = dynamic(() => import("../../components/Admin/HandlePost"));
+import HandlePost from "components/Admin/HandlePost";
 
 interface HandleContainerProps {
   store?: StoreType;
@@ -84,8 +82,6 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
     modifyPost,
     createPost
   } = store!.PostStore;
-
-  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -289,10 +285,10 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
 
   const validateAdmin = useCallback(() => {
     try {
-      axios.defaults.headers.common["access_token"] = cookies.access_token;
-      if (cookies.access_token !== undefined) {
+      let token = axios.defaults.headers.common["access_token"];
+      if (token) {
         handleLoginChange(true);
-        handleUser(cookies.access_token)
+        handleUser(token)
           .then((res: GetProfileResponse) => {
             if (!res.data.user.is_admin) {
               router.push("/");
@@ -300,7 +296,7 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
           })
           .catch((err) => {
             if (err.message === "401") {
-              removeCookie("access_token", { path: "/" });
+              cookies.remove("access_token", { path: "/" });
               handleLoginChange(false);
               axios.defaults.headers.common["access_token"] = "";
             }

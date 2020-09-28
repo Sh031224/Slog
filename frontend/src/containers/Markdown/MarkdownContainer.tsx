@@ -1,7 +1,6 @@
-import React from "react";
-import dynamic from "next/dynamic";
-
-const Markdown = dynamic(() => import("../../components/Markdown"));
+import React, { useEffect } from "react";
+import Markdown from "components/Markdown";
+import Prism from "prismjs";
 
 interface MarkdownContainerProps {
   className?: string;
@@ -9,6 +8,10 @@ interface MarkdownContainerProps {
 }
 
 const MarkdownContainer = ({ children, className }: MarkdownContainerProps) => {
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [children]);
+
   return (
     <div className={className}>
       <Markdown>{typeof children === "string" ? children : ""}</Markdown>
