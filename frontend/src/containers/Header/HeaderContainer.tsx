@@ -6,16 +6,17 @@ import {
   ReactFacebookFailureResponse,
   ReactFacebookLoginInfo
 } from "react-facebook-login";
-import { useCookies } from "react-cookie";
-import { firebaseCloudMessaging } from "../../lib/firebaseCloudMessaging";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
-import dynamic from "next/dynamic";
-
-const Header = dynamic(() => import("../../components/common/Header"));
+import cookies from "js-cookie";
+import Header from "components/common/Header";
+import firebase from "firebase/app";
+import option from "../../config/firebase.json";
+import "firebase/messaging";
 
 interface HeaderContainerProps {
   store?: StoreType;
+  token?: string;
 }
 
 interface StoreType {
@@ -30,7 +31,7 @@ interface FacebookFailureResponse extends ReactFacebookFailureResponse {
   accessToken?: string;
 }
 
-const HeaderContainer = ({ store }: HeaderContainerProps) => {
+const HeaderContainer = ({ store, token }: HeaderContainerProps) => {
   const {
     handleUser,
     haldleAdminFalse,
@@ -46,16 +47,24 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
 
   const [search, setSearch] = useState("");
 
-  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common["access_token"] = token;
+    } else {
+      axios.defaults.headers.common["access_token"] = cookies.get(
+        "access_token"
+      );
+    }
+  }, [token]);
 
   const tryLogin = async (res: FacebookLoginInfo | FacebookFailureResponse) => {
     await handleLogin(res.accessToken!)
       .then(async (response: any) => {
         const today = new Date();
         today.setDate(today.getDate() + 30);
-        setCookie("access_token", response.data.access_token, {
-          path: "/",
-          expires: today
+        cookies.set("access_token", response.data.access_token, {
+          expires: today,
+          path: "/"
         });
         axios.defaults.headers.common["access_token"] =
           response.data.access_token;
@@ -64,13 +73,12 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
       })
       .catch(() => {
         haldleAdminFalse();
-        console.log(1);
         NotificationManager.error("로그인에 실패하였습니다.", "Error");
       });
   };
 
   const tryLogout = useCallback(() => {
-    removeCookie("access_token", { path: "/" });
+    cookies.remove("access_token");
     handleLoginChange(false);
     axios.defaults.headers.common["access_token"] = "";
     haldleAdminFalse();
@@ -93,13 +101,14 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   }, [search]);
 
   const getFcmToken = useCallback(async () => {
-    axios.defaults.headers.common["access_token"] = cookies.access_token;
+    if (!firebase.app.length) {
+      firebase.initializeApp(option);
 
-    const token = await firebaseCloudMessaging.init();
-    if (token && typeof cookies.access_token === "string") {
+      const token = await firebase.messaging().getToken();
+
       handleFcm(token);
     }
-  }, []);
+  }, [handleFcm]);
 
   const requestNotification = useCallback(() => {
     try {
@@ -127,17 +136,10 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   }, [getFcmToken]);
 
   const handleAll = useCallback(async (access_token: string) => {
-    if (
-      cookies.access_token !== undefined &&
-      typeof cookies.access_token === "string"
-    ) {
-      axios.defaults.headers.common["access_token"] = cookies.access_token;
+    if (axios.defaults.headers.common["access_token"]) {
       await handleUser(access_token).catch((err) => {
         if (err.message === "401") {
-          removeCookie("access_token", { path: "/" });
-          handleLoginChange(false);
-          axios.defaults.headers.common["access_token"] = "";
-          haldleAdminFalse();
+          tryLogout();
         }
       });
       requestNotification();
@@ -145,18 +147,14 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
   }, []);
 
   const handleLoginCallback = useCallback(() => {
+    const token = axios.defaults.headers.common["access_token"];
+
     if (!login) {
-      if (
-        cookies.access_token !== undefined &&
-        typeof cookies.access_token === "string"
-      ) {
-        axios.defaults.headers.common["access_token"] = cookies.access_token;
+      if (token !== "") {
         handleLoginChange(true);
-        handleUser(cookies.access_token).catch((err) => {
+        handleUser(token).catch((err) => {
           if (err.message === "Error: Request failed with status code 401") {
-            removeCookie("access_token", { path: "/" });
-            handleLoginChange(false);
-            axios.defaults.headers.common["access_token"] = "";
+            tryLogout();
           } else {
             NotificationManager.error("오류가 발생하였습니다.", "Error");
           }
