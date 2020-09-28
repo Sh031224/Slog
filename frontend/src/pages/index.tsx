@@ -1,7 +1,6 @@
 import React from "react";
 import MainTemplate from "components/common/Template/MainTemplate";
 import MainContainer from "containers/Main/MainContainer";
-import axios from "axios";
 import GetCookie from "lib/GetCookie";
 
 interface IndexPageProps {
@@ -13,7 +12,11 @@ class IndexPage extends React.Component<IndexPageProps> {
     const isServer = typeof window === "undefined";
 
     if (isServer && ctx.req.headers.cookie) {
-      const token = await GetCookie(ctx);
+      const cookies = await GetCookie(ctx);
+
+      const token = cookies.filter((val: string) => {
+        return val !== "";
+      });
 
       return { token };
     }
@@ -23,6 +26,8 @@ class IndexPage extends React.Component<IndexPageProps> {
 
   render() {
     const { token } = this.props;
+
+    console.log(token);
 
     return (
       <MainTemplate token={token}>

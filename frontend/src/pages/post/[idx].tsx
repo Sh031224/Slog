@@ -26,11 +26,15 @@ interface PostInfoType {
 class Post extends React.Component<PostProps> {
   static async getInitialProps(ctx: any) {
     const isServer = typeof window === "undefined";
-    let token = "";
+    let token = [];
 
     if (isServer) {
       if (ctx.req.headers.cookie) {
-        token = await GetCookie(ctx);
+        const cookies = await GetCookie(ctx);
+
+        token = cookies.filter((val: string) => {
+          return val !== "";
+        });
       }
 
       const postIdx = ctx.req.url.replace("/post/", "");

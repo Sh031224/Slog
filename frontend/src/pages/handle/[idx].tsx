@@ -12,7 +12,11 @@ class Handle extends React.Component<HandleProps> {
     const isServer = typeof window === "undefined";
 
     if (isServer && ctx.req.headers.cookie) {
-      const token = await GetCookie(ctx);
+      const cookies = await GetCookie(ctx);
+
+      const token = cookies.filter((val: string) => {
+        return val !== "";
+      });
 
       return { token };
     }

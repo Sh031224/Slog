@@ -1,18 +1,22 @@
-const GetCookie = async (ctx: any): Promise<string> => {
+const GetCookie = async (ctx: any): Promise<string[]> => {
   const promise = (value: string) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve: (value: string) => void, reject) => {
       const cookieValue = value.split("=");
 
       if (cookieValue[1] && cookieValue[0] === "access_token") {
         resolve(cookieValue[1]);
+      } else {
+        resolve("");
       }
     });
   };
-  const promises = ctx.req.headers.cookie.split(/; /).map((value: string) => {
-    return promise(value);
-  });
+  const promises: Array<Promise<string>> = ctx.req.headers.cookie
+    .split(/; /)
+    .map((value: string) => {
+      return promise(value);
+    });
 
-  return await Promise.race(promises);
+  return await Promise.all(promises);
 };
 
 export default GetCookie;
