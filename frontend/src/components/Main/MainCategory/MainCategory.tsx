@@ -2,10 +2,8 @@ import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { MdExpandMore } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
 import "./MainCategory.scss";
-import dynamic from "next/dynamic";
-
-const MainCategoryItem = dynamic(() => import("./MainCategoryItem"));
-const MainCategoryRowItem = dynamic(() => import("./MainCategoryRowItem"));
+import MainCategoryItem from "./MainCategoryItem";
+import MainCategoryRowItem from "./MainCategoryRowItem";
 
 interface MainCategoryProps {
   categoryList: CategoryType[];

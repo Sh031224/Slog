@@ -1,10 +1,6 @@
-import dynamic from "next/dynamic";
+import PostReplyHandleContainer from "containers/Post/PostReplyHandleContainer";
 import React from "react";
 import "./PostReply.scss";
-
-const PostReplyHandleContainer = dynamic(
-  () => import("../../../containers/Post/PostReplyHandleContainer")
-);
 
 interface PostReplyProps {
   replies: ReplyType[];

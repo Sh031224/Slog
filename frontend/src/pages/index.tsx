@@ -1,18 +1,38 @@
 import React from "react";
-import { NextPage } from "next";
-import dynamic from "next/dynamic";
+import MainTemplate from "components/common/Template/MainTemplate";
+import MainContainer from "containers/Main/MainContainer";
+import GetCookie from "lib/GetCookie";
 
-const MainTemplate = dynamic(
-  () => import("../components/common/Template/MainTemplate")
-);
-const MainContainer = dynamic(() => import("../containers/Main/MainContainer"));
+interface IndexPageProps {
+  token?: string;
+}
 
-const IndexPage: NextPage = () => {
-  return (
-    <MainTemplate>
-      <MainContainer />
-    </MainTemplate>
-  );
-};
+class IndexPage extends React.Component<IndexPageProps> {
+  static async getInitialProps(ctx: any) {
+    const isServer = typeof window === "undefined";
+
+    if (isServer && ctx.req.headers.cookie) {
+      const cookies = await GetCookie(ctx);
+
+      const token = cookies.filter((val: string) => {
+        return val !== "";
+      });
+
+      return { token };
+    }
+
+    return { token: "" };
+  }
+
+  render() {
+    const { token } = this.props;
+
+    return (
+      <MainTemplate token={token}>
+        <MainContainer />
+      </MainTemplate>
+    );
+  }
+}
 
 export default IndexPage;

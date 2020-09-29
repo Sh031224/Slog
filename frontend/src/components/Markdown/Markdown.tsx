@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import MarkDown from "markdown-to-jsx";
 import "./Markdown.scss";
-import Prism from "prismjs";
 
 interface MarkdownProps {
   children: string;
@@ -40,10 +39,6 @@ const markedA = ({ children, ...props }: { children: string }) => {
 };
 
 const Markdown = ({ children }: MarkdownProps) => {
-  useEffect(() => {
-    Prism.highlightAll();
-  }, [children]);
-
   return (
     <div className="markdown-code">
       <MarkDown

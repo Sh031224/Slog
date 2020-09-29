@@ -1,16 +1,12 @@
+import MainTemplate from "components/common/Template/MainTemplate";
+import PostContainer from "containers/Post/PostContainer";
 import React from "react";
 import PostApi from "../../assets/api/Post";
-import dynamic from "next/dynamic";
-
-const MainTemplate = dynamic(
-  () => import("../../components/common/Template/MainTemplate")
-);
-const PostContainer = dynamic(
-  () => import("../../containers/Post/PostContainer")
-);
+import GetCookie from "lib/GetCookie";
 
 interface PostProps {
   post: PostInfoType;
+  token?: string;
 }
 
 interface PostInfoType {
@@ -28,25 +24,36 @@ interface PostInfoType {
 }
 
 class Post extends React.Component<PostProps> {
-  static async getInitialProps({ req }: any) {
+  static async getInitialProps(ctx: any) {
     const isServer = typeof window === "undefined";
+    let token = [];
 
     if (isServer) {
-      const postIdx = req.url.replace("/post/", "");
+      if (ctx.req.headers.cookie) {
+        const cookies = await GetCookie(ctx);
+
+        token = cookies.filter((val: string) => {
+          return val !== "";
+        });
+      }
+
+      const postIdx = ctx.req.url.replace("/post/", "");
       const data = await PostApi.GetPostInfo(Number(postIdx)).catch(
         (err: Error) => {
-          return { post: {} };
+          return { post: {}, token };
         }
       );
-      return { post: data.data.post };
+      return { post: data.data.post, token };
     }
-    return { post: {} };
+    return { post: {}, token };
   }
 
   render() {
+    const { token, post } = this.props;
+
     return (
-      <MainTemplate>
-        <PostContainer post={this.props.post || null} />
+      <MainTemplate token={token}>
+        <PostContainer post={post || null} />
       </MainTemplate>
     );
   }

@@ -1,13 +1,11 @@
-import dynamic from "next/dynamic";
 import React from "react";
 import PostLoading from "../../Post/PostLoading";
 import "./HandlePost.scss";
-
-const HandlePostCategory = dynamic(() => import("./HandlePostCategory"));
-const HandlePostContent = dynamic(() => import("./HandlePostContent"));
-const HandlePostFooter = dynamic(() => import("./HandlePostFooter"));
-const HandlePostHeader = dynamic(() => import("./HandlePostHeader"));
-const HandlePostThumbnail = dynamic(() => import("./HandlePostThumbnail"));
+import HandlePostCategory from "./HandlePostCategory";
+import HandlePostContent from "./HandlePostContent";
+import HandlePostFooter from "./HandlePostFooter";
+import HandlePostHeader from "./HandlePostHeader";
+import HandlePostThumbnail from "./HandlePostThumbnail";
 
 interface HandlePostProps {
   categoryList: CategoryType[];

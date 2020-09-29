@@ -4,14 +4,11 @@ import { useRouter } from "next/router";
 import PostStore from "../../stores/PostStore";
 import CommentStore from "../../stores/CommentStore";
 import UserStore from "../../stores/UserStore";
-import { useCookies } from "react-cookie";
-import axios from "axios";
+import cookies from "js-cookie";
 import { NotificationManager } from "react-notifications";
 import { confirmAlert } from "react-confirm-alert";
 import Head from "next/head";
-import dynamic from "next/dynamic";
-
-const Post = dynamic(() => import("../../components/Post"));
+import Post from "../../components/Post";
 
 interface PostContainerProps {
   store?: StoreType;
@@ -69,8 +66,6 @@ interface GetPostCommentCountResponse {
 const PostContainer = ({ store, post }: PostContainerProps) => {
   const router = useRouter();
   const { idx } = router.query;
-
-  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
   const {
     getPostInfo,
@@ -145,7 +140,6 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
   const getAllContent = useCallback(async () => {
     setLoading(true);
     if (!isNaN(Number(idx))) {
-      axios.defaults.headers.common["access_token"] = cookies.access_token;
       try {
         if (!post.idx) {
           //csr
@@ -186,7 +180,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
           setIsSaving(false);
         } catch (err) {
           if (err.message === "Error: Request failed with status code 401") {
-            removeCookie("access_token", { path: "/" });
+            cookies.remove("access_token", { path: "/" });
             handleLoginChange(false);
             NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
           } else {
@@ -222,7 +216,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
           } else if (
             err.message === "Error: Request failed with status code 401"
           ) {
-            removeCookie("access_token", { path: "/" });
+            cookies.remove("access_token", { path: "/" });
             handleLoginChange(false);
             NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
           } else {
@@ -255,7 +249,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
         } else if (
           err.message === "Error: Request failed with status code 401"
         ) {
-          removeCookie("access_token", { path: "/" });
+          cookies.remove("access_token", { path: "/" });
           NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
         } else {
           NotificationManager.error("오류가 발생하였습니다.", "Error");
@@ -306,7 +300,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
           } else if (
             err.message === "Error: Request failed with status code 401"
           ) {
-            removeCookie("access_token", { path: "/" });
+            cookies.remove("access_token", { path: "/" });
             handleLoginChange(false);
             NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
           } else {
@@ -342,7 +336,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
           } else if (
             err.message === "Error: Request failed with status code 401"
           ) {
-            removeCookie("access_token", { path: "/" });
+            cookies.remove("access_token", { path: "/" });
             handleLoginChange(false);
             NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
           } else {
@@ -375,7 +369,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
         } else if (
           err.message === "Error: Request failed with status code 410"
         ) {
-          removeCookie("access_token", { path: "/" });
+          cookies.remove("access_token", { path: "/" });
           NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
         } else {
           NotificationManager.error("오류가 발생하였습니다.", "Error");
