@@ -27,8 +27,6 @@ class IndexPage extends React.Component<IndexPageProps> {
   render() {
     const { token } = this.props;
 
-    console.log(token);
-
     return (
       <MainTemplate token={token}>
         <MainContainer />
