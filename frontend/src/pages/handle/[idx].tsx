@@ -18,7 +18,7 @@ class Handle extends React.Component<HandleProps> {
         return val !== "";
       });
 
-      return { token };
+      return { token: token.toString() };
     }
 
     return { token: "" };

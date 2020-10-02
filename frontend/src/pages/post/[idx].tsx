@@ -40,12 +40,12 @@ class Post extends React.Component<PostProps> {
       const postIdx = ctx.req.url.replace("/post/", "");
       const data = await PostApi.GetPostInfo(Number(postIdx)).catch(
         (err: Error) => {
-          return { post: {}, token };
+          return { post: {}, token: token.toString() };
         }
       );
-      return { post: data.data.post, token };
+      return { post: data.data.post, token: token.toString() };
     }
-    return { post: {}, token };
+    return { post: {}, token: token.toString() };
   }
 
   render() {

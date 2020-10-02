@@ -18,7 +18,7 @@ class Privacy extends React.Component<PrivacyProps> {
         return val !== "";
       });
 
-      return { token };
+      return { token: token.toString() };
     }
 
     return { token: "" };
