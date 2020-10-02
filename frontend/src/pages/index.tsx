@@ -18,7 +18,7 @@ class IndexPage extends React.Component<IndexPageProps> {
         return val !== "";
       });
 
-      return { token };
+      return { token: token.toString() };
     }
 
     return { token: "" };
