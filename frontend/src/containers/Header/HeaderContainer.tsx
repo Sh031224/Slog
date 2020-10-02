@@ -136,7 +136,8 @@ const HeaderContainer = ({ store, token }: HeaderContainerProps) => {
   }, [getFcmToken]);
 
   const handleAll = useCallback(async (access_token: string) => {
-    if (axios.defaults.headers.common["access_token"]) {
+    const token = axios.defaults.headers.common["access_token"];
+    if (token) {
       await handleUser(access_token).catch((err) => {
         if (err.message === "401") {
           tryLogout();
@@ -150,7 +151,8 @@ const HeaderContainer = ({ store, token }: HeaderContainerProps) => {
     const token = axios.defaults.headers.common["access_token"];
 
     if (!login) {
-      if (token !== "") {
+      if (token) {
+        console.log(token);
         handleLoginChange(true);
         handleUser(token).catch((err) => {
           if (err.message === "Error: Request failed with status code 401") {
