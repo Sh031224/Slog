@@ -101,36 +101,37 @@ const HeaderContainer = ({ store, token }: HeaderContainerProps) => {
   }, [search]);
 
   const getFcmToken = useCallback(async () => {
-    if (!firebase.app.length) {
-      firebase.initializeApp(option);
+    firebase.initializeApp(option);
 
-      const token = await firebase.messaging().getToken();
-
-      handleFcm(token);
-    }
+    const token = await firebase.messaging().getToken();
+    handleFcm(token);
   }, [handleFcm]);
 
   const requestNotification = useCallback(() => {
-    try {
-      Notification.requestPermission().then(
-        (permission: NotificationPermission) => {
-          if (permission === "granted") {
-            getFcmToken();
+    if ("Notification" in window) {
+      try {
+        Notification.requestPermission().then(
+          (permission: NotificationPermission) => {
+            if (permission === "granted") {
+              getFcmToken();
+            }
           }
+        );
+      } catch (error) {
+        // Safari doesn't return a promise for requestPermissions and it
+        // throws a TypeError. It takes a callback as the first argument
+        // instead.
+        if (error instanceof TypeError) {
+          Notification.requestPermission(
+            (permission: NotificationPermission) => {
+              if (permission === "granted") {
+                getFcmToken();
+              }
+            }
+          );
+        } else {
+          throw error;
         }
-      );
-    } catch (error) {
-      // Safari doesn't return a promise for requestPermissions and it
-      // throws a TypeError. It takes a callback as the first argument
-      // instead.
-      if (error instanceof TypeError) {
-        Notification.requestPermission((permission: NotificationPermission) => {
-          if (permission === "granted") {
-            getFcmToken();
-          }
-        });
-      } else {
-        throw error;
       }
     }
   }, [getFcmToken]);
@@ -152,7 +153,6 @@ const HeaderContainer = ({ store, token }: HeaderContainerProps) => {
 
     if (!login) {
       if (token) {
-        console.log(token);
         handleLoginChange(true);
         handleUser(token).catch((err) => {
           if (err.message === "Error: Request failed with status code 401") {
