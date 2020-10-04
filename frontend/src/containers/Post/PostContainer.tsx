@@ -463,7 +463,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
                       .replace(
                         /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
                         ""
-                      )
+                      ) || ""
               }
             />
             <meta
@@ -486,7 +486,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
                       .replace(
                         /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
                         ""
-                      )
+                      ) || ""
               }
             />
             <meta
@@ -503,7 +503,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
                         /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
                         ""
                       )
-                  : postInfo.description
+                  : postInfo.description || ""
               }
             />
             {post.title || postInfo.thumbnail ? (
