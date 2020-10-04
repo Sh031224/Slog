@@ -11,7 +11,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+          <link rel="icon" href="/images/logo512.png" />
           <meta name="theme-color" content="#000000" />
           <link rel="apple-touch-icon" href="/images/logo192.png" />
           <link rel="shortcut icon" href="/images/favicon.ico" />
