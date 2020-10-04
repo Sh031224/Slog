@@ -69,7 +69,7 @@ export default async (req: AuthRequest, res: Response) => {
           notification: {
             icon: null,
             title: `${user.name}님께서 댓글을 남겼습니다.`,
-            body: `${comment.content.substring(0, 20)}`,
+            body: `${comment.content}`,
             click_action: `https://slog.website/post/${post.idx}`
           }
         },

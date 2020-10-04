@@ -82,7 +82,7 @@ export default async (req: AuthRequest, res: Response) => {
           notification: {
             icon: null,
             title: `${user.name}님께서 답글을 남겼습니다.`,
-            body: `${reply.content.substring(0, 20)}`,
+            body: `${reply.content}`,
             click_action: `https://slog.website/post/${comment.fk_post_idx}`
           }
         },
