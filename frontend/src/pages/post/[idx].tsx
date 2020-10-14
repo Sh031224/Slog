@@ -43,7 +43,10 @@ class Post extends React.Component<PostProps> {
           return { post: {}, token: token.toString() };
         }
       );
-      return { post: data.data.post, token: token.toString() };
+      if (data && data.data && data.data.post) {
+        return { post: data.data.post, token: token.toString() };
+      }
+      return { post: {}, token: token.toString() };
     }
     return { post: {}, token: token.toString() };
   }
