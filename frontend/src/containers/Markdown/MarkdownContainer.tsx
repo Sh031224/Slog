@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Markdown from "components/Markdown";
-import Prism from "prismjs";
+import Prism from "lib/prism/prism";
 
 interface MarkdownContainerProps {
   className?: string;
