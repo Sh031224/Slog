@@ -1,6 +1,8 @@
 import { observable, action } from "mobx";
+import { autobind } from "core-decorators";
 import Category from "../../assets/api/Category";
 
+@autobind
 class CategoryStore {
   @observable categoryList = [];
   @observable totalPost = 0;

@@ -8,7 +8,7 @@ import TimeCounting from "time-counting";
 
 interface MainPostsItemProps {
   post: PostType;
-  lastCardEl?: React.MutableRefObject<HTMLDivElement | null>;
+  lastCardEl?: (node?: Element) => void;
 }
 
 interface PostType {

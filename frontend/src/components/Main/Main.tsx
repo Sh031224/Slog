@@ -17,7 +17,7 @@ interface MainProps {
   getPostLength: () => number;
   notfound: boolean;
   loading: boolean;
-  lastCardEl: React.MutableRefObject<HTMLDivElement | null>;
+  lastCardEl: (node?: Element) => void;
   createPost: () => void;
 }
 

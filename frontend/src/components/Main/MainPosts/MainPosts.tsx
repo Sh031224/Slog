@@ -8,7 +8,7 @@ interface MainPostsProps {
   posts: PostType[];
   loading: boolean;
   notfound: boolean;
-  lastCardEl: React.MutableRefObject<HTMLDivElement | null>;
+  lastCardEl: (node?: Element) => void;
 }
 
 interface PostType {

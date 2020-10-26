@@ -1,4 +1,5 @@
 import { action, observable } from "mobx";
+import { autobind } from "core-decorators";
 import Comment from "../../assets/api/Comment";
 
 interface CommentTypeResponse {
@@ -45,6 +46,7 @@ interface PostCommentResponse {
   message: string;
 }
 
+@autobind
 class LoginStore {
   @observable comments: CommentType[] = [];
 
