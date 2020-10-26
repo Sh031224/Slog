@@ -1,8 +1,13 @@
-import MainTemplate from "components/common/Template/MainTemplate";
-import PostContainer from "containers/Post/PostContainer";
 import React from "react";
 import PostApi from "../../assets/api/Post";
 import GetCookie from "lib/GetCookie";
+import { DocumentContext } from "next/document";
+import dynamic from "next/dynamic";
+
+const MainTemplate = dynamic(
+  () => import("components/common/Template/MainTemplate")
+);
+const PostContainer = dynamic(() => import("containers/Post/PostContainer"));
 
 interface PostProps {
   post: PostInfoType;
@@ -24,7 +29,7 @@ interface PostInfoType {
 }
 
 class Post extends React.Component<PostProps> {
-  static async getInitialProps(ctx: any) {
+  static async getInitialProps(ctx: DocumentContext) {
     const isServer = typeof window === "undefined";
     let token = [];
 

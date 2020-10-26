@@ -1,14 +1,20 @@
-import MainTemplate from "components/common/Template/MainTemplate";
-import PrivacyContainer from "containers/Privacy/PrivacyContainer";
 import GetCookie from "lib/GetCookie";
+import { DocumentContext } from "next/document";
+import dynamic from "next/dynamic";
 import React from "react";
 
+const MainTemplate = dynamic(
+  () => import("components/common/Template/MainTemplate")
+);
+const PrivacyContainer = dynamic(
+  () => import("containers/Privacy/PrivacyContainer")
+);
 interface PrivacyProps {
   token?: string;
 }
 
 class Privacy extends React.Component<PrivacyProps> {
-  static async getInitialProps(ctx: any) {
+  static async getInitialProps(ctx: DocumentContext) {
     const isServer = typeof window === "undefined";
 
     if (isServer && ctx.req.headers.cookie) {

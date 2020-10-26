@@ -1,14 +1,19 @@
 import React from "react";
-import MainTemplate from "components/common/Template/MainTemplate";
-import MainContainer from "containers/Main/MainContainer";
 import GetCookie from "lib/GetCookie";
+import { DocumentContext } from "next/document";
+import dynamic from "next/dynamic";
+
+const MainTemplate = dynamic(
+  () => import("components/common/Template/MainTemplate")
+);
+const MainContainer = dynamic(() => import("containers/Main/MainContainer"));
 
 interface IndexPageProps {
   token?: string;
 }
 
 class IndexPage extends React.Component<IndexPageProps> {
-  static async getInitialProps(ctx: any) {
+  static async getInitialProps(ctx: DocumentContext) {
     const isServer = typeof window === "undefined";
 
     if (isServer && ctx.req.headers.cookie) {
