@@ -9,10 +9,12 @@ import {
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
 import cookies from "js-cookie";
-import Header from "components/common/Header";
 import firebase from "firebase/app";
 import option from "../../config/firebase.json";
 import "firebase/messaging";
+import dynamic from "next/dynamic";
+
+const Header = dynamic(() => import("components/common/Header"));
 
 interface HeaderContainerProps {
   store?: StoreType;

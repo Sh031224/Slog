@@ -1,6 +1,10 @@
-import PostCommentCreate from "components/Post/PostComment/PostCommentCreate";
+import dynamic from "next/dynamic";
 import React, { KeyboardEvent, useCallback, useState } from "react";
 import { NotificationManager } from "react-notifications";
+
+const PostCommentCreate = dynamic(
+  () => import("components/Post/PostComment/PostCommentCreate")
+);
 
 interface PostCommentCreateContainerProps {
   createComment: (

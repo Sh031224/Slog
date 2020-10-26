@@ -9,7 +9,9 @@ import { inject, observer } from "mobx-react";
 import { useRouter } from "next/router";
 import useInterval from "react-useinterval";
 import Head from "next/head";
-import HandlePost from "components/Admin/HandlePost";
+import dynamic from "next/dynamic";
+
+const HandlePost = dynamic(() => import("components/Admin/HandlePost"));
 
 interface HandleContainerProps {
   store?: StoreType;

@@ -1,5 +1,9 @@
-import PostReplyItem from "components/Post/PostReply/PostReplyItem";
+import dynamic from "next/dynamic";
 import React, { useCallback, useState } from "react";
+
+const PostReplyItem = dynamic(
+  () => import("components/Post/PostReply/PostReplyItem")
+);
 
 interface PostReplyHandleContainerProps {
   userId: number;

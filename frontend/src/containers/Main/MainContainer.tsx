@@ -7,8 +7,9 @@ import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Main from "components/Main";
-import axios from "axios";
+import dynamic from "next/dynamic";
+
+const Main = dynamic(() => import("components/Main"));
 
 interface MainContainerProps {
   store?: StoreType;

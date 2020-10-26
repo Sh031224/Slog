@@ -1,8 +1,10 @@
+import dynamic from "next/dynamic";
 import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
 import "./Main.scss";
-import MainCategory from "./MainCategory";
-import MainCreate from "./MainCreate";
-import MainPosts from "./MainPosts";
+
+const MainCategory = dynamic(() => import("./MainCategory"));
+const MainPosts = dynamic(() => import("./MainPosts"));
+const MainCreate = dynamic(() => import("./MainCreate"));
 
 interface MainProps {
   categoryList: CategoryType[];

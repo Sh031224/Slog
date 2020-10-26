@@ -11,7 +11,9 @@ import {
   ReactFacebookFailureResponse,
   ReactFacebookLoginInfo
 } from "react-facebook-login";
-import HeaderSearch from "./HeaderSearch";
+import dynamic from "next/dynamic";
+
+const HeaderSearch = dynamic(() => import("./HeaderSearch"));
 
 interface HeaderProps {
   searchEl: MutableRefObject<any>;

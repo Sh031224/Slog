@@ -7,7 +7,9 @@ import React, {
 } from "react";
 import { NotificationManager } from "react-notifications";
 import { confirmAlert } from "react-confirm-alert";
-import AdminCategory from "components/Admin/AdminCategory";
+import dynamic from "next/dynamic";
+
+const AdminCategory = dynamic(() => import("components/Admin/AdminCategory"));
 
 interface AdminCategoryContainerProps {
   categoryList: CategoryType[];
