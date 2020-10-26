@@ -8,7 +8,9 @@ import cookies from "js-cookie";
 import { NotificationManager } from "react-notifications";
 import { confirmAlert } from "react-confirm-alert";
 import Head from "next/head";
-import Post from "../../components/Post";
+import dynamic from "next/dynamic";
+
+const Post = dynamic(() => import("components/Post"));
 
 interface PostContainerProps {
   store?: StoreType;

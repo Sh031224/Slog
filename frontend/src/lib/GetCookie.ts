@@ -1,4 +1,6 @@
-const GetCookie = async (ctx: any): Promise<string[]> => {
+import { DocumentContext } from "next/document";
+
+const GetCookie = async (ctx: DocumentContext): Promise<string[]> => {
   const promise = (value: string) => {
     return new Promise((resolve: (value: string) => void, reject) => {
       const cookieValue = value.split("=");

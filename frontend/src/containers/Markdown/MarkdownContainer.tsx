@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
-import Markdown from "components/Markdown";
-import Prism from "prismjs";
+import Prism from "lib/prism/prism";
+import dynamic from "next/dynamic";
+
+const Markdown = dynamic(() => import("components/Markdown"));
 
 interface MarkdownContainerProps {
   className?: string;

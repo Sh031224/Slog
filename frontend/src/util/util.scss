@@ -39,6 +39,22 @@ body {
   }
 }
 
+.notification-success:before {
+  content: "✓";
+}
+
+.notification-info:before {
+  content: "ℹ";
+}
+
+.notification-warning:before {
+  content: "!";
+}
+
+.notification-error:before {
+  content: "𝗑";
+}
+
 .react-confirm-alert-button-group > button:last-child {
   background-color: #fff;
   border: 1px solid gray;

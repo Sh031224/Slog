@@ -1,7 +1,8 @@
 import dynamic from "next/dynamic";
 import React, { Fragment } from "react";
 import "./MainPosts.scss";
-import MainPostsItem from "./MainPostsItem";
+
+const MainPostsItem = dynamic(() => import("./MainPostsItem"));
 
 interface MainPostsProps {
   posts: PostType[];

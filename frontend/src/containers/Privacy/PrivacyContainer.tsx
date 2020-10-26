@@ -1,6 +1,8 @@
-import Privacy from "components/Privacy";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import React, { useEffect } from "react";
+
+const Privacy = dynamic(() => import("components/Privacy"));
 
 const PrivacyContainer = () => {
   useEffect(() => {
