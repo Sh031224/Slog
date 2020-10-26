@@ -103,8 +103,9 @@ const HeaderContainer = ({ store, token }: HeaderContainerProps) => {
   }, [search]);
 
   const getFcmToken = useCallback(async () => {
-    firebase.initializeApp(option);
-
+    if (!firebase.apps.length) {
+      firebase.initializeApp(option);
+    }
     const token = await firebase.messaging().getToken();
     handleFcm(token);
   }, [handleFcm]);
