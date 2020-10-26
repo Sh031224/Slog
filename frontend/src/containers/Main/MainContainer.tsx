@@ -6,6 +6,7 @@ import UserStore from "../../stores/UserStore";
 import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
+import { useInView } from "react-intersection-observer";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 
@@ -59,7 +60,8 @@ const MainContainer = ({ store }: MainContainerProps) => {
 
   const arrowToggleEl = useRef<HTMLElement>(null);
   const categoryRowEl = useRef<HTMLElement>(null);
-  const lastCardEl = useRef<HTMLDivElement | null>(null);
+
+  const [lastCardEl, inView] = useInView();
 
   const handleCategoryListCallback = useCallback(() => {
     if (categoryList.length === 0) {
@@ -72,32 +74,6 @@ const MainContainer = ({ store }: MainContainerProps) => {
   useEffect(() => {
     handleCategoryListCallback();
   }, [handleCategoryListCallback]);
-
-  useEffect(() => {
-    const intersectionObserver = new IntersectionObserver(
-      (entries, observer) => {
-        const lastCard = entries[0];
-
-        if (
-          asPath.indexOf("search=") === -1 &&
-          !loading &&
-          getPostLength() < total
-        ) {
-          if (lastCard.intersectionRatio > 0 && lastCardEl.current) {
-            observer.unobserve(lastCard.target);
-            lastCardEl.current = null;
-            setTimeout(() => {
-              setPage(page + 1);
-            }, 100);
-          }
-        }
-      }
-    );
-
-    if (lastCardEl.current) {
-      intersectionObserver.observe(lastCardEl.current);
-    }
-  }, []);
 
   const handlePostSearchCallback = useCallback(async () => {
     setLoading(true);
@@ -168,25 +144,52 @@ const MainContainer = ({ store }: MainContainerProps) => {
     if (asPath.indexOf("?temp") !== -1) {
       handleTempPostsCallback();
     } else if (asPath.indexOf("tab=") !== -1 || asPath === "/") {
-      if (page === 1) {
-        handlePostsCallback().catch(() => {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
-        });
-      } else {
-        setPage(1);
-      }
+      handlePostsCallback().catch(() => {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      });
     } else if (asPath.indexOf("?search=") === -1) {
       router.push("/");
+      handlePostsCallback().catch(() => {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      });
     } else {
       handlePostSearchCallback().catch(() => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
     }
-  }, [asPath, page]);
+    console.log(1);
+  }, [page, asPath]);
+
+  const handleCategoryPostCallback = useCallback(() => {
+    if (page === 1) {
+      handleQueryCallbacks();
+    } else {
+      initPosts();
+      setPage(1);
+    }
+  }, [asPath, page, handleQueryCallbacks]);
+
+  useEffect(() => {
+    if (
+      inView &&
+      !loading &&
+      asPath.indexOf("search=") === -1 &&
+      getPostLength() < total
+    ) {
+      console.log(page);
+      setLoading(true);
+      setPage((prevState) => prevState + 1);
+    }
+  }, [inView, asPath, total, page, loading, lastCardEl]);
+
+  useEffect(() => {
+    handleCategoryPostCallback();
+    console.log(asPath);
+  }, [asPath]);
 
   useEffect(() => {
     handleQueryCallbacks();
-  }, [asPath, page]);
+  }, [page]);
 
   return (
     <React.Fragment>
