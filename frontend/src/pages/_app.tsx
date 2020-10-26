@@ -6,7 +6,7 @@ import Head from "next/head";
 import stores from "../stores";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "react-notifications/lib/notifications.css";
-import "lib/prism/prism-okaidia.css";
+import "prismjs/themes/prism-okaidia.css";
 import "util/util.scss";
 
 const isServer = typeof window === "undefined";
