@@ -45,6 +45,7 @@
     "react-facebook-login": "^4.1.1",
     "react-headroom": "^3.0.0",
     "react-icons": "^3.11.0",
+    "react-intersection-observer": "^8.29.1",
     "react-notifications": "^1.7.2",
     "react-scroll-to-top": "^1.0.5",
     "react-useinterval": "^1.0.2",
@@ -62,8 +63,8 @@
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
     "@types/react-facebook-login": "^4.1.2",
-    "core-decorators": "^0.20.0",
     "babel-plugin-styled-components": "^1.11.1",
+    "core-decorators": "^0.20.0",
     "typescript": "4.0"
   },
   "license": "MIT"
