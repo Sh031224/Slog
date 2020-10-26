@@ -1,4 +1,5 @@
 import { action, observable } from "mobx";
+import { autobind } from "core-decorators";
 import Profile from "../../assets/api/Profile";
 import Login from "../../assets/api/Login";
 
@@ -15,14 +16,19 @@ interface GetProfileResponse {
   };
 }
 
+@autobind
 class UserStore {
-  @observable admin = false;
+  @observable
+  admin: boolean = false;
 
-  @observable login = false;
+  @observable
+  login: boolean = false;
 
-  @observable userId = -1;
+  @observable
+  userId: number = -1;
 
-  @observable adminId!: number;
+  @observable
+  adminId!: number;
 
   @action
   handleLogin = async (access_token: string) => {
@@ -91,6 +97,8 @@ class UserStore {
 
       this.admin = response.data.user.is_admin;
       this.userId = response.data.user.idx;
+
+      this.login = true;
 
       return new Promise(
         (resolve: (response: GetProfileResponse) => void, _reject) => {

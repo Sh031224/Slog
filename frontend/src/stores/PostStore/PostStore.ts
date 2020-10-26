@@ -1,4 +1,5 @@
 import { observable, action } from "mobx";
+import { autobind } from "core-decorators";
 import Post from "../../assets/api/Post";
 
 interface PostParmsType {
@@ -96,6 +97,7 @@ interface GetPostCommentCountResponse {
   };
 }
 
+@autobind
 class PostStore {
   @observable
   posts: PostType[] = [];
