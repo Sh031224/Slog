@@ -174,9 +174,9 @@ const MainContainer = ({ store }: MainContainerProps) => {
       inView &&
       !loading &&
       asPath.indexOf("search=") === -1 &&
+      asPath.indexOf("?temp") === -1 &&
       getPostLength() < total
     ) {
-      console.log(page);
       setLoading(true);
       setPage((prevState) => prevState + 1);
     }
