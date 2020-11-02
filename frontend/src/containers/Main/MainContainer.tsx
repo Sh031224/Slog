@@ -61,7 +61,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
   const arrowToggleEl = useRef<HTMLElement>(null);
   const categoryRowEl = useRef<HTMLElement>(null);
 
-  const [lastCardEl, inView] = useInView();
+  const [lastCardEl, inView] = useInView({ threshold: 0.5 });
 
   const handleCategoryListCallback = useCallback(() => {
     if (categoryList.length === 0) {
@@ -108,7 +108,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
       .then((res: any) => {
         setTotal(res.data.total);
         setLoading(false);
-        if (res.data.posts.length > 0) {
+        if (res.data.posts.length > 0 || page > 1) {
           setNotfound(false);
         } else {
           setNotfound(true);
@@ -128,14 +128,14 @@ const MainContainer = ({ store }: MainContainerProps) => {
     await handleTempPosts()
       .then(() => {
         setLoading(false);
-        if (getPostLength() > 0) {
+        if (getPostLength() > 0 || page > 1) {
           setNotfound(false);
         }
       })
       .catch(() => {
         router.push("/");
       });
-  }, []);
+  }, [page]);
 
   const handleQueryCallbacks = useCallback(() => {
     if (page === 1) {
@@ -157,8 +157,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
     }
-    console.log(1);
-  }, [page, asPath]);
+  }, [handleTempPostsCallback, handlePostsCallback, handlePostSearchCallback]);
 
   const handleCategoryPostCallback = useCallback(() => {
     if (page === 1) {
@@ -184,7 +183,6 @@ const MainContainer = ({ store }: MainContainerProps) => {
 
   useEffect(() => {
     handleCategoryPostCallback();
-    console.log(asPath);
   }, [asPath]);
 
   useEffect(() => {
