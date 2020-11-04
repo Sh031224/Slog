@@ -4,7 +4,7 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html>
+      <Html lang="ko">
         <Head>
           <link rel="icon" href="/images/logo512.png" />
           <meta name="theme-color" content="#000000" />
