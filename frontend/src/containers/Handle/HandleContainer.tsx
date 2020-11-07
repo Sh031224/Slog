@@ -8,6 +8,7 @@ import { NotificationManager } from "react-notifications";
 import { inject, observer } from "mobx-react";
 import { useRouter } from "next/router";
 import useInterval from "react-useinterval";
+import { useBeforeunload } from "react-beforeunload";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 
@@ -411,6 +412,8 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
   }, [title, isTemp, content, thumbnail, categoryIdx, description]);
 
   useInterval(autoSaveCallback, 250000);
+
+  useBeforeunload(() => "창을 닫으면 모든 변경사항이 사라집니다.");
 
   return (
     <>
