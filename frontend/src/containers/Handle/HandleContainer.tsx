@@ -161,7 +161,6 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
               setDescription("임시저장 글입니다.");
             }
             if (!isTemp) {
-              // router.push(`/handle/[idx]`, `/handle/${res.data.idx}`);
               router.push(`/post/${idx}`);
             }
             NotificationManager.success("저장 되었습니다.", "Success");
