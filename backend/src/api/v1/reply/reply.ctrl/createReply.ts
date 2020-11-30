@@ -59,7 +59,6 @@ export default async (req: AuthRequest, res: Response) => {
     reply.content = data.content;
     reply.user = user;
     reply.comment = comment;
-    reply.fk_user_name = user.name;
     await replyRepo.save(reply);
 
     const userRepo = getRepository(User);
