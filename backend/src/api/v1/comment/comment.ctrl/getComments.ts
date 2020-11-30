@@ -37,12 +37,24 @@ export default async (req: AuthRequest, res: Response) => {
 
     interface commentListType extends Comment {
       reply_count?: number;
+      fk_user_name?: string;
+      fk_user_is_deleted?: boolean;
     }
 
     const commentRepo = getRepository(Comment);
     const comments: commentListType[] = await commentRepo.find(commentOptions);
 
     for (let i in comments) {
+      const userRepo = getRepository(User);
+      const commentUser: User = await userRepo.findOne({
+        idx: comments[i].fk_user_idx
+      });
+
+      comments[i].fk_user_name = commentUser.is_deleted
+        ? "삭제된 유저입니다."
+        : commentUser.name;
+      comments[i].fk_user_is_deleted = commentUser.is_deleted;
+
       if (comments[i].is_private) {
         if (user) {
           if (user.idx !== comments[i].fk_user_idx && !user.is_admin) {

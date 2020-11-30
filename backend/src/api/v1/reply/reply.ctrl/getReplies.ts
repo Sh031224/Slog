@@ -44,17 +44,29 @@ export default async (req: AuthRequest, res: Response) => {
       return;
     }
 
+    interface replyListType extends Reply {
+      fk_user_name?: string;
+      fk_user_is_deleted?: boolean;
+    }
+
     const replyRepo = getRepository(Reply);
-    const replies: Reply[] = await replyRepo.find({
+    const replies: replyListType[] = await replyRepo.find({
       where: {
         comment
       }
     });
 
-    replies.map((reply) => {
-      if (reply.fk_user_is_deleted) {
-        reply.fk_user_name = "삭제된 유저";
-      }
+    replies.map(async (reply) => {
+      const userRepo = getRepository(User);
+      const commentUser: User = await userRepo.findOne({
+        idx: reply.fk_user_idx
+      });
+
+      reply.fk_user_name = commentUser.is_deleted
+        ? "삭제된 유저입니다."
+        : commentUser.name;
+      reply.fk_user_is_deleted = commentUser.is_deleted;
+
       if (reply.is_private) {
         if (user) {
           if (user.idx !== reply.fk_user_idx && !user.is_admin) {
