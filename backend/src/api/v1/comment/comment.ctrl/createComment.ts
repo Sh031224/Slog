@@ -29,7 +29,7 @@ export default async (req: AuthRequest, res: Response) => {
       }
     });
 
-    if (!post) {
+    if (!post || post.is_temp) {
       logger.yellow("[POST] 글 없음.");
       res.status(404).json({
         status: 404,
@@ -45,7 +45,6 @@ export default async (req: AuthRequest, res: Response) => {
     comment.content = data.content;
     comment.user = user;
     comment.post = post;
-    comment.fk_user_name = user.name;
 
     await coommentRepo.save(comment);
 
