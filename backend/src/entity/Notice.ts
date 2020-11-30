@@ -3,11 +3,8 @@ import {
   Column,
   PrimaryGeneratedColumn,
   BaseEntity,
-  CreateDateColumn,
-  ManyToOne,
-  JoinColumn
+  CreateDateColumn
 } from "typeorm";
-import User from "./User";
 
 @Entity("notice")
 export default class Notice extends BaseEntity {

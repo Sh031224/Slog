@@ -36,18 +36,6 @@ export default class Comment extends BaseEntity {
   })
   fk_user_idx: number;
 
-  @Column({
-    length: 255,
-    nullable: false
-  })
-  fk_user_name: string;
-
-  @Column({
-    default: false,
-    nullable: false
-  })
-  fk_user_is_deleted: boolean;
-
   @ManyToOne((type) => Post, { onDelete: "CASCADE" })
   @JoinColumn({ name: "fk_post_idx" })
   post: Post;
