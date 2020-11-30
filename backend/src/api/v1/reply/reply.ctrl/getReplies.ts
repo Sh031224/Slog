@@ -56,33 +56,33 @@ export default async (req: AuthRequest, res: Response) => {
       }
     });
 
-    replies.map(async (reply) => {
+    for (let i in replies) {
       const userRepo = getRepository(User);
       const commentUser: User = await userRepo.findOne({
-        idx: reply.fk_user_idx
+        idx: replies[i].fk_user_idx
       });
 
-      reply.fk_user_name = commentUser.is_deleted
+      replies[i].fk_user_name = commentUser.is_deleted
         ? "삭제된 유저입니다."
         : commentUser.name;
-      reply.fk_user_is_deleted = commentUser.is_deleted;
+      replies[i].fk_user_is_deleted = commentUser.is_deleted;
 
-      if (reply.is_private) {
+      if (replies[i].is_private) {
         if (user) {
-          if (user.idx !== reply.fk_user_idx && !user.is_admin) {
-            reply.content = "비밀 댓글입니다.";
-            delete reply.user;
-            delete reply.fk_user_idx;
-            delete reply.fk_user_name;
+          if (user.idx !== replies[i].fk_user_idx && !user.is_admin) {
+            replies[i].content = "비밀 댓글입니다.";
+            delete replies[i].user;
+            delete replies[i].fk_user_idx;
+            delete replies[i].fk_user_name;
           }
         } else {
-          reply.content = "비밀 댓글입니다.";
-          delete reply.user;
-          delete reply.fk_user_idx;
-          delete reply.fk_user_name;
+          replies[i].content = "비밀 댓글입니다.";
+          delete replies[i].user;
+          delete replies[i].fk_user_idx;
+          delete replies[i].fk_user_name;
         }
       }
-    });
+    }
 
     logger.green("[GET] 답글 목록 조회 성공.");
     res.status(200).json({
