@@ -7981,10 +7981,10 @@ through2@^2.0.0:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
 
-time-counting@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/time-counting/-/time-counting-1.0.7.tgz#98aad447eb107e8bb3c3d95be700e87dd253e063"
-  integrity sha512-4X7g1vOIoWqoGlQEeiPhHExH3P81cLvIzygljYlWY0BJL+IO5ZqAK+A44d5B3iDvcMqcE7nFHok7tQnWqMjvaA==
+time-counting@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/time-counting/-/time-counting-2.0.0.tgz#4021aeb6e6f52290f22ba40f49065388585032f6"
+  integrity sha512-P8E0Ljw5VkMqSnwAuWH6tOv5s3JE8E2S4FlLYLVydctxkKHtFK++IxWPLGveoyPUrBtXvDrLGZUaY7FQJcPXyQ==
 
 timers-browserify@^2.0.4:
   version "2.0.12"
