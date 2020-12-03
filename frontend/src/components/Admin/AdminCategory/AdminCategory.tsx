@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import "./AdminCategory.scss";
 import { GrFormAdd } from "react-icons/gr";
 import AdminCategoryItem from "./AdminCategoryItem";
+import { CategoryType } from "types/PostType";
 
 interface AdminCategoryProps {
   categoryList: CategoryType[];
@@ -12,12 +13,6 @@ interface AdminCategoryProps {
   setCategoryEdit: Dispatch<React.SetStateAction<boolean>>;
   removeCategory: (category_idx: number) => void;
   createTempCategory: () => Promise<void>;
-}
-
-interface CategoryType {
-  idx: number;
-  name: string;
-  post_count: number;
 }
 
 const AdminCategory = ({

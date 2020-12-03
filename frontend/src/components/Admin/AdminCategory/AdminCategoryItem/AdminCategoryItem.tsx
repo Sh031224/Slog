@@ -5,6 +5,7 @@ import {
   RiDeleteBin6Line
 } from "react-icons/ri";
 import classNames from "classnames/bind";
+import { CategoryType } from "types/PostType";
 
 const styled = require("./AdminCategoryItem.scss");
 const cx = classNames.bind(styled);
@@ -18,12 +19,6 @@ interface AdminCategoryItemProps {
   modifyOrderNumber: (category_idx: number, order_number: number) => void;
   modifyName: (category_idx: number, name: string) => void;
   removeCategory: (category_idx: number) => void;
-}
-
-interface CategoryType {
-  idx: number;
-  name: string;
-  post_count: number;
 }
 
 const AdminCategoryItem = ({
