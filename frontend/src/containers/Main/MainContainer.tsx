@@ -1,28 +1,18 @@
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import CategoryStore from "../../stores/CategoryStore";
-import PostStore from "../../stores/PostStore";
-import UserStore from "../../stores/UserStore";
 import AdminCategoryContainer from "../Admin/AdminCategoryContainer";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
 import { useInView } from "react-intersection-observer";
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import useStore from "lib/hooks/useStore";
+import { PostParmsType } from "types/PostType";
 
 const Main = dynamic(() => import("components/Main"));
 
-interface MainContainerProps {
-  store?: StoreType;
-}
-
-interface StoreType {
-  CategoryStore: CategoryStore;
-  UserStore: UserStore;
-  PostStore: PostStore;
-}
-
-const MainContainer = ({ store }: MainContainerProps) => {
+const MainContainer = () => {
+  const { store } = useStore();
   const {
     totalPost,
     categoryList,
@@ -31,8 +21,8 @@ const MainContainer = ({ store }: MainContainerProps) => {
     modifyCategoryName,
     deleteCategory,
     createCategory
-  } = store!.CategoryStore;
-  const { admin } = store!.UserStore;
+  } = store.CategoryStore;
+  const { admin } = store.UserStore;
   const {
     posts,
     handlePosts,
@@ -40,14 +30,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
     getPostLength,
     handlePostSearch,
     handleTempPosts
-  } = store!.PostStore;
-
-  interface PostParmsType {
-    page: number;
-    limit: number;
-    order?: string;
-    category?: number;
-  }
+  } = store.PostStore;
 
   const router = useRouter();
   const { asPath } = router;
@@ -190,7 +173,7 @@ const MainContainer = ({ store }: MainContainerProps) => {
   }, [page]);
 
   return (
-    <React.Fragment>
+    <>
       <Head>
         <title>{"Slog"}</title>
         <meta
@@ -243,8 +226,8 @@ const MainContainer = ({ store }: MainContainerProps) => {
           handlePosts={handlePosts}
         />
       )}
-    </React.Fragment>
+    </>
   );
 };
 
-export default inject("store")(observer(MainContainer));
+export default observer(MainContainer);

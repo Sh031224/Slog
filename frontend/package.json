@@ -51,7 +51,7 @@
     "react-scroll-to-top": "^1.0.5",
     "react-useinterval": "^1.0.2",
     "styled-components": "^5.2.0",
-    "time-counting": "^1.0.7",
+    "time-counting": "^2.0.0",
     "ts-node": "^9.0.0",
     "zlib": "^1.0.5"
   },

@@ -2,18 +2,13 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import classNames from "classnames/bind";
+import { CategoryType } from "types/PostType";
 const styled = require("./MainCategoryItem.scss");
 
 const cx = classNames.bind(styled);
 
 interface MainCategoryItemProps {
   item: CategoryType;
-}
-
-interface CategoryType {
-  idx: number;
-  name: string;
-  post_count: number;
 }
 
 const MainCategoryItem = ({ item }: MainCategoryItemProps) => {

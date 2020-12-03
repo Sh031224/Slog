@@ -1,5 +1,8 @@
 import dynamic from "next/dynamic";
 import React from "react";
+import CommentType from "types/CommentType";
+import { PostInfoType, PostType } from "types/PostType";
+import { GetRepliesResponse } from "types/Response";
 import MarkdownContainer from "../../containers/Markdown/MarkdownContainer";
 import "./Post.scss";
 
@@ -12,7 +15,7 @@ interface PostProps {
   loading: boolean;
   comments: CommentType[];
   post: PostInfoType;
-  postInfo: PostInfoType;
+  postInfo: PostInfoType | null;
   hitPosts: PostType[];
   login: boolean;
   admin: boolean;
@@ -21,7 +24,7 @@ interface PostProps {
     content: string,
     isPrivate?: boolean | undefined
   ) => Promise<void>;
-  getReplies: (commentIdx: number) => Promise<RepliesResponse>;
+  getReplies: (commentIdx: number) => Promise<GetRepliesResponse>;
   userId: number;
   modifyComment: (commentIdx: number, content: string) => Promise<void>;
   deleteComment: (commentIdx: number) => void;
@@ -37,62 +40,6 @@ interface PostProps {
   deletePostAlert: () => void;
   editPost: () => void;
   commentCount: number;
-  adminId: number;
-}
-
-interface RepliesResponse {
-  status: number;
-  message: string;
-  data: {
-    replies: ReplyType[];
-  };
-}
-
-interface ReplyType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_comment_idx: number;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface PostInfoType {
-  idx: number;
-  title: string;
-  description: string;
-  content: string;
-  view: number;
-  is_temp: boolean;
-  fk_category_idx: number | null;
-  thumbnail: string | null;
-  created_at: Date;
-  updated_at: Date;
-  comment_count: number;
-}
-
-interface CommentType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_post_idx: number;
-  created_at: Date;
-  updated_at: Date;
-  reply_count: number;
-}
-
-interface PostType {
-  idx: number;
-  title: string;
-  view?: number;
-  comment_count?: number;
-  thumbnail?: string;
-  description?: string;
-  created_at: Date;
 }
 
 const Post = ({
@@ -115,8 +62,7 @@ const Post = ({
   setHandler,
   deletePostAlert,
   editPost,
-  commentCount,
-  adminId
+  commentCount
 }: PostProps) => {
   return (
     <div className="post">
@@ -144,7 +90,6 @@ const Post = ({
               <>
                 <PostHit hitPosts={hitPosts} />
                 <PostComment
-                  adminId={adminId}
                   commentCount={commentCount}
                   createComment={createComment}
                   deleteComment={deleteComment}

@@ -39,6 +39,7 @@ export default async (req: Request, res: Response) => {
       "idx",
       "title",
       "created_at",
+      "updated_at",
       "fk_category_idx",
       "thumbnail",
       "view",

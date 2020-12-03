@@ -4,6 +4,7 @@ import classNames from "classnames/bind";
 import TimeCounting from "time-counting";
 import { useRouter } from "next/router";
 import "./PostHitItem.scss";
+import { PostType } from "types/PostType";
 
 const styled = require("./PostHitItem.scss");
 
@@ -11,16 +12,6 @@ const cx = classNames.bind(styled);
 
 interface PostHitItemProps {
   post: PostType;
-}
-
-interface PostType {
-  idx: number;
-  title: string;
-  view?: number;
-  comment_count?: number;
-  thumbnail?: string;
-  description?: string;
-  created_at: Date;
 }
 
 const PostHitItem = ({ post }: PostHitItemProps) => {

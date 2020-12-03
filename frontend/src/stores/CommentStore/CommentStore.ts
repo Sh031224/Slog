@@ -1,50 +1,12 @@
 import { action, observable } from "mobx";
 import { autobind } from "core-decorators";
 import Comment from "../../assets/api/Comment";
-
-interface CommentTypeResponse {
-  status: number;
-  message: string;
-  data: {
-    comments: CommentType[];
-  };
-}
-
-interface CommentType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_post_idx: number;
-  created_at: Date;
-  updated_at: Date;
-  reply_count: number;
-}
-
-interface RepliesResponse {
-  status: number;
-  message: string;
-  data: {
-    replies: ReplyType[];
-  };
-}
-
-interface ReplyType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_comment_idx: number;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface PostCommentResponse {
-  status: number;
-  message: string;
-}
+import CommentType from "types/CommentType";
+import {
+  GetCommentsResponse,
+  GetRepliesResponse,
+  ResponseType
+} from "types/Response";
 
 @autobind
 class LoginStore {
@@ -56,14 +18,14 @@ class LoginStore {
   };
 
   @action
-  getComments = async (post_idx: number): Promise<CommentTypeResponse> => {
+  getComments = async (post_idx: number): Promise<GetCommentsResponse> => {
     try {
-      const response: CommentTypeResponse = await Comment.GetComments(post_idx);
+      const response: GetCommentsResponse = await Comment.GetComments(post_idx);
 
       this.comments = response.data.comments;
 
       return new Promise(
-        (resolve: (response: CommentTypeResponse) => void, _reject) => {
+        (resolve: (response: GetCommentsResponse) => void, _reject) => {
           resolve(response);
         }
       );
@@ -75,12 +37,14 @@ class LoginStore {
   };
 
   @action
-  getReplies = async (comment_idx: number): Promise<RepliesResponse> => {
+  getReplies = async (comment_idx: number): Promise<GetRepliesResponse> => {
     try {
-      const response: RepliesResponse = await Comment.GetReplies(comment_idx);
+      const response: GetRepliesResponse = await Comment.GetReplies(
+        comment_idx
+      );
 
       return new Promise(
-        (resolve: (response: RepliesResponse) => void, _reject) => {
+        (resolve: (response: GetRepliesResponse) => void, _reject) => {
           resolve(response);
         }
       );
@@ -96,7 +60,7 @@ class LoginStore {
     post_idx: number,
     content: string,
     is_private?: boolean
-  ): Promise<PostCommentResponse> => {
+  ): Promise<ResponseType> => {
     try {
       const response = await Comment.CreateComment(
         post_idx,
@@ -105,7 +69,7 @@ class LoginStore {
       );
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, _reject) => {
+        (resolve: (response: ResponseType) => void, _reject) => {
           resolve(response);
         }
       );
@@ -120,12 +84,12 @@ class LoginStore {
   commentModify = async (
     comment_idx: number,
     content: string
-  ): Promise<PostCommentResponse> => {
+  ): Promise<ResponseType> => {
     try {
       const response = await Comment.ModifyComment(comment_idx, content);
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, _reject) => {
+        (resolve: (response: ResponseType) => void, _reject) => {
           resolve(response);
         }
       );
@@ -137,12 +101,12 @@ class LoginStore {
   };
 
   @action
-  commentDelete = async (comment_idx: number): Promise<PostCommentResponse> => {
+  commentDelete = async (comment_idx: number): Promise<ResponseType> => {
     try {
       const response = await Comment.DeleteComment(comment_idx);
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, _reject) => {
+        (resolve: (response: ResponseType) => void, _reject) => {
           resolve(response);
         }
       );
@@ -157,7 +121,7 @@ class LoginStore {
     comment_idx: number,
     content: string,
     is_private?: boolean
-  ): Promise<PostCommentResponse> => {
+  ): Promise<ResponseType> => {
     try {
       const response = await Comment.CreateReply(
         comment_idx,
@@ -166,7 +130,7 @@ class LoginStore {
       );
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, _reject) => {
+        (resolve: (response: ResponseType) => void, _reject) => {
           resolve(response);
         }
       );
@@ -181,12 +145,12 @@ class LoginStore {
   replyModify = async (
     reply_idx: number,
     content: string
-  ): Promise<PostCommentResponse> => {
+  ): Promise<ResponseType> => {
     try {
       const response = await Comment.ModifyReply(reply_idx, content);
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, _reject) => {
+        (resolve: (response: ResponseType) => void, _reject) => {
           resolve(response);
         }
       );
@@ -198,12 +162,12 @@ class LoginStore {
   };
 
   @action
-  replyDelete = async (reply_idx: number): Promise<PostCommentResponse> => {
+  replyDelete = async (reply_idx: number): Promise<ResponseType> => {
     try {
       const response = await Comment.DeleteReply(reply_idx);
 
       return new Promise(
-        (resolve: (response: PostCommentResponse) => void, _reject) => {
+        (resolve: (response: ResponseType) => void, _reject) => {
           resolve(response);
         }
       );

@@ -11,6 +11,8 @@ import {
   IoMdCheckmarkCircleOutline
 } from "react-icons/io";
 import dynamic from "next/dynamic";
+import { GetRepliesResponse } from "types/Response";
+import CommentType from "types/CommentType";
 
 const PostReplyContainer = dynamic(
   () => import("../../../../containers/Post/PostReplyContainer")
@@ -19,7 +21,7 @@ const PostReplyContainer = dynamic(
 interface PostCommentItemProps {
   comment: CommentType;
   admin: boolean;
-  getReplies: (commentIdx: number) => Promise<RepliesResponse>;
+  getReplies: (commentIdx: number) => Promise<GetRepliesResponse>;
   userId: number;
   modifyComment: (commentIdx: number, content: string) => Promise<void>;
   deleteComment: (commentIdx: number) => void;
@@ -43,38 +45,6 @@ interface PostCommentItemProps {
   isPrivate: boolean;
   setIsPrivateCallback: (status: boolean) => void;
   deleteReply: (replyIdx: number) => void;
-  adminId: number;
-}
-
-interface RepliesResponse {
-  status: number;
-  message: string;
-  data: {
-    replies: ReplyType[];
-  };
-}
-
-interface ReplyType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_comment_idx: number;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface CommentType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_post_idx: number;
-  created_at: Date;
-  updated_at: Date;
-  reply_count: number;
 }
 
 const PostCommentItem = ({
@@ -99,8 +69,7 @@ const PostCommentItem = ({
   modifyReply,
   deleteReply,
   isPrivate,
-  setIsPrivateCallback,
-  adminId
+  setIsPrivateCallback
 }: PostCommentItemProps) => {
   return (
     <div className="post-comment-item">
@@ -118,7 +87,6 @@ const PostCommentItem = ({
           </div>
           {comment.reply_count !== 0 && (
             <PostReplyContainer
-              adminId={adminId}
               login={login}
               userId={userId}
               commentIdx={comment.idx}
@@ -169,7 +137,6 @@ const PostCommentItem = ({
               </div>
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
-                  adminId={adminId}
                   comment={comment}
                   modifyReply={modifyReply}
                   deleteReply={deleteReply}
@@ -185,7 +152,7 @@ const PostCommentItem = ({
             <div className="post-comment-item-box">
               <div className="post-comment-item-box-title">
                 {comment.fk_user_name}
-                {comment.fk_user_idx === adminId && (
+                {comment.fk_user_is_admin && (
                   <IoMdCheckmarkCircleOutline className="post-comment-item-box-title-admin" />
                 )}
                 {comment.is_private && (
@@ -276,7 +243,6 @@ const PostCommentItem = ({
               )}
               {comment.reply_count !== 0 && (
                 <PostReplyContainer
-                  adminId={adminId}
                   comment={comment}
                   modifyReply={modifyReply}
                   deleteReply={deleteReply}

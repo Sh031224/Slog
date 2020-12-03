@@ -5,20 +5,11 @@ import { GoCommentDiscussion } from "react-icons/go";
 import "./MainPostsItem.scss";
 import TimeCalc from "../../../../lib/TimeCalc";
 import TimeCounting from "time-counting";
+import { PostType } from "types/PostType";
 
 interface MainPostsItemProps {
   post: PostType;
   lastCardEl?: (node?: Element) => void;
-}
-
-interface PostType {
-  idx: number;
-  title: string;
-  view?: number;
-  comment_count?: number;
-  thumbnail?: string;
-  description?: string;
-  created_at: Date;
 }
 
 const MainPostsItem = ({ post, lastCardEl }: MainPostsItemProps) => {

@@ -3,6 +3,7 @@ import { MdExpandMore } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
 import "./MainCategory.scss";
 import dynamic from "next/dynamic";
+import { CategoryType } from "types/PostType";
 
 const MainCategoryItem = dynamic(() => import("./MainCategoryItem"));
 const MainCategoryRowItem = dynamic(() => import("./MainCategoryRowItem"));
@@ -14,12 +15,6 @@ interface MainCategoryProps {
   categoryRowEl: MutableRefObject<any>;
   setCategoryEdit: Dispatch<SetStateAction<boolean>>;
   admin: boolean;
-}
-
-interface CategoryType {
-  idx: number;
-  name: string;
-  post_count: number;
 }
 
 const MainCategory = ({

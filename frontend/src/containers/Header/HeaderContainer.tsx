@@ -1,11 +1,6 @@
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import UserStore from "../../stores/UserStore";
 import axios from "axios";
-import {
-  ReactFacebookFailureResponse,
-  ReactFacebookLoginInfo
-} from "react-facebook-login";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
 import cookies from "js-cookie";
@@ -13,27 +8,17 @@ import firebase from "firebase/app";
 import option from "../../config/firebase.json";
 import "firebase/messaging";
 import dynamic from "next/dynamic";
+import useStore from "lib/hooks/useStore";
+import { FacebookFailureResponse, FacebookLoginInfo } from "types/FacebookType";
 
 const Header = dynamic(() => import("components/common/Header"));
 
 interface HeaderContainerProps {
-  store?: StoreType;
   token?: string;
 }
 
-interface StoreType {
-  UserStore: UserStore;
-}
-
-interface FacebookLoginInfo extends ReactFacebookLoginInfo {
-  accessToken: string;
-}
-
-interface FacebookFailureResponse extends ReactFacebookFailureResponse {
-  accessToken?: string;
-}
-
-const HeaderContainer = ({ store, token }: HeaderContainerProps) => {
+const HeaderContainer = ({ token }: HeaderContainerProps) => {
+  const { store } = useStore();
   const {
     handleUser,
     haldleAdminFalse,
@@ -41,7 +26,7 @@ const HeaderContainer = ({ store, token }: HeaderContainerProps) => {
     handleLoginChange,
     handleLogin,
     handleFcm
-  } = store!.UserStore;
+  } = store.UserStore;
   const searchEl = useRef<HTMLElement>(null);
   const inputEl = useRef<HTMLElement>(null);
 
@@ -189,4 +174,4 @@ const HeaderContainer = ({ store, token }: HeaderContainerProps) => {
   );
 };
 
-export default inject("store")(observer(HeaderContainer));
+export default observer(HeaderContainer);

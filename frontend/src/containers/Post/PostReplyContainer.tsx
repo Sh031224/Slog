@@ -1,5 +1,8 @@
 import dynamic from "next/dynamic";
 import React, { useCallback, useEffect, useState } from "react";
+import CommentType from "types/CommentType";
+import ReplyType from "types/ReplyType";
+import { GetRepliesResponse } from "types/Response";
 
 const PostReply = dynamic(() => import("components/Post/PostReply"));
 
@@ -9,41 +12,9 @@ interface PostReplyContainerProps {
   admin: boolean;
   userId: number;
   login: boolean;
-  getReplies: (commentIdx: number) => Promise<RepliesResponse>;
+  getReplies: (commentIdx: number) => Promise<GetRepliesResponse>;
   modifyReply: (replyIdx: number, content: string) => Promise<void>;
   deleteReply: (reply_idx: number) => void;
-  adminId: number;
-}
-
-interface RepliesResponse {
-  status: number;
-  message: string;
-  data: {
-    replies: ReplyType[];
-  };
-}
-
-interface CommentType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_post_idx: number;
-  created_at: Date;
-  updated_at: Date;
-  reply_count: number;
-}
-
-interface ReplyType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_comment_idx: number;
-  created_at: Date;
-  updated_at: Date;
 }
 
 const PostReplyContainer = ({
@@ -54,13 +25,12 @@ const PostReplyContainer = ({
   login,
   modifyReply,
   deleteReply,
-  comment,
-  adminId
+  comment
 }: PostReplyContainerProps) => {
   const [replies, setReplies] = useState<ReplyType[]>([]);
 
   const getRepliesCallback = useCallback(() => {
-    getReplies(commentIdx).then((res: RepliesResponse) => {
+    getReplies(commentIdx).then((res: GetRepliesResponse) => {
       setReplies(res.data.replies);
     });
   }, [comment, commentIdx]);
@@ -72,7 +42,6 @@ const PostReplyContainer = ({
   return (
     <>
       <PostReply
-        adminId={adminId}
         modifyReply={modifyReply}
         deleteReply={deleteReply}
         replies={replies}

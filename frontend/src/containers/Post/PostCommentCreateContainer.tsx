@@ -27,7 +27,8 @@ const PostCommentCreateContainer = ({
   const commentEnter = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {
-        if (commentInput.replace(" ", "") !== "") {
+        const check = commentInput.replace(/ /g, "");
+        if (check !== "") {
           if (!login) {
             NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
           } else {
@@ -56,7 +57,8 @@ const PostCommentCreateContainer = ({
   );
 
   const commentCreate = useCallback(async () => {
-    if (commentInput.replace(" ", "") !== "") {
+    const check = commentInput.replace(/ /g, "");
+    if (check !== "") {
       if (!login) {
         NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
       } else {

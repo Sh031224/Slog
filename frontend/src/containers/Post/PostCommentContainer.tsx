@@ -1,5 +1,7 @@
 import dynamic from "next/dynamic";
 import React, { useCallback, useState } from "react";
+import CommentType from "types/CommentType";
+import { GetRepliesResponse } from "types/Response";
 
 const PostCommentItem = dynamic(
   () => import("components/Post/PostComment/PostCommentItem")
@@ -8,7 +10,7 @@ const PostCommentItem = dynamic(
 interface PostCommentContainerProps {
   comment: CommentType;
   admin: boolean;
-  getReplies: (comment_idx: number) => Promise<RepliesResponse>;
+  getReplies: (comment_idx: number) => Promise<GetRepliesResponse>;
   userId: number;
   modifyComment: (comment_idx: number, content: string) => Promise<void>;
   deleteComment: (comment_idx: number) => void;
@@ -20,38 +22,6 @@ interface PostCommentContainerProps {
   ) => Promise<void>;
   modifyReply: (reply_idx: number, content: string) => Promise<void>;
   deleteReply: (reply_idx: number) => void;
-  adminId: number;
-}
-
-interface RepliesResponse {
-  status: number;
-  message: string;
-  data: {
-    replies: ReplyType[];
-  };
-}
-
-interface ReplyType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_comment_idx: number;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface CommentType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_post_idx: number;
-  created_at: Date;
-  updated_at: Date;
-  reply_count: number;
 }
 
 const PostCommentContainer = ({
@@ -64,8 +34,7 @@ const PostCommentContainer = ({
   login,
   createReply,
   modifyReply,
-  deleteReply,
-  adminId
+  deleteReply
 }: PostCommentContainerProps) => {
   const [modify, setModify] = useState<boolean>(false);
   const [modifyInput, setModifyInput] = useState<string>(comment.content);
@@ -97,7 +66,6 @@ const PostCommentContainer = ({
   return (
     <>
       <PostCommentItem
-        adminId={adminId}
         reply={reply}
         cancelReply={cancelReply}
         setReply={setReply}

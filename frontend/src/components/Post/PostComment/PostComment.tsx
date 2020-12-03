@@ -1,5 +1,7 @@
 import dynamic from "next/dynamic";
 import React from "react";
+import CommentType from "types/CommentType";
+import { GetRepliesResponse } from "types/Response";
 import "./PostComment.scss";
 
 const PostCommentContainer = dynamic(
@@ -19,7 +21,7 @@ interface PostCommentProps {
     isPrivate?: boolean | undefined
   ) => Promise<void>;
   postIdx: number;
-  getReplies: (commentIdx: number) => Promise<RepliesResponse>;
+  getReplies: (commentIdx: number) => Promise<GetRepliesResponse>;
   userId: number;
   modifyComment: (commentIdx: number, content: string) => Promise<void>;
   deleteComment: (commentIdx: number) => void;
@@ -31,38 +33,6 @@ interface PostCommentProps {
   modifyReply: (replyIdx: number, content: string) => Promise<void>;
   deleteReply: (replyIdx: number) => void;
   commentCount: number;
-  adminId: number;
-}
-
-interface RepliesResponse {
-  status: number;
-  message: string;
-  data: {
-    replies: ReplyType[];
-  };
-}
-
-interface ReplyType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_comment_idx: number;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface CommentType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_post_idx: number;
-  created_at: Date;
-  updated_at: Date;
-  reply_count: number;
 }
 
 const PostComment = ({
@@ -78,8 +48,7 @@ const PostComment = ({
   createReply,
   modifyReply,
   deleteReply,
-  commentCount,
-  adminId
+  commentCount
 }: PostCommentProps) => {
   return (
     <div className="post-comment">
@@ -94,7 +63,6 @@ const PostComment = ({
       {comments.map((comment: CommentType) => {
         return (
           <PostCommentContainer
-            adminId={adminId}
             createReply={createReply}
             modifyReply={modifyReply}
             deleteReply={deleteReply}

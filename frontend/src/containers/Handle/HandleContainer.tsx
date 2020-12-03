@@ -1,90 +1,35 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import cookies from "js-cookie";
-import CategoryStore from "../../stores/CategoryStore";
-import PostStore from "../../stores/PostStore";
-import UserStore from "../../stores/UserStore";
 import { NotificationManager } from "react-notifications";
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { useRouter } from "next/router";
 import useInterval from "react-useinterval";
 import { useBeforeunload } from "react-beforeunload";
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import { PostInfoType } from "types/PostType";
+import useStore from "lib/hooks/useStore";
+import {
+  CreateTempPostResponse,
+  GetPostInfoResponse,
+  GetProfileResponse,
+  UploadFilesResponse
+} from "types/Response";
 
 const HandlePost = dynamic(() => import("components/Admin/HandlePost"));
 
-interface HandleContainerProps {
-  store?: StoreType;
-}
-
-interface StoreType {
-  CategoryStore: CategoryStore;
-  UserStore: UserStore;
-  PostStore: PostStore;
-}
-
-interface GetProfileResponse {
-  status: number;
-  message: string;
-  data: {
-    user: {
-      idx: number;
-      name: string;
-      is_admin: boolean;
-      created_at: Date;
-    };
-  };
-}
-
-interface UploadFilesResponse {
-  status: number;
-  message: string;
-  data: {
-    files: string[];
-  };
-}
-
-interface PostInfoType {
-  idx: number;
-  title: string;
-  description: string;
-  content: string;
-  view: number;
-  is_temp: boolean;
-  fk_category_idx: number | null;
-  thumbnail: string | null;
-  created_at: Date;
-  updated_at: Date;
-  comment_count: number;
-}
-
-interface GetPostInfoResponse {
-  status: number;
-  message: string;
-  data: {
-    post: PostInfoType;
-  };
-}
-
-interface CreateTempPostResponse {
-  status: number;
-  message: string;
-  data: {
-    idx: number;
-  };
-}
-
-const HandleContainer = ({ store }: HandleContainerProps) => {
-  const { categoryList, handleCategoryList } = store!.CategoryStore;
-  const { handleUser, login, handleLoginChange } = store!.UserStore;
+const HandleContainer = () => {
+  const { store } = useStore();
+  const { categoryList, handleCategoryList } = store.CategoryStore;
+  const { handleUser, login, handleLoginChange } = store.UserStore;
   const {
     getPostInfo,
     uploadFiles,
     createTempPost,
     modifyPost,
     createPost
-  } = store!.PostStore;
+  } = store.PostStore;
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -489,4 +434,4 @@ const HandleContainer = ({ store }: HandleContainerProps) => {
   );
 };
 
-export default inject("store")(observer(HandleContainer));
+export default observer(HandleContainer);

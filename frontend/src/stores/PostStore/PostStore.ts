@@ -1,101 +1,21 @@
 import { observable, action } from "mobx";
 import { autobind } from "core-decorators";
 import Post from "../../assets/api/Post";
-
-interface PostParmsType {
-  page: number;
-  limit: number;
-  order?: string;
-  category?: number;
-}
-
-interface PostResponseType {
-  status: number;
-  data: {
-    total?: number;
-    posts: PostType[];
-  };
-}
-
-interface GetPostInfoResponse {
-  status: number;
-  message: string;
-  data: {
-    post: PostInfoType;
-  };
-}
-
-interface PostInfoType {
-  idx: number;
-  title: string;
-  description: string;
-  content: string;
-  view: number;
-  is_temp: boolean;
-  fk_category_idx: number | null;
-  thumbnail: string | null;
-  created_at: Date;
-  updated_at: Date;
-  comment_count: number;
-}
-
-interface PostType {
-  idx: number;
-  title: string;
-  view?: number;
-  comment_count?: number;
-  thumbnail?: string;
-  description?: string;
-  created_at: Date;
-}
-
-interface ModifyPostType {
-  title: string;
-  description: string | null;
-  content: string | null;
-  thumbnail: string | null;
-  category_idx?: number;
-  is_temp?: boolean;
-}
-interface CreatePostType {
-  title: string;
-  description: string;
-  content: string;
-  thumbnail: string | null;
-  category_idx: number;
-}
-
-interface UploadFilesResponse {
-  status: number;
-  message: string;
-  data: {
-    files: string[];
-  };
-}
-
-interface CreateTempPostType {
-  title: string;
-  description: string | null;
-  content: string | null;
-  thumbnail: string | null;
-  category_idx: number | null;
-}
-
-interface CreateTempPostResponse {
-  status: number;
-  message: string;
-  data: {
-    idx: number;
-  };
-}
-
-interface GetPostCommentCountResponse {
-  status: number;
-  message: string;
-  data: {
-    total_count: number;
-  };
-}
+import {
+  CreateTempPostResponse,
+  GetPostCommentCountResponse,
+  GetPostInfoResponse,
+  GetPostsResponse,
+  ResponseType,
+  UploadFilesResponse
+} from "types/Response";
+import {
+  CreatePostType,
+  CreateTempPostType,
+  ModifyPostType,
+  PostParmsType,
+  PostType
+} from "types/PostType";
 
 @autobind
 class PostStore {
@@ -106,9 +26,9 @@ class PostStore {
   hitPosts: PostType[] = [];
 
   @action
-  handlePosts = async (query: PostParmsType) => {
+  handlePosts = async (query: PostParmsType): Promise<GetPostsResponse> => {
     try {
-      const response: PostResponseType = await Post.GetPostList(query);
+      const response: GetPostsResponse = await Post.GetPostList(query);
       if (query.page > 1) {
         if (response.data && response.data.posts) {
           const promises: Promise<void>[] = [];
@@ -137,9 +57,9 @@ class PostStore {
   };
 
   @action
-  handleTempPosts = async () => {
+  handleTempPosts = async (): Promise<GetPostsResponse> => {
     try {
-      const response: PostResponseType = await Post.GetTempPosts();
+      const response: GetPostsResponse = await Post.GetTempPosts();
 
       this.posts = response.data.posts;
 
@@ -154,9 +74,9 @@ class PostStore {
   };
 
   @action
-  handleHitPosts = async (query: PostParmsType) => {
+  handleHitPosts = async (query: PostParmsType): Promise<GetPostsResponse> => {
     try {
-      const response: PostResponseType = await Post.GetPostList(query);
+      const response: GetPostsResponse = await Post.GetPostList(query);
       if (query.page > 1) {
         response.data.posts.map((post: PostType) => {
           this.hitPosts.push(post);
@@ -176,9 +96,9 @@ class PostStore {
   };
 
   @action
-  handlePostSearch = async (query: string) => {
+  handlePostSearch = async (query: string): Promise<GetPostsResponse> => {
     try {
-      const response: PostResponseType = await Post.GetPostSearch(query);
+      const response: GetPostsResponse = await Post.GetPostSearch(query);
 
       this.posts = response.data.posts;
 
@@ -302,7 +222,10 @@ class PostStore {
   };
 
   @action
-  modifyPost = async (post_idx: number, body: ModifyPostType) => {
+  modifyPost = async (
+    post_idx: number,
+    body: ModifyPostType
+  ): Promise<ResponseType> => {
     try {
       const response = await Post.ModifyPost(post_idx, body);
 
@@ -317,7 +240,7 @@ class PostStore {
   };
 
   @action
-  createPost = async (body: CreatePostType) => {
+  createPost = async (body: CreatePostType): Promise<ResponseType> => {
     try {
       const response = await Post.CreatePost(body);
 
@@ -332,7 +255,7 @@ class PostStore {
   };
 
   @action
-  deletePost = async (post_idx: number) => {
+  deletePost = async (post_idx: number): Promise<ResponseType> => {
     try {
       const response = await Post.DeletePost(post_idx);
 

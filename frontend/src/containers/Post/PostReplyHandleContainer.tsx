@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import React, { useCallback, useState } from "react";
+import ReplyType from "types/ReplyType";
 
 const PostReplyItem = dynamic(
   () => import("components/Post/PostReply/PostReplyItem")
@@ -12,18 +13,6 @@ interface PostReplyHandleContainerProps {
   login: boolean;
   modifyReply: (replyIdx: number, content: string) => Promise<void>;
   deleteReply: (replyIdx: number) => void;
-  adminId: number;
-}
-
-interface ReplyType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_comment_idx: number;
-  created_at: Date;
-  updated_at: Date;
 }
 
 const PostReplyHandleContainer = ({
@@ -32,8 +21,7 @@ const PostReplyHandleContainer = ({
   reply,
   login,
   modifyReply,
-  deleteReply,
-  adminId
+  deleteReply
 }: PostReplyHandleContainerProps) => {
   const [modify, setModify] = useState<boolean>(false);
   const [modifyInput, setModifyInput] = useState<string>(reply.content);
@@ -46,7 +34,6 @@ const PostReplyHandleContainer = ({
   return (
     <>
       <PostReplyItem
-        adminId={adminId}
         setModifyInput={setModifyInput}
         modifyInput={modifyInput}
         modifyReply={modifyReply}

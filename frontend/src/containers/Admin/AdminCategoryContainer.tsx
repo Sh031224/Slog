@@ -8,6 +8,7 @@ import React, {
 import { NotificationManager } from "react-notifications";
 import { confirmAlert } from "react-confirm-alert";
 import dynamic from "next/dynamic";
+import { CategoryType, PostParmsType } from "types/PostType";
 
 const AdminCategory = dynamic(() => import("components/Admin/AdminCategory"));
 
@@ -23,19 +24,6 @@ interface AdminCategoryContainerProps {
   deleteCategory: (category_idx: number) => Promise<unknown>;
   createCategory: (name: string) => Promise<unknown>;
   handlePosts: (query: PostParmsType) => Promise<unknown>;
-}
-
-interface PostParmsType {
-  page: number;
-  limit: number;
-  order?: string;
-  category?: number;
-}
-
-interface CategoryType {
-  idx: number;
-  name: string;
-  post_count: number;
 }
 
 const AdminCategoryContainer = ({

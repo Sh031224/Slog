@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
+import { CategoryType, PostType } from "types/PostType";
 import "./Main.scss";
 
 const MainCategory = dynamic(() => import("./MainCategory"));
@@ -19,22 +20,6 @@ interface MainProps {
   loading: boolean;
   lastCardEl: (node?: Element) => void;
   createPost: () => void;
-}
-
-interface PostType {
-  idx: number;
-  title: string;
-  view?: number;
-  comment_count?: number;
-  thumbnail?: string;
-  description?: string;
-  created_at: Date;
-}
-
-interface CategoryType {
-  idx: number;
-  name: string;
-  post_count: number;
 }
 
 const Main = ({
