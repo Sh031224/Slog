@@ -2,33 +2,13 @@ import { action, observable } from "mobx";
 import { autobind } from "core-decorators";
 import Profile from "../../assets/api/Profile";
 import Login from "../../assets/api/Login";
-
-interface GetProfileResponse {
-  status: number;
-  message: string;
-  data: {
-    user: {
-      idx: number;
-      name: string;
-      is_admin: boolean;
-      created_at: Date;
-    };
-  };
-}
+import { GetProfileResponse } from "types/Response";
 
 @autobind
 class UserStore {
-  @observable
-  admin: boolean = false;
-
-  @observable
-  login: boolean = false;
-
-  @observable
-  userId: number = -1;
-
-  @observable
-  adminId!: number;
+  @observable admin: boolean = false;
+  @observable login: boolean = false;
+  @observable userId: number = -1;
 
   @action
   handleLogin = async (access_token: string) => {
@@ -64,24 +44,6 @@ class UserStore {
       });
     } catch (error) {
       return new Promise((_resolve, reject) => {
-        reject(error);
-      });
-    }
-  };
-
-  @action handleAdminProfile = async (): Promise<GetProfileResponse> => {
-    try {
-      const response: GetProfileResponse = await Profile.GetAdminProfile();
-
-      this.adminId = response.data.user.idx;
-
-      return new Promise(
-        (resolve: (response: GetProfileResponse) => void, _reject) => {
-          resolve(response);
-        }
-      );
-    } catch (error) {
-      return new Promise((_resolve, reject: (error: Error) => void) => {
         reject(error);
       });
     }
