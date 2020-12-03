@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import React from "react";
+import { CategoryType } from "types/PostType";
 import PostLoading from "../../Post/PostLoading";
 import "./HandlePost.scss";
 
@@ -28,12 +29,6 @@ interface HandlePostProps {
   tempPostHandle: () => void;
   isTemp: boolean;
   cancelBtn: () => void;
-}
-
-interface CategoryType {
-  idx: number;
-  name: string;
-  post_count: number;
 }
 
 const HandlePost = ({

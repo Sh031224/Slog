@@ -1,72 +1,28 @@
 import { inject, observer } from "mobx-react";
 import React, { useCallback, useEffect, useState, SetStateAction } from "react";
 import { useRouter } from "next/router";
-import PostStore from "../../stores/PostStore";
-import CommentStore from "../../stores/CommentStore";
-import UserStore from "../../stores/UserStore";
 import cookies from "js-cookie";
 import { NotificationManager } from "react-notifications";
 import { confirmAlert } from "react-confirm-alert";
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import useStore from "lib/hooks/useStore";
+import { PostInfoType, PostParmsType } from "types/PostType";
+import {
+  GetPostCommentCountResponse,
+  GetPostInfoResponse,
+  ResponseType
+} from "types/Response";
 
 const Post = dynamic(() => import("components/Post"));
 
 interface PostContainerProps {
-  store?: StoreType;
   post: PostInfoType;
 }
 
-interface StoreType {
-  PostStore: PostStore;
-  CommentStore: CommentStore;
-  UserStore: UserStore;
-}
-
-interface PostParmsType {
-  page: number;
-  limit: number;
-  order?: string;
-  category?: number;
-}
-
-interface PostInfoType {
-  idx: number;
-  title: string;
-  description: string;
-  content: string;
-  view: number;
-  is_temp: boolean;
-  fk_category_idx: number | null;
-  thumbnail: string | null;
-  created_at: Date;
-  updated_at: Date;
-  comment_count: number;
-}
-
-interface GetPostInfoResponse {
-  status: number;
-  message: string;
-  data: {
-    post: PostInfoType;
-  };
-}
-
-interface PostCommentResponse {
-  status: number;
-  message: string;
-}
-
-interface GetPostCommentCountResponse {
-  status: number;
-  message: string;
-  data: {
-    total_count: number;
-  };
-}
-
-const PostContainer = ({ store, post }: PostContainerProps) => {
+const PostContainer = ({ post }: PostContainerProps) => {
   const router = useRouter();
+  const { store } = useStore();
   const { idx } = router.query;
 
   const {
@@ -75,7 +31,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
     handleHitPosts,
     deletePost,
     getPostCommentCount
-  } = store!.PostStore;
+  } = store.PostStore;
   const {
     comments,
     initComments,
@@ -87,15 +43,8 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
     replyCreate,
     replyModify,
     replyDelete
-  } = store!.CommentStore;
-  const {
-    admin,
-    login,
-    userId,
-    adminId,
-    handleLoginChange,
-    handleAdminProfile
-  } = store!.UserStore;
+  } = store.CommentStore;
+  const { admin, login, userId, handleLoginChange } = store.UserStore;
 
   const [loading, setLoading] = useState(true);
   const [handler, setHandler] = useState<boolean>(false);
@@ -151,9 +100,6 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
           setPostInfo(post);
         }
         await getHitPostsCallback();
-        await handleAdminProfile().catch((err: Error) => {
-          console.log(err);
-        });
         setLoading(false);
       } catch (err) {
         if (err.message === "Error: Request failed with status code 404") {
@@ -200,16 +146,11 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
       if (!isSaving) {
         setIsSaving(true);
         try {
-          await commentModify(commentIdx, content).then(
-            (res: PostCommentResponse) => {
-              if (res.status === 200) {
-                NotificationManager.success(
-                  "댓글을 수정하였습니다.",
-                  "Success"
-                );
-              }
+          await commentModify(commentIdx, content).then((res: ResponseType) => {
+            if (res.status === 200) {
+              NotificationManager.success("댓글을 수정하였습니다.", "Success");
             }
-          );
+          });
           await getCommentsCallback(Number(idx));
           setIsSaving(false);
         } catch (err) {
@@ -234,7 +175,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
   const deleteCommentCallback = useCallback(
     async (commentIdx: number) => {
       try {
-        await commentDelete(commentIdx).then((res: PostCommentResponse) => {
+        await commentDelete(commentIdx).then((res: ResponseType) => {
           if (res.status === 200) {
             NotificationManager.success("댓글을 삭제하였습니다.", "Success");
           }
@@ -320,16 +261,11 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
       if (!isSaving) {
         setIsSaving(true);
         try {
-          await replyModify(replyIdx, content).then(
-            (res: PostCommentResponse) => {
-              if (res.status === 200) {
-                NotificationManager.success(
-                  "댓글을 수정하였습니다.",
-                  "Success"
-                );
-              }
+          await replyModify(replyIdx, content).then((res: ResponseType) => {
+            if (res.status === 200) {
+              NotificationManager.success("댓글을 수정하였습니다.", "Success");
             }
-          );
+          });
           await getCommentsCallback(Number(idx));
           setIsSaving(false);
         } catch (err) {
@@ -354,7 +290,7 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
   const deleteReplyCallback = useCallback(
     async (replyIdx: number) => {
       try {
-        await replyDelete(replyIdx).then((res: PostCommentResponse) => {
+        await replyDelete(replyIdx).then((res: ResponseType) => {
           if (res.status === 200) {
             NotificationManager.success("댓글을 삭제하였습니다.", "Success");
           }
@@ -534,7 +470,6 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
           </Head>
         )}
       <Post
-        adminId={adminId}
         commentCount={commentCount}
         deletePostAlert={deletePostAlert}
         handler={handler}
@@ -560,4 +495,4 @@ const PostContainer = ({ store, post }: PostContainerProps) => {
   );
 };
 
-export default inject("store")(observer(PostContainer));
+export default observer(PostContainer);

@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import React, { Fragment } from "react";
+import { PostType } from "types/PostType";
 import "./MainPosts.scss";
 
 const MainPostsItem = dynamic(() => import("./MainPostsItem"));
@@ -9,16 +10,6 @@ interface MainPostsProps {
   loading: boolean;
   notfound: boolean;
   lastCardEl: (node?: Element) => void;
-}
-
-interface PostType {
-  idx: number;
-  title: string;
-  view?: number;
-  comment_count?: number;
-  thumbnail?: string;
-  description?: string;
-  created_at: Date;
 }
 
 const MainPosts = ({
