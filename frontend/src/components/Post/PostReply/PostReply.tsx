@@ -1,6 +1,7 @@
 import React from "react";
 import "./PostReply.scss";
 import dynamic from "next/dynamic";
+import ReplyType from "types/ReplyType";
 
 const PostReplyHandleContainer = dynamic(
   () => import("containers/Post/PostReplyHandleContainer")
@@ -13,18 +14,6 @@ interface PostReplyProps {
   login: boolean;
   modifyReply: (replyIdx: number, content: string) => Promise<void>;
   deleteReply: (replyIdx: number) => void;
-  adminId: number;
-}
-
-interface ReplyType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_comment_idx: number;
-  created_at: Date;
-  updated_at: Date;
 }
 
 const PostReply = ({
@@ -33,8 +22,7 @@ const PostReply = ({
   userId,
   login,
   modifyReply,
-  deleteReply,
-  adminId
+  deleteReply
 }: PostReplyProps) => {
   return (
     <>
@@ -42,7 +30,6 @@ const PostReply = ({
         {replies.map((reply: ReplyType, index: number) => {
           return (
             <PostReplyHandleContainer
-              adminId={adminId}
               key={index}
               modifyReply={modifyReply}
               deleteReply={deleteReply}

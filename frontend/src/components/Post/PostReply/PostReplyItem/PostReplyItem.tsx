@@ -5,6 +5,7 @@ import { MdCancel } from "react-icons/md";
 import profile from "../../../../assets/images/profile.png";
 import TimeCounting from "time-counting";
 import { IoIosLock, IoMdCheckmarkCircleOutline } from "react-icons/io";
+import ReplyType from "types/ReplyType";
 
 interface PostReplyItemProps {
   userId: number;
@@ -18,18 +19,6 @@ interface PostReplyItemProps {
   setModifyInput: React.Dispatch<React.SetStateAction<string>>;
   modifyReply: (replyIdx: number, content: string) => Promise<void>;
   deleteReply: (replyIdx: number) => void;
-  adminId: number;
-}
-
-interface ReplyType {
-  idx: number;
-  content: string;
-  is_private: boolean;
-  fk_user_idx: number | undefined;
-  fk_user_name: string | undefined;
-  fk_comment_idx: number;
-  created_at: Date;
-  updated_at: Date;
 }
 
 const PostReplyItem = ({
@@ -43,8 +32,7 @@ const PostReplyItem = ({
   setModifyInput,
   modifyInput,
   modifyReply,
-  deleteReply,
-  adminId
+  deleteReply
 }: PostReplyItemProps) => {
   return (
     <div className="post-reply-item">
@@ -79,8 +67,11 @@ const PostReplyItem = ({
                     if (e.key === "Enter") {
                       await modifyReply(reply.idx, modifyInput);
                       cancelModify();
+                    } else if (e.key === "Escape") {
+                      cancelModify();
                     }
                   }}
+                  autoFocus
                   placeholder="내용을 입력해주세요."
                 />
                 <MdCancel
@@ -100,7 +91,7 @@ const PostReplyItem = ({
             <div className="post-reply-item-box">
               <div className="post-reply-item-box-title">
                 {reply.fk_user_name}
-                {reply.fk_user_idx === adminId && (
+                {reply.fk_user_is_admin && (
                   <IoMdCheckmarkCircleOutline className="post-comment-item-box-title-admin" />
                 )}
                 {reply.is_private && (
