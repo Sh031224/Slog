@@ -39,6 +39,7 @@ export default async (req: AuthRequest, res: Response) => {
       reply_count?: number;
       fk_user_name?: string;
       fk_user_is_deleted?: boolean;
+      fk_user_is_admin?: boolean;
     }
 
     const commentRepo = getRepository(Comment);
@@ -54,6 +55,7 @@ export default async (req: AuthRequest, res: Response) => {
         ? "삭제된 유저입니다."
         : commentUser.name;
       comments[i].fk_user_is_deleted = commentUser.is_deleted;
+      comments[i].fk_user_is_admin = commentUser.is_admin;
 
       if (comments[i].is_private) {
         if (user) {
@@ -62,12 +64,14 @@ export default async (req: AuthRequest, res: Response) => {
             delete comments[i].fk_user_idx;
             delete comments[i].fk_user_name;
             delete comments[i].user;
+            delete comments[i].fk_user_is_admin;
           }
         } else {
           comments[i].content = "비밀 댓글입니다.";
           delete comments[i].fk_user_idx;
           delete comments[i].fk_user_name;
           delete comments[i].user;
+          delete comments[i].fk_user_is_admin;
         }
       }
       const replyRepo = getRepository(Reply);

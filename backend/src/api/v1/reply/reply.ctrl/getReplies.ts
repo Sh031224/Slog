@@ -47,6 +47,7 @@ export default async (req: AuthRequest, res: Response) => {
     interface replyListType extends Reply {
       fk_user_name?: string;
       fk_user_is_deleted?: boolean;
+      fk_user_is_admin?: boolean;
     }
 
     const replyRepo = getRepository(Reply);
@@ -62,6 +63,7 @@ export default async (req: AuthRequest, res: Response) => {
         idx: replies[i].fk_user_idx
       });
 
+      replies[i].fk_user_is_admin = commentUser.is_admin;
       replies[i].fk_user_name = commentUser.is_deleted
         ? "삭제된 유저입니다."
         : commentUser.name;
@@ -74,12 +76,14 @@ export default async (req: AuthRequest, res: Response) => {
             delete replies[i].user;
             delete replies[i].fk_user_idx;
             delete replies[i].fk_user_name;
+            delete replies[i].fk_user_is_admin;
           }
         } else {
           replies[i].content = "비밀 댓글입니다.";
           delete replies[i].user;
           delete replies[i].fk_user_idx;
           delete replies[i].fk_user_name;
+          delete replies[i].fk_user_is_admin;
         }
       }
     }
