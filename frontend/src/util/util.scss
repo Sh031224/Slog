@@ -1,5 +1,33 @@
 @import "./font.scss";
 
+:root {
+  /*
+    background-color
+  */
+  --bg-white: #ffff;
+  --bg-fb: #3578e5;
+  --bg-light-gray: rgb(241, 243, 245);
+  --bg-so-light-gray: #fafbfc;
+
+  /*
+    color
+  */
+  --ft-gray: #777;
+  --ft-light-gray: #bdbdbd;
+  --ft-dark-gray: #464646;
+  --ft-little-gray: #a0a0a0;
+  --ft-white: #fff;
+  --ft-sky-blue: rgb(100, 197, 219);
+  --ft-blue: #5373f8;
+  --ft-black: black;
+
+  /* border */
+  --bd-light-gray: #c0c0c0;
+  --bd-dark-white: #dfdfdf85;
+  --bd-so-light-gray: #e0e0e0;
+  --bd-light-light-gray: #e1e4e8;
+}
+
 * {
   box-sizing: border-box;
 }

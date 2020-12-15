@@ -31,6 +31,7 @@ const MainContainer = () => {
     handlePostSearch,
     handleTempPosts
   } = store.PostStore;
+  const { prevUrl, handlePrevUrl } = store.HistoryStore;
 
   const router = useRouter();
   const { asPath } = router;
@@ -53,10 +54,6 @@ const MainContainer = () => {
       );
     }
   }, []);
-
-  useEffect(() => {
-    handleCategoryListCallback();
-  }, [handleCategoryListCallback]);
 
   const handlePostSearchCallback = useCallback(async () => {
     setLoading(true);
@@ -113,6 +110,8 @@ const MainContainer = () => {
         setLoading(false);
         if (getPostLength() > 0 || page > 1) {
           setNotfound(false);
+        } else {
+          setNotfound(true);
         }
       })
       .catch(() => {
@@ -121,6 +120,23 @@ const MainContainer = () => {
   }, [page]);
 
   const handleQueryCallbacks = useCallback(() => {
+    if (
+      (prevUrl.indexOf("/post") !== -1 ||
+        prevUrl.indexOf("/handle") !== -1 ||
+        prevUrl.indexOf("/privacy") !== -1) &&
+      posts.length &&
+      page === 1
+    ) {
+      // 뒤로가기 눌렀을 때 데이터를 불러오지 않는다.
+      setPage(Math.ceil(posts.length / 20));
+      setNotfound(false);
+      setLoading(false);
+      handlePrevUrl();
+      return;
+    }
+    if (Math.ceil(posts.length / 20) === page && page !== 1) {
+      return;
+    }
     if (page === 1) {
       initPosts();
     }
@@ -140,7 +156,12 @@ const MainContainer = () => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
     }
-  }, [handleTempPostsCallback, handlePostsCallback, handlePostSearchCallback]);
+  }, [
+    handleTempPostsCallback,
+    handlePostsCallback,
+    handlePostSearchCallback,
+    prevUrl
+  ]);
 
   const handleCategoryPostCallback = useCallback(() => {
     if (page === 1) {
@@ -150,6 +171,10 @@ const MainContainer = () => {
       setPage(1);
     }
   }, [asPath, page, handleQueryCallbacks]);
+
+  useEffect(() => {
+    handleCategoryListCallback();
+  }, [handleCategoryListCallback]);
 
   useEffect(() => {
     if (
@@ -181,6 +206,7 @@ const MainContainer = () => {
           content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
         />
         <meta name="og:title" content="Slog" />
+        <meta name="og:url" content="https://slog.website" />
         <meta
           property="og:description"
           content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."

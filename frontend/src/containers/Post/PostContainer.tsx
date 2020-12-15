@@ -25,6 +25,7 @@ const PostContainer = ({ post }: PostContainerProps) => {
   const { store } = useStore();
   const { idx } = router.query;
 
+  const { handlePrevUrl, prevUrl } = store.HistoryStore;
   const {
     getPostInfo,
     hitPosts,
@@ -370,6 +371,11 @@ const PostContainer = ({ post }: PostContainerProps) => {
       ]
     });
   }, [idx]);
+
+  useEffect(() => {
+    handlePrevUrl();
+    return () => handlePrevUrl();
+  }, [prevUrl]);
 
   useEffect(() => {
     getAllContent();
