@@ -23,14 +23,7 @@ const MainContainer = () => {
     createCategory
   } = store.CategoryStore;
   const { admin } = store.UserStore;
-  const {
-    posts,
-    handlePosts,
-    initPosts,
-    getPostLength,
-    handlePostSearch,
-    handleTempPosts
-  } = store.PostStore;
+  const { posts, handlePosts, initPosts, getPostLength, handlePostSearch, handleTempPosts } = store.PostStore;
   const { prevUrl, handlePrevUrl } = store.HistoryStore;
 
   const router = useRouter();
@@ -49,9 +42,7 @@ const MainContainer = () => {
 
   const handleCategoryListCallback = useCallback(() => {
     if (categoryList.length === 0) {
-      handleCategoryList().catch(() =>
-        NotificationManager.error("오류가 발생하였습니다.", "Error")
-      );
+      handleCategoryList().catch(() => NotificationManager.error("오류가 발생하였습니다.", "Error"));
     }
   }, []);
 
@@ -120,13 +111,7 @@ const MainContainer = () => {
   }, [page]);
 
   const handleQueryCallbacks = useCallback(() => {
-    if (
-      (prevUrl.indexOf("/post") !== -1 ||
-        prevUrl.indexOf("/handle") !== -1 ||
-        prevUrl.indexOf("/privacy") !== -1) &&
-      posts.length &&
-      page === 1
-    ) {
+    if ((prevUrl.indexOf("/post") !== -1 || prevUrl.indexOf("/privacy") !== -1) && posts.length && page === 1) {
       // 뒤로가기 눌렀을 때 데이터를 불러오지 않는다.
       setPage(Math.ceil(posts.length / 20));
       setNotfound(false);
@@ -156,12 +141,7 @@ const MainContainer = () => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
     }
-  }, [
-    handleTempPostsCallback,
-    handlePostsCallback,
-    handlePostSearchCallback,
-    prevUrl
-  ]);
+  }, [handleTempPostsCallback, handlePostsCallback, handlePostSearchCallback, prevUrl]);
 
   const handleCategoryPostCallback = useCallback(() => {
     if (page === 1) {
@@ -177,13 +157,7 @@ const MainContainer = () => {
   }, [handleCategoryListCallback]);
 
   useEffect(() => {
-    if (
-      inView &&
-      !loading &&
-      asPath.indexOf("search=") === -1 &&
-      asPath.indexOf("?temp") === -1 &&
-      getPostLength() < total
-    ) {
+    if (inView && !loading && asPath.indexOf("search=") === -1 && asPath.indexOf("?temp") === -1 && getPostLength() < total) {
       setLoading(true);
       setPage((prevState) => prevState + 1);
     }
@@ -201,30 +175,15 @@ const MainContainer = () => {
     <>
       <Head>
         <title>{"Slog"}</title>
-        <meta
-          name="description"
-          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
-        />
+        <meta name="description" content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다." />
         <meta name="og:title" content="Slog" />
         <meta name="og:url" content="https://slog.website" />
-        <meta
-          property="og:description"
-          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
-        />
+        <meta property="og:description" content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다." />
         <meta property="og:url" content="https://slog.website/" />
-        <meta
-          property="og:image"
-          content="https://data.slog.website/public/op_logo.png"
-        />
+        <meta property="og:image" content="https://data.slog.website/public/op_logo.png" />
         <meta name="twitter:title" content="Slog" />
-        <meta
-          property="twitter:description"
-          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
-        />
-        <meta
-          property="twitter:image"
-          content="https://data.slog.website/public/op_logo.png"
-        />
+        <meta property="twitter:description" content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다." />
+        <meta property="twitter:image" content="https://data.slog.website/public/op_logo.png" />
       </Head>
       <Main
         createPost={createPost}
