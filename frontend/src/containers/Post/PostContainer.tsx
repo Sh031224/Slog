@@ -8,11 +8,7 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import useStore from "lib/hooks/useStore";
 import { PostInfoType, PostParmsType } from "types/PostType";
-import {
-  GetPostCommentCountResponse,
-  GetPostInfoResponse,
-  ResponseType
-} from "types/Response";
+import { GetPostCommentCountResponse, GetPostInfoResponse, ResponseType } from "types/Response";
 
 const Post = dynamic(() => import("components/Post"));
 
@@ -26,13 +22,7 @@ const PostContainer = ({ post }: PostContainerProps) => {
   const { idx } = router.query;
 
   const { handlePrevUrl, prevUrl } = store.HistoryStore;
-  const {
-    getPostInfo,
-    hitPosts,
-    handleHitPosts,
-    deletePost,
-    getPostCommentCount
-  } = store.PostStore;
+  const { getPostInfo, hitPosts, handleHitPosts, deletePost, getPostCommentCount } = store.PostStore;
   const {
     comments,
     initComments,
@@ -51,9 +41,7 @@ const PostContainer = ({ post }: PostContainerProps) => {
   const [handler, setHandler] = useState<boolean>(false);
   const [commentCount, setCommentCount] = useState<number>(0);
   const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [postInfo, setPostInfo] = useState<
-    PostInfoType | SetStateAction<PostInfoType | any>
-  >({});
+  const [postInfo, setPostInfo] = useState<PostInfoType | SetStateAction<PostInfoType | any>>({});
 
   const getPostInfoCallback = useCallback(
     async (idx: number) => {
@@ -99,6 +87,7 @@ const PostContainer = ({ post }: PostContainerProps) => {
         } else {
           // ssr
           setPostInfo(post);
+          setCommentCount(post.comment_count);
         }
         await getHitPostsCallback();
         setLoading(false);
@@ -121,11 +110,9 @@ const PostContainer = ({ post }: PostContainerProps) => {
         try {
           await commentCreate(postIdx, content, isPrivate);
           await getCommentsCallback(postIdx);
-          await getPostCommentCount(postIdx).then(
-            (res: GetPostCommentCountResponse) => {
-              setCommentCount(res.data.total_count);
-            }
-          );
+          await getPostCommentCount(postIdx).then((res: GetPostCommentCountResponse) => {
+            setCommentCount(res.data.total_count);
+          });
           setIsSaving(false);
         } catch (err) {
           if (err.message === "Error: Request failed with status code 401") {
@@ -157,9 +144,7 @@ const PostContainer = ({ post }: PostContainerProps) => {
         } catch (err) {
           if (err.message === "Error: Request failed with status code 403") {
             NotificationManager.warning("권한이 없습니다.", "Error");
-          } else if (
-            err.message === "Error: Request failed with status code 401"
-          ) {
+          } else if (err.message === "Error: Request failed with status code 401") {
             cookies.remove("access_token", { path: "/" });
             handleLoginChange(false);
             NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
@@ -182,17 +167,13 @@ const PostContainer = ({ post }: PostContainerProps) => {
           }
         });
         await getCommentsCallback(Number(idx));
-        await getPostCommentCount(Number(idx)).then(
-          (res: GetPostCommentCountResponse) => {
-            setCommentCount(res.data.total_count);
-          }
-        );
+        await getPostCommentCount(Number(idx)).then((res: GetPostCommentCountResponse) => {
+          setCommentCount(res.data.total_count);
+        });
       } catch (err) {
         if (err.message === "Error: Request failed with status code 403") {
           NotificationManager.warning("권한이 없습니다.", "Error");
-        } else if (
-          err.message === "Error: Request failed with status code 401"
-        ) {
+        } else if (err.message === "Error: Request failed with status code 401") {
           cookies.remove("access_token", { path: "/" });
           NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
         } else {
@@ -232,18 +213,14 @@ const PostContainer = ({ post }: PostContainerProps) => {
         try {
           await replyCreate(commentIdx, content, isPrivate);
           await getCommentsCallback(Number(idx));
-          await getPostCommentCount(Number(idx)).then(
-            (res: GetPostCommentCountResponse) => {
-              setCommentCount(res.data.total_count);
-            }
-          );
+          await getPostCommentCount(Number(idx)).then((res: GetPostCommentCountResponse) => {
+            setCommentCount(res.data.total_count);
+          });
           setIsSaving(false);
         } catch (err) {
           if (err.message === "Error: Request failed with status code 403") {
             NotificationManager.warning("권한이 없습니다.", "Error");
-          } else if (
-            err.message === "Error: Request failed with status code 401"
-          ) {
+          } else if (err.message === "Error: Request failed with status code 401") {
             cookies.remove("access_token", { path: "/" });
             handleLoginChange(false);
             NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
@@ -272,9 +249,7 @@ const PostContainer = ({ post }: PostContainerProps) => {
         } catch (err) {
           if (err.message === "Error: Request failed with status code 403") {
             NotificationManager.warning("권한이 없습니다.", "Error");
-          } else if (
-            err.message === "Error: Request failed with status code 401"
-          ) {
+          } else if (err.message === "Error: Request failed with status code 401") {
             cookies.remove("access_token", { path: "/" });
             handleLoginChange(false);
             NotificationManager.warning("로그인 후 작성가능합니다.", "Error");
@@ -297,17 +272,13 @@ const PostContainer = ({ post }: PostContainerProps) => {
           }
         });
         await getCommentsCallback(Number(idx));
-        await getPostCommentCount(Number(idx)).then(
-          (res: GetPostCommentCountResponse) => {
-            setCommentCount(res.data.total_count);
-          }
-        );
+        await getPostCommentCount(Number(idx)).then((res: GetPostCommentCountResponse) => {
+          setCommentCount(res.data.total_count);
+        });
       } catch (err) {
         if (err.message === "Error: Request failed with status code 403") {
           NotificationManager.warning("권한이 없습니다.", "Error");
-        } else if (
-          err.message === "Error: Request failed with status code 410"
-        ) {
+        } else if (err.message === "Error: Request failed with status code 410") {
           cookies.remove("access_token", { path: "/" });
           NotificationManager.warning("로그인 시간이 만료되었습니다.", "Error");
         } else {
@@ -388,93 +359,53 @@ const PostContainer = ({ post }: PostContainerProps) => {
 
   return (
     <>
-      {(postInfo.idx || (post && post.idx)) &&
-        (!postInfo.is_temp || !post.is_temp) && (
-          <Head>
-            <title>{post.title || postInfo.title}</title>
-            <meta
-              name="description"
-              content={
-                post.description
-                  ? post.description
-                      .replace(/ +/g, " ")
-                      .replace(
-                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                        ""
-                      )
-                  : postInfo.description
-                      .replace(/ +/g, " ")
-                      .replace(
-                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                        ""
-                      ) || ""
-              }
-            />
-            <meta
-              property="og:url"
-              content={`https://slog.website/post/${post.idx || postInfo.idx}`}
-            />
-            <meta property="og:title" content={post.title || postInfo.title} />
-            <meta
-              property="og:description"
-              content={
-                post.description
-                  ? post.description
-                      .replace(/ +/g, " ")
-                      .replace(
-                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                        ""
-                      )
-                  : postInfo.description
-                      .replace(/ +/g, " ")
-                      .replace(
-                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                        ""
-                      ) || ""
-              }
-            />
-            <meta
-              property="twitter:title"
-              content={post.title || postInfo.title}
-            />
-            <meta
-              property="twitter:description"
-              content={
-                post.description
-                  ? post.description
-                      .replace(/ +/g, " ")
-                      .replace(
-                        /#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g,
-                        ""
-                      )
-                  : postInfo.description || ""
-              }
-            />
-            {post.title || postInfo.thumbnail ? (
-              <>
-                <meta
-                  property="og:image"
-                  content={post.title || postInfo.thumbnail}
-                />
-                <meta
-                  property="twitter:image"
-                  content={post.thumbnail || postInfo.thumbnail}
-                />
-              </>
-            ) : (
-              <>
-                <meta
-                  property="og:image"
-                  content={"https://data.slog.website/public/op_logo.png"}
-                />
-                <meta
-                  property="twitter:image"
-                  content={"https://data.slog.website/public/op_logo.png"}
-                />
-              </>
-            )}
-          </Head>
-        )}
+      {(postInfo.idx || (post && post.idx)) && (!postInfo.is_temp || !post.is_temp) && (
+        <Head>
+          <title>{post.title || postInfo.title}</title>
+          <meta
+            name="description"
+            content={
+              post.description
+                ? post.description.replace(/ +/g, " ").replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "")
+                : postInfo.description
+                    .replace(/ +/g, " ")
+                    .replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "") || ""
+            }
+          />
+          <meta property="og:url" content={`https://slog.website/post/${post.idx || postInfo.idx}`} />
+          <meta property="og:title" content={post.title || postInfo.title} />
+          <meta
+            property="og:description"
+            content={
+              post.description
+                ? post.description.replace(/ +/g, " ").replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "")
+                : postInfo.description
+                    .replace(/ +/g, " ")
+                    .replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "") || ""
+            }
+          />
+          <meta property="twitter:title" content={post.title || postInfo.title} />
+          <meta
+            property="twitter:description"
+            content={
+              post.description
+                ? post.description.replace(/ +/g, " ").replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "")
+                : postInfo.description || ""
+            }
+          />
+          {post.title || postInfo.thumbnail ? (
+            <>
+              <meta property="og:image" content={post.title || postInfo.thumbnail} />
+              <meta property="twitter:image" content={post.thumbnail || postInfo.thumbnail} />
+            </>
+          ) : (
+            <>
+              <meta property="og:image" content={"https://data.slog.website/public/op_logo.png"} />
+              <meta property="twitter:image" content={"https://data.slog.website/public/op_logo.png"} />
+            </>
+          )}
+        </Head>
+      )}
       <Post
         commentCount={commentCount}
         deletePostAlert={deletePostAlert}

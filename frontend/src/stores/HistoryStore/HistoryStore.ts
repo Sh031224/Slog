@@ -7,7 +7,6 @@ class HistoryStore {
 
   @action handlePrevUrl = () => {
     this.prevUrl = window.location.href;
-    console.log(this.prevUrl);
   };
 }
 
