@@ -61,4 +61,4 @@ const PostCommentCreate = ({
   );
 };
 
-export default PostCommentCreate;
+export default React.memo(PostCommentCreate);

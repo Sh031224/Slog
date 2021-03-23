@@ -13,4 +13,4 @@ const PostLoading = () => {
   );
 };
 
-export default PostLoading;
+export default React.memo(PostLoading);

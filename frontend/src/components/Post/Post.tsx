@@ -1,15 +1,13 @@
-import dynamic from "next/dynamic";
 import React from "react";
 import CommentType from "types/CommentType";
 import { PostInfoType, PostType } from "types/PostType";
 import { GetRepliesResponse } from "types/Response";
 import MarkdownContainer from "../../containers/Markdown/MarkdownContainer";
 import "./Post.scss";
-
-const PostComment = dynamic(() => import("./PostComment"));
-const PostHeader = dynamic(() => import("./PostHeader"));
-const PostHit = dynamic(() => import("./PostHit"));
-const PostLoading = dynamic(() => import("./PostLoading"));
+import PostComment from "./PostComment";
+import PostHeader from "./PostHeader";
+import PostHit from "./PostHit";
+import PostLoading from "./PostLoading";
 
 interface PostProps {
   loading: boolean;

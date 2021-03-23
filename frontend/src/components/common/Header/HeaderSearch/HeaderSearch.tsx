@@ -52,4 +52,4 @@ const HeaderSearch = ({
   );
 };
 
-export default HeaderSearch;
+export default React.memo(HeaderSearch);

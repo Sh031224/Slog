@@ -1,15 +1,9 @@
-import dynamic from "next/dynamic";
+import PostCommentContainer from "containers/Post/PostCommentContainer";
+import PostCommentCreateContainer from "containers/Post/PostCommentCreateContainer";
 import React from "react";
 import CommentType from "types/CommentType";
 import { GetRepliesResponse } from "types/Response";
 import "./PostComment.scss";
-
-const PostCommentContainer = dynamic(
-  () => import("containers/Post/PostCommentContainer")
-);
-const PostCommentCreateContainer = dynamic(
-  () => import("containers/Post/PostCommentCreateContainer")
-);
 
 interface PostCommentProps {
   comments: CommentType[];
@@ -81,4 +75,4 @@ const PostComment = ({
   );
 };
 
-export default PostComment;
+export default React.memo(PostComment);

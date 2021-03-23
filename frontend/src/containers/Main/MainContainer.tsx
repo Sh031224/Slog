@@ -5,11 +5,9 @@ import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
 import { useInView } from "react-intersection-observer";
 import Head from "next/head";
-import dynamic from "next/dynamic";
 import useStore from "lib/hooks/useStore";
 import { PostParmsType } from "types/PostType";
-
-const Main = dynamic(() => import("components/Main"));
+import Main from "components/Main";
 
 const MainContainer = () => {
   const { store } = useStore();
@@ -24,7 +22,7 @@ const MainContainer = () => {
   } = store.CategoryStore;
   const { admin } = store.UserStore;
   const { posts, handlePosts, initPosts, getPostLength, handlePostSearch, handleTempPosts } = store.PostStore;
-  const { prevUrl, handlePrevUrl } = store.HistoryStore;
+  const { prevUrl, handlePrevUrl, isClickedLogo, handleIsClickedLogo } = store.HistoryStore;
 
   const router = useRouter();
   const { asPath } = router;
@@ -112,12 +110,16 @@ const MainContainer = () => {
 
   const handleQueryCallbacks = useCallback(() => {
     if ((prevUrl.indexOf("/post") !== -1 || prevUrl.indexOf("/privacy") !== -1) && posts.length && page === 1) {
-      // 뒤로가기 눌렀을 때 데이터를 불러오지 않는다.
-      setPage(Math.ceil(posts.length / 20));
-      setNotfound(false);
-      setLoading(false);
-      handlePrevUrl();
-      return;
+      if (!isClickedLogo) {
+        // 뒤로가기 눌렀을 때 데이터를 불러오지 않는다.
+        setPage(Math.ceil(posts.length / 20));
+        setNotfound(false);
+        setLoading(false);
+        handlePrevUrl();
+        return;
+      } else {
+        handleIsClickedLogo(false);
+      }
     }
     if (Math.ceil(posts.length / 20) === page && page !== 1) {
       return;
@@ -141,7 +143,7 @@ const MainContainer = () => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
     }
-  }, [handleTempPostsCallback, handlePostsCallback, handlePostSearchCallback, prevUrl]);
+  }, [handleTempPostsCallback, handlePostsCallback, handlePostSearchCallback, prevUrl, isClickedLogo]);
 
   const handleCategoryPostCallback = useCallback(() => {
     if (page === 1) {

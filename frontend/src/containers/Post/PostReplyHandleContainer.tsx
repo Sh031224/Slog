@@ -1,10 +1,6 @@
-import dynamic from "next/dynamic";
+import PostReplyItem from "components/Post/PostReply/PostReplyItem";
 import React, { useCallback, useState } from "react";
 import ReplyType from "types/ReplyType";
-
-const PostReplyItem = dynamic(
-  () => import("components/Post/PostReply/PostReplyItem")
-);
 
 interface PostReplyHandleContainerProps {
   userId: number;
@@ -50,4 +46,4 @@ const PostReplyHandleContainer = ({
   );
 };
 
-export default PostReplyHandleContainer;
+export default React.memo(PostReplyHandleContainer);

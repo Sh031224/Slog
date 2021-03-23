@@ -1,9 +1,7 @@
-import dynamic from "next/dynamic";
 import React, { Fragment } from "react";
 import { PostType } from "types/PostType";
 import "./MainPosts.scss";
-
-const MainPostsItem = dynamic(() => import("./MainPostsItem"));
+import MainPostsItem from "./MainPostsItem";
 
 interface MainPostsProps {
   posts: PostType[];
@@ -52,4 +50,4 @@ const MainPosts = ({
   );
 };
 
-export default MainPosts;
+export default React.memo(MainPosts);

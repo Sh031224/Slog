@@ -2,10 +2,8 @@ import React from "react";
 import GetCookie from "lib/GetCookie";
 import { DocumentContext } from "next/document";
 import dynamic from "next/dynamic";
+import MainTemplate from "components/common/Template/MainTemplate";
 
-const MainTemplate = dynamic(
-  () => import("components/common/Template/MainTemplate")
-);
 const MainContainer = dynamic(() => import("containers/Main/MainContainer"));
 
 interface IndexPageProps {
@@ -30,10 +28,8 @@ class IndexPage extends React.Component<IndexPageProps> {
   }
 
   render() {
-    const { token } = this.props;
-
     return (
-      <MainTemplate token={token}>
+      <MainTemplate token={this.props.token}>
         <MainContainer />
       </MainTemplate>
     );
