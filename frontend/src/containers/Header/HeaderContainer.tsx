@@ -7,11 +7,9 @@ import cookies from "js-cookie";
 import firebase from "firebase/app";
 import option from "../../config/firebase.json";
 import "firebase/messaging";
-import dynamic from "next/dynamic";
 import useStore from "lib/hooks/useStore";
 import { FacebookFailureResponse, FacebookLoginInfo } from "types/FacebookType";
-
-const Header = dynamic(() => import("components/common/Header"));
+import Header from "components/common/Header";
 
 interface HeaderContainerProps {
   token?: string;
@@ -27,6 +25,7 @@ const HeaderContainer = ({ token }: HeaderContainerProps) => {
     handleLogin,
     handleFcm
   } = store.UserStore;
+  const { handleIsClickedLogo } = store.HistoryStore;
   const searchEl = useRef<HTMLElement>(null);
   const inputEl = useRef<HTMLElement>(null);
 
@@ -158,6 +157,11 @@ const HeaderContainer = ({ token }: HeaderContainerProps) => {
     handleLoginCallback();
   }, [handleLoginCallback]);
 
+  const clickLogo = () => {
+    handleIsClickedLogo(true);
+    router.push("/")
+  }
+
   return (
     <>
       <Header
@@ -169,9 +173,10 @@ const HeaderContainer = ({ token }: HeaderContainerProps) => {
         tryLogin={tryLogin}
         tryLogout={tryLogout}
         searchSubmit={searchSubmit}
+        clickLogo={clickLogo}
       />
     </>
   );
 };
 
-export default observer(HeaderContainer);
+export default React.memo(observer(HeaderContainer));
