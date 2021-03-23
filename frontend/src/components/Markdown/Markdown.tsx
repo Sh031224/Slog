@@ -66,4 +66,4 @@ const Markdown = ({ children }: MarkdownProps) => {
   );
 };
 
-export default Markdown;
+export default React.memo(Markdown);

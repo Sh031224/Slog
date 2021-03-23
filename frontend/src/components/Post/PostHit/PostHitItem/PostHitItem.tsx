@@ -35,4 +35,4 @@ const PostHitItem = ({ post }: PostHitItemProps) => {
   );
 };
 
-export default PostHitItem;
+export default React.memo(PostHitItem);

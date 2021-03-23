@@ -3,10 +3,8 @@ import PostApi from "../../assets/api/Post";
 import GetCookie from "lib/GetCookie";
 import { DocumentContext } from "next/document";
 import dynamic from "next/dynamic";
+import MainTemplate from "components/common/Template/MainTemplate";
 
-const MainTemplate = dynamic(
-  () => import("components/common/Template/MainTemplate")
-);
 const PostContainer = dynamic(() => import("containers/Post/PostContainer"));
 
 interface PostProps {

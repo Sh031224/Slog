@@ -3,7 +3,6 @@ import HeadRoom from "react-headroom";
 import "./Header.scss";
 import logo from "../../../assets/images/logo.png";
 import ScrollToTop from "react-scroll-to-top";
-import Link from "next/link";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { appId } from "../../../config/index.json";
 import { GrLinkTop } from "react-icons/gr";
@@ -11,9 +10,7 @@ import {
   ReactFacebookFailureResponse,
   ReactFacebookLoginInfo
 } from "react-facebook-login";
-import dynamic from "next/dynamic";
-
-const HeaderSearch = dynamic(() => import("./HeaderSearch"));
+import HeaderSearch from "./HeaderSearch";
 
 interface HeaderProps {
   searchEl: MutableRefObject<any>;
@@ -24,6 +21,7 @@ interface HeaderProps {
   tryLogin: (res: FacebookLoginInfo | FacebookFailureResponse) => void;
   tryLogout: () => void;
   searchSubmit: () => void;
+  clickLogo: () => void;
 }
 
 interface FacebookLoginInfo extends ReactFacebookLoginInfo {
@@ -42,7 +40,8 @@ const Header = ({
   login,
   tryLogout,
   tryLogin,
-  searchSubmit
+  searchSubmit,
+  clickLogo
 }: HeaderProps) => {
   return (
     <>
@@ -50,13 +49,12 @@ const Header = ({
         <header className="header">
           <div className="header-container">
             <div className="header-container-main">
-              <Link href="/">
                 <img
                   className="header-container-main-logo"
                   src={logo}
                   alt="logo"
+                  onClick={clickLogo}
                 />
-              </Link>
               <div className="header-container-main-util">
                 <HeaderSearch
                   search={search}

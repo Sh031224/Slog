@@ -16,4 +16,4 @@ const MarkdownContainer = ({ children, className }: MarkdownContainerProps) => {
   );
 };
 
-export default MarkdownContainer;
+export default React.memo(MarkdownContainer);

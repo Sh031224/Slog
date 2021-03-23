@@ -14,4 +14,4 @@ const MainCreate = ({ createPost }: MainCreateProps) => {
   );
 };
 
-export default MainCreate;
+export default React.memo(MainCreate);

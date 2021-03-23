@@ -135,4 +135,4 @@ const PostReplyItem = ({
   );
 };
 
-export default PostReplyItem;
+export default React.memo(PostReplyItem);

@@ -42,4 +42,4 @@ const PrivacyContainer = () => {
   );
 };
 
-export default PrivacyContainer;
+export default React.memo(PrivacyContainer);

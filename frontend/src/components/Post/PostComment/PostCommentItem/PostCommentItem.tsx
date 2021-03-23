@@ -10,13 +10,9 @@ import {
   IoIosUnlock,
   IoMdCheckmarkCircleOutline
 } from "react-icons/io";
-import dynamic from "next/dynamic";
 import { GetRepliesResponse } from "types/Response";
 import CommentType from "types/CommentType";
-
-const PostReplyContainer = dynamic(
-  () => import("../../../../containers/Post/PostReplyContainer")
-);
+import PostReplyContainer from "containers/Post/PostReplyContainer";
 
 interface PostCommentItemProps {
   comment: CommentType;

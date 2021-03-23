@@ -1,11 +1,7 @@
-import dynamic from "next/dynamic";
+import PostCommentItem from "components/Post/PostComment/PostCommentItem";
 import React, { useCallback, useState } from "react";
 import CommentType from "types/CommentType";
 import { GetRepliesResponse } from "types/Response";
-
-const PostCommentItem = dynamic(
-  () => import("components/Post/PostComment/PostCommentItem")
-);
 
 interface PostCommentContainerProps {
   comment: CommentType;

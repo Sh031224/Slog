@@ -112,4 +112,4 @@ const MainPostsItem = ({ post, lastCardEl }: MainPostsItemProps) => {
   );
 };
 
-export default MainPostsItem;
+export default React.memo(MainPostsItem);

@@ -1,9 +1,7 @@
-import dynamic from "next/dynamic";
 import React from "react";
 import { PostType } from "types/PostType";
 import "./PostHit.scss";
-
-const PostHitItem = dynamic(() => import("./PostHitItem"));
+import PostHitItem from "./PostHitItem";
 
 interface PostHitProps {
   hitPosts: PostType[];
@@ -22,4 +20,4 @@ const PostHit = ({ hitPosts }: PostHitProps) => {
   );
 };
 
-export default PostHit;
+export default React.memo(PostHit);
