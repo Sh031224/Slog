@@ -4,26 +4,13 @@ import GetCookie from "lib/GetCookie";
 import { DocumentContext } from "next/document";
 import dynamic from "next/dynamic";
 import MainTemplate from "components/common/Template/MainTemplate";
+import { PostInfoType } from "types/PostType";
 
 const PostContainer = dynamic(() => import("containers/Post/PostContainer"));
 
 interface PostProps {
   post: PostInfoType;
   token?: string;
-}
-
-interface PostInfoType {
-  idx: number;
-  title: string;
-  description: string;
-  content: string;
-  view: number;
-  is_temp: boolean;
-  fk_category_idx: number | null;
-  thumbnail: string | null;
-  created_at: Date;
-  updated_at: Date;
-  comment_count: number;
 }
 
 class Post extends React.Component<PostProps> {
@@ -41,11 +28,9 @@ class Post extends React.Component<PostProps> {
       }
 
       const postIdx = ctx.req.url.replace("/post/", "");
-      const data = await PostApi.GetPostInfo(Number(postIdx)).catch(
-        (err: Error) => {
-          return { post: {}, token: token.toString() };
-        }
-      );
+      const data = await PostApi.GetPostInfo(Number(postIdx)).catch((err: Error) => {
+        return { post: {}, token: token.toString() };
+      });
       if (data && data.data && data.data.post) {
         return { post: data.data.post, token: token.toString() };
       }
