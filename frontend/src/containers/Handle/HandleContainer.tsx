@@ -10,12 +10,7 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { PostInfoType } from "types/PostType";
 import useStore from "lib/hooks/useStore";
-import {
-  CreateTempPostResponse,
-  GetPostInfoResponse,
-  GetProfileResponse,
-  UploadFilesResponse
-} from "types/Response";
+import { CreateTempPostResponse, GetPostInfoResponse, GetProfileResponse, UploadFilesResponse } from "types/Response";
 
 const HandlePost = dynamic(() => import("components/Admin/HandlePost"));
 
@@ -23,13 +18,7 @@ const HandleContainer = () => {
   const { store } = useStore();
   const { categoryList, handleCategoryList } = store.CategoryStore;
   const { handleUser, login, handleLoginChange } = store.UserStore;
-  const {
-    getPostInfo,
-    uploadFiles,
-    createTempPost,
-    modifyPost,
-    createPost
-  } = store.PostStore;
+  const { getPostInfo, uploadFiles, createTempPost, modifyPost, createPost } = store.PostStore;
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -42,9 +31,7 @@ const HandleContainer = () => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isTemp, setIsTemp] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [post_info, setPostInfo] = useState<
-    PostInfoType | React.SetStateAction<PostInfoType | any>
-  >({});
+  const [post_info, setPostInfo] = useState<PostInfoType | React.SetStateAction<PostInfoType | any>>({});
 
   const router = useRouter();
   const { idx } = router.query;
@@ -219,10 +206,7 @@ const HandleContainer = () => {
   const uploadFilesCallback = useCallback(async (files: File[]) => {
     await uploadFiles(files)
       .then((res: UploadFilesResponse) => {
-        setContent(
-          (content) =>
-            content + `\n![image](${res.data.files[0].replace(" ", "%20")})`
-        );
+        setContent((content) => content + `\n![image](${res.data.files[0].replace(" ", "%20")})`);
         NotificationManager.success("사진이 업로드 되었습니다.", "Success");
       })
       .catch(() => {
@@ -267,9 +251,7 @@ const HandleContainer = () => {
   }, [idx]);
 
   const handleCategoryListCallback = useCallback(() => {
-    handleCategoryList().catch(() =>
-      NotificationManager.error("오류가 발생하였습니다.", "Error")
-    );
+    handleCategoryList().catch(() => NotificationManager.error("오류가 발생하였습니다.", "Error"));
   }, []);
 
   const getPostInfoCallback = useCallback(() => {
@@ -290,12 +272,7 @@ const HandleContainer = () => {
             setCategoryIdx(res.data.post.fk_category_idx);
           }
           if (res.data.post.thumbnail !== null) {
-            setThumbnail(
-              res.data.post.thumbnail.replace(
-                "https://data.slog.website/public/",
-                ""
-              )
-            );
+            setThumbnail(res.data.post.thumbnail.replace("https://data.slog.website/public/", ""));
           }
         })
         .catch(() => {
@@ -363,29 +340,14 @@ const HandleContainer = () => {
     <>
       <Head>
         <title>{"Slog"}</title>
-        <meta
-          name="description"
-          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
-        />
-        <meta name="og:title" content="Slog" />
-        <meta
-          property="og:description"
-          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
-        />
-        <meta property="og:url" content="https://slog.website/" />
-        <meta
-          property="og:image"
-          content="https://data.slog.website/public/op_logo.png"
-        />
+        <meta name="description" content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다." />
+        <meta property="og:title" content="Slog" />
+        <meta property="og:description" content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다." />
+        <meta property="og:image" content="https://data.slog.website/public/op_logo.png" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Slog" />
-        <meta
-          property="twitter:description"
-          content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다."
-        />
-        <meta
-          property="twitter:image"
-          content="https://data.slog.website/public/op_logo.png"
-        />
+        <meta name="twitter:description" content="많은 사람들에게 유용한 정보를 제공하기 위해 제작한 Slog입니다." />
+        <meta name="twitter:image" content="https://data.slog.website/public/op_logo.png" />
       </Head>
       {isNew ? (
         <HandlePost
