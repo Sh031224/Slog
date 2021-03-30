@@ -9,6 +9,8 @@ import dynamic from "next/dynamic";
 import useStore from "lib/hooks/useStore";
 import { PostInfoType, PostParmsType } from "types/PostType";
 import { GetPostCommentCountResponse, GetPostInfoResponse, ResponseType } from "types/Response";
+import textOverCut from "lib/textOverCut";
+import moment from "moment";
 
 const Post = dynamic(() => import("components/Post"));
 
@@ -362,37 +364,20 @@ const PostContainer = ({ post }: PostContainerProps) => {
       {(postInfo.idx || (post && post.idx)) && (!postInfo.is_temp || !post.is_temp) && (
         <Head>
           <title>{post.title || postInfo.title}</title>
-          <meta
-            name="description"
-            content={
-              post.description
-                ? post.description.replace(/ +/g, " ").replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "")
-                : postInfo.description
-                    .replace(/ +/g, " ")
-                    .replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "") || ""
-            }
-          />
+          <meta name="description" content={textOverCut(post.description) || textOverCut(postInfo.description)} />
           <meta property="og:url" content={`https://slog.website/post/${post.idx || postInfo.idx}`} />
           <meta property="og:title" content={post.title || postInfo.title} />
-          <meta
-            property="og:description"
-            content={
-              post.description
-                ? post.description.replace(/ +/g, " ").replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "")
-                : postInfo.description
-                    .replace(/ +/g, " ")
-                    .replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "") || ""
-            }
-          />
+          <meta property="og:description" content={textOverCut(post.description) || textOverCut(postInfo.description)} />
+          <meta property="og:site_name" content="Slog" />
+          <meta property="article:published_time" content={moment(post.created_at || postInfo.created_at).format("YYYY-MM-DD")} />
+          <meta property="article:modified_time" content={moment(post.updated_at || postInfo.updated_at).format("YYYY-MM-DD")} />
+          <meta property="article:author" content="https://www.facebook.com/profile.php?id=100048700034135" />
+          <meta property="article:pc_service_home" content={`https://slog.website/post/${post.idx || postInfo.idx}`} />
+          <meta property="article:mobile_service_home" content={`https://slog.website/post/${post.idx || postInfo.idx}`} />
+          <meta name="by" content="Sh031224" />
+
           <meta name="twitter:title" content={post.title || postInfo.title} />
-          <meta
-            name="twitter:description"
-            content={
-              post.description
-                ? post.description.replace(/ +/g, " ").replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "")
-                : postInfo.description || ""
-            }
-          />
+          <meta name="twitter:description" content={textOverCut(post.description) || textOverCut(postInfo.description)} />
           {post.thumbnail || postInfo.thumbnail ? (
             <>
               <meta name="twitter:card" content="summary_large_image" />
