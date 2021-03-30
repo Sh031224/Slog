@@ -384,24 +384,26 @@ const PostContainer = ({ post }: PostContainerProps) => {
                     .replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "") || ""
             }
           />
-          <meta property="twitter:title" content={post.title || postInfo.title} />
+          <meta name="twitter:title" content={post.title || postInfo.title} />
           <meta
-            property="twitter:description"
+            name="twitter:description"
             content={
               post.description
                 ? post.description.replace(/ +/g, " ").replace(/#+ |-+ |!+\[+.*\]+\(+.*\)|\`|\>+ |\[!+\[+.*\]+\(+.*\)|\<br+.*\>|\[.*\]\(.*\)/g, "")
                 : postInfo.description || ""
             }
           />
-          {post.title || postInfo.thumbnail ? (
+          {post.thumbnail || postInfo.thumbnail ? (
             <>
-              <meta property="og:image" content={post.title || postInfo.thumbnail} />
-              <meta property="twitter:image" content={post.thumbnail || postInfo.thumbnail} />
+              <meta name="twitter:card" content="summary_large_image" />
+              <meta property="og:image" content={post.thumbnail || postInfo.thumbnail} />
+              <meta name="twitter:image" content={post.thumbnail || postInfo.thumbnail} />
             </>
           ) : (
             <>
+              <meta name="twitter:card" content="summary_large_image" />
               <meta property="og:image" content={"https://data.slog.website/public/op_logo.png"} />
-              <meta property="twitter:image" content={"https://data.slog.website/public/op_logo.png"} />
+              <meta name="twitter:image" content={"https://data.slog.website/public/op_logo.png"} />
             </>
           )}
         </Head>
