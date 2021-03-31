@@ -8,6 +8,7 @@ import Head from "next/head";
 import useStore from "lib/hooks/useStore";
 import { PostParmsType } from "types/PostType";
 import Main from "components/Main";
+import { limit } from "config/index.json";
 
 const MainContainer = () => {
   const { store } = useStore();
@@ -21,7 +22,7 @@ const MainContainer = () => {
     createCategory
   } = store.CategoryStore;
   const { admin } = store.UserStore;
-  const { posts, handlePosts, initPosts, getPostLength, handlePostSearch, handleTempPosts } = store.PostStore;
+  const { total, handleTotal, handlePage, page, posts, handlePosts, initPosts, getPostLength, handlePostSearch, handleTempPosts } = store.PostStore;
   const { prevUrl, handlePrevUrl, isClickedLogo, handleIsClickedLogo } = store.HistoryStore;
 
   const router = useRouter();
@@ -30,8 +31,6 @@ const MainContainer = () => {
   const [categoryEdit, setCategoryEdit] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [notfound, setNotfound] = useState<boolean>(true);
-  const [page, setPage] = useState<number>(1);
-  const [total, setTotal] = useState<number>(0);
 
   const arrowToggleEl = useRef<HTMLElement>(null);
   const categoryRowEl = useRef<HTMLElement>(null);
@@ -65,7 +64,7 @@ const MainContainer = () => {
     setLoading(true);
     const query: PostParmsType = {
       page: page,
-      limit: 20
+      limit
     };
     const tab = Number(asPath.replace("/?tab=", ""));
     if (tab) {
@@ -75,7 +74,7 @@ const MainContainer = () => {
     }
     await handlePosts(query)
       .then((res: any) => {
-        setTotal(res.data.total);
+        handleTotal(res.data.total);
         setLoading(false);
         if (res.data.posts.length > 0 || page > 1) {
           setNotfound(false);
@@ -111,8 +110,6 @@ const MainContainer = () => {
   const handleQueryCallbacks = useCallback(() => {
     if ((prevUrl.indexOf("/post") !== -1 || prevUrl.indexOf("/privacy") !== -1) && posts.length && page === 1) {
       if (!isClickedLogo) {
-        // 뒤로가기 눌렀을 때 데이터를 불러오지 않는다.
-        setPage(Math.ceil(posts.length / 20));
         setNotfound(false);
         setLoading(false);
         handlePrevUrl();
@@ -120,9 +117,6 @@ const MainContainer = () => {
       } else {
         handleIsClickedLogo(false);
       }
-    }
-    if (Math.ceil(posts.length / 20) === page && page !== 1) {
-      return;
     }
     if (page === 1) {
       initPosts();
@@ -143,14 +137,14 @@ const MainContainer = () => {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       });
     }
-  }, [handleTempPostsCallback, handlePostsCallback, handlePostSearchCallback, prevUrl, isClickedLogo]);
+  }, [handleTempPostsCallback, handlePostsCallback, handlePostSearchCallback, isClickedLogo, prevUrl]);
 
   const handleCategoryPostCallback = useCallback(() => {
     if (page === 1) {
       handleQueryCallbacks();
-    } else {
+    } else if (!prevUrl.includes("/post") && !prevUrl.includes("/privacy")) {
       initPosts();
-      setPage(1);
+      handlePage(1);
     }
   }, [asPath, page, handleQueryCallbacks]);
 
@@ -160,8 +154,7 @@ const MainContainer = () => {
 
   useEffect(() => {
     if (inView && !loading && asPath.indexOf("search=") === -1 && asPath.indexOf("?temp") === -1 && getPostLength() < total) {
-      setLoading(true);
-      setPage((prevState) => prevState + 1);
+      handlePage(page + 1);
     }
   }, [inView, asPath, total, page, loading, lastCardEl]);
 

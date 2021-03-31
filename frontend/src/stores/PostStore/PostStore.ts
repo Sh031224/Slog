@@ -17,7 +17,23 @@ class PostStore {
   posts: PostType[] = [];
 
   @observable
+  total: number = 0;
+
+  @observable
+  page: number = 1;
+
+  @observable
   hitPosts: PostType[] = [];
+
+  @action
+  handlePage = (page: number) => {
+    this.page = page;
+  };
+
+  @action
+  handleTotal = (total: number) => {
+    this.total = total;
+  };
 
   @action
   handlePosts = async (query: PostParmsType): Promise<GetPostsResponse> => {

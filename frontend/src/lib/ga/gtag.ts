@@ -1,8 +1,8 @@
-export const GA_TRACKING_ID = "<YOUR_GA_TRACKING_ID>";
+import { ga_tracking } from "config/index.json";
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 export const pageview = (url: URL) => {
-  window.gtag("config", GA_TRACKING_ID, {
+  window.gtag("config", ga_tracking, {
     page_path: url
   });
 };
