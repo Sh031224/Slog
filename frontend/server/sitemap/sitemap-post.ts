@@ -1,6 +1,4 @@
 const axios = require("axios");
-const fs = require("fs");
-const prettier = require("prettier");
 const SERVER = require("../../src/config/index.json").server;
 
 // 오늘 날짜 가져오기 & 도메인 설정
@@ -8,8 +6,7 @@ const getDate = new Date().toISOString();
 
 const WEB_DOMAIN = "https://slog.website";
 
-const formatted = (sitemap) => prettier.format(sitemap, { parser: "html" });
-(async () => {
+const sitemapPost = async () => {
   let response = [];
 
   // axios를 이용해 post 리스트 가져오기
@@ -39,26 +36,13 @@ const formatted = (sitemap) => prettier.format(sitemap, { parser: "html" });
         </url>`;
     })
     .join("")}
+    <url>
+      <loc>${WEB_DOMAIN}</loc>
+      <lastmod>${getDate}</lastmod>
+    </url>
 `;
 
-  const generatedSitemap = `
-	<?xml version="1.0" encoding="UTF-8"?>
-  	<urlset
-    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
-  >
-    ${postListSitemap}
-  </urlset>
-`;
+  return postListSitemap;
+};
 
-  const formattedSitemap = formatted(generatedSitemap);
-
-  fs.writeFileSync(
-    "./public/sitemap/sitemap-posts.xml",
-    formattedSitemap,
-    "utf8"
-  );
-})();
-
-export {};
+export default sitemapPost;
