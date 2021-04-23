@@ -40,17 +40,20 @@ app
       return handle(req, res);
     });
 
-    require("greenlock-express")
-      .init({
-        packageRoot: "/root/blog_server",
-        configDor: "../src/greenlock.d",
-        cluster: false,
-        maintainerEmail: "1cktmdgh2@gmail.com"
-      })
-      .serve(server);
+    server.listen(80, () => {
+      console.log("> Ready on http://localhost:80");
+    });
+    // require("greenlock-express")
+    // 	.init({
+    // 		packageRoot: "/root/blog_server",
+    // 		configDor: "../src/greenlock.d",
+    // 		cluster: false,
+    // 		maintainerEmail: "1cktmdgh2@gmail.com"
+    // 	})
+    // 	.serve(server);
 
-    console.log("> Ready on http://localhost");
-    console.log("> Ready on https://localhost");
+    // console.log("> Ready on http://localhost");
+    // console.log("> Ready on https://localhost");
   })
   .catch((ex: Error) => {
     console.error(ex.stack);
