@@ -1,0 +1,41 @@
+$NOTO_SANS_KR_URL: "/font/NotoSansKR/NotoSansKR";
+
+@mixin font_face($weight, $url) {
+  font-family: NotoSansKR;
+  font-display: block; // 웹 폰트 로딩처리
+  font-weight: $weight;
+  src: url($url + ".eot");
+  src: url($url + ".eot?#iefix") format("embedded-opentype"), url($url + ".woff2") format("woff2"),
+    url($url + ".woff") format("woff"), url($url + ".otf") format("truetype");
+  color: rgb(250, 251, 252);
+}
+
+$NOTO_SANS_KR_THIN_WEIGHT: 100;
+$NOTO_SANS_KR_LIGHT_WEIGHT: 300;
+$NOTO_SANS_KR_DEMILIGHT_WEIGHT: 400;
+$NOTO_SANS_KR_REGULAR_WEIGHT: 500;
+$NOTO_SANS_KR_MEDIUM_WEIGHT: 600;
+$NOTO_SANS_KR_BOLD_WEIGHT: 700;
+$NOTO_SANS_KR_BLACK_WEIGHT: 800;
+
+@font-face {
+  @include font_face($NOTO_SANS_KR_THIN_WEIGHT, $NOTO_SANS_KR_URL + "-Thin");
+}
+@font-face {
+  @include font_face($NOTO_SANS_KR_LIGHT_WEIGHT, $NOTO_SANS_KR_URL + "-Light");
+}
+@font-face {
+  @include font_face($NOTO_SANS_KR_DEMILIGHT_WEIGHT, $NOTO_SANS_KR_URL + "-DemiLight");
+}
+@font-face {
+  @include font_face($NOTO_SANS_KR_REGULAR_WEIGHT, $NOTO_SANS_KR_URL + "-Regular");
+}
+@font-face {
+  @include font_face($NOTO_SANS_KR_MEDIUM_WEIGHT, $NOTO_SANS_KR_URL + "-Medium");
+}
+@font-face {
+  @include font_face($NOTO_SANS_KR_BOLD_WEIGHT, $NOTO_SANS_KR_URL + "-Bold");
+}
+@font-face {
+  @include font_face($NOTO_SANS_KR_BLACK_WEIGHT, $NOTO_SANS_KR_URL + "-Black");
+}
