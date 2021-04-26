@@ -1,4 +1,4 @@
-import useCategories from "hooks/useCategories";
+import useCategories from "hooks/main/useCategories";
 import React from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { MdExpandMore } from "react-icons/md";

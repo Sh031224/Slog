@@ -11,24 +11,6 @@ import User from "../../../../entity/User";
 import Reply from "../../../../entity/Reply";
 import Comment from "../../../../entity/Comment";
 
-interface PostCountType extends Post {
-  comment_count?: number;
-  comments?: CommentListType[];
-}
-
-interface ReplyListType extends Reply {
-  fk_user_name?: string;
-  fk_user_is_deleted?: boolean;
-  fk_user_is_admin?: boolean;
-}
-
-interface CommentListType extends Comment {
-  fk_user_name?: string;
-  fk_user_is_deleted?: boolean;
-  fk_user_is_admin?: boolean;
-  replies?: ReplyListType[];
-}
-
 export default async (req: AuthRequest, res: Response) => {
   const user: User = req.user;
   const idx: number = Number(req.params.idx);
@@ -43,6 +25,10 @@ export default async (req: AuthRequest, res: Response) => {
   }
 
   try {
+    interface PostCountType extends Post {
+      comment_count?: number;
+    }
+
     const postRepo = getRepository(Post);
     const post: PostCountType = await postRepo.findOne({
       where: {
@@ -100,83 +86,26 @@ export default async (req: AuthRequest, res: Response) => {
       }
     }
 
+    let total_count = 0;
+
     const commentRepo = getRepository(Comment);
-    const [comments, comment_count]: [CommentListType[], number] = await commentRepo.findAndCount({
+    const [comments, comment_count] = await commentRepo.findAndCount({
       where: {
-        post
+        post: post
       }
     });
 
-    let total_count = comment_count;
-
+    total_count += comment_count;
     for (let i in comments) {
-      const userRepo = getRepository(User);
-      const commentUser: User = await userRepo.findOne({
-        idx: comments[i].fk_user_idx
-      });
-
-      comments[i].fk_user_name = commentUser.is_deleted ? "삭제된 유저입니다." : commentUser.name;
-      comments[i].fk_user_is_deleted = commentUser.is_deleted;
-      comments[i].fk_user_is_admin = commentUser.is_admin;
-
-      if (comments[i].is_private) {
-        if (user) {
-          if (user.idx !== comments[i].fk_user_idx && !user.is_admin) {
-            comments[i].content = "비밀 댓글입니다.";
-            delete comments[i].fk_user_idx;
-            delete comments[i].fk_user_name;
-            delete comments[i].user;
-            delete comments[i].fk_user_is_admin;
-          }
-        } else {
-          comments[i].content = "비밀 댓글입니다.";
-          delete comments[i].fk_user_idx;
-          delete comments[i].fk_user_name;
-          delete comments[i].user;
-          delete comments[i].fk_user_is_admin;
-        }
-      }
-
       const replyRepo = getRepository(Reply);
-      const [replies, reply_count]: [ReplyListType[], number] = await replyRepo.findAndCount({
+      const reply_count = await replyRepo.count({
         where: {
           comment: comments[i]
         }
       });
-
-      comments[i].replies = replies;
       total_count += reply_count;
-
-      for (let i in replies) {
-        const replyUser: User = await userRepo.findOne({
-          idx: replies[i].fk_user_idx
-        });
-
-        replies[i].fk_user_is_admin = replyUser.is_admin;
-        replies[i].fk_user_name = replyUser.is_deleted ? "삭제된 유저입니다." : replyUser.name;
-        replies[i].fk_user_is_deleted = replyUser.is_deleted;
-
-        if (replies[i].is_private) {
-          if (user) {
-            if (user.idx !== replies[i].fk_user_idx && !user.is_admin) {
-              replies[i].content = "비밀 댓글입니다.";
-              delete replies[i].user;
-              delete replies[i].fk_user_idx;
-              delete replies[i].fk_user_name;
-              delete replies[i].fk_user_is_admin;
-            }
-          } else {
-            replies[i].content = "비밀 댓글입니다.";
-            delete replies[i].user;
-            delete replies[i].fk_user_idx;
-            delete replies[i].fk_user_name;
-            delete replies[i].fk_user_is_admin;
-          }
-        }
-      }
     }
 
-    post.comments = comments;
     post.comment_count = total_count;
 
     if (post.thumbnail) {

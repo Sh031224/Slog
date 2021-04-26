@@ -1,14 +1,15 @@
-import usePostInfo from "hooks/usePostInfo";
+import usePostInfo from "hooks/post/usePostInfo";
 import React from "react";
 import styled from "styled-components";
 import Markdown from "../common/markdown/Markdown";
+import PostComment from "./comment/PostComment";
 import PostHeader from "./content/PostHeader";
 import PostLoading from "./content/PostLoading";
 import PostHit from "./hit/PostHit";
 
 const Post: React.FC = () => {
   const { data, loading } = usePostInfo();
-  const { post, hitPosts } = data;
+  const { post } = data;
 
   return (
     <PostWrapper>
@@ -17,17 +18,12 @@ const Post: React.FC = () => {
           <PostLoading />
         ) : (
           <>
-            <PostHeader
-              idx={post.idx}
-              title={post.title}
-              thumbnail={post.thumbnail}
-              createdAt={post.created_at}
-              updatedAt={post.updated_at}
-            />
+            <PostHeader />
             <PostContentContainer>
               <Markdown content={post.content} />
             </PostContentContainer>
-            <PostHit hitPosts={hitPosts} />
+            <PostHit />
+            <PostComment />
           </>
         )}
       </PostContainer>
@@ -48,7 +44,7 @@ const PostContainer = styled.div`
   padding: 0 1rem;
 `;
 
-const PostContentContainer = styled.div`
+const PostContentContainer = styled.section`
   margin: 3rem 0;
 `;
 

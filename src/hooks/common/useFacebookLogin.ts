@@ -42,7 +42,7 @@ const useFacebookLogin = () => {
 
   useEffect(() => {
     if (error) {
-      if (!error.message.includes("401")) {
+      if (!(typeof error.message === "string" && error.message.includes("401"))) {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       }
     }

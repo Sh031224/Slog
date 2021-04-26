@@ -1,4 +1,4 @@
-import useMainPosts from "hooks/useMainPosts";
+import useMainPosts from "hooks/main/useMainPosts";
 import React, { memo } from "react";
 import styled from "styled-components";
 import PostItem from "./PostItem";

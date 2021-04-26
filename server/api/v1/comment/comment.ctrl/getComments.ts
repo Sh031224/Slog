@@ -35,7 +35,14 @@ export default async (req: AuthRequest, res: Response) => {
       }
     };
 
+    interface replyListType extends Reply {
+      fk_user_name?: string;
+      fk_user_is_deleted?: boolean;
+      fk_user_is_admin?: boolean;
+    }
+
     interface commentListType extends Comment {
+      replies?: replyListType[];
       reply_count?: number;
       fk_user_name?: string;
       fk_user_is_deleted?: boolean;
@@ -51,9 +58,7 @@ export default async (req: AuthRequest, res: Response) => {
         idx: comments[i].fk_user_idx
       });
 
-      comments[i].fk_user_name = commentUser.is_deleted
-        ? "삭제된 유저입니다."
-        : commentUser.name;
+      comments[i].fk_user_name = commentUser.is_deleted ? "삭제된 유저입니다." : commentUser.name;
       comments[i].fk_user_is_deleted = commentUser.is_deleted;
       comments[i].fk_user_is_admin = commentUser.is_admin;
 
@@ -74,14 +79,44 @@ export default async (req: AuthRequest, res: Response) => {
           delete comments[i].fk_user_is_admin;
         }
       }
+
       const replyRepo = getRepository(Reply);
-      const reply_count: number = await replyRepo.count({
+      const [replies, reply_count]: [replyListType[], number] = await replyRepo.findAndCount({
         where: {
           comment: comments[i]
         }
       });
 
+      comments[i].replies = replies;
       comments[i].reply_count = reply_count;
+
+      for (let i in replies) {
+        const replyUser: User = await userRepo.findOne({
+          idx: replies[i].fk_user_idx
+        });
+
+        replies[i].fk_user_is_admin = replyUser.is_admin;
+        replies[i].fk_user_name = replyUser.is_deleted ? "삭제된 유저입니다." : replyUser.name;
+        replies[i].fk_user_is_deleted = replyUser.is_deleted;
+
+        if (replies[i].is_private) {
+          if (user) {
+            if (user.idx !== replies[i].fk_user_idx && !user.is_admin) {
+              replies[i].content = "비밀 댓글입니다.";
+              delete replies[i].user;
+              delete replies[i].fk_user_idx;
+              delete replies[i].fk_user_name;
+              delete replies[i].fk_user_is_admin;
+            }
+          } else {
+            replies[i].content = "비밀 댓글입니다.";
+            delete replies[i].user;
+            delete replies[i].fk_user_idx;
+            delete replies[i].fk_user_name;
+            delete replies[i].fk_user_is_admin;
+          }
+        }
+      }
     }
 
     logger.green("[GET] 댓글 목록 조회 성공.");

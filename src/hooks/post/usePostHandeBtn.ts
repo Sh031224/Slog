@@ -5,11 +5,11 @@ import { confirmAlert } from "react-confirm-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "stores/modules";
 import { deletePostThunk } from "stores/modules/post";
-import { NotificationManager } from "react-notifications";
 
-const usePostHandleBtn = (idx: number, title: string) => {
+const usePostHandleBtn = () => {
   const dispatch = useDispatch();
   const { is_admin } = useSelector((state: RootState) => state.user.data.user);
+  const { post } = useSelector((state: RootState) => state.post.data);
 
   const router = useRouter();
 
@@ -25,8 +25,8 @@ const usePostHandleBtn = (idx: number, title: string) => {
   }, []);
 
   const onClickEdit = useCallback(() => {
-    router.push(`/handle/${idx}`);
-  }, [router]);
+    router.push(`/handle/${post.idx}`);
+  }, [router, post]);
 
   const onClickDelete = useCallback(() => {
     confirmAlert({
@@ -36,7 +36,7 @@ const usePostHandleBtn = (idx: number, title: string) => {
         {
           label: "Yes",
           onClick: () => {
-            dispatch(deletePostThunk(idx));
+            dispatch(deletePostThunk(post.idx));
             setIsDeleted(true);
           }
         },
@@ -46,15 +46,23 @@ const usePostHandleBtn = (idx: number, title: string) => {
         }
       ]
     });
-  }, [idx]);
+  }, [post]);
 
   useEffect(() => {
-    if (!title && isDeleted) {
+    if (!post.title && isDeleted) {
       router.push("/");
     }
-  }, [title, isDeleted]);
+  }, [post, isDeleted]);
 
-  return { is_admin, isOpenHandle, onClickHandleBtn, onClose, onClickEdit, onClickDelete };
+  return {
+    post,
+    is_admin,
+    isOpenHandle,
+    onClickHandleBtn,
+    onClose,
+    onClickEdit,
+    onClickDelete
+  };
 };
 
 export default usePostHandleBtn;

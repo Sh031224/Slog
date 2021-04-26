@@ -5,6 +5,18 @@ export interface IPostParmsDTO {
   category?: number;
 }
 
+export interface ICommentParamsDTO {
+  post_idx: number;
+  content: string;
+  is_private: boolean;
+}
+
+export interface IReplyParamsDTO {
+  comment_idx: number;
+  content: string;
+  is_private: boolean;
+}
+
 export interface IPost {
   idx: number;
   title: string;
@@ -31,7 +43,6 @@ export interface IPostInfo {
   created_at: Date;
   updated_at: Date;
   comment_count: number;
-  comments: IComment[];
 }
 
 export interface IComment {
@@ -48,6 +59,7 @@ export interface IComment {
 }
 
 export interface IReply {
+  idx: number;
   content: string;
   is_private: boolean;
   fk_user_idx?: number;

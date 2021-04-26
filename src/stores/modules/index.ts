@@ -4,12 +4,14 @@ import common from "./common/reducer";
 import user from "./user/reducer";
 import server from "./server/reducer";
 import post from "./post/reducer";
+import comment from "./comment/reducer";
 import { ICategoryState } from "./category";
 import { ICommonState } from "./common";
 import { IUserState } from "./user";
 import { HYDRATE } from "next-redux-wrapper";
 import { IServerState } from "./server";
 import { IPostState } from "./post";
+import { ICommentState } from "./comment";
 
 const rootReducer = (state: State | undefined, action: AnyAction): CombinedState<State> => {
   switch (action.type) {
@@ -24,7 +26,8 @@ const rootReducer = (state: State | undefined, action: AnyAction): CombinedState
         category,
         common,
         user,
-        post
+        post,
+        comment
       });
       return combineReducer(state, action);
     }
@@ -40,4 +43,5 @@ interface State {
   common: ICommonState;
   user: IUserState;
   post: IPostState;
+  comment: ICommentState;
 }

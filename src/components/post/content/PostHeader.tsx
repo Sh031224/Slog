@@ -3,27 +3,18 @@ import React, { memo } from "react";
 import styled from "styled-components";
 import TimeCounting from "time-counting";
 import { FiDelete, FiEdit3, FiMoreHorizontal } from "react-icons/fi";
-import usePostHandleBtn from "hooks/usePostHandeBtn";
+import usePostHandleBtn from "hooks/post/usePostHandeBtn";
 
-interface IPostHeaderProps {
-  idx: number;
-  title: string;
-  thumbnail: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const PostHeader: React.FC<IPostHeaderProps> = ({
-  idx,
-  title,
-  thumbnail,
-  createdAt,
-  updatedAt
-}) => {
-  const { is_admin, isOpenHandle, onClickHandleBtn, onClose, onClickDelete } = usePostHandleBtn(
-    idx,
-    title
-  );
+const PostHeader: React.FC = () => {
+  const {
+    post,
+    is_admin,
+    isOpenHandle,
+    onClickHandleBtn,
+    onClose,
+    onClickDelete,
+    onClickEdit
+  } = usePostHandleBtn();
 
   return (
     <PostHeaderWrapper>
@@ -34,7 +25,7 @@ const PostHeader: React.FC<IPostHeaderProps> = ({
             {isOpenHandle && (
               <>
                 <PostHandleContainer>
-                  <div>
+                  <div onClick={onClickEdit}>
                     글 수정하기
                     <FiEdit3 />
                   </div>
@@ -47,10 +38,12 @@ const PostHeader: React.FC<IPostHeaderProps> = ({
             )}
           </PostHandle>
         )}
-        <PostHeaderTitle onClick={onClose}>{title}</PostHeaderTitle>
+        <PostHeaderTitle onClick={onClose}>{post.title}</PostHeaderTitle>
         <PostHeaderTime onClick={onClose}>
-          <span title={timeCalc.getTime(createdAt)}>{TimeCounting(createdAt, { lang: "ko" })}</span>
-          {timeCalc.checkModify(createdAt, updatedAt) && (
+          <span title={timeCalc.getTime(post.created_at)}>
+            {TimeCounting(post.created_at, { lang: "ko" })}
+          </span>
+          {timeCalc.checkModify(post.created_at, post.updated_at) && (
             <>
               <span>·</span>
               <span>수정됨</span>
@@ -58,7 +51,9 @@ const PostHeader: React.FC<IPostHeaderProps> = ({
           )}
         </PostHeaderTime>
       </PostHeaderContainer>
-      {thumbnail && <PostHeaderThumbnail onClick={onClose} src={thumbnail} alt={title} />}
+      {post.thumbnail && (
+        <PostHeaderThumbnail onClick={onClose} src={post.thumbnail} alt={post.title} />
+      )}
     </PostHeaderWrapper>
   );
 };

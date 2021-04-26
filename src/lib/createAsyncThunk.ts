@@ -11,7 +11,7 @@ export default function createAsyncThunk<
   return function thunk(...params: Params) {
     return async (dispatch: Dispatch) => {
       const { request, success, failure } = asyncActionCreator;
-      dispatch(request(undefined));
+      dispatch(request());
 
       try {
         const result = await promiseCreator(...params);

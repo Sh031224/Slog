@@ -1,6 +1,7 @@
 import Api from "./customAxios";
 import {
   GetCategoriesResponse,
+  GetCommentsResponse,
   GetPostInfoResponse,
   GetPostsResponse,
   GetProfileResponse,
@@ -9,7 +10,7 @@ import {
   ResponseType
 } from "interface/IResponse";
 import { AxiosResponse, CancelToken } from "axios";
-import { IPostParmsDTO } from "interface/IPost";
+import { ICommentParamsDTO, IPostParmsDTO, IReplyParamsDTO } from "interface/IPost";
 import queryString from "query-string";
 import { setToken } from "./token";
 
@@ -103,6 +104,41 @@ export const post = {
   },
   deletePost: async (idx: number) => {
     const { data }: AxiosResponse<ResponseType> = await Api.delete(`/api/v1/post/${idx}`, {});
+
+    return data;
+  }
+};
+
+export const comment = {
+  getComments: async (post: number, cancelToken?: CancelToken) => {
+    const { data }: AxiosResponse<GetCommentsResponse> = await Api.get(
+      queryString.stringifyUrl({ url: "/api/v1/comment/", query: { post } }),
+      { cancelToken }
+    );
+
+    return data.data.comments;
+  },
+  createComment: async (params: ICommentParamsDTO, cancelToken?: CancelToken) => {
+    const { data }: AxiosResponse<ResponseType> = await Api.post("/api/v1/comment", params, {
+      cancelToken
+    });
+
+    return data;
+  },
+  createReply: async (params: IReplyParamsDTO, cancelToken?: CancelToken) => {
+    const { data }: AxiosResponse<ResponseType> = await Api.post("/api/v1/reply", params, {
+      cancelToken
+    });
+
+    return data;
+  },
+  deleteComment: async (commentIdx: number) => {
+    const { data }: AxiosResponse<ResponseType> = await Api.delete(`/api/v1/comment/${commentIdx}`);
+
+    return data;
+  },
+  deleteReply: async (replyIdx: number) => {
+    const { data }: AxiosResponse<ResponseType> = await Api.delete(`/api/v1/reply/${replyIdx}`);
 
     return data;
   }

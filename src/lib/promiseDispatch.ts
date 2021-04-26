@@ -6,6 +6,7 @@ import { getCategoriesThunk } from "stores/modules/category";
 import { IPostParmsDTO } from "interface/IPost";
 import { getToken } from "./token";
 import { getHitPostsThunk, getPostInfoThunk } from "stores/modules/post";
+import { getCommentsThunk } from "stores/modules/comment";
 
 export const getPostsPromise = async (ctx: any) => {
   const { store } = ctx;
@@ -73,4 +74,11 @@ export const getHitPostsPromise = async (ctx: any) => {
   if (!hitPosts.length) {
     await dispatch(getHitPostsThunk());
   }
+};
+
+export const getCommentsPromise = async (ctx: any) => {
+  const { store } = ctx;
+  const { dispatch } = store;
+
+  await dispatch(getCommentsThunk(ctx.query.idx || 0));
 };

@@ -1,6 +1,6 @@
 import MainTemplate from "components/common/template/MainTemplate";
 import Post from "components/post/Post";
-import { getHitPostsPromise, getPostInfoPromise } from "lib/promiseDispatch";
+import { getCommentsPromise, getHitPostsPromise, getPostInfoPromise } from "lib/promiseDispatch";
 import moment from "moment";
 import { NextComponentType } from "next";
 import { AppProps } from "next/app";
@@ -71,7 +71,7 @@ PostPage.getInitialProps = async (ctx) => {
   const isServer = typeof window === "undefined";
 
   if (isServer) {
-    await Promise.all([getPostInfoPromise(ctx), getHitPostsPromise(ctx)]);
+    await Promise.all([getPostInfoPromise(ctx), getHitPostsPromise(ctx), getCommentsPromise(ctx)]);
   }
 };
 

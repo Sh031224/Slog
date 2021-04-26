@@ -2,7 +2,7 @@ import { ICategory } from "interface/ICategory";
 import React, { memo } from "react";
 import styled from "styled-components";
 import { RiArrowDropUpLine, RiArrowDropDownLine, RiDeleteBin6Line } from "react-icons/ri";
-import useAdminCategory from "hooks/useAdminCategory";
+import useAdminCategory from "hooks/main/useAdminCategory";
 
 interface IAdminCategoryItemProps {
   item: ICategory;

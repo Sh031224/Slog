@@ -2,11 +2,11 @@ import React from "react";
 import HeadRoom from "react-headroom";
 import styled from "styled-components";
 import logo from "assets/images/logo.png";
-import useHeader from "hooks/useHeader";
+import useHeader from "hooks/common/useHeader";
 import ScrollToTop from "react-scroll-to-top";
 import { GrLinkTop } from "react-icons/gr";
 import { ReactCompnent as SearchImg } from "../../assets/images/search.svg";
-import useFacebookLogin from "hooks/useFacebookLogin";
+import useFacebookLogin from "hooks/common/useFacebookLogin";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import Link from "next/link";
 
@@ -45,7 +45,9 @@ const Header: React.FC = () => {
                     onKeyPress={onKeypressSearch}
                     placeholder={"검색어를 입력해주세요."}
                   />
-                  <SearchImg onClick={onSubmitSearch} />
+                  <HeaderSearchBtn onClick={onSubmitSearch}>
+                    <SearchImg />
+                  </HeaderSearchBtn>
                 </HeaderSearch>
                 {login ? (
                   <HeaderLink onClick={tryLogout}>로그아웃</HeaderLink>
@@ -115,7 +117,10 @@ const HeaderUtils = styled.div`
   justify-content: center;
 `;
 
-const HeaderLink = styled.span`
+const HeaderLink = styled.button`
+  padding: 0;
+  border: none;
+  background-color: transparent;
   color: ${({ theme }) => theme.colors.ftGray};
   font-weight: 600;
   font-size: 0.95rem;
@@ -146,7 +151,14 @@ const HeaderSearch = styled.div<{ isToogle: boolean }>`
     height: 1.5rem;
     border-radius: 1.5rem;
   }
+`;
 
+const HeaderSearchBtn = styled.button`
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  border: none;
+  align-items: center;
   & > svg {
     width: 0.8rem;
     height: 0.8rem;

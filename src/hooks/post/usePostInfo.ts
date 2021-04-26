@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "stores/modules";
-import { getHitPostsThunk, getPostInfoThunk } from "stores/modules/post";
+import { clearPostError, getHitPostsThunk, getPostInfoThunk } from "stores/modules/post";
 import { NotificationManager } from "react-notifications";
 
 const usePostInfo = () => {
@@ -44,6 +44,7 @@ const usePostInfo = () => {
           router.push("/");
           NotificationManager.error("오류가 발생하였습니다.", "Error");
         }
+        dispatch(clearPostError());
       }
     }
   }, [error]);

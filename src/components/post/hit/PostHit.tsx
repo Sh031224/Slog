@@ -1,13 +1,12 @@
-import { IPost } from "interface/IPost";
 import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "stores/modules";
 import styled from "styled-components";
 import PostHitItem from "./PostHitItem";
 
-interface IPostHitProps {
-  hitPosts: IPost[];
-}
+const PostHit: React.FC = () => {
+  const { hitPosts } = useSelector((state: RootState) => state.post.data);
 
-const PostHit: React.FC<IPostHitProps> = ({ hitPosts }) => {
   return (
     <PostHitWrapper>
       <PostHitContainer>

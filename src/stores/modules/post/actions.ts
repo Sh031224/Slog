@@ -3,7 +3,7 @@ import { IPost, IPostInfo } from "interface/IPost";
 import { ResponseType } from "interface/IResponse";
 import { createAction, createAsyncAction } from "typesafe-actions";
 
-export const CLEAR_ERROR = "post/CLEARERROR";
+export const CLEAR_ERROR = "post/CLEARERROR" as const;
 
 export const GET_POST_INFO = "post/GET_POST_INFO" as const;
 export const GET_POST_INFO_SUCCESS = "post/GET_POST_INFO_SUCCESS" as const;

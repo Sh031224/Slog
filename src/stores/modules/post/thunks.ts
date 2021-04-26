@@ -5,7 +5,7 @@ import { RootState } from "..";
 import { getPostInfosAsync } from ".";
 import { PostAction } from "./types";
 import createAsyncThunk from "lib/createAsyncThunk";
-import { clearPostError, deletePostAsync, getHitPostsAsync } from "./actions";
+import { deletePostAsync, getHitPostsAsync } from "./actions";
 
 let source: CancelTokenSource;
 
@@ -29,7 +29,6 @@ export const getPostInfoThunk = (
     } catch (e) {
       if (!axios.isCancel(e)) {
         dispatch(failure(e));
-        dispatch(clearPostError());
       }
     }
   };

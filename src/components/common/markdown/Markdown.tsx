@@ -2,7 +2,7 @@ import React from "react";
 import MarkdownJSX from "markdown-to-jsx";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import styled from "styled-components";
-import dracula from "react-syntax-highlighter/dist/cjs/styles/hljs/dracula";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 interface IMarkdownProps {
   content: string;
@@ -21,7 +21,7 @@ const Markdown: React.FC<IMarkdownProps> = ({ content }) => {
             h5: CustomMarkdownH5,
             h6: CustomMarkdownH6,
             a: CustomMarkdownA,
-            code: CustomCode
+            code: CustomMarkdownCode
           },
           forceBlock: true
         }}
@@ -212,7 +212,7 @@ const CustomMarkdownA = ({ children, ...props }: { children: string }) => {
   );
 };
 
-const CustomCode = ({ children, ...props }) => {
+const CustomMarkdownCode = ({ children, ...props }) => {
   const match = /lang-(\w+)/.exec(props.className || "");
   return match ? (
     <SyntaxHighlighter language={match[1]} PreTag="div" style={dracula} {...props}>
