@@ -12,6 +12,7 @@ const colors = {
   bgTableWhite: "#f6f8fa",
   bgCode: "#1b1f231f",
 
+  ftGreen: "green",
   ftMarkdownBlack: "#222426",
   ftGray: "#777",
   ftLightGray: "#bdbdbd",

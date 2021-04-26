@@ -14,6 +14,7 @@ declare module "styled-components" {
       bgCode: string;
       bgTableWhite: string;
 
+      ftGreen: string;
       ftMarkdownBlack: string;
       ftGray: string;
       ftLightGray: string;
