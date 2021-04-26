@@ -5,7 +5,7 @@ import { RootState } from "..";
 import { getPostInfosAsync } from ".";
 import { PostAction } from "./types";
 import createAsyncThunk from "lib/createAsyncThunk";
-import { deletePostAsync, getHitPostsAsync } from "./actions";
+import { deletePostAsync, getCommentsCountAsync, getHitPostsAsync } from "./actions";
 
 let source: CancelTokenSource;
 
@@ -36,3 +36,4 @@ export const getPostInfoThunk = (
 
 export const deletePostThunk = createAsyncThunk(deletePostAsync, post.deletePost);
 export const getHitPostsThunk = createAsyncThunk(getHitPostsAsync, post.getHitPosts);
+export const getCommentsCountThunk = createAsyncThunk(getCommentsCountAsync, post.getCommentsCount);

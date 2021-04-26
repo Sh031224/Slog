@@ -12,8 +12,11 @@ const useCreateComment = (comment?: IComment, onClose?: () => void) => {
   const dispatch = useDispatch();
 
   const {
-    post: { idx }
-  } = useSelector((state: RootState) => state.post.data);
+    error: postError,
+    data: {
+      post: { idx }
+    }
+  } = useSelector((state: RootState) => state.post);
   const { error } = useSelector((state: RootState) => state.comment);
 
   const [value, setValue] = useState<string>("");
@@ -73,22 +76,24 @@ const useCreateComment = (comment?: IComment, onClose?: () => void) => {
 
   useEffect(() => {
     if (error) {
-      if (error.message && typeof error.message === "string") {
-        if (error.message.includes("404")) {
-          NotificationManager.error("해당 댓글/게시글이 없습니다.", "Error");
-        } else if (error.message.includes("401")) {
-          removeToken();
-          dispatch(logout());
-          NotificationManager.warning("로그인 후 작성가능합니다.", "Warning");
-        } else if (error.message.includes("403")) {
-          NotificationManager.warning("권한이 없습니다.", "Warning");
-        } else {
-          NotificationManager.error("오류가 발생하였습니다.", "Error");
+      if (!postError) {
+        if (error.message && typeof error.message === "string") {
+          if (error.message.includes("404")) {
+            NotificationManager.error("해당 댓글/게시글이 없습니다.", "Error");
+          } else if (error.message.includes("401")) {
+            removeToken();
+            dispatch(logout());
+            NotificationManager.warning("로그인 후 작성가능합니다.", "Warning");
+          } else if (error.message.includes("403")) {
+            NotificationManager.warning("권한이 없습니다.", "Warning");
+          } else {
+            NotificationManager.error("오류가 발생하였습니다.", "Error");
+          }
+          dispatch(clearCommentError());
         }
-        dispatch(clearCommentError());
       }
     }
-  }, [error, router]);
+  }, [error, router, postError]);
 
   return { value, onChangeValue, isPrivate, onClickPrivate, onKeyPressValue, onSubmit };
 };

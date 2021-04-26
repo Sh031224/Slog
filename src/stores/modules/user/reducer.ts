@@ -1,5 +1,8 @@
 import { createReducer } from "typesafe-actions";
 import {
+  CREATE_FCM_TOKEN,
+  CREATE_FCM_TOKEN_FAILURE,
+  CREATE_FCM_TOKEN_SUCCESS,
   GET_USERINFO,
   GET_USERINFO_FAILURE,
   GET_USERINFO_SUCCESS,
@@ -27,7 +30,7 @@ export const userInitialState: IUserState = {
 export default createReducer<IUserState, UserAction>(userInitialState, {
   [GET_USERINFO]: (state, action) => ({
     ...state,
-    loading: false,
+    loading: true,
     error: null
   }),
   [GET_USERINFO_SUCCESS]: (state, action) => ({
@@ -98,5 +101,16 @@ export default createReducer<IUserState, UserAction>(userInitialState, {
       ...state.data,
       login: false
     }
+  }),
+  [CREATE_FCM_TOKEN]: (state, action) => ({
+    ...state,
+    error: null
+  }),
+  [CREATE_FCM_TOKEN_SUCCESS]: (state, action) => ({
+    ...state,
+    error: null
+  }),
+  [CREATE_FCM_TOKEN_FAILURE]: (state, action) => ({
+    ...state
   })
 });

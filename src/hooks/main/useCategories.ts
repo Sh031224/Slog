@@ -7,7 +7,10 @@ import { createCategoryThunk, getCategoriesThunk } from "stores/modules/category
 
 const useCategories = () => {
   const dispatch = useDispatch();
-  const { total, categories } = useSelector((state: RootState) => state.category.data);
+  const {
+    data: { total, categories },
+    error
+  } = useSelector((state: RootState) => state.category);
 
   const router = useRouter();
   const { query, pathname } = router;
@@ -48,10 +51,10 @@ const useCategories = () => {
   }, []);
 
   const getCategoriesCallback = useCallback(() => {
-    if (!total && !categories.length) {
+    if (!total && !categories.length && !error) {
       dispatch(getCategoriesThunk());
     }
-  }, []);
+  }, [error]);
 
   useEffect(() => {
     getCategoriesCallback();

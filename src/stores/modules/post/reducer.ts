@@ -5,6 +5,9 @@ import {
   DELETE_POST,
   DELETE_POST_FAILURE,
   DELETE_POST_SUCCESS,
+  GET_COMMENTS_COUNT,
+  GET_COMMENTS_COUNT_FAILURE,
+  GET_COMMENTS_COUNT_SUCCESS,
   GET_HIT_POSTS,
   GET_HIT_POSTS_FAILURE,
   GET_HIT_POSTS_SUCCESS,
@@ -95,6 +98,25 @@ export default createReducer<IPostState, PostAction>(postInitialState, {
     }
   }),
   [DELETE_POST_FAILURE]: (state, action) => ({
+    ...state,
+    error: action.payload
+  }),
+  [GET_COMMENTS_COUNT]: (state, action) => ({
+    ...state,
+    error: null
+  }),
+  [GET_COMMENTS_COUNT_SUCCESS]: (state, action) => ({
+    ...state,
+    error: null,
+    data: {
+      ...state.data,
+      post: {
+        ...state.data.post,
+        comment_count: action.payload
+      }
+    }
+  }),
+  [GET_COMMENTS_COUNT_FAILURE]: (state, action) => ({
     ...state,
     error: action.payload
   })

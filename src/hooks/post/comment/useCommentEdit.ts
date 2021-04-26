@@ -36,11 +36,17 @@ const useCommentEdit = (comment: IComment) => {
     setValue(e.target.value);
   }, []);
 
+  const init = useCallback(() => {
+    setValue("");
+    setIsEdit(false);
+    // setIsCreate(false);
+  }, []);
+
   const onSave = useCallback(() => {
     if (value.replace(/\s/gi, "") !== "") {
-      dispatch(modifyCommentThunk(comment.idx, value, idx));
+      dispatch(modifyCommentThunk(comment.idx, value, idx, init));
     }
-  }, [comment, idx, value]);
+  }, [comment, idx, value, init]);
 
   const onKeyDownValue = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {

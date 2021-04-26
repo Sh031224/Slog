@@ -1,6 +1,7 @@
 import Api from "./customAxios";
 import {
   GetCategoriesResponse,
+  GetCommentsCountResponse,
   GetCommentsResponse,
   GetPostInfoResponse,
   GetPostsResponse,
@@ -106,6 +107,13 @@ export const post = {
     const { data }: AxiosResponse<ResponseType> = await Api.delete(`/api/v1/post/${idx}`, {});
 
     return data;
+  },
+  getCommentsCount: async (postIdx: number) => {
+    const { data }: AxiosResponse<GetCommentsCountResponse> = await Api.get(
+      `/api/v1/post/comment/${postIdx}`
+    );
+
+    return data.data.total_count;
   }
 };
 
@@ -162,7 +170,7 @@ export const user = {
   getUserInfo: async () => {
     const { data }: AxiosResponse<GetProfileResponse> = await Api.get(`/api/v1/profile/my`);
 
-    return data.data.user;
+    return data.data;
   },
   tryLogin: async (accessToken: string) => {
     const { data }: AxiosResponse<LoginResponse> = await Api.post("/api/v1/auth/login", {
@@ -172,5 +180,12 @@ export const user = {
     setToken(data.data.access_token);
 
     return data.data;
+  },
+  createFcmToken: async (token: string) => {
+    const { data }: AxiosResponse<ResponseType> = await Api.post("/api/v1/auth/fcm", {
+      token
+    });
+
+    return data;
   }
 };

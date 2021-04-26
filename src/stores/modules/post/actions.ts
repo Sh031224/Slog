@@ -5,6 +5,10 @@ import { createAction, createAsyncAction } from "typesafe-actions";
 
 export const CLEAR_ERROR = "post/CLEARERROR" as const;
 
+export const GET_COMMENTS_COUNT = "comment/GET_COMMENTS_COUNT" as const;
+export const GET_COMMENTS_COUNT_SUCCESS = "comment/GET_COMMENTS_COUNT_SUCCESS" as const;
+export const GET_COMMENTS_COUNT_FAILURE = "comment/GET_COMMENTS_COUNT_FAILURE" as const;
+
 export const GET_POST_INFO = "post/GET_POST_INFO" as const;
 export const GET_POST_INFO_SUCCESS = "post/GET_POST_INFO_SUCCESS" as const;
 export const GET_POST_INFO_FAILURE = "post/GET_POST_INFO_FAILURE" as const;
@@ -36,3 +40,9 @@ export const getHitPostsAsync = createAsyncAction(
   GET_HIT_POSTS_SUCCESS,
   GET_HIT_POSTS_FAILURE
 )<void, IPost[], AxiosError<ResponseType>>();
+
+export const getCommentsCountAsync = createAsyncAction(
+  GET_COMMENTS_COUNT,
+  GET_COMMENTS_COUNT_SUCCESS,
+  GET_COMMENTS_COUNT_FAILURE
+)<void, number, AxiosError<ResponseType>>();

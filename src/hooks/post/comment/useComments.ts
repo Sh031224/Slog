@@ -15,11 +15,11 @@ const useComments = () => {
 
   const getComments = useCallback(() => {
     if (Number(idx)) {
-      if (post.idx !== Number(idx)) dispatch(getCommentsThunk(Number(idx)));
+      if (post.idx !== Number(idx) && !error) dispatch(getCommentsThunk(Number(idx)));
     } else {
       router.push("/");
     }
-  }, [idx, post]);
+  }, [idx, post, error]);
 
   useEffect(() => {
     getComments();

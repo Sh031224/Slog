@@ -24,6 +24,12 @@ export interface GetCategoriesResponse extends ResponseType {
   };
 }
 
+export interface GetCommentsCountResponse extends ResponseType {
+  data: {
+    total_count: number;
+  };
+}
+
 export interface GetCommentsResponse extends ResponseType {
   data: {
     comments: IComment[];

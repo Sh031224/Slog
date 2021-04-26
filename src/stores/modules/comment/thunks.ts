@@ -5,6 +5,7 @@ import { RootState } from "..";
 import { getCommentsAsync, CommentAction } from ".";
 import { ICommentParamsDTO, IReplyParamsDTO } from "interface/IPost";
 import { createCommentAsync, createReplyAsync, deleteCommentAsync } from "./actions";
+import { getCommentsCountThunk } from "../post";
 
 let source: CancelTokenSource;
 
@@ -62,6 +63,7 @@ export const createCommentThunk = (
       dispatch(success());
       init();
       dispatch(getCommentsThunk(params.post_idx));
+      dispatch(getCommentsCountThunk(params.post_idx));
     } catch (e) {
       if (!axios.isCancel(e)) {
         dispatch(failure(e));
@@ -92,6 +94,7 @@ export const createReplyThunk = (
       dispatch(success());
       init();
       dispatch(getCommentsThunk(postIdx));
+      dispatch(getCommentsCountThunk(postIdx));
     } catch (e) {
       if (!axios.isCancel(e)) {
         dispatch(failure(e));
@@ -103,7 +106,8 @@ export const createReplyThunk = (
 export const modifyCommentThunk = (
   commentIdx: number,
   content: string,
-  postIdx: number
+  postIdx: number,
+  init: () => void
 ): ThunkAction<void, RootState, void, CommentAction> => {
   return async (dispatch) => {
     const { request, success, failure } = deleteCommentAsync;
@@ -114,6 +118,7 @@ export const modifyCommentThunk = (
 
       dispatch(success());
       dispatch(getCommentsThunk(postIdx));
+      init();
     } catch (e) {
       dispatch(failure(e));
     }
@@ -135,6 +140,7 @@ export const modifyReplyThunk = (
 
       dispatch(success());
       dispatch(getCommentsThunk(postIdx));
+      init();
     } catch (e) {
       dispatch(failure(e));
     }
