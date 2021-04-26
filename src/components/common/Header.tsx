@@ -5,7 +5,7 @@ import logo from "assets/images/logo.png";
 import useHeader from "hooks/common/useHeader";
 import ScrollToTop from "react-scroll-to-top";
 import { GrLinkTop } from "react-icons/gr";
-import { ReactCompnent as SearchImg } from "../../assets/images/search.svg";
+import { ReactComponent as SearchImg } from "../../assets/images/search.svg";
 import useFacebookLogin from "hooks/common/useFacebookLogin";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import Link from "next/link";
