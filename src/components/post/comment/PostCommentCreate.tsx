@@ -4,13 +4,14 @@ import styled from "styled-components";
 import { FaTelegramPlane } from "react-icons/fa";
 import { IoIosLock, IoIosUnlock } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
+import { IComment } from "interface/IPost";
 
 interface IPostCommentCreateProps {
-  commentIdx?: number;
+  comment?: IComment;
   onClose?: () => void;
 }
 
-const PostCommentCreate: React.FC<IPostCommentCreateProps> = ({ commentIdx, onClose }) => {
+const PostCommentCreate: React.FC<IPostCommentCreateProps> = ({ comment, onClose }) => {
   const {
     value,
     isPrivate,
@@ -18,10 +19,10 @@ const PostCommentCreate: React.FC<IPostCommentCreateProps> = ({ commentIdx, onCl
     onClickPrivate,
     onKeyPressValue,
     onSubmit
-  } = useCreateComment(commentIdx, onClose);
+  } = useCreateComment(comment, onClose);
 
   return (
-    <PostCommentCreateWrapper isReply={commentIdx !== undefined}>
+    <PostCommentCreateWrapper isReply={comment !== undefined}>
       <PostCommentCreateInput
         type="text"
         value={value}
@@ -29,10 +30,10 @@ const PostCommentCreate: React.FC<IPostCommentCreateProps> = ({ commentIdx, onCl
         onChange={onChangeValue}
         onKeyDown={onKeyPressValue}
         maxLength={255}
-        autoFocus={commentIdx !== undefined}
+        autoFocus={comment !== undefined}
       />
 
-      {commentIdx && (
+      {comment && (
         <PostCommentSubmitBtn right={"5rem"} isActive={true} fontSize={"1.1rem"} onClick={onClose}>
           <MdCancel />
         </PostCommentSubmitBtn>

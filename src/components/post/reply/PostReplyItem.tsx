@@ -5,6 +5,9 @@ import profileImg from "assets/images/profile.png";
 import {
   PostCommentAdminMark,
   PostCommentContent,
+  PostCommentEditContent,
+  PostCommentEditInput,
+  PostCommentEditWrapper,
   PostCommentItemContent,
   PostCommentItemProfile,
   PostCommentItemTime,
@@ -19,6 +22,9 @@ import timeCalc from "lib/timeCalc";
 import useReplyEdit from "hooks/post/comment/useReplyEdit";
 import { useSelector } from "react-redux";
 import { RootState } from "stores/modules";
+import { PostCommentSubmitBtn } from "../comment/PostCommentCreate";
+import { MdCancel } from "react-icons/md";
+import { GoPencil } from "react-icons/go";
 
 interface IPostReplyItemProps {
   item: IReply;
@@ -26,12 +32,46 @@ interface IPostReplyItemProps {
 
 const PostReplyItem: React.FC<IPostReplyItemProps> = ({ item }) => {
   const { login, user } = useSelector((state: RootState) => state.user.data);
-  const { isEdit, onClickEdit, onCloseEdit, onClickDelete } = useReplyEdit(item.idx);
+  const {
+    isEdit,
+    onClickEdit,
+    onCloseEdit,
+    onClickDelete,
+    value,
+    onChangeValue,
+    onKeyDownValue,
+    onSave
+  } = useReplyEdit(item);
 
   return (
     <PostReplyItemWrapper>
       <PostCommentItemProfile src={profileImg} alt={item.fk_user_name || "비밀 댓글"} />
-      {item.fk_user_name ? (
+      {isEdit ? (
+        <PostCommentEditWrapper>
+          <PostCommentEditContent>
+            <PostCommentEditInput
+              type="text"
+              maxLength={255}
+              autoFocus
+              placeholder="내용을 입력해주세요."
+              value={value}
+              onChange={onChangeValue}
+              onKeyDown={onKeyDownValue}
+            />
+            <PostCommentSubmitBtn
+              right={"3rem"}
+              isActive={true}
+              fontSize={"1.2rem"}
+              onClick={onCloseEdit}
+            >
+              <MdCancel />
+            </PostCommentSubmitBtn>
+            <PostCommentSubmitBtn right={"1rem"} fontSize={"1.2rem"} onClick={onSave}>
+              <GoPencil />
+            </PostCommentSubmitBtn>
+          </PostCommentEditContent>
+        </PostCommentEditWrapper>
+      ) : item.fk_user_name ? (
         <PostCommentItemContent>
           <PostCommentItemTitle>
             {item.fk_user_name}

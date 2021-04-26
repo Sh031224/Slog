@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 
 export const validateCreate = (req: Request, res: Response): boolean => {
   const schema = Joi.object().keys({
-    content: Joi.string().required(),
+    content: Joi.string().disallow("").disallow(null).required(),
     post_idx: Joi.number().integer().required(),
     is_private: Joi.boolean()
   });
@@ -14,7 +14,7 @@ export const validateCreate = (req: Request, res: Response): boolean => {
 
 export const validateModify = (req: Request, res: Response): boolean => {
   const schema = Joi.object().keys({
-    content: Joi.string().required()
+    content: Joi.string().disallow("").disallow(null).required()
   });
 
   return validate(req, res, schema);

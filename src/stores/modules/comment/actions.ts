@@ -17,6 +17,14 @@ export const CREATE_REPLY = "comment/CREATE_REPLY" as const;
 export const CREATE_REPLY_SUCCESS = "comment/CREATE_REPLY_SUCCESS" as const;
 export const CREATE_REPLY_FAILURE = "comment/CREATE_REPLY_FAILURE" as const;
 
+export const MODIFY_COMMENT = "comment/MODIFY_COMMENT" as const;
+export const MODIFY_COMMENT_SUCCESS = "comment/MODIFY_COMMENT_SUCCESS" as const;
+export const MODIFY_COMMENT_FAILURE = "comment/MODIFY_COMMENT_FAILURE" as const;
+
+export const MODIFY_REPLY = "comment/MODIFY_REPLY" as const;
+export const MODIFY_REPLY_SUCCESS = "comment/MODIFY_REPLY_SUCCESS" as const;
+export const MODIFY_REPLY_FAILURE = "comment/MODIFY_REPLY_FAILURE" as const;
+
 export const DELETE_COMMENT = "comment/DELETE_COMMENT" as const;
 export const DELETE_COMMENT_SUCCESS = "comment/DELETE_COMMENT_SUCCESS" as const;
 export const DELETE_COMMENT_FAILURE = "comment/DELETE_COMMENT_FAILURE" as const;
@@ -43,6 +51,18 @@ export const createReplyAsync = createAsyncAction(
   CREATE_REPLY,
   CREATE_REPLY_SUCCESS,
   CREATE_REPLY_FAILURE
+)<void, void, AxiosError<ResponseType>>();
+
+export const modifyCommentAsync = createAsyncAction(
+  MODIFY_COMMENT,
+  MODIFY_COMMENT_SUCCESS,
+  MODIFY_COMMENT_FAILURE
+)<void, void, AxiosError<ResponseType>>();
+
+export const modifyReplyAsync = createAsyncAction(
+  MODIFY_REPLY,
+  MODIFY_REPLY_SUCCESS,
+  MODIFY_REPLY_FAILURE
 )<void, void, AxiosError<ResponseType>>();
 
 export const deleteCommentAsync = createAsyncAction(

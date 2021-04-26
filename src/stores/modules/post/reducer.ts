@@ -28,8 +28,7 @@ export const postInitialState: IPostState = {
       thumbnail: "",
       created_at: new Date(),
       updated_at: new Date(),
-      comment_count: 0,
-      comments: []
+      comment_count: 0
     },
     hitPosts: []
   }

@@ -29,7 +29,8 @@ const PostCommentItem: React.FC<IPostCommentItemProps> = ({ item }) => {
     onClickDelete,
     value,
     onChangeValue,
-    onKeyDownValue
+    onKeyDownValue,
+    onSave
   } = useCommentEdit(item);
 
   return (
@@ -55,10 +56,12 @@ const PostCommentItem: React.FC<IPostCommentItemProps> = ({ item }) => {
             >
               <MdCancel />
             </PostCommentSubmitBtn>
-            <PostCommentSubmitBtn right={"1rem"} fontSize={"1.2rem"}>
+            <PostCommentSubmitBtn right={"1rem"} fontSize={"1.2rem"} onClick={onSave}>
               <GoPencil />
             </PostCommentSubmitBtn>
           </PostCommentEditContent>
+          {item.replies &&
+            item.replies.map((reply, idx) => <PostReplyItem item={reply} key={idx} />)}
         </PostCommentEditWrapper>
       ) : item.fk_user_name ? (
         <PostCommentItemContent>
@@ -85,13 +88,15 @@ const PostCommentItem: React.FC<IPostCommentItemProps> = ({ item }) => {
               </>
             )}
           </PostCommentUtil>
-          {isCreate && <PostCommentCreate commentIdx={item.idx} onClose={onCloseCreate} />}
+          {isCreate && <PostCommentCreate comment={item} onClose={onCloseCreate} />}
           {item.replies &&
             item.replies.map((reply, idx) => <PostReplyItem item={reply} key={idx} />)}
         </PostCommentItemContent>
       ) : (
         <PostCommentPrivate>
           <PostCommentPrivateTitle>{item.content}</PostCommentPrivateTitle>
+          {item.replies &&
+            item.replies.map((reply, idx) => <PostReplyItem item={reply} key={idx} />)}
         </PostCommentPrivate>
       )}
     </PostCommentItemWrapper>

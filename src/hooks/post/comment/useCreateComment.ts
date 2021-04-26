@@ -6,8 +6,9 @@ import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
 import { logout } from "stores/modules/user";
 import { removeToken } from "lib/token";
+import { IComment } from "interface/IPost";
 
-const useCreateComment = (commentIdx?: number, onClose?: () => void) => {
+const useCreateComment = (comment?: IComment, onClose?: () => void) => {
   const dispatch = useDispatch();
 
   const {
@@ -16,7 +17,7 @@ const useCreateComment = (commentIdx?: number, onClose?: () => void) => {
   const { error } = useSelector((state: RootState) => state.comment);
 
   const [value, setValue] = useState<string>("");
-  const [isPrivate, setIsPrivate] = useState<boolean>(false);
+  const [isPrivate, setIsPrivate] = useState<boolean>((comment && comment.is_private) || false);
 
   const router = useRouter();
 
@@ -30,10 +31,10 @@ const useCreateComment = (commentIdx?: number, onClose?: () => void) => {
 
   const onSubmit = useCallback(() => {
     if (value.replace(/\s/gi, "") !== "")
-      if (commentIdx !== undefined) {
+      if (comment !== undefined) {
         dispatch(
           createReplyThunk(
-            { comment_idx: commentIdx, content: value, is_private: isPrivate },
+            { comment_idx: comment.idx, content: value, is_private: isPrivate },
             init,
             idx
           )
@@ -43,15 +44,19 @@ const useCreateComment = (commentIdx?: number, onClose?: () => void) => {
           createCommentThunk({ post_idx: idx, is_private: isPrivate, content: value }, init)
         );
       }
-  }, [idx, isPrivate, value, init, commentIdx]);
+  }, [idx, isPrivate, value, init, comment]);
 
   const onChangeValue = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   }, []);
 
   const onClickPrivate = useCallback(() => {
-    setIsPrivate((prev) => !prev);
-  }, []);
+    if (comment && comment.is_private) {
+      setIsPrivate(true);
+    } else {
+      setIsPrivate((prev) => !prev);
+    }
+  }, [comment]);
 
   const onKeyPressValue = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -63,7 +68,7 @@ const useCreateComment = (commentIdx?: number, onClose?: () => void) => {
         onSubmit();
       }
     },
-    [commentIdx, onClose, onSubmit]
+    [onClose, onSubmit]
   );
 
   useEffect(() => {

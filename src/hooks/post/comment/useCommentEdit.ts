@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "stores/modules";
-import { deleteCommentThunk } from "stores/modules/comment";
+import { deleteCommentThunk, modifyCommentThunk } from "stores/modules/comment";
 
 const useCommentEdit = (comment: IComment) => {
   const dispatch = useDispatch();
@@ -36,15 +36,21 @@ const useCommentEdit = (comment: IComment) => {
     setValue(e.target.value);
   }, []);
 
+  const onSave = useCallback(() => {
+    if (value.replace(/\s/gi, "") !== "") {
+      dispatch(modifyCommentThunk(comment.idx, value, idx));
+    }
+  }, [comment, idx, value]);
+
   const onKeyDownValue = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Escape") {
         onCloseEdit();
       } else if (e.key === "Enter") {
-        // onSubmit();
+        onSave();
       }
     },
-    [onCloseEdit]
+    [onCloseEdit, onSave]
   );
 
   const onClickDelete = useCallback(() => {
@@ -76,7 +82,8 @@ const useCommentEdit = (comment: IComment) => {
     onClickDelete,
     value,
     onChangeValue,
-    onKeyDownValue
+    onKeyDownValue,
+    onSave
   };
 };
 

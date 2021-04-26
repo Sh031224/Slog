@@ -132,6 +132,20 @@ export const comment = {
 
     return data;
   },
+  modifyComment: async (commentIdx: number, content: string) => {
+    const { data }: AxiosResponse<ResponseType> = await Api.put(`/api/v1/comment/${commentIdx}`, {
+      content
+    });
+
+    return data;
+  },
+  modifyReply: async (replyIdx: number, content: string) => {
+    const { data }: AxiosResponse<ResponseType> = await Api.put(`/api/v1/reply/${replyIdx}`, {
+      content
+    });
+
+    return data;
+  },
   deleteComment: async (commentIdx: number) => {
     const { data }: AxiosResponse<ResponseType> = await Api.delete(`/api/v1/comment/${commentIdx}`);
 
