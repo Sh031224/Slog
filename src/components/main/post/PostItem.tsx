@@ -19,14 +19,14 @@ const PostItem: React.FC<IPostItemProps> = ({ item, lastEl }) => {
         <Link href={`/post/[idx]`} as={`/post/${item.idx}`}>
           <a>
             <PostThumbnail>
-              <PostThumbnailImg src={item.thumbnail} />
+              <PostThumbnailImg src={item.thumbnail} alt={item.title} />
             </PostThumbnail>
           </a>
         </Link>
       )}
       <Link href={`/post/[idx]`} as={`/post/${item.idx}`}>
-        <PostContent>
-          <a>
+        <a style={{ display: "flex", height: "100%" }}>
+          <PostContent>
             <PostContentTitle>
               {item.title}
               <PostContentDescription hasThumbnail={item.thumbnail !== null}>
@@ -36,8 +36,8 @@ const PostItem: React.FC<IPostItemProps> = ({ item, lastEl }) => {
             <PostContentSubinfo title={timeCalc.getTime(item.created_at)}>
               {TimeCounting(item.created_at, { lang: "ko" })}
             </PostContentSubinfo>
-          </a>
-        </PostContent>
+          </PostContent>
+        </a>
       </Link>
       <PostItemInfo>
         <PostItemInfoContainer>

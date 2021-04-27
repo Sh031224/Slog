@@ -31,17 +31,29 @@ const PostCommentCreate: React.FC<IPostCommentCreateProps> = ({ comment, onClose
         onKeyDown={onKeyPressValue}
         maxLength={255}
         autoFocus={comment !== undefined}
+        name={"content"}
       />
 
       {comment && (
-        <PostCommentSubmitBtn right={"5rem"} isActive={true} fontSize={"1.1rem"} onClick={onClose}>
+        <PostCommentSubmitBtn
+          right={"5rem"}
+          isActive={true}
+          fontSize={"1.1rem"}
+          onClick={onClose}
+          aria-label={"cancel"}
+        >
           <MdCancel />
         </PostCommentSubmitBtn>
       )}
-      <PostCommentSubmitBtn right={"3rem"} isActive={isPrivate} onClick={onClickPrivate}>
+      <PostCommentSubmitBtn
+        right={"3rem"}
+        isActive={isPrivate}
+        onClick={onClickPrivate}
+        aria-label={"lock"}
+      >
         {isPrivate ? <IoIosLock /> : <IoIosUnlock />}
       </PostCommentSubmitBtn>
-      <PostCommentSubmitBtn onClick={onSubmit} right={"1rem"}>
+      <PostCommentSubmitBtn onClick={onSubmit} right={"1rem"} aria-label={"submit"}>
         <FaTelegramPlane />
       </PostCommentSubmitBtn>
     </PostCommentCreateWrapper>

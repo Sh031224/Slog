@@ -57,16 +57,23 @@ const PostReplyItem: React.FC<IPostReplyItemProps> = ({ item }) => {
               value={value}
               onChange={onChangeValue}
               onKeyDown={onKeyDownValue}
+              name="comment-edit-content"
             />
             <PostCommentSubmitBtn
               right={"3rem"}
               isActive={true}
               fontSize={"1.2rem"}
               onClick={onCloseEdit}
+              aria-label="create-reply-cancel"
             >
               <MdCancel />
             </PostCommentSubmitBtn>
-            <PostCommentSubmitBtn right={"1rem"} fontSize={"1.2rem"} onClick={onSave}>
+            <PostCommentSubmitBtn
+              right={"1rem"}
+              fontSize={"1.2rem"}
+              onClick={onSave}
+              aria-label="submit"
+            >
               <GoPencil />
             </PostCommentSubmitBtn>
           </PostCommentEditContent>
@@ -88,9 +95,15 @@ const PostReplyItem: React.FC<IPostReplyItemProps> = ({ item }) => {
           <PostCommentUtil>
             {login && (
               <>
-                {item.fk_user_idx === user.idx && <button onClick={onClickEdit}>수정</button>}
+                {item.fk_user_idx === user.idx && (
+                  <button onClick={onClickEdit} aria-label="reply-edit">
+                    수정
+                  </button>
+                )}
                 {(item.fk_user_idx === user.idx || user.is_admin) && (
-                  <button onClick={onClickDelete}>삭제</button>
+                  <button onClick={onClickDelete} aria-label="reply-delete">
+                    삭제
+                  </button>
                 )}
               </>
             )}

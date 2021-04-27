@@ -43,7 +43,7 @@ const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Slog</title>
       </Head>
       <NotificationContainer />

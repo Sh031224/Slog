@@ -41,16 +41,19 @@ const Header: React.FC = () => {
                     isToogle={isToggle}
                     type="text"
                     value={search}
+                    name="search"
                     onChange={onChangeSearch}
                     onKeyPress={onKeypressSearch}
                     placeholder={"검색어를 입력해주세요."}
                   />
-                  <HeaderSearchBtn onClick={onSubmitSearch}>
+                  <HeaderSearchBtn onClick={onSubmitSearch} aria-label={"검색"}>
                     <SearchImg />
                   </HeaderSearchBtn>
                 </HeaderSearch>
                 {login ? (
-                  <HeaderLink onClick={tryLogout}>로그아웃</HeaderLink>
+                  <HeaderLink onClick={tryLogout} aria-label={"logout"}>
+                    로그아웃
+                  </HeaderLink>
                 ) : (
                   <FacebookLogin
                     appId={appId}
@@ -58,7 +61,11 @@ const Header: React.FC = () => {
                     fields="name,email"
                     disableMobileRedirect={true}
                     render={(renderProps: any) => {
-                      return <HeaderLink onClick={renderProps.onClick}>로그인</HeaderLink>;
+                      return (
+                        <HeaderLink onClick={renderProps.onClick} aria-label={"login"}>
+                          로그인
+                        </HeaderLink>
+                      );
                     }}
                   />
                 )}
@@ -106,8 +113,10 @@ const HeaderNav = styled.nav`
 const HeaderLogo = styled.img`
   cursor: pointer;
   width: 2.5rem;
+  height: 1.6875rem;
   ${({ theme }) => theme.device.mobile} {
     width: 2rem;
+    height: 1.35rem;
   }
 `;
 

@@ -25,14 +25,14 @@ const PostHeader: React.FC = () => {
             {isOpenHandle && (
               <>
                 <PostHandleContainer>
-                  <div onClick={onClickEdit}>
+                  <button onClick={onClickEdit} aria-label={"post-edit"}>
                     글 수정하기
                     <FiEdit3 />
-                  </div>
-                  <div onClick={onClickDelete}>
+                  </button>
+                  <button onClick={onClickDelete} aria-label={"post-delete"}>
                     글 삭제하기
                     <FiDelete />
-                  </div>
+                  </button>
                 </PostHandleContainer>
               </>
             )}
@@ -97,7 +97,9 @@ const PostHandleContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.bgWhite};
   color: ${({ theme }) => theme.colors.ftDarkGray};
   z-index: 10;
-  & > div {
+  & > button {
+    border: none;
+    background-color: transparent;
     padding: 0.5rem;
     font-size: 0.9rem;
     display: flex;

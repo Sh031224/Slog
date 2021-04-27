@@ -47,16 +47,23 @@ const PostCommentItem: React.FC<IPostCommentItemProps> = ({ item }) => {
               value={value}
               onChange={onChangeValue}
               onKeyDown={onKeyDownValue}
+              name="edit-content"
             />
             <PostCommentSubmitBtn
               right={"3rem"}
               isActive={true}
               fontSize={"1.2rem"}
               onClick={onCloseEdit}
+              aria-label={"cancel"}
             >
               <MdCancel />
             </PostCommentSubmitBtn>
-            <PostCommentSubmitBtn right={"1rem"} fontSize={"1.2rem"} onClick={onSave}>
+            <PostCommentSubmitBtn
+              right={"1rem"}
+              fontSize={"1.2rem"}
+              onClick={onSave}
+              aria-label={"submit"}
+            >
               <GoPencil />
             </PostCommentSubmitBtn>
           </PostCommentEditContent>
@@ -78,12 +85,20 @@ const PostCommentItem: React.FC<IPostCommentItemProps> = ({ item }) => {
           </PostCommentItemTitle>
           <PostCommentContent>{item.content}</PostCommentContent>
           <PostCommentUtil>
-            <button onClick={onClickCreate}>답글</button>
+            <button onClick={onClickCreate} aria-label={"create-reply"}>
+              답글
+            </button>
             {login && (
               <>
-                {item.fk_user_idx === user.idx && <button onClick={onClickEdit}>수정</button>}
+                {item.fk_user_idx === user.idx && (
+                  <button onClick={onClickEdit} aria-label={"edit"}>
+                    수정
+                  </button>
+                )}
                 {(item.fk_user_idx === user.idx || user.is_admin) && (
-                  <button onClick={onClickDelete}>삭제</button>
+                  <button onClick={onClickDelete} aria-label={"delete"}>
+                    삭제
+                  </button>
                 )}
               </>
             )}
@@ -112,8 +127,8 @@ const PostCommentItemWrapper = styled.div`
 `;
 
 export const PostCommentItemProfile = styled.img`
-  max-width: 2.8rem;
-  max-height: 2.8rem;
+  width: 2.8rem;
+  height: 2.8rem;
 `;
 
 export const PostCommentEditWrapper = styled.div`

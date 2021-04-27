@@ -2,14 +2,13 @@ import MainTemplate from "components/common/template/MainTemplate";
 import Post from "components/post/Post";
 import { getCommentsPromise, getHitPostsPromise, getPostInfoPromise } from "lib/promiseDispatch";
 import moment from "moment";
-import { NextComponentType } from "next";
-import { AppProps } from "next/app";
+import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "stores/modules";
 
-const PostPage: NextComponentType<AppProps> = () => {
+const PostPage: NextPage = () => {
   const { loading, data } = useSelector((state: RootState) => state.post);
   const { post } = data;
 
