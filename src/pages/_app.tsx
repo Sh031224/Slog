@@ -15,6 +15,7 @@ import GlobalStyle from "style/GlobalStyle";
 import cookies from "next-cookies";
 import { setToken } from "lib/token";
 import Api from "lib/customAxios";
+import MainTemplate from "components/common/template/MainTemplate";
 
 const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   Component,
@@ -48,7 +49,9 @@ const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
       </Head>
       <NotificationContainer />
       <ThemeProvider theme={lightTheme}>
-        <Component {...pageProps} />
+        <MainTemplate>
+          <Component {...pageProps} />
+        </MainTemplate>
         <GlobalStyle />
       </ThemeProvider>
     </>

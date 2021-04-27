@@ -1,5 +1,4 @@
 import React from "react";
-import MainTemplate from "components/common/template/MainTemplate";
 import { NextPage } from "next";
 import Main from "components/main/Main";
 import Head from "next/head";
@@ -7,7 +6,7 @@ import { getCategoriesPromise, getPostsPromise, getUserInfoPromise } from "lib/p
 
 const IndexPage: NextPage = () => {
   return (
-    <MainTemplate>
+    <>
       <Head>
         <title>{"Slog"}</title>
         <meta
@@ -31,7 +30,7 @@ const IndexPage: NextPage = () => {
         <meta name="twitter:image" content="https://slog.website/api/static/op_logo.png" />
       </Head>
       <Main />
-    </MainTemplate>
+    </>
   );
 };
 

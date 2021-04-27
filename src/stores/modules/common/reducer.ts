@@ -1,6 +1,7 @@
 import { createReducer } from "typesafe-actions";
 import { CommonAction, ICommonState } from "./types";
 import {
+  CLEAR_ERROR,
   GET_POSTS,
   GET_POSTS_FAILURE,
   GET_POSTS_SUCCESS,
@@ -21,6 +22,10 @@ export const commonInitialState: ICommonState = {
 };
 
 export default createReducer<ICommonState, CommonAction>(commonInitialState, {
+  [CLEAR_ERROR]: (state, action) => ({
+    ...state,
+    error: null
+  }),
   [GET_POSTS]: (state, action) => {
     if (state.data.page === 1)
       return {

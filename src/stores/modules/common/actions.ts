@@ -3,6 +3,8 @@ import { IPost } from "interface/IPost";
 import { ResponseType } from "interface/IResponse";
 import { createAction, createAsyncAction } from "typesafe-actions";
 
+export const CLEAR_ERROR = "common/CLEAR_ERROR" as const;
+
 export const GET_POSTS = "common/GET_POSTS" as const;
 export const GET_POSTS_SUCCESS = "common/GET_POSTS_SUCCESS" as const;
 export const GET_POSTS_FAILURE = "common/GET_POSTS_FAILURE" as const;
@@ -17,6 +19,8 @@ export const GET_SEARCH_POSTS_FAILURE = "common/GET_SEARCH_POSTS_FAILURE" as con
 
 export const INCREASE_PAGE = "common/INCREASE_PAGE" as const;
 export const RESET_PAGE = "common/RESET_PAGE" as const;
+
+export const clearCommonError = createAction(CLEAR_ERROR)();
 
 export const getPostsAsync = createAsyncAction(GET_POSTS, GET_POSTS_SUCCESS, GET_POSTS_FAILURE)<
   void,

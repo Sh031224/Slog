@@ -1,4 +1,3 @@
-import MainTemplate from "components/common/template/MainTemplate";
 import Post from "components/post/Post";
 import { getCommentsPromise, getHitPostsPromise, getPostInfoPromise } from "lib/promiseDispatch";
 import moment from "moment";
@@ -13,7 +12,7 @@ const PostPage: NextPage = () => {
   const { post } = data;
 
   return (
-    <MainTemplate>
+    <>
       {!loading && post.title && (
         <Head>
           <title>{post.title}</title>
@@ -62,7 +61,7 @@ const PostPage: NextPage = () => {
         </Head>
       )}
       <Post />
-    </MainTemplate>
+    </>
   );
 };
 

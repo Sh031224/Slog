@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "stores/modules";
 import { NotificationManager } from "react-notifications";
 import {
+  clearCommonError,
   getPostsThunk,
   getSearchPostsThunk,
   getTempPostsThunk,
@@ -108,6 +109,7 @@ const useMainPosts = () => {
   useEffect(() => {
     if (error) {
       NotificationManager.error("오류가 발생하였습니다.", "Error");
+      dispatch(clearCommonError());
     }
   }, [error]);
 

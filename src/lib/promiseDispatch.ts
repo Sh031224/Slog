@@ -61,7 +61,9 @@ export const getPostInfoPromise = async (ctx: any) => {
   const { store } = ctx;
   const { dispatch } = store;
 
-  await dispatch(getPostInfoThunk(ctx.query.idx || 0));
+  if (ctx.query.idx && ctx.query.idx !== "new") {
+    await dispatch(getPostInfoThunk(ctx.query.idx || 0));
+  }
 };
 
 export const getHitPostsPromise = async (ctx: any) => {

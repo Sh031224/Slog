@@ -69,12 +69,13 @@ const useFacebookLogin = () => {
   const getUserInfoCallback = useCallback(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      if (!error && !login && getToken() && !user.name) {
-        dispatch(getUserInfoThunk(requestNotification));
-      }
-    } else {
+
       if (login) {
         requestNotification();
+      }
+    } else {
+      if (!error && !login && getToken() && !user.name) {
+        dispatch(getUserInfoThunk(requestNotification));
       }
     }
   }, [error, login, user, requestNotification]);
