@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const PostItemLoading: React.FC = () => {
+const PostLoading: React.FC = () => {
   return (
     <PostLoadingWrapper>
       <PostLoadingThumbnail>
@@ -75,4 +75,4 @@ const PostLoadingContentDescription = styled.div<{ width: string }>`
   width: ${({ width }) => width};
 `;
 
-export default PostItemLoading;
+export default PostLoading;
