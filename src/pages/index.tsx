@@ -38,7 +38,7 @@ IndexPage.getInitialProps = async (ctx) => {
   const isServer = typeof window === "undefined";
 
   if (isServer) {
-    await Promise.all([getPostsPromise(ctx), getUserInfoPromise(ctx), getCategoriesPromise(ctx)]);
+    await Promise.all([getPostsPromise(ctx), getUserInfoPromise(ctx), , getCategoriesPromise(ctx)]);
   }
 };
 
