@@ -9,7 +9,8 @@
 ### Front-End
 
 - NextJS & SSR
-- sass
+- styled-components
+- Redux, Redux-Thunk
 - FCM
 
 ### Back-End
