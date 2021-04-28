@@ -200,7 +200,7 @@ export const user = {
   },
   tryLogin: async (accessToken: string) => {
     const { data }: AxiosResponse<LoginResponse> = await Api.post("/api/v1/auth/login", {
-      accessToken: accessToken
+      access_token: accessToken
     });
 
     setToken(data.data.access_token);
