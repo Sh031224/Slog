@@ -11,6 +11,7 @@ export default (req: Request, res: Response, schema: SchemaLike): boolean => {
     logger.yellow("[JOI] 검증 오류", validation.error.message);
 
     res.status(400).json({
+      status: 400,
       message: "검증 오류."
     });
 

@@ -12,9 +12,10 @@ export default async (req: Request, res: Response) => {
   type RequestBody = {
     title: string;
     content: string;
-    category_idx: number;
-    thumbnail: string;
-    description: string;
+    category_idx?: number;
+    thumbnail?: string;
+    description?: string;
+    is_temp: boolean;
   };
 
   const body: RequestBody = req.body;
@@ -22,6 +23,13 @@ export default async (req: Request, res: Response) => {
   try {
     const postRepo = getRepository(Post);
     const post = new Post();
+    if (!body.is_temp && (!body.category_idx || !body.description || !body.thumbnail)) {
+      logger.yellow("[POST] 글 생성 검증 오류.");
+      return res.status(400).json({
+        status: 400,
+        message: "검증 오류."
+      });
+    }
     if (body.category_idx) {
       const categoryRepo = getRepository(Category);
       const category: Category = await categoryRepo.findOne({
@@ -39,21 +47,34 @@ export default async (req: Request, res: Response) => {
         return;
       }
       post.category = category;
+    } else {
+      if (!body.is_temp) {
+        logger.yellow("[PUT] 검증 오류.", "Not Temp But No Category");
+        res.status(400).json({
+          status: 400,
+          message: "검증 오류."
+        });
+        return;
+      }
     }
 
     post.title = body.title;
     post.content = body.content;
-    post.thumbnail = body.thumbnail;
-    post.description = body.description;
+    post.thumbnail = body.thumbnail || "";
+    post.description = body.description || "";
+    post.is_temp = body.is_temp;
 
     await postRepo.save(post);
 
-    sitemap();
+    if (!body.is_temp) sitemap();
 
     logger.green("[POST] 글 생성 성공.");
     res.status(200).json({
       status: 200,
-      message: "글 생성 성공."
+      message: "글 생성 성공.",
+      data: {
+        idx: post.idx
+      }
     });
   } catch (err) {
     logger.red("POST] 글 생성 서버 오류.", err.message);

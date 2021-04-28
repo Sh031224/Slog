@@ -22,10 +22,10 @@ export default async (req: Request, res: Response) => {
   type RequestBody = {
     title: string;
     content: string;
-    category_idx: number;
-    thumbnail: string;
-    is_temp?: boolean;
-    description: string;
+    category_idx?: number;
+    thumbnail?: string;
+    description?: string;
+    is_temp: boolean;
   };
 
   const data: RequestBody = req.body;
@@ -47,6 +47,14 @@ export default async (req: Request, res: Response) => {
       return;
     }
 
+    if (!data.is_temp && (!data.category_idx || !data.description || !data.thumbnail)) {
+      logger.yellow("[PUT] 글 생성 검증 오류.");
+      return res.status(400).json({
+        status: 400,
+        message: "검증 오류."
+      });
+    }
+
     if (data.category_idx) {
       const categoryRepo = getRepository(Category);
       const category: Category = await categoryRepo.findOne({
@@ -66,10 +74,7 @@ export default async (req: Request, res: Response) => {
 
       post.category = category;
     } else {
-      if (
-        (data.is_temp !== null && data.is_temp === false) ||
-        post.is_temp === false
-      ) {
+      if (!data.is_temp) {
         logger.yellow("[PUT] 검증 오류.", "Not Temp But No Category");
         res.status(400).json({
           status: 400,
@@ -84,11 +89,11 @@ export default async (req: Request, res: Response) => {
     }
 
     post.updated_at = new Date();
-    post.title = data.title || post.title;
-    post.content = data.content || post.content;
-    post.thumbnail = data.thumbnail;
-    post.is_temp = data.is_temp === null ? post.is_temp : data.is_temp;
-    post.description = data.description || post.description;
+    post.title = data.title;
+    post.content = data.content;
+    post.thumbnail = data.thumbnail || "";
+    post.is_temp = data.is_temp;
+    post.description = data.description || "";
     await postRepo.save(post);
 
     logger.green("[PUT] 글 수정 성공.");

@@ -15,12 +15,11 @@ export default async (req: AuthRequest, res: Response) => {
     const postRepo = getRepository(Post);
     const post: Post = await postRepo.findOne({
       where: {
-        idx: postIdx,
-        is_temp: false
+        idx: postIdx
       }
     });
 
-    if (!post) {
+    if (!post || (!req.user.is_admin && post.is_temp)) {
       logger.yellow("[GET] 글 없음");
       res.status(404).json({
         status: 404,

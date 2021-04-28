@@ -7,7 +7,6 @@ import searchPosts from "./post.ctrl/searchPosts";
 import deletePost from "./post.ctrl/deletePost";
 import modifyPost from "./post.ctrl/modifyPost";
 import getTempPosts from "./post.ctrl/getTempPosts";
-import createTempPost from "./post.ctrl/createTempPost";
 import getPostCommentCount from "./post.ctrl/getPostCommentCount";
 
 const router = Router();
@@ -16,7 +15,6 @@ router.get("/temp", authMiddleware.admin, getTempPosts);
 router.get("/search", searchPosts);
 router.put("/:idx", authMiddleware.admin, modifyPost);
 
-router.post("/temp", authMiddleware.admin, createTempPost);
 router.post("/", authMiddleware.admin, createPost);
 router.get("/", getPosts);
 router.get("/:idx", authMiddleware.guest, getPost);
