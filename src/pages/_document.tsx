@@ -32,6 +32,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="ko">
         <Head>
+          <script> if (! crossOriginIsolated) SharedArrayBuffer = ArrayBuffer </script>
           <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga_tracking}`} />
           <script
             dangerouslySetInnerHTML={{
@@ -50,6 +51,12 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/images/logo192.png" />
           <link rel="shortcut icon" href="/images/favicon.ico" />
           <link rel="manifest" href="/images/manifest.json" />
+          <link
+            rel="search"
+            href="/opensearch.xml"
+            type="application/opensearchdescription+xml"
+            title="Slog"
+          />
         </Head>
         <body>
           <Main />
