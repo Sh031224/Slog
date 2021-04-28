@@ -19,7 +19,7 @@ export default async (req: AuthRequest, res: Response) => {
       }
     });
 
-    if (!post || (!req.user.is_admin && post.is_temp)) {
+    if (!post || (user && !user.is_admin && post.is_temp)) {
       logger.yellow("[GET] 글 없음");
       res.status(404).json({
         status: 404,
