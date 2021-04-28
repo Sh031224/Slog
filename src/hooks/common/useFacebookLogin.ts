@@ -49,29 +49,14 @@ const useFacebookLogin = () => {
     }
   }, [getFcmToken]);
 
-  const tryLogin = useCallback(
-    (res: IFacebookLoginInfo | IFacebookFailureResponse) => {
-      if (res.accessToken) {
-        dispatch(tryLoginThunk(res.accessToken, requestNotification));
-        NotificationManager.success("로그인 되었습니다.", "Success");
-      } else {
-        NotificationManager.error("오류가 발생하였습니다.", "Error");
-      }
-    },
-    [dispatch, requestNotification]
-  );
-
-  const tryLogout = useCallback(() => {
-    removeToken();
-    dispatch(logout());
-  }, []);
-
   const getUserInfoCallback = useCallback(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
 
       if (login) {
         requestNotification();
+      } else if (!error && getToken() && !user.name) {
+        dispatch(getUserInfoThunk(requestNotification));
       }
     } else {
       if (!error && !login && getToken() && !user.name) {
@@ -80,13 +65,34 @@ const useFacebookLogin = () => {
     }
   }, [error, login, user, requestNotification]);
 
+  const loginSuccess = useCallback(() => {
+    NotificationManager.success("로그인 되었습니다.", "Success");
+    getUserInfoCallback();
+  }, [getUserInfoCallback]);
+
+  const tryLogin = useCallback(
+    (res: IFacebookLoginInfo | IFacebookFailureResponse) => {
+      if (res.accessToken) {
+        dispatch(tryLoginThunk(res.accessToken, loginSuccess));
+      } else {
+        NotificationManager.error("오류가 발생하였습니다.", "Error");
+      }
+    },
+    [dispatch, loginSuccess]
+  );
+
+  const tryLogout = useCallback(() => {
+    removeToken();
+    dispatch(logout());
+  }, []);
+
   useEffect(() => {
     getUserInfoCallback();
   }, [error, login]);
 
   useEffect(() => {
-    if (error) {
-      if (!(typeof error.message === "string" && error.message.includes("401"))) {
+    if (error && error.response) {
+      if (error.response.status !== 401) {
         NotificationManager.error("오류가 발생하였습니다.", "Error");
       }
     }

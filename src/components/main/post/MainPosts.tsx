@@ -2,7 +2,7 @@ import useMainPosts from "hooks/main/useMainPosts";
 import React, { memo } from "react";
 import styled from "styled-components";
 import PostItem from "./PostItem";
-import PostItemLoading from "./PostItemLoading";
+import PostLoading from "../../common/post/PostLoading";
 
 const MainPosts: React.FC = () => {
   const { posts, loading, notfound, lastEl } = useMainPosts();
@@ -16,7 +16,7 @@ const MainPosts: React.FC = () => {
           </React.Fragment>
         ))}
         {loading ? (
-          <PostItemLoading />
+          <PostLoading />
         ) : (
           notfound && !posts.length && <PostsNotfound>게시글이 없어요. 🤭</PostsNotfound>
         )}

@@ -13,9 +13,9 @@ import { lightTheme } from "style/theme";
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "style/GlobalStyle";
 import cookies from "next-cookies";
-import { setToken } from "lib/token";
-import Api from "lib/customAxios";
+import { removeToken, setToken } from "lib/token";
 import MainTemplate from "components/common/template/MainTemplate";
+import axios from "axios";
 
 const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   Component,
@@ -69,7 +69,9 @@ App.getInitialProps = async ({ Component, ctx }: AppContext): Promise<AppInitial
     const accessToken = allCookies["access_token"];
     if (accessToken !== undefined) {
       setToken(accessToken);
-      Api.defaults.headers.Cookie = accessToken;
+      axios.defaults.headers.common["Cookie"] = accessToken;
+    } else {
+      removeToken();
     }
   }
 

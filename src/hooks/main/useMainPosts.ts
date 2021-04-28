@@ -14,11 +14,14 @@ import {
 } from "stores/modules/common";
 import { limit } from "config/index.json";
 import { IPostParmsDTO } from "interface/IPost";
+import CategoryTag from "constant/CategoryTag";
 
 const useMainPosts = () => {
   const dispatch = useDispatch();
   const { error, loading } = useSelector((state: RootState) => state.common);
-  const { page, posts, total, notfound } = useSelector((state: RootState) => state.common.data);
+  const { page, posts, total, notfound, category } = useSelector(
+    (state: RootState) => state.common.data
+  );
 
   const router = useRouter();
   const { query, asPath } = router;
@@ -73,12 +76,23 @@ const useMainPosts = () => {
   }, [page]);
 
   const getInitPosts = useCallback(() => {
-    if (!error && !posts.length && !notfound) {
-      getPostsByCategory();
-    } else if (error && error.message.includes("404")) {
+    if (!error) {
+      if (!error && !posts.length && !notfound) {
+        getPostsByCategory();
+      } else if (query.temp && category !== CategoryTag.Temp) {
+        getPostsByCategory();
+      } else if (query.tab && category !== Number(query.tab)) {
+        getPostsByCategory();
+      } else if (query.search && category !== CategoryTag.Search) {
+        getPostsByCategory();
+      } else if (!query.tab && !query.search && !query.temp && category !== CategoryTag.All) {
+        getPostsByCategory();
+      }
+    }
+    if (error && error.response && error.response.status === 404) {
       router.push("/");
     }
-  }, [error, posts, notfound, getPostsByCategory]);
+  }, [error, posts, notfound, category, query, getPostsByCategory]);
 
   useEffect(() => {
     if (inView && !loading && !query.temp && !query.search && posts.length < total) {

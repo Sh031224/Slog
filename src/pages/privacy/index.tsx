@@ -1,4 +1,3 @@
-import MainTemplate from "components/common/template/MainTemplate";
 import Privacy from "components/privacy/Privacy";
 import { NextPage } from "next";
 import Head from "next/head";
@@ -6,7 +5,7 @@ import React from "react";
 
 const PrivacyPage: NextPage = () => {
   return (
-    <MainTemplate>
+    <>
       <Head>
         <title>{"Slog"}</title>
         <meta
@@ -29,7 +28,7 @@ const PrivacyPage: NextPage = () => {
         <meta name="twitter:image" content="https://slog.website/api/static/op_logo.png" />
       </Head>
       <Privacy />
-    </MainTemplate>
+    </>
   );
 };
 

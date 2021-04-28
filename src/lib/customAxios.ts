@@ -1,7 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { server } from "config/index.json";
-import Cookies from "js-cookie";
-import { getToken } from "./token";
+import { getToken, removeToken } from "./token";
 
 const addToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
   const token = getToken();
@@ -14,7 +13,7 @@ const addToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig>
 };
 
 const addTokenErrorHandle = (err: AxiosError) => {
-  Cookies.remove("access_token");
+  removeToken();
 };
 
 const Api = axios.create({
