@@ -72,7 +72,7 @@ export interface UploadFilesResponse extends ResponseType {
   };
 }
 
-export interface CreateTempPostResponse extends ResponseType {
+export interface CreatePostResponse extends ResponseType {
   data: {
     idx: number;
   };

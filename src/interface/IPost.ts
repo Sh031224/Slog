@@ -70,21 +70,13 @@ export interface IReply {
   updated_at: Date;
 }
 
-export interface IModifyPostDTO {
-  title: string;
-  description: string | null;
-  content: string | null;
-  thumbnail: string | null;
-  category_idx?: number;
-  is_temp?: boolean;
-}
-
 export interface ICreatePostDTO {
   title: string;
-  description: string;
   content: string;
-  thumbnail: string | null;
-  category_idx: number;
+  category_idx?: number | null;
+  thumbnail?: string;
+  description?: string;
+  is_temp: boolean;
 }
 
 export interface ICreateTempPostDTO {

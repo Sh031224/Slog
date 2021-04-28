@@ -1,5 +1,6 @@
 import Api from "./customAxios";
 import {
+  CreatePostResponse,
   GetCategoriesResponse,
   GetCommentsCountResponse,
   GetCommentsResponse,
@@ -8,10 +9,11 @@ import {
   GetProfileResponse,
   GetTempPostsResponse,
   LoginResponse,
-  ResponseType
+  ResponseType,
+  UploadFilesResponse
 } from "interface/IResponse";
 import { AxiosResponse, CancelToken } from "axios";
-import { ICommentParamsDTO, IPostParmsDTO, IReplyParamsDTO } from "interface/IPost";
+import { ICommentParamsDTO, ICreatePostDTO, IPostParmsDTO, IReplyParamsDTO } from "interface/IPost";
 import queryString from "query-string";
 import { setToken } from "./token";
 
@@ -39,7 +41,6 @@ export const category = {
     return data;
   },
   modifyOrderNumber: async (category_idx: number, order_number: number) => {
-    console.log(order_number);
     const body = {
       idx: category_idx,
       order_number: order_number
@@ -114,6 +115,31 @@ export const post = {
     );
 
     return data.data.total_count;
+  },
+  uploadImage: async (files: File[]) => {
+    const formData = new FormData();
+    formData.append("files", files[0]);
+
+    const { data }: AxiosResponse<UploadFilesResponse> = await Api.post(
+      "/api/v1/upload/",
+      formData
+    );
+
+    return data;
+  },
+  createPost: async (body: ICreatePostDTO, cancelToken?: CancelToken) => {
+    const { data }: AxiosResponse<CreatePostResponse> = await Api.post("/api/v1/post/", body, {
+      cancelToken
+    });
+
+    return data;
+  },
+  modifyePost: async (idx: number, body: ICreatePostDTO, cancelToken?: CancelToken) => {
+    const { data }: AxiosResponse<ResponseType> = await Api.put(`/api/v1/post/${idx}`, body, {
+      cancelToken
+    });
+
+    return data;
   }
 };
 
