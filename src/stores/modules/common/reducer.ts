@@ -14,11 +14,12 @@ import {
   INCREASE_PAGE,
   RESET_PAGE
 } from "./actions";
+import CategoryTag from "constant/CategoryTag";
 
 export const commonInitialState: ICommonState = {
   loading: false,
   error: null,
-  data: { posts: [], total: 0, notfound: false, page: 1 }
+  data: { posts: [], total: 0, notfound: false, page: 1, category: CategoryTag.All }
 };
 
 export default createReducer<ICommonState, CommonAction>(commonInitialState, {
@@ -36,14 +37,19 @@ export default createReducer<ICommonState, CommonAction>(commonInitialState, {
           posts: [],
           total: 0,
           notfound: false,
-          page: 1
+          page: 1,
+          category: action.payload
         }
       };
     return {
       ...state,
       loading: true,
       error: null,
-      notfound: false
+      data: {
+        ...state.data,
+        notfound: false,
+        category: action.payload
+      }
     };
   },
   [GET_POSTS_SUCCESS]: (state, action) => {
@@ -96,7 +102,8 @@ export default createReducer<ICommonState, CommonAction>(commonInitialState, {
       posts: [],
       total: 0,
       notfound: false,
-      page: 1
+      page: 1,
+      category: CategoryTag.Temp
     }
   }),
   [GET_TEMP_POSTS_SUCCESS]: (state, action) => ({
@@ -107,7 +114,8 @@ export default createReducer<ICommonState, CommonAction>(commonInitialState, {
       posts: action.payload,
       total: 0,
       notfound: action.payload.length ? false : true,
-      page: 1
+      page: 1,
+      category: null
     }
   }),
   [GET_TEMP_POSTS_FAILURE]: (state, action) => ({
@@ -120,7 +128,8 @@ export default createReducer<ICommonState, CommonAction>(commonInitialState, {
     loading: true,
     data: {
       ...state.data,
-      posts: []
+      posts: [],
+      category: CategoryTag.Search
     }
   }),
   [GET_SEARCH_POSTS_SUCCESS]: (state, action) => {
@@ -128,8 +137,8 @@ export default createReducer<ICommonState, CommonAction>(commonInitialState, {
       return {
         ...state,
         data: {
-          posts: action.payload,
           ...state.data,
+          posts: action.payload,
           notfound: true
         },
         loading: false

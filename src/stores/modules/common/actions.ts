@@ -23,7 +23,7 @@ export const RESET_PAGE = "common/RESET_PAGE" as const;
 export const clearCommonError = createAction(CLEAR_ERROR)();
 
 export const getPostsAsync = createAsyncAction(GET_POSTS, GET_POSTS_SUCCESS, GET_POSTS_FAILURE)<
-  void,
+  number,
   { posts: IPost[]; total: number; notfound: boolean },
   AxiosError<ResponseType>
 >();

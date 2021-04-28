@@ -19,7 +19,7 @@ export const getPostsThunk = (
     source = axios.CancelToken.source();
 
     const { request, success, failure } = getPostsAsync;
-    dispatch(request());
+    dispatch(request(params.category === undefined ? -1 : params.category));
 
     try {
       const result = await post.getPosts(params, source.token);

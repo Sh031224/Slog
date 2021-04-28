@@ -14,5 +14,9 @@ export interface ICommonState {
     posts: IPost[];
     notfound: boolean;
     total: number;
+    // category === null "임시저장 글"
+    // category === -1 "모든 글"
+    // category === -2 "검색"
+    category: number | null;
   };
 }

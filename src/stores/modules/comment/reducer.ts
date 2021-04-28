@@ -1,5 +1,6 @@
 import { createReducer } from "typesafe-actions";
 import {
+  CLEAR_ERROR,
   CREATE_COMMENT,
   CREATE_COMMENT_FAILURE,
   CREATE_COMMENT_SUCCESS,
@@ -43,7 +44,10 @@ export default createReducer<ICommentState, CommentAction>(commentInitialState, 
   [GET_COMMENTS_FAILURE]: (state, action) => ({
     ...state,
     loading: false,
-    error: action.payload
+    error: action.payload,
+    data: {
+      comments: []
+    }
   }),
   [CREATE_COMMENT]: (state, action) => ({
     ...state,
@@ -92,5 +96,9 @@ export default createReducer<ICommentState, CommentAction>(commentInitialState, 
   [DELETE_REPLY_FAILURE]: (state, action) => ({
     ...state,
     error: action.payload
+  }),
+  [CLEAR_ERROR]: (state, action) => ({
+    ...state,
+    error: null
   })
 });

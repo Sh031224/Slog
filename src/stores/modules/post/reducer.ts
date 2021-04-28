@@ -2,6 +2,9 @@ import { createReducer } from "typesafe-actions";
 import { IPostState, PostAction } from ".";
 import {
   CLEAR_ERROR,
+  CREATE_POST,
+  CREATE_POST_FAILURE,
+  CREATE_POST_SUCCESS,
   DELETE_POST,
   DELETE_POST_FAILURE,
   DELETE_POST_SUCCESS,
@@ -13,7 +16,10 @@ import {
   GET_HIT_POSTS_SUCCESS,
   GET_POST_INFO,
   GET_POST_INFO_FAILURE,
-  GET_POST_INFO_SUCCESS
+  GET_POST_INFO_SUCCESS,
+  MODIFY_POST,
+  MODIFY_POST_FAILURE,
+  MODIFY_POST_SUCCESS
 } from "./actions";
 
 export const postInitialState: IPostState = {
@@ -26,8 +32,8 @@ export const postInitialState: IPostState = {
       description: "",
       content: "",
       view: 0,
-      is_temp: false,
-      fk_category_idx: 0,
+      is_temp: true,
+      fk_category_idx: -1,
       thumbnail: "",
       created_at: new Date(),
       updated_at: new Date(),
@@ -117,6 +123,30 @@ export default createReducer<IPostState, PostAction>(postInitialState, {
     }
   }),
   [GET_COMMENTS_COUNT_FAILURE]: (state, action) => ({
+    ...state,
+    error: action.payload
+  }),
+  [CREATE_POST]: (state, action) => ({
+    ...state,
+    error: null
+  }),
+  [CREATE_POST_SUCCESS]: (state, action) => ({
+    ...state,
+    error: null
+  }),
+  [CREATE_POST_FAILURE]: (state, action) => ({
+    ...state,
+    error: action.payload
+  }),
+  [MODIFY_POST]: (state, action) => ({
+    ...state,
+    error: null
+  }),
+  [MODIFY_POST_SUCCESS]: (state, action) => ({
+    ...state,
+    error: null
+  }),
+  [MODIFY_POST_FAILURE]: (state, action) => ({
     ...state,
     error: action.payload
   })
