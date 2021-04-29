@@ -146,18 +146,17 @@ const HeaderSearch = styled.div<{ isToogle: boolean }>`
   overflow: hidden;
   border-radius: 1.8rem;
   margin-right: 1rem;
-  max-width: 195px;
   border: ${({ theme }) => theme.colors.bdLightGray} 1px solid;
   transition: all ease-in-out 0.5s 0s;
   display: flex;
   align-items: center;
   ${({ isToogle }) =>
     isToogle
-      ? "justify-content: flex-start; width: 11.5rem;"
+      ? "justify-content: flex-start; width: 13rem;"
       : "justify-content: center; width: 1.8rem;"}
   ${({ theme }) => theme.device.mobile} {
-    width: ${({ isToogle }) => (isToogle ? "10rem" : "1.5rem")};
-    height: 1.5rem;
+    width: ${({ isToogle }) => (isToogle ? "11.5rem" : "1.65rem")};
+    height: 1.65rem;
     border-radius: 1.5rem;
   }
 `;
@@ -169,8 +168,8 @@ const HeaderSearchBtn = styled.button`
   border: none;
   align-items: center;
   & > svg {
-    width: 0.8rem;
-    height: 0.8rem;
+    width: 0.9rem;
+    height: 0.9rem;
     cursor: pointer;
     opacity: 0.5;
   }
@@ -179,19 +178,18 @@ const HeaderSearchBtn = styled.button`
 const HeaderSearchInput = styled.input<{ isToogle: boolean }>`
   color: ${({ theme }) => theme.colors.ftGray};
   display: ${({ isToogle }) => (isToogle ? "inline-block" : "none")};
-  width: calc(100% - 1.5rem);
-  max-width: 165px;
+  width: calc(100% - 1.6rem);
   height: 1.8rem;
   padding-left: 1rem;
   padding-right: 0.5rem;
   border: none;
   outline: none;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 500;
   ${({ theme }) => theme.device.mobile} {
     height: 1.5rem;
-    width: calc(100% - 2rem);
-    font-size: 0.7rem;
+    width: calc(100% - 1.5rem);
+    font-size: 0.8rem;
   }
 `;
 
