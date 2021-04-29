@@ -10,7 +10,7 @@ const colors = {
   bgBlue: "#5373f8",
   bgGray: "#ededed",
   bgTableWhite: "#f6f8fa",
-  bgCode: "#1b1f231f",
+  bgCode: "#1b1f231c",
 
   ftGreen: "green",
   ftMarkdownBlack: "#222426",
