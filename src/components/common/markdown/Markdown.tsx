@@ -33,21 +33,28 @@ const Markdown: React.FC<IMarkdownProps> = ({ content }) => {
 };
 
 const MarkdownContainer = styled.div`
-  font-size: 1.125rem !important;
+  font-size: 1.125rem;
   color: ${({ theme }) => theme.colors.ftMarkdownBlack};
   line-height: 1.7;
   letter-spacing: -0.004em;
   word-break: keep-all;
   overflow-wrap: break-word;
-  ${({ theme }) => theme.colors.tablet} {
+  ${({ theme }) => theme.device.tablet} {
     font-size: 1rem;
+  }
+  p + a,
+  a {
+    color: ${({ theme }) => theme.colors.ftBlue};
+    &:hover {
+      text-decoration: underline;
+    }
   }
   p + h1,
   p + h2,
   p + h3,
   p + h4 {
     margin-top: 2.5rem;
-    ${({ theme }) => theme.colors.tablet} {
+    ${({ theme }) => theme.device.tablet} {
       margin-top: 2rem;
     }
   }
@@ -57,31 +64,31 @@ const MarkdownContainer = styled.div`
   h4 {
     line-height: 1.5;
     margin-bottom: 1rem;
-    ${({ theme }) => theme.colors.tablet} {
+    ${({ theme }) => theme.device.tablet} {
       margin-bottom: 0.75rem;
     }
   }
   h1 {
     font-size: 2.5rem;
-    ${({ theme }) => theme.colors.tablet} {
+    ${({ theme }) => theme.device.tablet} {
       font-size: 2.25rem;
     }
   }
   h2 {
     font-size: 2rem;
-    ${({ theme }) => theme.colors.tablet} {
+    ${({ theme }) => theme.device.tablet} {
       font-size: 1.75rem;
     }
   }
   h3 {
     font-size: 1.5rem;
-    ${({ theme }) => theme.colors.tablet} {
+    ${({ theme }) => theme.device.tablet} {
       font-size: 1.25rem;
     }
   }
   h4 {
     font-size: 1.125rem;
-    ${({ theme }) => theme.colors.tablet} {
+    ${({ theme }) => theme.device.tablet} {
       font-size: 1rem;
     }
   }
@@ -117,7 +124,6 @@ const MarkdownContainer = styled.div`
   pre {
     & > div {
       font-family: "Fira Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-      font-size: 1rem;
       overflow-x: auto;
       letter-spacing: 0px;
       border-radius: 5px;
@@ -126,6 +132,10 @@ const MarkdownContainer = styled.div`
       letter-spacing: 0px !important;
       padding: 1rem !important;
       border-radius: 5px !important;
+      font-size: 0.875rem;
+      ${({ theme }) => theme.device.tablet} {
+        font-size: 0.75rem;
+      }
       & > code {
         background: none !important;
       }
