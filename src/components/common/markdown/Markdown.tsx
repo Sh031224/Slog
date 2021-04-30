@@ -114,6 +114,10 @@ const MarkdownContainer = styled.div`
     border-left: ${({ theme }) => theme.colors.bdBlue} 4px solid;
     background-color: ${({ theme }) => theme.colors.bgLightGray};
     padding: 1rem 1rem 1rem 2rem;
+    ${({ theme }) => theme.device.tablet} {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
     & :first-child {
       margin-top: 0px;
     }
