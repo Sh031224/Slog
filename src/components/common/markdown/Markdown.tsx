@@ -4,7 +4,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import styled from "styled-components";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
-interface IMarkdownProps {
+export interface IMarkdownProps {
   content: string;
 }
 
