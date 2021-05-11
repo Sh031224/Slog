@@ -16,7 +16,14 @@ const MainPosts: React.FC = () => {
           </React.Fragment>
         ))}
         {loading ? (
-          <PostLoading />
+          <>
+            <PostLoading />
+            <PostLoading />
+            <PostLoading />
+            <PostLoading />
+            <PostLoading />
+            <PostLoading />
+          </>
         ) : (
           notfound && !posts.length && <PostsNotfound>게시글이 없어요. 🤭</PostsNotfound>
         )}

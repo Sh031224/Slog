@@ -7,7 +7,7 @@ import timeCalc from "lib/timeCalc";
 import { AiOutlineEye } from "react-icons/ai";
 import { GoCommentDiscussion } from "react-icons/go";
 
-interface IPostItemProps {
+export interface IPostItemProps {
   item: IPost;
   lastEl?: (node?: Element) => void;
 }
