@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { memo } from "react";
 import styled from "styled-components";
 
-interface ICategoryItemProps {
+export interface ICategoryItemProps {
   href: string;
   params: number | string;
   name: string;

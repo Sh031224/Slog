@@ -18,4 +18,5 @@ const wrapper = createWrapper(configureStore, {
   debug: false
 });
 
+export const store = configureStore();
 export default wrapper;

@@ -3,6 +3,7 @@
   "plugins": [
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
     ["@babel/plugin-proposal-class-properties", { "loose": true }],
-    ["inline-react-svg"]
+    ["inline-react-svg"],
+    ["babel-plugin-dynamic-import-node"]
   ]
 }

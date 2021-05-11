@@ -53,19 +53,17 @@ const HandleContent: React.FC<IHandleContentProps> = ({
             <input type="file" accept="png, gif, jpeg, jpg" id="upload" onChange={handleUpload} />
           </HandleContentHeaderImage>
         </HandleContentHeader>
-        {isPreviewTab ? (
-          <HandleContentPreview>
-            <Markdown content={value.content} />
-          </HandleContentPreview>
-        ) : (
-          <HandleContentTextArea
-            value={value.content}
-            name="content"
-            onChange={handleValue}
-            ref={textareaRef}
-            onKeyDown={handleContentTab}
-          />
-        )}
+        <HandleContentPreview isActive={isPreviewTab}>
+          <Markdown content={value.content} />
+        </HandleContentPreview>
+        <HandleContentTextArea
+          isActive={!isPreviewTab}
+          value={value.content}
+          name="content"
+          onChange={handleValue}
+          ref={textareaRef}
+          onKeyDown={handleContentTab}
+        />
       </HandleContentBox>
     </HandleContentWrapper>
   );
@@ -173,11 +171,12 @@ const HandleContentHeaderImage = styled.div`
   }
 `;
 
-const HandleContentTextArea = styled.textarea`
+const HandleContentTextArea = styled.textarea<{ isActive: boolean }>`
   font-family: NotoSansKR;
   padding: 1rem;
   font-size: 1rem;
   border: none;
+  display: ${({ isActive }) => (isActive ? "block" : "none")};
   resize: none;
   width: 100%;
   height: 40rem;
@@ -189,13 +188,14 @@ const HandleContentTextArea = styled.textarea`
   }
 `;
 
-const HandleContentPreview = styled.div`
+const HandleContentPreview = styled.div<{ isActive: boolean }>`
   width: 100%;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   padding: 0.3rem 1rem;
   height: 40rem;
   overflow: scroll;
+  display: ${({ isActive }) => (isActive ? "block" : "none")};
 `;
 
 export default HandleContent;

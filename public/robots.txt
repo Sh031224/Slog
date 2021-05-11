@@ -2,4 +2,3 @@ User-agent: *
 Disallow: /privacy
 Disallow: /rss/*
 Disallow: /handle/*
-Disallow: /sitemap.xml
