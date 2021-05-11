@@ -12,6 +12,7 @@
 - styled-components
 - Redux, Redux-Thunk
 - FCM
+- react-testing-library
 
 ### Back-End
 
