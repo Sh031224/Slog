@@ -19,5 +19,5 @@
     "isolatedModules": true
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "next.config.js", "src"]
+  "include": ["**/*.ts", "**/*.tsx", "next.config.js", "src", "__mocks__/fileMock.js"]
 }

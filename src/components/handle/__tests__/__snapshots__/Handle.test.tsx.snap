@@ -1,0 +1,712 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Handle renders correctly 1`] = `
+.c17 {
+  font-size: 1.125rem;
+  color: #222426;
+  line-height: 1.7;
+  -webkit-letter-spacing: -0.004em;
+  -moz-letter-spacing: -0.004em;
+  -ms-letter-spacing: -0.004em;
+  letter-spacing: -0.004em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.c17 p + a,
+.c17 a {
+  color: #5373f8;
+}
+
+.c17 p + a:hover,
+.c17 a:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c17 p + h1,
+.c17 p + h2,
+.c17 p + h3,
+.c17 p + h4 {
+  margin-top: 2.5rem;
+}
+
+.c17 h1,
+.c17 h2,
+.c17 h3,
+.c17 h4 {
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.c17 h1 {
+  font-size: 2.5rem;
+}
+
+.c17 h2 {
+  font-size: 2rem;
+}
+
+.c17 h3 {
+  font-size: 1.5rem;
+}
+
+.c17 h4 {
+  font-size: 1.125rem;
+}
+
+.c17 hr {
+  height: 1px;
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+  background: #dedede;
+}
+
+.c17 blockquote {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  margin-left: 0px;
+  margin-right: 0px;
+  color: rgb(33,37,41);
+  border-left: #5373f8 4px solid;
+  background-color: rgb(241,243,245);
+  padding: 1rem 1rem 1rem 2rem;
+}
+
+.c17 blockquote :first-child {
+  margin-top: 0px;
+}
+
+.c17 blockquote :last-child {
+  margin-bottom: 0px;
+}
+
+.c17 pre > div {
+  font-family: "Fira Mono",source-code-pro,Menlo,Monaco,Consolas,"Courier New",monospace;
+  overflow-x: auto;
+  -webkit-letter-spacing: 0px;
+  -moz-letter-spacing: 0px;
+  -ms-letter-spacing: 0px;
+  letter-spacing: 0px;
+  border-radius: 5px;
+  line-height: 1.5 !important;
+  overflow-x: auto !important;
+  -webkit-letter-spacing: 0px !important;
+  -moz-letter-spacing: 0px !important;
+  -ms-letter-spacing: 0px !important;
+  letter-spacing: 0px !important;
+  padding: 1rem !important;
+  border-radius: 5px !important;
+  font-size: 0.875rem;
+}
+
+.c17 pre > div > code {
+  background: none !important;
+}
+
+.c17:not(pre) > code[class*="language-"],
+.c17 pre[class*="language-"] {
+  background: none !important;
+}
+
+.c17 code {
+  font-family: "Fira Mono",source-code-pro,Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+
+.c17 p > code {
+  background: #1b1f231c;
+  padding: 0.2em 0.4em;
+  border-radius: 5px;
+  font-size: 85%;
+}
+
+.c17 img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.c17 p > img {
+  display: block;
+  max-width: 100%;
+  margin: 3rem auto;
+}
+
+.c17 table {
+  border-collapse: collapse;
+  display: block;
+  width: 100%;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.c17 table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+.c17 table tr {
+  background-color: #ffff;
+  border-top: 1px solid #c6cbd1;
+}
+
+.c17 table td,
+.c17 table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+.c7 {
+  margin-top: 2rem;
+}
+
+.c7 input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  -webkit-clip: rect(0,0,0,0);
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+.c8 {
+  width: 100%;
+  border-radius: 5px;
+  border: #e1e4e8 1px solid;
+  position: relative;
+}
+
+.c9 {
+  display: table;
+  width: 100%;
+  border-bottom: #e1e4e8 1px solid;
+  background-color: #fafbfc;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  position: relative;
+  padding: 0.25rem 0.5rem;
+}
+
+.c10 {
+  margin: calc(-0.25rem - 1px) 0 calc(-0.25rem - 1.5px) calc(-0.5rem - 1.5px);
+  cursor: pointer;
+  display: inline-block;
+}
+
+.c11 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  color: #222426;
+  line-height: 23px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: #ffff;
+  border: 1px solid #e1e4e8;
+  border-bottom: none;
+}
+
+.c11:first-child {
+  border-top-left-radius: 5px;
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  color: #222426;
+  line-height: 23px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.c13:first-child {
+  border-top-left-radius: 5px;
+}
+
+.c12 {
+  font-size: 1.1rem;
+  color: #a0a0a0;
+  margin-right: 0.8rem;
+}
+
+.c14 {
+  font-size: 1.1rem;
+  color: #a0a0a0;
+  margin-right: 0.8rem;
+}
+
+.c15 {
+  display: inline-block;
+  width: calc(100% - 20rem);
+  text-align: center;
+  font-size: 1.2rem;
+  color: #464646;
+}
+
+.c15 svg {
+  cursor: pointer;
+}
+
+.c18 {
+  font-family: NotoSansKR;
+  padding: 1rem;
+  font-size: 1rem;
+  border: none;
+  display: block;
+  resize: none;
+  width: 100%;
+  height: 40rem;
+  overflow: auto;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.c18:focus {
+  outline: none;
+}
+
+.c16 {
+  width: 100%;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  padding: 0.3rem 1rem;
+  height: 40rem;
+  overflow: scroll;
+  display: none;
+}
+
+.c19 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.c20 {
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-left: 1.5rem;
+  box-shadow: 1px 1px 10px rgba(0,0,0,0.096);
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #ffff;
+}
+
+.c20:last-child {
+  background-color: #5373f8;
+  color: #fff;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin-top: 3rem;
+}
+
+.c3 {
+  border: #e1e4e8 1px solid;
+  border-radius: 5px;
+  padding: 0.75rem;
+  outline: none;
+  margin-bottom: 1rem;
+}
+
+.c3:focus {
+  border: #c0c0c0 2px solid;
+}
+
+.c3:first-child {
+  font-size: 1.3rem;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 1rem;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c5 {
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  outline: none;
+  width: 65%;
+  border: #e1e4e8 1px solid;
+  border-radius: 5px;
+  outline: none;
+}
+
+.c5:focus {
+  border: #c0c0c0 2px solid;
+}
+
+.c6 {
+  width: 35%;
+  border: #e1e4e8 1px solid;
+  border-radius: 5px;
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  outline: none;
+  margin-left: 1rem;
+  color: black;
+}
+
+.c6:invalid {
+  color: #777;
+}
+
+.c0 {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c1 {
+  max-width: 900px;
+  position: relative;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+@media only screen and (max-width:767px) {
+  .c17 {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width:767px) {
+  .c17 p + h1,
+  .c17 p + h2,
+  .c17 p + h3,
+  .c17 p + h4 {
+    margin-top: 2rem;
+  }
+}
+
+@media only screen and (max-width:767px) {
+  .c17 h1,
+  .c17 h2,
+  .c17 h3,
+  .c17 h4 {
+    margin-bottom: 0.75rem;
+  }
+}
+
+@media only screen and (max-width:767px) {
+  .c17 h1 {
+    font-size: 2.25rem;
+  }
+}
+
+@media only screen and (max-width:767px) {
+  .c17 h2 {
+    font-size: 1.75rem;
+  }
+}
+
+@media only screen and (max-width:767px) {
+  .c17 h3 {
+    font-size: 1.25rem;
+  }
+}
+
+@media only screen and (max-width:767px) {
+  .c17 h4 {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width:767px) {
+  .c17 pre > div {
+    font-size: 0.75rem;
+  }
+}
+
+@media only screen and (max-width:500px) {
+  .c7 .upload-image {
+    width: 15rem !important;
+  }
+
+  .c7 .upload-image p {
+    font-size: 0.7rem !important;
+  }
+}
+
+@media only screen and (max-width:500px) {
+  .c11 {
+    font-size: 0.7rem;
+    padding: 0.5rem 0.9rem;
+  }
+}
+
+@media only screen and (max-width:500px) {
+  .c13 {
+    font-size: 0.7rem;
+    padding: 0.5rem 0.9rem;
+  }
+}
+
+@media only screen and (max-width:500px) {
+  .c12 {
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+  }
+}
+
+@media only screen and (max-width:500px) {
+  .c14 {
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+  }
+}
+
+@media only screen and (max-width:500px) {
+  .c15 {
+    width: calc(100% - 13rem);
+    font-size: 1rem;
+  }
+}
+
+<div>
+  <div
+    class="notification-container notification-container-empty"
+  >
+    <div />
+  </div>
+  <main
+    class="c0"
+  >
+    <div
+      class="c1"
+    >
+      <section
+        class="c2"
+      >
+        <input
+          class="c3"
+          maxlength="255"
+          name="title"
+          placeholder="제목을 입력하세요."
+          type="text"
+          value=""
+        />
+        <input
+          class="c3"
+          maxlength="255"
+          name="description"
+          placeholder="설명을 입력하세요."
+          type="text"
+          value=""
+        />
+      </section>
+      <section
+        class="c4"
+      >
+        <input
+          class="c5"
+          name="thumbnail"
+          placeholder="미리보기 이미지를 넣어주세요."
+          type="text"
+          value=""
+        />
+        <select
+          class="c6"
+          name="category_idx"
+          required=""
+        >
+          <option
+            value=""
+          >
+            카테고리를 선택해주세요.
+          </option>
+        </select>
+      </section>
+      <section
+        class="c7"
+      >
+        <div
+          class="c8"
+        >
+          <div
+            class="c9"
+          >
+            <div
+              class="c10"
+            >
+              <button
+                aria-label="change-tab"
+                class="c11"
+              >
+                <svg
+                  class="c12"
+                  fill="none"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <polyline
+                    points="16 18 22 12 16 6"
+                  />
+                  <polyline
+                    points="8 6 2 12 8 18"
+                  />
+                </svg>
+                Edit Content
+              </button>
+              <button
+                aria-label="change-preview"
+                class="c13"
+              >
+                <svg
+                  class="c14"
+                  fill="none"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                  />
+                </svg>
+                Preview
+              </button>
+            </div>
+            <div
+              class="c15"
+            >
+              <label
+                for="upload"
+              >
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 1024 1024"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32zm-40 632H136v-39.9l138.5-164.3 150.1 178L658.1 489 888 761.6V792zm0-129.8L664.2 396.8c-3.2-3.8-9-3.8-12.2 0L424.6 666.4l-144-170.7c-3.2-3.8-9-3.8-12.2 0L136 652.7V232h752v430.2zM304 456a88 88 0 1 0 0-176 88 88 0 0 0 0 176zm0-116c15.5 0 28 12.5 28 28s-12.5 28-28 28-28-12.5-28-28 12.5-28 28-28z"
+                  />
+                </svg>
+              </label>
+              <input
+                accept="png, gif, jpeg, jpg"
+                id="upload"
+                type="file"
+              />
+            </div>
+          </div>
+          <div
+            class="c16"
+          >
+            <div
+              class="c17"
+            >
+              <span>
+                
+
+              </span>
+            </div>
+          </div>
+          <textarea
+            class="c18"
+            name="content"
+          />
+        </div>
+      </section>
+      <section
+        class="c19"
+      >
+        <button
+          aria-label="cancel-handle"
+          class="c20"
+        >
+          취소
+        </button>
+        <button
+          aria-label="temp-handle"
+          class="c20"
+        >
+          임시 저장
+        </button>
+        <button
+          aria-label="save-handle"
+          class="c20"
+        >
+          저장
+        </button>
+      </section>
+    </div>
+  </main>
+</div>
+`;
