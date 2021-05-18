@@ -84,21 +84,8 @@ export interface GetPostCommentCountResponse extends ResponseType {
   };
 }
 
-export interface UploadFilesResponse {
-  status: number;
-  message: string;
+export interface UploadFilesResponse extends ResponseType {
   data: {
     files: string[];
-  };
-}
-
-export interface GetProfileResponse extends ResponseType {
-  data: {
-    user: {
-      idx: number;
-      name: string;
-      is_admin: boolean;
-      created_at: Date;
-    };
   };
 }
