@@ -1,26 +1,35 @@
-import prettier from "prettier";
+import { IPost } from "interface/IPost";
+import postResponse from "../lib/postResponse";
 import * as fs from "fs";
-import sitemapPost from "./sitemap-post";
 
-const formatted = (sitemap) => prettier.format(sitemap, { parser: "html" });
+let getDate = new Date().toISOString();
+const WEB_DOMAIN = "https://slog.website";
 
 const sitemap = async () => {
-  const sitemapPostResult = await sitemapPost();
+  const posts = await postResponse();
 
-  const sitemap = `
-    <?xml version="1.0" encoding="UTF-8"?>
-    <urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-      ${sitemapPostResult}
-    </urlset>
+  getDate = new Date(posts[0].updated_at).toISOString();
+
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+  <urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+          http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    ${posts.map(generateSitemapItem).join("")}
+  </urlset>
   `;
 
-  const formattedSitemap = formatted(sitemap);
+  fs.writeFileSync("./public/sitemap.xml", sitemap);
+};
 
-  fs.writeFileSync("./public/sitemap.xml", formattedSitemap, "utf8");
+const generateSitemapItem = (post: IPost): string => {
+  return `
+  <url>
+    <loc>${`${WEB_DOMAIN}/post/${post.idx}`}</loc>
+    <lastmod>${new Date(post.updated_at).toISOString()}</lastmod>
+  </url>
+    `;
 };
 
 export default sitemap;

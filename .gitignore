@@ -45,3 +45,6 @@ src/config/
 # Sitemap
 public/sitemap/
 public/sitemap.xml
+
+# rss
+public/rss.xml

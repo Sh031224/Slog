@@ -62,9 +62,8 @@ App.getInitialProps = async ({ Component, ctx }: AppContext): Promise<AppInitial
   let pageProps = {};
 
   const isServer = typeof window === "undefined";
-  const cookie = isServer ? ctx.req.headers.cookie : "";
 
-  if (isServer && cookie) {
+  if (isServer) {
     const allCookies = cookies(ctx);
     const accessToken = allCookies["access_token"];
     if (accessToken !== undefined) {
