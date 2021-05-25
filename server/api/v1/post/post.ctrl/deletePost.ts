@@ -3,6 +3,8 @@ import AuthRequest from "../../../../type/AuthRequest";
 import { getRepository } from "typeorm";
 import logger from "../../../../lib/logger";
 import Post from "../../../../entity/Post";
+import sitemap from "../../../../sitemap/sitemap";
+import rss from "../../../../rss/rss";
 
 export default async (req: AuthRequest, res: Response) => {
   const idx: number = Number(req.params.idx);
@@ -33,6 +35,9 @@ export default async (req: AuthRequest, res: Response) => {
     }
 
     await postRepo.remove(post);
+
+    sitemap();
+    rss();
 
     logger.green("[DELETE] 글 삭제 성공.");
     res.status(200).json({

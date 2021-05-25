@@ -5,6 +5,7 @@ import logger from "../../../../lib/logger";
 import Category from "../../../../entity/Category";
 import Post from "../../../../entity/Post";
 import sitemap from "../../../../sitemap/sitemap";
+import rss from "../../../../rss/rss";
 
 export default async (req: Request, res: Response) => {
   if (!validateCreate(req, res)) return;
@@ -66,7 +67,10 @@ export default async (req: Request, res: Response) => {
 
     await postRepo.save(post);
 
-    if (!body.is_temp) sitemap();
+    if (!body.is_temp) {
+      sitemap();
+      rss();
+    }
 
     logger.green("[POST] 글 생성 성공.");
     res.status(200).json({

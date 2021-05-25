@@ -40,6 +40,7 @@ export default async (req: Request, res: Response) => {
       "title",
       "created_at",
       "updated_at",
+      "content",
       "fk_category_idx",
       "thumbnail",
       "view",
@@ -106,10 +107,7 @@ export default async (req: Request, res: Response) => {
     }
 
     const postRepo = getRepository(Post);
-    const [posts, total]: [
-      postListType[],
-      number
-    ] = await postRepo.findAndCount(queryConditions);
+    const [posts, total]: [postListType[], number] = await postRepo.findAndCount(queryConditions);
 
     for (let i in posts) {
       let total_count = 0;
