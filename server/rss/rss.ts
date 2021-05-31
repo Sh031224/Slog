@@ -30,8 +30,8 @@ const generateRssItem = (post: IPost): string => `
     <title>
       <![CDATA[ ${post.title} ]]>
      </title>
-    <guid>${WEB_DOMAIN}/${post.idx}</guid>
-    <link>${WEB_DOMAIN}/${post.idx}</link>
+    <guid>${WEB_DOMAIN}/post/${post.idx}</guid>
+    <link>${WEB_DOMAIN}/post/${post.idx}</link>
     <description>
       <![CDATA[ ${marked(post.content)} ]]>
     </description>
