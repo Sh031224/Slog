@@ -1,17 +1,11 @@
 import { AnyAction, CombinedState, combineReducers } from "redux";
-import category from "./category/reducer";
-import common from "./common/reducer";
-import user from "./user/reducer";
-import server from "./server/reducer";
-import post from "./post/reducer";
-import comment from "./comment/reducer";
-import { ICategoryState } from "./category";
-import { ICommonState } from "./common";
-import { IUserState } from "./user";
+import category, { ICategoryState } from "./category";
+import common, { ICommonState } from "./common";
+import user, { IUserState } from "./user";
 import { HYDRATE } from "next-redux-wrapper";
-import { IServerState } from "./server";
-import { IPostState } from "./post";
-import { ICommentState } from "./comment";
+import server, { IServerState } from "./server";
+import post, { IPostState } from "./post";
+import comment, { ICommentState } from "./comment";
 
 const rootReducer = (state: State | undefined, action: AnyAction): CombinedState<State> => {
   switch (action.type) {
