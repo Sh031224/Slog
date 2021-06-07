@@ -15,6 +15,7 @@ import GlobalStyle from "style/GlobalStyle";
 import cookies from "next-cookies";
 import { removeToken, setToken } from "lib/token";
 import MainTemplate from "components/common/template/MainTemplate";
+import { getCLS, getFCP, getFID, getLCP, getTTFB, Metric } from "web-vitals";
 import axios from "axios";
 
 const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
@@ -81,13 +82,35 @@ App.getInitialProps = async ({ Component, ctx }: AppContext): Promise<AppInitial
   return { pageProps };
 };
 
-export const reportWebVitals = ({ id, name, label, value }) => {
+const sendToGoogleAnalytics = ({ name, delta, value, id }: Metric) => {
   window.gtag("event", name, {
-    event_category: label === "web-vital" ? "Web Vitals" : "Next.js custom metric",
-    value: Math.round(name === "CLS" ? value * 1000 : value), // values must be integers
-    event_label: id, // id unique to current page load
-    non_interaction: true // avoids affecting bounce rate.
+    event_category: "Web Vitals",
+    event_label: id,
+    value: Math.round(name === "CLS" ? delta * 1000 : delta),
+    non_interaction: true
   });
+};
+
+export const reportWebVitals = ({ name }: Metric) => {
+  switch (name) {
+    case "FCP":
+      getFCP(sendToGoogleAnalytics);
+      break;
+    case "LCP":
+      getLCP(sendToGoogleAnalytics);
+      break;
+    case "CLS":
+      getCLS(sendToGoogleAnalytics);
+      break;
+    case "FID":
+      getFID(sendToGoogleAnalytics);
+      break;
+    case "TTFB":
+      getTTFB(sendToGoogleAnalytics);
+      break;
+    default:
+      break;
+  }
 };
 
 export default wrapper.withRedux(App);
