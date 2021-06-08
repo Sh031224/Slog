@@ -10,7 +10,7 @@ describe("Markdown", () => {
     return render(<Markdown {...initialProps} {...props} />);
   };
 
-  it("renders correctly", () => {
+  it("matches snapshot", () => {
     const { container } = setup();
 
     expect(container).toMatchSnapshot();
@@ -19,8 +19,11 @@ describe("Markdown", () => {
   it("renders correctly", () => {
     const { getByText } = setup();
 
-    getByText(
-      (content, element) => element.tagName.toLowerCase() === "h2" && content.startsWith("Testing")
+    expect(
+      getByText(
+        (content, element) =>
+          element.tagName.toLowerCase() === "h2" && content.startsWith("Testing")
+      )
     );
   });
 });

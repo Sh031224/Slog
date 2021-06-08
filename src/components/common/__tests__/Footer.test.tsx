@@ -17,7 +17,7 @@ describe("Footer", () => {
     return render(<Footer {...props} />);
   };
 
-  it("renders correctly", () => {
+  it("matches snapshot", () => {
     const { container } = setup();
 
     expect(container).toMatchSnapshot();

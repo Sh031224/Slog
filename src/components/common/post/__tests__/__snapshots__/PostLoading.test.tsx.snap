@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PostLoading renders correctly 1`] = `
+exports[`PostLoading matches snapshot 1`] = `
 .c0 {
   width: 19rem;
   box-shadow: rgba(0,0,0,0.096) 0px 2px 10px 0px;
