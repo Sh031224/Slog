@@ -6,7 +6,7 @@ describe("PostLoading", () => {
     return render(<PostLoading {...props} />);
   };
 
-  it("renders correctly", () => {
+  it("matches snapshot", () => {
     const { container } = setup();
 
     expect(container).toMatchSnapshot();

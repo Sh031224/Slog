@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Markdown renders correctly 1`] = `
+exports[`Markdown matches snapshot 1`] = `
 .c0 {
   font-size: 1.125rem;
   color: #222426;
