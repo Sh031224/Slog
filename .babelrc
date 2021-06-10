@@ -4,6 +4,14 @@
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
     ["@babel/plugin-proposal-class-properties", { "loose": true }],
     ["inline-react-svg"],
-    ["babel-plugin-dynamic-import-node"]
+    ["babel-plugin-dynamic-import-node"],
+    [
+      "styled-components",
+      {
+        "ssr": true,
+        "displayName": true,
+        "preprocess": false
+      }
+    ]
   ]
 }
