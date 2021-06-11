@@ -1,5 +1,5 @@
 import { RootState } from "stores/modules";
-import { limit } from "config/index.json";
+import { limit } from "config/server.json";
 import { getPostsThunk, getSearchPostsThunk, getTempPostsThunk } from "stores/modules/common";
 import { getUserInfoThunk } from "stores/modules/user";
 import { getCategoriesThunk } from "stores/modules/category";

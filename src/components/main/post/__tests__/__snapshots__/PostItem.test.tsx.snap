@@ -146,9 +146,9 @@ exports[`Post Item renders correctly 1`] = `
         </h4>
         <span
           class="c4"
-          title="1970년 01월 01일 09시 00분"
+          title="2020년 01월 01일 00시 00분"
         >
-          55년 전
+          1년 전
         </span>
       </div>
     </a>

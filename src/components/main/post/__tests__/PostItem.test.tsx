@@ -14,8 +14,8 @@ describe("Post Item", () => {
         fk_category_idx: 1,
         thumbnail: "",
         comment_count: 1,
-        created_at: new Date(10),
-        updated_at: new Date(10)
+        created_at: new Date("2020-01-01T00:00:00"),
+        updated_at: new Date("2020-01-01T00:00:00")
       }
     };
     return render(<PostItem {...initialProps} {...props} />);
