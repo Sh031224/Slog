@@ -80,11 +80,11 @@ exports[`Markdown matches snapshot 1`] = `
   padding: 1rem 1rem 1rem 2rem;
 }
 
-.c0 blockquote :first-child {
+.c0 blockquote:first-child {
   margin-top: 0px;
 }
 
-.c0 blockquote :last-child {
+.c0 blockquote:last-child {
   margin-bottom: 0px;
 }
 

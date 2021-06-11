@@ -80,11 +80,11 @@ exports[`Handle renders correctly 1`] = `
   padding: 1rem 1rem 1rem 2rem;
 }
 
-.c17 blockquote :first-child {
+.c17 blockquote:first-child {
   margin-top: 0px;
 }
 
-.c17 blockquote :last-child {
+.c17 blockquote:last-child {
   margin-bottom: 0px;
 }
 
