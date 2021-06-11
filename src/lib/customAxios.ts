@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import { server } from "config/index.json";
+import { server } from "config/server.json";
 import { getToken, removeToken } from "./token";
 
 const addToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
@@ -17,9 +17,7 @@ const addTokenErrorHandle = (err: AxiosError) => {
 };
 
 const Api = axios.create({
-  baseURL: server,
-  timeout: 100000,
-  params: {}
+  baseURL: server
 });
 
 Api.defaults.headers = {

@@ -12,7 +12,7 @@ import {
   increasePage,
   resetPage
 } from "stores/modules/common";
-import { limit } from "config/index.json";
+import { limit } from "config/server.json";
 import { IPostParmsDTO } from "interface/IPost";
 import CategoryTag from "constant/CategoryTag";
 

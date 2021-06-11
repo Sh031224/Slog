@@ -11,7 +11,7 @@ import {
   getPostInfoThunk,
   modifyPostThunk
 } from "stores/modules/post";
-import { server } from "config/index.json";
+import { server } from "config/server.json";
 import { getCategoriesThunk } from "stores/modules/category";
 import { NotificationManager } from "react-notifications";
 import { post } from "lib/api";
