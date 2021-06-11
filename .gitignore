@@ -40,7 +40,8 @@ yarn-error.log*
 .DS_Store
 
 # Config
-src/config/
+src/config/*
+!src/config/server.json
 
 # Sitemap
 public/sitemap/
