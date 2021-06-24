@@ -6,6 +6,7 @@ import TimeCounting from "time-counting";
 import timeCalc from "lib/timeCalc";
 import { AiOutlineEye } from "react-icons/ai";
 import { GoCommentDiscussion } from "react-icons/go";
+import numberConverter from "lib/numberConverter";
 
 export interface IPostItemProps {
   item: IPost;
@@ -42,9 +43,9 @@ const PostItem: React.FC<IPostItemProps> = ({ item, lastEl }) => {
       <PostItemInfo>
         <PostItemInfoContainer>
           <AiOutlineEye />
-          <PostItemInfoCount>{item.view}</PostItemInfoCount>
+          <PostItemInfoCount>{numberConverter(item.view)}</PostItemInfoCount>
           <GoCommentDiscussion />
-          <PostItemInfoCount>{item.comment_count}</PostItemInfoCount>
+          <PostItemInfoCount>{numberConverter(item.comment_count)}</PostItemInfoCount>
         </PostItemInfoContainer>
       </PostItemInfo>
     </PostItemWrapper>
