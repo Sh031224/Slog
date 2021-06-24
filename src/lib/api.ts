@@ -77,7 +77,7 @@ export const post = {
   },
   getHitPosts: async () => {
     const { data }: AxiosResponse<GetPostsResponse> = await Api.get(
-      queryString.stringifyUrl({ url: "/api/v1/post/", query: { page: 1, limit: 5, order: "HIT" } })
+      queryString.stringifyUrl({ url: "/api/v1/post/", query: { page: 1, limit: 5, order: "hit" } })
     );
 
     return data.data.posts;
