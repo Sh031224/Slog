@@ -39,7 +39,6 @@ const useCommentEdit = (comment: IComment) => {
   const init = useCallback(() => {
     setValue("");
     setIsEdit(false);
-    // setIsCreate(false);
   }, []);
 
   const onSave = useCallback(() => {
