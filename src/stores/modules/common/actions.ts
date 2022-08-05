@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
-import { IPost } from "interface/IPost";
-import { ResponseType } from "interface/IResponse";
+import { Post } from "types/post";
+import { ResponseType } from "types/response";
 import { createAction, createAsyncAction } from "typesafe-actions";
 
 export const CLEAR_ERROR = "common/CLEAR_ERROR" as const;
@@ -24,7 +24,7 @@ export const clearCommonError = createAction(CLEAR_ERROR)();
 
 export const getPostsAsync = createAsyncAction(GET_POSTS, GET_POSTS_SUCCESS, GET_POSTS_FAILURE)<
   number,
-  { posts: IPost[]; total: number; notfound: boolean },
+  { posts: Post[]; total: number; notfound: boolean },
   AxiosError<ResponseType>
 >();
 
@@ -32,13 +32,13 @@ export const getTempPostsAsync = createAsyncAction(
   GET_TEMP_POSTS,
   GET_TEMP_POSTS_SUCCESS,
   GET_TEMP_POSTS_FAILURE
-)<void, IPost[], AxiosError<ResponseType>>();
+)<void, Post[], AxiosError<ResponseType>>();
 
 export const getSearchPostsAsync = createAsyncAction(
   GET_SEARCH_POSTS,
   GET_SEARCH_POSTS_SUCCESS,
   GET_SEARCH_POSTS_FAILURE
-)<void, IPost[], AxiosError<ResponseType>>();
+)<void, Post[], AxiosError<ResponseType>>();
 
 export const increasePage = createAction(INCREASE_PAGE)();
 export const resetPage = createAction(RESET_PAGE)();

@@ -1,12 +1,15 @@
-import { RootState } from "stores/modules";
-import { limit } from "config/server.json";
+import type { RootState } from "stores/modules";
 import { getPostsThunk, getSearchPostsThunk, getTempPostsThunk } from "stores/modules/common";
 import { getUserInfoThunk } from "stores/modules/user";
 import { getCategoriesThunk } from "stores/modules/category";
-import { IPostParmsDTO } from "interface/IPost";
-import { getToken } from "./token";
 import { getHitPostsThunk, getPostInfoThunk } from "stores/modules/post";
 import { getCommentsThunk } from "stores/modules/comment";
+
+import type { PostParmsDTO } from "types/post";
+
+import { getToken } from "./token";
+
+const limit = 20;
 
 export const getPostsPromise = async (ctx: any) => {
   const { store } = ctx;
@@ -15,7 +18,7 @@ export const getPostsPromise = async (ctx: any) => {
 
   if (!state.common.data.notfound && !state.common.data.posts.length && !state.common.data.total) {
     const { query } = ctx;
-    const params: IPostParmsDTO = {
+    const params: PostParmsDTO = {
       page: state.common.data.page,
       limit
     };

@@ -1,7 +1,7 @@
 import axios, { CancelTokenSource } from "axios";
 import { post } from "lib/api";
 import { ThunkAction } from "redux-thunk";
-import { IPostParmsDTO } from "interface/IPost";
+import { PostParmsDTO } from "types/post";
 import { RootState } from "..";
 import { getPostsAsync, getSearchPostsAsync, getTempPostsAsync } from "./actions";
 import { CommonAction } from "./types";
@@ -9,7 +9,7 @@ import { CommonAction } from "./types";
 let source: CancelTokenSource;
 
 export const getPostsThunk = (
-  params: IPostParmsDTO
+  params: PostParmsDTO
 ): ThunkAction<void, RootState, void, CommonAction> => {
   return async (dispatch) => {
     if (source) {

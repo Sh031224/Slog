@@ -3,19 +3,19 @@ import { comment } from "lib/api";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "..";
 import { getCommentsAsync, CommentAction } from ".";
-import { ICommentParamsDTO, IReplyParamsDTO } from "interface/IPost";
+import { CommentParamsDTO, ReplyParamsDTO } from "types/post";
 import { createCommentAsync, createReplyAsync, deleteCommentAsync } from "./actions";
 import { getCommentsCountThunk } from "../post";
 
 let source: CancelTokenSource;
 
-interface IPrevRequest {
+type PrevRequest = {
   idx?: number;
   source?: CancelTokenSource;
-}
+};
 
-let prevCommentRequest: IPrevRequest = {};
-let prevReplyRequest: IPrevRequest = {};
+let prevCommentRequest: PrevRequest = {};
+let prevReplyRequest: PrevRequest = {};
 
 export const getCommentsThunk = (
   params: number
@@ -43,7 +43,7 @@ export const getCommentsThunk = (
 };
 
 export const createCommentThunk = (
-  params: ICommentParamsDTO,
+  params: CommentParamsDTO,
   init: () => void
 ): ThunkAction<void, RootState, void, CommentAction> => {
   return async (dispatch) => {
@@ -73,7 +73,7 @@ export const createCommentThunk = (
 };
 
 export const createReplyThunk = (
-  params: IReplyParamsDTO,
+  params: ReplyParamsDTO,
   init: () => void,
   postIdx: number
 ): ThunkAction<void, RootState, void, CommentAction> => {

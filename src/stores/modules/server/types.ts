@@ -3,6 +3,6 @@ import * as actions from "./actions";
 
 export type ServerAction = ActionType<typeof actions>;
 
-export interface IServerState {
+export type ServerState = {
   isServerRendered: boolean;
-}
+};

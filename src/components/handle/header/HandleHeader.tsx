@@ -1,13 +1,14 @@
-import { ICreatePostDTO } from "interface/IPost";
-import React, { memo } from "react";
+import { memo } from "react";
 import styled from "styled-components";
 
-interface IHandleHeaderProps {
-  value: ICreatePostDTO;
-  handleValue: (e: React.ChangeEvent<HTMLElement>) => void;
-}
+import type { CreatePostDTO } from "types/post";
 
-const HandleHeader: React.FC<IHandleHeaderProps> = ({ value, handleValue }) => {
+type Props = {
+  value: CreatePostDTO;
+  handleValue: (e: React.ChangeEvent<HTMLElement>) => void;
+};
+
+const HandleHeader: React.FC<Props> = ({ value, handleValue }) => {
   return (
     <HandleHeaderWrapper>
       <HandleTextInput

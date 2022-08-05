@@ -1,16 +1,16 @@
 import * as actions from "./actions";
 import { ActionType } from "typesafe-actions";
 import { AxiosError } from "axios";
-import { IUser } from "interface/IUser";
-import { ResponseType } from "interface/IResponse";
+import { User } from "types/user";
+import { ResponseType } from "types/response";
 
 export type UserAction = ActionType<typeof actions>;
 
-export interface IUserState {
+export type UserState = {
   loading: boolean;
   error: AxiosError<ResponseType> | null;
   data: {
-    user: IUser;
+    user: User;
     login: boolean;
   };
-}
+};

@@ -1,8 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from "next/link";
-import React from "react";
 import { GoPencil } from "react-icons/go";
 import { useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import type { RootState } from "stores/modules";
 import styled from "styled-components";
 import MainCategories from "./category/MainCategories";
 import MainPosts from "./post/MainPosts";

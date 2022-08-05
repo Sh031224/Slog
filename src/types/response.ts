@@ -1,5 +1,5 @@
-import { ICategory } from "./ICategory";
-import { IComment, IPost, IPostInfo, IReply } from "./IPost";
+import { Category } from "./category";
+import { Comment, Post, PostInfo, Reply } from "./post";
 
 export type ResponseType = {
   status: number;
@@ -8,7 +8,7 @@ export type ResponseType = {
 
 export interface GetRepliesResponse extends ResponseType {
   data: {
-    replies: IReply[];
+    replies: Reply[];
   };
 }
 
@@ -20,7 +20,7 @@ export interface LoginResponse extends ResponseType {
 
 export interface GetCategoriesResponse extends ResponseType {
   data: {
-    categories: ICategory[];
+    categories: Category[];
   };
 }
 
@@ -32,26 +32,26 @@ export interface GetCommentsCountResponse extends ResponseType {
 
 export interface GetCommentsResponse extends ResponseType {
   data: {
-    comments: IComment[];
+    comments: Comment[];
   };
 }
 
 export interface GetTempPostsResponse extends ResponseType {
   data: {
-    posts: IPost[];
+    posts: Post[];
   };
 }
 
 export interface GetPostsResponse extends ResponseType {
   data: {
-    posts: IPost[];
+    posts: Post[];
     total: number;
   };
 }
 
 export interface GetPostInfoResponse extends ResponseType {
   data: {
-    post: IPostInfo;
+    post: PostInfo;
   };
 }
 

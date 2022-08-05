@@ -1,23 +1,23 @@
-export interface IPostParmsDTO {
+export type PostParmsDTO = {
   page: number;
   limit: number;
   order?: string;
   category?: number;
-}
+};
 
-export interface ICommentParamsDTO {
+export type CommentParamsDTO = {
   post_idx: number;
   content: string;
   is_private: boolean;
-}
+};
 
-export interface IReplyParamsDTO {
+export type ReplyParamsDTO = {
   comment_idx: number;
   content: string;
   is_private: boolean;
-}
+};
 
-export interface IPost {
+export type Post = {
   idx: number;
   title: string;
   description: string;
@@ -29,9 +29,9 @@ export interface IPost {
   created_at: Date;
   updated_at: Date;
   comment_count: number;
-}
+};
 
-export interface IPostInfo {
+export type PostInfo = {
   idx: number;
   title: string;
   description: string;
@@ -43,9 +43,9 @@ export interface IPostInfo {
   created_at: Date;
   updated_at: Date;
   comment_count: number;
-}
+};
 
-export interface IComment {
+export type Comment = {
   idx: number;
   content: string;
   is_private: boolean;
@@ -55,10 +55,10 @@ export interface IComment {
   fk_post_idx: number;
   created_at: Date;
   updated_at: Date;
-  replies: IReply[];
-}
+  replies: Reply[];
+};
 
-export interface IReply {
+export type Reply = {
   idx: number;
   content: string;
   is_private: boolean;
@@ -68,21 +68,21 @@ export interface IReply {
   fk_comment_idx: number;
   created_at: Date;
   updated_at: Date;
-}
+};
 
-export interface ICreatePostDTO {
+export type CreatePostDTO = {
   title: string;
   content: string;
   category_idx?: number | null;
   thumbnail?: string;
   description?: string;
   is_temp: boolean;
-}
+};
 
-export interface ICreateTempPostDTO {
+export type CreateTempPostDTO = {
   title: string;
   description: string | null;
   content: string | null;
   thumbnail: string | null;
   category_idx: number | null;
-}
+};

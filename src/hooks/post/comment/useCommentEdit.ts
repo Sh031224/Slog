@@ -1,11 +1,12 @@
-import { IComment } from "interface/IPost";
-import { useCallback, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import { Comment } from "types/post";
+import type { RootState } from "stores/modules";
 import { deleteCommentThunk, modifyCommentThunk } from "stores/modules/comment";
 
-const useCommentEdit = (comment: IComment) => {
+const useCommentEdit = (comment: Comment) => {
   const dispatch = useDispatch();
 
   const {
@@ -16,49 +17,46 @@ const useCommentEdit = (comment: IComment) => {
   const [isCreate, setIsCreate] = useState<boolean>(false);
   const [value, setValue] = useState<string>(comment.content);
 
-  const onClickEdit = useCallback(() => {
+  const onClickEdit = () => {
     setIsEdit(true);
-  }, []);
+  };
 
-  const onCloseEdit = useCallback(() => {
+  const onCloseEdit = () => {
     setIsEdit(false);
-  }, []);
+  };
 
-  const onClickCreate = useCallback(() => {
+  const onClickCreate = () => {
     setIsCreate(true);
-  }, []);
+  };
 
-  const onCloseCreate = useCallback(() => {
+  const onCloseCreate = () => {
     setIsCreate(false);
-  }, []);
+  };
 
-  const onChangeValue = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-  }, []);
+  };
 
-  const init = useCallback(() => {
+  const init = () => {
     setValue("");
     setIsEdit(false);
-  }, []);
+  };
 
-  const onSave = useCallback(() => {
+  const onSave = () => {
     if (value.replace(/\s/gi, "") !== "") {
       dispatch(modifyCommentThunk(comment.idx, value, idx, init));
     }
-  }, [comment, idx, value, init]);
+  };
 
-  const onKeyDownValue = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Escape") {
-        onCloseEdit();
-      } else if (e.key === "Enter") {
-        onSave();
-      }
-    },
-    [onCloseEdit, onSave]
-  );
+  const onKeyDownValue = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Escape") {
+      onCloseEdit();
+    } else if (e.key === "Enter") {
+      onSave();
+    }
+  };
 
-  const onClickDelete = useCallback(() => {
+  const onClickDelete = () => {
     confirmAlert({
       title: "Warning",
       message: "정말로 삭제하시겠습니까?",
@@ -75,7 +73,7 @@ const useCommentEdit = (comment: IComment) => {
         }
       ]
     });
-  }, [comment, idx]);
+  };
 
   return {
     isEdit,

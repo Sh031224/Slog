@@ -73,7 +73,7 @@ exports[`Footer matches snapshot 1`] = `
     >
       <a
         href="https://github.com/Sh031224"
-        rel="noopener"
+        rel="noopener noreferrer"
         target="_blank"
       >
         © 2020. Sh031224. All rights reserved.

@@ -1,19 +1,21 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from "next/link";
-import React from "react";
+import { memo } from "react";
 import styled from "styled-components";
-import { IPost } from "interface/IPost";
 import TimeCounting from "time-counting";
-import timeCalc from "lib/timeCalc";
 import { AiOutlineEye } from "react-icons/ai";
 import { GoCommentDiscussion } from "react-icons/go";
+
+import type { Post } from "types/post";
+import timeCalc from "lib/timeCalc";
 import numberConverter from "lib/numberConverter";
 
-export interface IPostItemProps {
-  item: IPost;
+type Props = {
+  item: Post;
   lastEl?: (node?: Element) => void;
-}
+};
 
-const PostItem: React.FC<IPostItemProps> = ({ item, lastEl }) => {
+const PostItem: React.FC<Props> = ({ item, lastEl }) => {
   return (
     <PostItemWrapper ref={lastEl}>
       {item.thumbnail && (
@@ -155,4 +157,4 @@ const PostItemInfoCount = styled.span`
   color: ${({ theme }) => theme.colors.ftLittleGray};
 `;
 
-export default React.memo(PostItem);
+export default memo(PostItem);

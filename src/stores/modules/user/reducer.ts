@@ -11,9 +11,9 @@ import {
   TRY_LOGIN_FAILURE,
   TRY_LOGIN_SUCCESS
 } from "./actions";
-import { IUserState, UserAction } from "./types";
+import { UserState, UserAction } from "./types";
 
-export const userInitialState: IUserState = {
+export const userInitialState: UserState = {
   loading: false,
   error: null,
   data: {
@@ -27,7 +27,7 @@ export const userInitialState: IUserState = {
   }
 };
 
-export default createReducer<IUserState, UserAction>(userInitialState, {
+export default createReducer<UserState, UserAction>(userInitialState, {
   [GET_USERINFO]: (state, action) => ({
     ...state,
     loading: true,

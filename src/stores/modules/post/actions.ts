@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
-import { IPost, IPostInfo } from "interface/IPost";
-import { ResponseType } from "interface/IResponse";
+import { Post, PostInfo } from "types/post";
+import { ResponseType } from "types/response";
 import { createAction, createAsyncAction } from "typesafe-actions";
 
 export const CLEAR_ERROR = "post/CLEARERROR" as const;
@@ -35,7 +35,7 @@ export const getPostInfosAsync = createAsyncAction(
   GET_POST_INFO,
   GET_POST_INFO_SUCCESS,
   GET_POST_INFO_FAILURE
-)<void, IPostInfo, AxiosError<ResponseType>>();
+)<void, PostInfo, AxiosError<ResponseType>>();
 
 export const deletePostAsync = createAsyncAction(
   DELETE_POST,
@@ -47,7 +47,7 @@ export const getHitPostsAsync = createAsyncAction(
   GET_HIT_POSTS,
   GET_HIT_POSTS_SUCCESS,
   GET_HIT_POSTS_FAILURE
-)<void, IPost[], AxiosError<ResponseType>>();
+)<void, Post[], AxiosError<ResponseType>>();
 
 export const getCommentsCountAsync = createAsyncAction(
   GET_COMMENTS_COUNT,

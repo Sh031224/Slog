@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from "next/router";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import type { RootState } from "stores/modules";
 import { clearPostError, getHitPostsThunk, getPostInfoThunk } from "stores/modules/post";
 import { NotificationManager } from "react-notifications";
 import { getCommentsThunk } from "stores/modules/comment";
@@ -14,7 +15,7 @@ const usePostInfo = () => {
   const router = useRouter();
   const { idx } = router.query;
 
-  const getPostInfo = useCallback(() => {
+  const getPostInfo = () => {
     if (Number(idx)) {
       if (data.post.idx !== Number(idx)) {
         dispatch(getPostInfoThunk(Number(idx)));
@@ -23,7 +24,7 @@ const usePostInfo = () => {
     } else {
       router.push("/");
     }
-  }, [idx, data]);
+  };
 
   useEffect(() => {
     if (!data.hitPosts.length) {

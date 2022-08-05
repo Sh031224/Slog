@@ -1,4 +1,4 @@
-import { IPost } from "interface/IPost";
+import { Post } from "types/post";
 import postResponse from "../lib/postResponse";
 import * as fs from "fs";
 
@@ -23,7 +23,7 @@ const sitemap = async () => {
   fs.writeFileSync("./public/sitemap.xml", sitemap);
 };
 
-const generateSitemapItem = (post: IPost): string => {
+const generateSitemapItem = (post: Post): string => {
   return `
   <url>
     <loc>${`${WEB_DOMAIN}/post/${post.idx}`}</loc>

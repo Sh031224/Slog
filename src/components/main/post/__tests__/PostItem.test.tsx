@@ -1,9 +1,9 @@
 import { render } from "setupTests";
-import PostItem, { IPostItemProps } from "../PostItem";
+import PostItem from "../PostItem";
 
 describe("Post Item", () => {
-  const setup = (props: Partial<IPostItemProps> = {}) => {
-    const initialProps: IPostItemProps = {
+  const setup = (props = {}) => {
+    const initialProps = {
       item: {
         idx: 1,
         title: "Testing",

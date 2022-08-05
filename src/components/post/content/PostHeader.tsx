@@ -1,20 +1,14 @@
-import timeCalc from "lib/timeCalc";
-import React, { memo } from "react";
+import { memo } from "react";
 import styled from "styled-components";
+
+import timeCalc from "lib/timeCalc";
 import TimeCounting from "time-counting";
 import { FiDelete, FiEdit3, FiMoreHorizontal } from "react-icons/fi";
 import usePostHandleBtn from "hooks/post/usePostHandeBtn";
 
 const PostHeader: React.FC = () => {
-  const {
-    post,
-    is_admin,
-    isOpenHandle,
-    onClickHandleBtn,
-    onClose,
-    onClickDelete,
-    onClickEdit
-  } = usePostHandleBtn();
+  const { post, is_admin, isOpenHandle, onClickHandleBtn, onClose, onClickDelete, onClickEdit } =
+    usePostHandleBtn();
 
   return (
     <PostHeaderWrapper>

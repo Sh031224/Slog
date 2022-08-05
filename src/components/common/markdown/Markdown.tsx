@@ -1,14 +1,13 @@
-import React from "react";
 import MarkdownJSX from "markdown-to-jsx";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import styled from "styled-components";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
-export interface IMarkdownProps {
+type Props = {
   content: string;
-}
+};
 
-const Markdown: React.FC<IMarkdownProps> = ({ content }) => {
+const Markdown: React.FC<Props> = ({ content }) => {
   return (
     <MarkdownContainer>
       <MarkdownJSX
@@ -191,27 +190,27 @@ const MarkdownContainer = styled.div`
 `;
 
 const CustomMarkdownH1 = ({ children }: { children: string }) => {
-  return <h1 id={children.toString().replace(/\ /g, "-")}>{children}</h1>;
+  return <h1 id={children.toString().replace(/ /g, "-")}>{children}</h1>;
 };
 
 const CustomMarkdownH2 = ({ children }: { children: string }) => {
-  return <h2 id={children.toString().replace(/\ /g, "-")}>{children}</h2>;
+  return <h2 id={children.toString().replace(/ /g, "-")}>{children}</h2>;
 };
 
 const CustomMarkdownH3 = ({ children }: { children: string }) => {
-  return <h3 id={children.toString().replace(/\ /g, "-")}>{children}</h3>;
+  return <h3 id={children.toString().replace(/ /g, "-")}>{children}</h3>;
 };
 
 const CustomMarkdownH4 = ({ children }: { children: string }) => {
-  return <h4 id={children.toString().replace(/\ /g, "-")}>{children}</h4>;
+  return <h4 id={children.toString().replace(/ /g, "-")}>{children}</h4>;
 };
 
 const CustomMarkdownH5 = ({ children }: { children: string }) => {
-  return <h5 id={children.toString().replace(/\ /g, "-")}>{children}</h5>;
+  return <h5 id={children.toString().replace(/ /g, "-")}>{children}</h5>;
 };
 
 const CustomMarkdownH6 = ({ children }: { children: string }) => {
-  return <h6 id={children.toString().replace(/\ /g, "-")}>{children}</h6>;
+  return <h6 id={children.toString().replace(/ /g, "-")}>{children}</h6>;
 };
 
 const CustomMarkdownA = ({ children, ...props }: { children: string }) => {

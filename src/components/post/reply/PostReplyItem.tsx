@@ -1,6 +1,9 @@
-import { IReply } from "interface/IPost";
+import { Reply } from "types/post";
 import React, { memo } from "react";
 import styled from "styled-components";
+import { MdCancel } from "react-icons/md";
+import { GoPencil } from "react-icons/go";
+import Image from "next/image";
 import profileImg from "assets/images/profile.png";
 import {
   PostCommentAdminMark,
@@ -21,16 +24,14 @@ import TimeCounting from "time-counting";
 import timeCalc from "lib/timeCalc";
 import useReplyEdit from "hooks/post/comment/useReplyEdit";
 import { useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import type { RootState } from "stores/modules";
 import { PostCommentSubmitBtn } from "../comment/PostCommentCreate";
-import { MdCancel } from "react-icons/md";
-import { GoPencil } from "react-icons/go";
 
-interface IPostReplyItemProps {
-  item: IReply;
-}
+type Props = {
+  item: Reply;
+};
 
-const PostReplyItem: React.FC<IPostReplyItemProps> = ({ item }) => {
+const PostReplyItem: React.FC<Props> = ({ item }) => {
   const { login, user } = useSelector((state: RootState) => state.user.data);
   const {
     isEdit,
@@ -45,7 +46,14 @@ const PostReplyItem: React.FC<IPostReplyItemProps> = ({ item }) => {
 
   return (
     <PostReplyItemWrapper>
-      <PostCommentItemProfile src={profileImg} alt={item.fk_user_name || "비밀 댓글"} />
+      <PostCommentItemProfile>
+        <Image
+          src={profileImg}
+          alt={item.fk_user_name || "비밀 댓글"}
+          layout="fill"
+          objectFit="cover"
+        />
+      </PostCommentItemProfile>
       {isEdit ? (
         <PostCommentEditWrapper>
           <PostCommentEditContent>

@@ -1,8 +1,6 @@
-import { ga_tracking } from "config/index.json";
-
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 export const pageview = (url: URL) => {
-  window.gtag("config", ga_tracking, {
+  window.gtag("config", process.env.NEXT_PUBLIC_GA, {
     page_path: url
   });
 };

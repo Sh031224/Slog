@@ -1,8 +1,9 @@
-import objectUtils from "lib/objectUtils";
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import objectUtils from "lib/objectUtils";
+import type { RootState } from "stores/modules";
 import { createCategoryThunk, getCategoriesThunk } from "stores/modules/category";
 
 const useCategories = () => {
@@ -18,47 +19,44 @@ const useCategories = () => {
   const [isArrowActive, setIsArrowActive] = useState<boolean>(true);
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
-  const createCategory = useCallback(() => {
+  const createCategory = () => {
     dispatch(createCategoryThunk("새로운 카테고리."));
-  }, []);
+  };
 
-  const onClickEdit = useCallback(() => {
+  const onClickEdit = () => {
     setIsEdit(true);
-  }, []);
+  };
 
-  const onCloseEdit = useCallback(() => {
+  const onCloseEdit = () => {
     setIsEdit(false);
-  }, []);
+  };
 
-  const getIsActive = useCallback(
-    (idx: number | string) => {
-      if (typeof idx === "string" && pathname === "/" && objectUtils.isEmpty(query)) {
-        return true;
-      }
-      if (idx === -1 && query.temp) {
-        return true;
-      }
-      if (idx.toString() === query.tab) {
-        return true;
-      }
-      return false;
-    },
-    [query, pathname]
-  );
+  const getIsActive = (idx: number | string) => {
+    if (typeof idx === "string" && pathname === "/" && objectUtils.isEmpty(query)) {
+      return true;
+    }
+    if (idx === -1 && query.temp) {
+      return true;
+    }
+    if (idx.toString() === query.tab) {
+      return true;
+    }
+    return false;
+  };
 
-  const onArrowClick = useCallback(() => {
+  const onArrowClick = () => {
     setIsArrowActive((prev) => !prev);
-  }, []);
+  };
 
-  const getCategoriesCallback = useCallback(() => {
+  const getCategoriesCallback = () => {
     if (!total && !categories.length && !error) {
       dispatch(getCategoriesThunk());
     }
-  }, [error]);
+  };
 
   useEffect(() => {
     getCategoriesCallback();
-  }, [getCategoriesCallback]);
+  }, [error]);
 
   return {
     total,
