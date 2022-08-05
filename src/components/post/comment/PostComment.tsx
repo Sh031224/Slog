@@ -1,7 +1,7 @@
 import useComments from "hooks/post/comment/useComments";
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import type { RootState } from "stores/modules";
 import styled from "styled-components";
 import PostCommentCreate from "./PostCommentCreate";
 import PostCommentItem from "./PostCommentItem";

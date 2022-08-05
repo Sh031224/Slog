@@ -1,9 +1,9 @@
 import { render } from "setupTests";
-import Markdown, { IMarkdownProps } from "../Markdown";
+import Markdown from "../Markdown";
 
 describe("Markdown", () => {
   const setup = (props = {}) => {
-    const initialProps: IMarkdownProps = {
+    const initialProps = {
       content: "## Testing"
     };
 

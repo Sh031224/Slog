@@ -1,22 +1,17 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from "next/link";
 import React, { memo } from "react";
 import styled from "styled-components";
 
-export interface ICategoryItemProps {
+type Props = {
   href: string;
   params: number | string;
   name: string;
   postCount?: number;
   getIsActive: (idx: number | string) => boolean;
-}
+};
 
-const CategoryItem: React.FC<ICategoryItemProps> = ({
-  href,
-  params,
-  name,
-  postCount,
-  getIsActive
-}) => {
+const CategoryItem: React.FC<Props> = ({ href, params, name, postCount, getIsActive }) => {
   return (
     <Link href={href}>
       <a>

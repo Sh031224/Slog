@@ -1,25 +1,19 @@
 import useCreateComment from "hooks/post/comment/useCreateComment";
-import React from "react";
+
 import styled from "styled-components";
 import { FaTelegramPlane } from "react-icons/fa";
 import { IoIosLock, IoIosUnlock } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
-import { IComment } from "interface/IPost";
+import { Comment } from "types/post";
 
-interface IPostCommentCreateProps {
-  comment?: IComment;
+type Props = {
+  comment?: Comment;
   onClose?: () => void;
-}
+};
 
-const PostCommentCreate: React.FC<IPostCommentCreateProps> = ({ comment, onClose }) => {
-  const {
-    value,
-    isPrivate,
-    onChangeValue,
-    onClickPrivate,
-    onKeyPressValue,
-    onSubmit
-  } = useCreateComment(comment, onClose);
+const PostCommentCreate: React.FC<Props> = ({ comment, onClose }) => {
+  const { value, isPrivate, onChangeValue, onClickPrivate, onKeyPressValue, onSubmit } =
+    useCreateComment(comment, onClose);
 
   return (
     <PostCommentCreateWrapper isReply={comment !== undefined}>

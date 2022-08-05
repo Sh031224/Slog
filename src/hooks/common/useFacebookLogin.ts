@@ -1,12 +1,15 @@
-import { useCallback, useEffect, useRef } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "stores/modules";
-import { createFcmTokenThunk, getUserInfoThunk, logout, tryLoginThunk } from "stores/modules/user";
-import { appId } from "config/index.json";
-import { getToken, removeToken } from "lib/token";
 import { NotificationManager } from "react-notifications";
-import { IFacebookFailureResponse, IFacebookLoginInfo } from "interface/IFacebook";
 import firebase from "firebase/app";
+
+import type { RootState } from "stores/modules";
+import { createFcmTokenThunk, getUserInfoThunk, logout, tryLoginThunk } from "stores/modules/user";
+
+import { getToken, removeToken } from "lib/token";
+import type { FacebookFailureResponse, FacebookLoginInfo } from "types/facebook";
+
 import option from "../../config/firebase.json";
 import "firebase/messaging";
 
@@ -18,15 +21,15 @@ const useFacebookLogin = () => {
 
   const isInitialMount = useRef<boolean>(true);
 
-  const getFcmToken = useCallback(async () => {
+  const getFcmToken = async () => {
     if (!firebase.apps.length) {
       firebase.initializeApp(option);
     }
     const token = await firebase.messaging().getToken();
     dispatch(createFcmTokenThunk(token));
-  }, []);
+  };
 
-  const requestNotification = useCallback(() => {
+  const requestNotification = () => {
     if ("Notification" in window) {
       try {
         Notification.requestPermission().then((permission: NotificationPermission) => {
@@ -47,9 +50,9 @@ const useFacebookLogin = () => {
         }
       }
     }
-  }, [getFcmToken]);
+  };
 
-  const getUserInfoCallback = useCallback(() => {
+  const getUserInfoCallback = () => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
 
@@ -63,28 +66,25 @@ const useFacebookLogin = () => {
         dispatch(getUserInfoThunk(requestNotification));
       }
     }
-  }, [error, login, user, requestNotification]);
+  };
 
-  const loginSuccess = useCallback(() => {
+  const loginSuccess = () => {
     NotificationManager.success("로그인 되었습니다.", "Success");
     getUserInfoCallback();
-  }, [getUserInfoCallback]);
+  };
 
-  const tryLogin = useCallback(
-    (res: IFacebookLoginInfo | IFacebookFailureResponse) => {
-      if (res.accessToken) {
-        dispatch(tryLoginThunk(res.accessToken, loginSuccess));
-      } else {
-        NotificationManager.error("오류가 발생하였습니다.", "Error");
-      }
-    },
-    [dispatch, loginSuccess]
-  );
+  const tryLogin = (res: FacebookLoginInfo | FacebookFailureResponse) => {
+    if (res.accessToken) {
+      dispatch(tryLoginThunk(res.accessToken, loginSuccess));
+    } else {
+      NotificationManager.error("오류가 발생하였습니다.", "Error");
+    }
+  };
 
-  const tryLogout = useCallback(() => {
+  const tryLogout = () => {
     removeToken();
     dispatch(logout());
-  }, []);
+  };
 
   useEffect(() => {
     getUserInfoCallback();
@@ -98,7 +98,7 @@ const useFacebookLogin = () => {
     }
   }, [error]);
 
-  return { login, appId, tryLogout, tryLogin };
+  return { login, appId: process.env.NEXT_PUBLIC_APP_ID, tryLogout, tryLogin };
 };
 
 export default useFacebookLogin;

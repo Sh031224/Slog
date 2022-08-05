@@ -12,7 +12,7 @@ import {
   getHitPostsAsync,
   modifyPostAsync
 } from "./actions";
-import { ICreatePostDTO } from "interface/IPost";
+import { CreatePostDTO } from "types/post";
 import { getCategoriesThunk } from "../category";
 
 let getPostSource: CancelTokenSource;
@@ -45,7 +45,7 @@ export const getPostInfoThunk = (
 let createPostSource: CancelTokenSource;
 
 export const createPostThunk = (
-  params: ICreatePostDTO,
+  params: CreatePostDTO,
   callback: (isTemp: boolean, createdIdx?: number) => void,
   isTemp: boolean
 ): ThunkAction<void, RootState, void, PostAction> => {
@@ -77,7 +77,7 @@ let modifyPostSource: CancelTokenSource;
 
 export const modifyPostThunk = (
   idx: number,
-  params: ICreatePostDTO,
+  params: CreatePostDTO,
   callback: (isTemp: boolean, createdIdx?: number) => void,
   isTemp: boolean
 ): ThunkAction<void, RootState, void, PostAction> => {

@@ -1,5 +1,5 @@
 import { createReducer } from "typesafe-actions";
-import { CategoryAction, ICategoryState } from "./types";
+import { CategoryAction, CategoryState } from "./types";
 import {
   CREATE_CATEGORY,
   CREATE_CATEGORY_FAILURE,
@@ -18,13 +18,13 @@ import {
   MODIFY_CATEGORY_SUCCESS
 } from "./actions";
 
-export const categoryInitialState: ICategoryState = {
+export const categoryInitialState: CategoryState = {
   loading: false,
   error: null,
   data: { categories: [], total: 0 }
 };
 
-export default createReducer<ICategoryState, CategoryAction>(categoryInitialState, {
+export default createReducer<CategoryState, CategoryAction>(categoryInitialState, {
   [GET_CATEGORIES]: (state, action) => ({
     ...state,
     loading: true,

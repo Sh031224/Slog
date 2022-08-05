@@ -1,4 +1,4 @@
-import { IComment } from "interface/IPost";
+import { Comment } from "types/post";
 import React, { memo } from "react";
 import profileImg from "assets/images/profile.png";
 import styled from "styled-components";
@@ -9,15 +9,16 @@ import PostReplyItem from "../reply/PostReplyItem";
 import useCommentEdit from "hooks/post/comment/useCommentEdit";
 import PostCommentCreate, { PostCommentSubmitBtn } from "./PostCommentCreate";
 import { useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import type { RootState } from "stores/modules";
 import { MdCancel } from "react-icons/md";
 import { GoPencil } from "react-icons/go";
+import Image from "next/image";
 
-interface IPostCommentItemProps {
-  item: IComment;
-}
+type Props = {
+  item: Comment;
+};
 
-const PostCommentItem: React.FC<IPostCommentItemProps> = ({ item }) => {
+const PostCommentItem: React.FC<Props> = ({ item }) => {
   const { login, user } = useSelector((state: RootState) => state.user.data);
   const {
     isEdit,
@@ -35,7 +36,14 @@ const PostCommentItem: React.FC<IPostCommentItemProps> = ({ item }) => {
 
   return (
     <PostCommentItemWrapper>
-      <PostCommentItemProfile src={profileImg} alt={item.fk_user_name || "비밀 댓글"} />
+      <PostCommentItemProfile>
+        <Image
+          src={profileImg}
+          alt={item.fk_user_name || "비밀 댓글"}
+          layout="fill"
+          objectFit="cover"
+        />
+      </PostCommentItemProfile>
       {isEdit ? (
         <PostCommentEditWrapper>
           <PostCommentEditContent>
@@ -126,9 +134,10 @@ const PostCommentItemWrapper = styled.div`
   border-bottom: ${({ theme }) => theme.colors.bdSoLightGray} 1px solid;
 `;
 
-export const PostCommentItemProfile = styled.img`
+export const PostCommentItemProfile = styled.div`
   width: 2.8rem;
   height: 2.8rem;
+  position: relative;
 `;
 
 export const PostCommentEditWrapper = styled.div`

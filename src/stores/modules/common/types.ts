@@ -1,17 +1,17 @@
 import * as actions from "./actions";
-import { IPost } from "interface/IPost";
+import { Post } from "types/post";
 import { ActionType } from "typesafe-actions";
 import { AxiosError } from "axios";
-import { ResponseType } from "interface/IResponse";
+import { ResponseType } from "types/response";
 
 export type CommonAction = ActionType<typeof actions>;
 
-export interface ICommonState {
+export type CommonState = {
   loading: boolean;
   error: AxiosError<ResponseType> | null;
   data: {
     page: number;
-    posts: IPost[];
+    posts: Post[];
     notfound: boolean;
     total: number;
     // category === null "임시저장 글"
@@ -19,4 +19,4 @@ export interface ICommonState {
     // category === -2 "검색"
     category: number | null;
   };
-}
+};

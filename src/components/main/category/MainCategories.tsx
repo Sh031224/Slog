@@ -1,13 +1,15 @@
-import useCategories from "hooks/main/useCategories";
-import React from "react";
+import dynamic from "next/dynamic";
+import { Fragment } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { MdExpandMore } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { RootState } from "stores/modules";
 import styled from "styled-components";
+
+import useCategories from "hooks/main/useCategories";
+import type { RootState } from "stores/modules";
+
 import CategoryItem from "./CategoryItem";
 import CategoryRowItem, { CategoryRow } from "./CategoryRowItem";
-import dynamic from "next/dynamic";
 
 const AdminCategory = dynamic(() => import("./AdminCategory"));
 
@@ -92,7 +94,7 @@ const MainCategories: React.FC = () => {
           />
         ))}
         {is_admin && (
-          <React.Fragment>
+          <Fragment>
             <CategoryRowItem
               href={"/?temp=true"}
               params={-1}
@@ -102,7 +104,7 @@ const MainCategories: React.FC = () => {
             <CategoryRow isActive={false}>
               <FiEdit3 />
             </CategoryRow>
-          </React.Fragment>
+          </Fragment>
         )}
       </CategoryRowWrapper>
     </>

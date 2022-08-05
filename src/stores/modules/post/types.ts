@@ -1,16 +1,16 @@
 import * as actions from "./actions";
-import { IPost, IPostInfo } from "interface/IPost";
+import { Post, PostInfo } from "types/post";
 import { ActionType } from "typesafe-actions";
 import { AxiosError } from "axios";
-import { ResponseType } from "interface/IResponse";
+import { ResponseType } from "types/response";
 
 export type PostAction = ActionType<typeof actions>;
 
-export interface IPostState {
+export type PostState = {
   loading: boolean;
   error: AxiosError<ResponseType> | null;
   data: {
-    post: IPostInfo;
-    hitPosts: IPost[];
+    post: PostInfo;
+    hitPosts: Post[];
   };
-}
+};

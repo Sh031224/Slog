@@ -1,5 +1,5 @@
 import useHandlePost from "hooks/handle/useHandlePost";
-import React from "react";
+
 import styled from "styled-components";
 import HandleContent from "./content/HandleContent";
 import HandleFooter from "./footer/HandleFooter";

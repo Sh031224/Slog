@@ -1,5 +1,5 @@
 import { createReducer } from "typesafe-actions";
-import { CommonAction, ICommonState } from "./types";
+import { CommonAction, CommonState } from "./types";
 import {
   CLEAR_ERROR,
   GET_POSTS,
@@ -16,13 +16,13 @@ import {
 } from "./actions";
 import CategoryTag from "constant/CategoryTag";
 
-export const commonInitialState: ICommonState = {
+export const commonInitialState: CommonState = {
   loading: false,
   error: null,
   data: { posts: [], total: 0, notfound: false, page: 1, category: CategoryTag.All }
 };
 
-export default createReducer<ICommonState, CommonAction>(commonInitialState, {
+export default createReducer<CommonState, CommonAction>(commonInitialState, {
   [CLEAR_ERROR]: (state, action) => ({
     ...state,
     error: null

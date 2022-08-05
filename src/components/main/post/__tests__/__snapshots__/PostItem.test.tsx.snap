@@ -126,7 +126,6 @@ exports[`Post Item renders correctly 1`] = `
   <div
     class="c0"
   >
-    
     <a
       href="/post/1"
       style="display: flex; height: 100%;"
@@ -148,7 +147,7 @@ exports[`Post Item renders correctly 1`] = `
           class="c4"
           title="2020년 01월 01일 00시 00분"
         >
-          1년 전
+          2년 전
         </span>
       </div>
     </a>

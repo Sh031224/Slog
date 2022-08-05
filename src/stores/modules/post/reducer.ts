@@ -1,5 +1,5 @@
 import { createReducer } from "typesafe-actions";
-import { IPostState, PostAction } from ".";
+import { PostState, PostAction } from ".";
 import {
   CLEAR_ERROR,
   CREATE_POST,
@@ -22,7 +22,7 @@ import {
   MODIFY_POST_SUCCESS
 } from "./actions";
 
-export const postInitialState: IPostState = {
+export const postInitialState: PostState = {
   loading: false,
   error: null,
   data: {
@@ -43,7 +43,7 @@ export const postInitialState: IPostState = {
   }
 };
 
-export default createReducer<IPostState, PostAction>(postInitialState, {
+export default createReducer<PostState, PostAction>(postInitialState, {
   [CLEAR_ERROR]: (state, action) => ({
     ...state,
     error: null

@@ -1,4 +1,4 @@
-import { IPost } from "interface/IPost";
+import { Post } from "types/post";
 import * as fs from "fs";
 import marked from "marked";
 import postResponse from "../lib/postResponse";
@@ -25,7 +25,7 @@ const rss = async () => {
   fs.writeFileSync("./public/rss.xml", rss);
 };
 
-const generateRssItem = (post: IPost): string => `
+const generateRssItem = (post: Post): string => `
   <item>
     <title>
       <![CDATA[ ${post.title} ]]>

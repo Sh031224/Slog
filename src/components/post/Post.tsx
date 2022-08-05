@@ -1,5 +1,5 @@
 import usePostInfo from "hooks/post/usePostInfo";
-import React from "react";
+
 import styled from "styled-components";
 import Markdown from "../common/markdown/Markdown";
 import PostComment from "./comment/PostComment";

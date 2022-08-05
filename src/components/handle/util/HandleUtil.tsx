@@ -1,15 +1,15 @@
-import { ICategory } from "interface/ICategory";
-import { ICreatePostDTO } from "interface/IPost";
+import { Category } from "types/category";
+import { CreatePostDTO } from "types/post";
 import React, { memo } from "react";
 import styled from "styled-components";
 
-interface IHandleUtilProps {
-  value: ICreatePostDTO;
+type Props = {
+  value: CreatePostDTO;
   handleValue: (e: React.ChangeEvent<HTMLElement>) => void;
-  categories: ICategory[];
-}
+  categories: Category[];
+};
 
-const HandleUtil: React.FC<IHandleUtilProps> = ({ value, handleValue, categories }) => {
+const HandleUtil: React.FC<Props> = ({ value, handleValue, categories }) => {
   return (
     <HandleUtilWrapper>
       <HandleUtilThumbnail

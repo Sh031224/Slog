@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import type { RootState } from "stores/modules";
 import { clearCommentError, createCommentThunk, createReplyThunk } from "stores/modules/comment";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
 import { logout } from "stores/modules/user";
 import { removeToken } from "lib/token";
-import { IComment } from "interface/IPost";
+import { Comment } from "types/post";
 
-const useCreateComment = (comment?: IComment, onClose?: () => void) => {
+const useCreateComment = (comment?: Comment, onClose?: () => void) => {
   const dispatch = useDispatch();
 
   const {
@@ -23,15 +24,15 @@ const useCreateComment = (comment?: IComment, onClose?: () => void) => {
 
   const router = useRouter();
 
-  const init = useCallback(() => {
+  const init = () => {
     setIsPrivate(false);
     setValue("");
     if (onClose) {
       onClose();
     }
-  }, [onClose]);
+  };
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = () => {
     if (value.replace(/\s/gi, "") !== "")
       if (comment !== undefined) {
         dispatch(
@@ -46,32 +47,29 @@ const useCreateComment = (comment?: IComment, onClose?: () => void) => {
           createCommentThunk({ post_idx: idx, is_private: isPrivate, content: value }, init)
         );
       }
-  }, [idx, isPrivate, value, init, comment]);
+  };
 
-  const onChangeValue = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-  }, []);
+  };
 
-  const onClickPrivate = useCallback(() => {
+  const onClickPrivate = () => {
     if (comment && comment.is_private) {
       setIsPrivate(true);
     } else {
       setIsPrivate((prev) => !prev);
     }
-  }, [comment]);
+  };
 
-  const onKeyPressValue = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Escape") {
-        if (onClose) {
-          onClose();
-        }
-      } else if (e.key === "Enter") {
-        onSubmit();
+  const onKeyPressValue = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Escape") {
+      if (onClose) {
+        onClose();
       }
-    },
-    [onClose, onSubmit]
-  );
+    } else if (e.key === "Enter") {
+      onSubmit();
+    }
+  };
 
   useEffect(() => {
     if (error && error.response) {

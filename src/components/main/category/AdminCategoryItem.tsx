@@ -1,22 +1,17 @@
-import { ICategory } from "interface/ICategory";
-import React, { memo } from "react";
-import styled from "styled-components";
+import { memo } from "react";
 import { RiArrowDropUpLine, RiArrowDropDownLine, RiDeleteBin6Line } from "react-icons/ri";
+import styled from "styled-components";
 import useAdminCategory from "hooks/main/useAdminCategory";
+import { Category } from "types/category";
 
-interface IAdminCategoryItemProps {
-  item: ICategory;
+type Props = {
+  item: Category;
   idx: number;
   isFirst?: boolean;
   isLast?: boolean;
-}
+};
 
-const AdminCategoryItem: React.FC<IAdminCategoryItemProps> = ({
-  item,
-  idx,
-  isFirst = false,
-  isLast = false
-}) => {
+const AdminCategoryItem: React.FC<Props> = ({ item, idx, isFirst = false, isLast = false }) => {
   const {
     isFocus,
     value,
