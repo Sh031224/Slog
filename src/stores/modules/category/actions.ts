@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
-import { ICategory } from "interface/ICategory";
-import { ResponseType } from "interface/IResponse";
+import { Category } from "types/category";
+import { ResponseType } from "types/response";
 import { createAsyncAction } from "typesafe-actions";
 
 export const GET_CATEGORIES = "category/GET_CATEGORIES" as const;
@@ -27,7 +27,7 @@ export const getCategoriesAsync = createAsyncAction(
   GET_CATEGORIES,
   GET_CATEGORIES_SUCCESS,
   GET_CATEGORIES_FAILURE
-)<void, { categories: ICategory[]; total: number }, AxiosError<ResponseType>>();
+)<void, { categories: Category[]; total: number }, AxiosError<ResponseType>>();
 
 export const createCategoryAsync = createAsyncAction(
   CREATE_CATEGORY,

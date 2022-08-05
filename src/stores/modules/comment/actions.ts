@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
-import { IComment } from "interface/IPost";
-import { ResponseType } from "interface/IResponse";
+import { Comment } from "types/post";
+import { ResponseType } from "types/response";
 import { createAction, createAsyncAction } from "typesafe-actions";
 
 export const CLEAR_ERROR = "comment/CLEARERROR" as const;
@@ -39,7 +39,7 @@ export const getCommentsAsync = createAsyncAction(
   GET_COMMENTS,
   GET_COMMENTS_SUCCESS,
   GET_COMMENTS_FAILURE
-)<void, IComment[], AxiosError<ResponseType>>();
+)<void, Comment[], AxiosError<ResponseType>>();
 
 export const createCommentAsync = createAsyncAction(
   CREATE_COMMENT,

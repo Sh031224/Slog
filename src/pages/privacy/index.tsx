@@ -1,7 +1,6 @@
 import Privacy from "components/privacy/Privacy";
 import { NextPage } from "next";
 import Head from "next/head";
-import React from "react";
 
 const PrivacyPage: NextPage = () => {
   return (

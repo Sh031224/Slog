@@ -11,9 +11,9 @@ import {
   LoginResponse,
   ResponseType,
   UploadFilesResponse
-} from "interface/IResponse";
+} from "types/response";
 import { AxiosResponse, CancelToken } from "axios";
-import { ICommentParamsDTO, ICreatePostDTO, IPostParmsDTO, IReplyParamsDTO } from "interface/IPost";
+import { CommentParamsDTO, CreatePostDTO, PostParmsDTO, ReplyParamsDTO } from "types/post";
 import queryString from "query-string";
 import { setToken } from "./token";
 
@@ -58,7 +58,7 @@ export const category = {
 };
 
 export const post = {
-  getPosts: async (params: IPostParmsDTO, cancelToken?: CancelToken) => {
+  getPosts: async (params: PostParmsDTO, cancelToken?: CancelToken) => {
     const { data }: AxiosResponse<GetPostsResponse> = await Api.get(
       queryString.stringifyUrl({ url: "/api/v1/post/", query: { ...params } }),
       { cancelToken }
@@ -127,14 +127,14 @@ export const post = {
 
     return data;
   },
-  createPost: async (body: ICreatePostDTO, cancelToken?: CancelToken) => {
+  createPost: async (body: CreatePostDTO, cancelToken?: CancelToken) => {
     const { data }: AxiosResponse<CreatePostResponse> = await Api.post("/api/v1/post/", body, {
       cancelToken
     });
 
     return data;
   },
-  modifyePost: async (idx: number, body: ICreatePostDTO, cancelToken?: CancelToken) => {
+  modifyePost: async (idx: number, body: CreatePostDTO, cancelToken?: CancelToken) => {
     const { data }: AxiosResponse<ResponseType> = await Api.put(`/api/v1/post/${idx}`, body, {
       cancelToken
     });
@@ -152,14 +152,14 @@ export const comment = {
 
     return data.data.comments;
   },
-  createComment: async (params: ICommentParamsDTO, cancelToken?: CancelToken) => {
+  createComment: async (params: CommentParamsDTO, cancelToken?: CancelToken) => {
     const { data }: AxiosResponse<ResponseType> = await Api.post("/api/v1/comment", params, {
       cancelToken
     });
 
     return data;
   },
-  createReply: async (params: IReplyParamsDTO, cancelToken?: CancelToken) => {
+  createReply: async (params: ReplyParamsDTO, cancelToken?: CancelToken) => {
     const { data }: AxiosResponse<ResponseType> = await Api.post("/api/v1/reply", params, {
       cancelToken
     });

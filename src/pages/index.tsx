@@ -1,7 +1,6 @@
-import React from "react";
 import { NextPage } from "next";
-import Main from "components/main/Main";
 import Head from "next/head";
+import Main from "components/main/Main";
 import { getCategoriesPromise, getPostsPromise, getUserInfoPromise } from "lib/promiseDispatch";
 
 const IndexPage: NextPage = () => {

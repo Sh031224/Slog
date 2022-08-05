@@ -1,14 +1,13 @@
-import React from "react";
 import styled from "styled-components";
 
-interface IHandleFooterProps {
+type Props = {
   isNew: boolean;
   isTemp: boolean;
   save: () => void;
   tempSave: () => void;
-}
+};
 
-const HandleFooter: React.FC<IHandleFooterProps> = ({ isNew, isTemp, save, tempSave }) => {
+const HandleFooter: React.FC<Props> = ({ isNew, isTemp, save, tempSave }) => {
   return (
     <HandleFooterWrapper>
       <HandleFooterBtn aria-label="cancel-handle">취소</HandleFooterBtn>

@@ -17,9 +17,9 @@ import {
   GET_COMMENTS_FAILURE,
   GET_COMMENTS_SUCCESS
 } from "./actions";
-import { CommentAction, ICommentState } from "./types";
+import { CommentAction, CommentState } from "./types";
 
-export const commentInitialState: ICommentState = {
+export const commentInitialState: CommentState = {
   loading: false,
   error: null,
   data: {
@@ -27,7 +27,7 @@ export const commentInitialState: ICommentState = {
   }
 };
 
-export default createReducer<ICommentState, CommentAction>(commentInitialState, {
+export default createReducer<CommentState, CommentAction>(commentInitialState, {
   [GET_COMMENTS]: (state, action) => ({
     ...state,
     loading: true,

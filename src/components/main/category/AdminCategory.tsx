@@ -1,20 +1,16 @@
 import React, { memo } from "react";
 import styled from "styled-components";
 import { GrFormAdd } from "react-icons/gr";
-import { ICategory } from "interface/ICategory";
+import { Category } from "types/category";
 import AdminCategoryItem from "./AdminCategoryItem";
 
-interface IAdminCategoryProps {
-  categories: ICategory[];
+type Props = {
+  categories: Category[];
   onCloseEdit: () => void;
   createCategory: () => void;
-}
+};
 
-const AdminCategory: React.FC<IAdminCategoryProps> = ({
-  categories,
-  onCloseEdit,
-  createCategory
-}) => {
+const AdminCategory: React.FC<Props> = ({ categories, onCloseEdit, createCategory }) => {
   return (
     <AdminCategoryWrapper>
       <AdminCategoryExit onClick={onCloseEdit} />

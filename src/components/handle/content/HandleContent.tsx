@@ -1,21 +1,20 @@
-import React from "react";
 import styled from "styled-components";
 import { FiCode, FiEye } from "react-icons/fi";
 import { AiOutlinePicture } from "react-icons/ai";
-import { ICreatePostDTO } from "interface/IPost";
+import { CreatePostDTO } from "types/post";
 import Markdown from "components/common/markdown/Markdown";
 
-interface IHandleContentProps {
+type Props = {
   textareaRef: React.MutableRefObject<HTMLTextAreaElement>;
-  value: ICreatePostDTO;
+  value: CreatePostDTO;
   handleValue: (e: React.ChangeEvent<HTMLElement>) => void;
   isPreviewTab: boolean;
   setIsPreviewTab: React.Dispatch<React.SetStateAction<boolean>>;
   handleContentTab: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
   handleUpload: (e: React.ChangeEvent<HTMLElement>) => void;
-}
+};
 
-const HandleContent: React.FC<IHandleContentProps> = ({
+const HandleContent: React.FC<Props> = ({
   value,
   handleValue,
   isPreviewTab,

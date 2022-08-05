@@ -1,12 +1,11 @@
-import React from "react";
 import Footer from "../Footer";
 import Header from "../Header";
 
-interface IMainTemplateProps {
+type Props = {
   children: React.ReactNode;
-}
+};
 
-const MainTemplate: React.FC<IMainTemplateProps> = ({ children }) => {
+const MainTemplate: React.FC<Props> = ({ children }) => {
   return (
     <>
       <Header />

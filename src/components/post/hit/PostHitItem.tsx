@@ -1,15 +1,16 @@
-import { IPost } from "interface/IPost";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { Post } from "types/post";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { memo, useMemo } from "react";
 import styled from "styled-components";
 import TimeCounting from "time-counting";
 
-interface IPostHitItemProps {
-  item: IPost;
-}
+type Props = {
+  item: Post;
+};
 
-const PostHitItem: React.FC<IPostHitItemProps> = ({ item }) => {
+const PostHitItem: React.FC<Props> = ({ item }) => {
   const router = useRouter();
 
   const isActive = useMemo(() => router.query.idx === `${item.idx}`, [router, item]);

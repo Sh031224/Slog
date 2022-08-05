@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
-import { ResponseType } from "interface/IResponse";
-import { IUser } from "interface/IUser";
+import { ResponseType } from "types/response";
+import { User } from "types/user";
 import { createAction, createAsyncAction } from "typesafe-actions";
 
 export const GET_USERINFO = "user/GET_USERINFO" as const;
@@ -26,7 +26,7 @@ export const getUserInfoAsync = createAsyncAction(
   GET_USERINFO,
   GET_USERINFO_SUCCESS,
   GET_USERINFO_FAILURE
-)<void, IUser, AxiosError<ResponseType>>();
+)<void, User, AxiosError<ResponseType>>();
 
 export const logout = createAction(LOGOUT)();
 

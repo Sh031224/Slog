@@ -49,3 +49,7 @@ public/sitemap.xml
 
 # rss
 public/rss.xml
+
+# greenlock
+src/greenlock.d/
+.greenlockrc

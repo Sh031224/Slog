@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from "next/router";
 import { useInView } from "react-intersection-observer";
-import { useCallback, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "stores/modules";
 import { NotificationManager } from "react-notifications";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import CategoryTag from "constant/CategoryTag";
 import {
   clearCommonError,
   getPostsThunk,
@@ -12,9 +14,11 @@ import {
   increasePage,
   resetPage
 } from "stores/modules/common";
-import { limit } from "config/server.json";
-import { IPostParmsDTO } from "interface/IPost";
-import CategoryTag from "constant/CategoryTag";
+import type { RootState } from "stores/modules";
+
+import type { PostParmsDTO } from "types/post";
+
+const limit = 20;
 
 const useMainPosts = () => {
   const dispatch = useDispatch();
@@ -31,13 +35,13 @@ const useMainPosts = () => {
   const isInitialMount = useRef<boolean>(true);
   const isInitialMountPage = useRef<boolean>(true);
 
-  const getTempPosts = useCallback(() => {
+  const getTempPosts = () => {
     dispatch(getTempPostsThunk());
-  }, []);
+  };
 
   // excute only update query
-  const getPostsByCategory = useCallback(() => {
-    const params: IPostParmsDTO = {
+  const getPostsByCategory = () => {
+    const params: PostParmsDTO = {
       page: 1,
       limit
     };
@@ -55,11 +59,11 @@ const useMainPosts = () => {
     }
     dispatch(resetPage());
     dispatch(getPostsThunk(params));
-  }, [query, page, getTempPosts]);
+  };
 
   // excute only update page
-  const getPostsByPage = useCallback(() => {
-    const params: IPostParmsDTO = {
+  const getPostsByPage = () => {
+    const params: PostParmsDTO = {
       page,
       limit
     };
@@ -73,9 +77,9 @@ const useMainPosts = () => {
     }
 
     dispatch(getPostsThunk(params));
-  }, [page]);
+  };
 
-  const getInitPosts = useCallback(() => {
+  const getInitPosts = () => {
     if (!error) {
       if (!error && !posts.length && !notfound) {
         getPostsByCategory();
@@ -92,7 +96,7 @@ const useMainPosts = () => {
     if (error && error.response && error.response.status === 404) {
       router.push("/");
     }
-  }, [error, posts, notfound, category, query, getPostsByCategory]);
+  };
 
   useEffect(() => {
     if (inView && !loading && !query.temp && !query.search && posts.length < total) {

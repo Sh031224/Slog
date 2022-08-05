@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from "next/router";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import type { RootState } from "stores/modules";
 import { deletePostThunk } from "stores/modules/post";
 
 const usePostHandleBtn = () => {
@@ -16,19 +17,19 @@ const usePostHandleBtn = () => {
   const [isOpenHandle, setIsOpenHandle] = useState<boolean>(false);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
-  const onClickHandleBtn = useCallback(() => {
+  const onClickHandleBtn = () => {
     setIsOpenHandle((prev) => !prev);
-  }, []);
+  };
 
-  const onClose = useCallback(() => {
+  const onClose = () => {
     setIsOpenHandle(false);
-  }, []);
+  };
 
-  const onClickEdit = useCallback(() => {
+  const onClickEdit = () => {
     router.push(`/handle/${post.idx}`);
-  }, [router, post]);
+  };
 
-  const onClickDelete = useCallback(() => {
+  const onClickDelete = () => {
     confirmAlert({
       title: "Warning",
       message: "정말로 삭제하시겠습니까?",
@@ -46,7 +47,7 @@ const usePostHandleBtn = () => {
         }
       ]
     });
-  }, [post]);
+  };
 
   useEffect(() => {
     if (!post.title && isDeleted) {

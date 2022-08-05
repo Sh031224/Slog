@@ -1,12 +1,10 @@
 import axios, { AxiosResponse } from "axios";
-import { IPost } from "interface/IPost";
-import { GetPostsResponse } from "interface/IResponse";
+import { Post } from "types/post";
+import { GetPostsResponse } from "types/response";
 
-const SERVER = require("../../src/config/server.json").server;
-
-const postResponse = async (limit?: number): Promise<IPost[]> => {
+const postResponse = async (limit?: number): Promise<Post[]> => {
   const { data }: AxiosResponse<GetPostsResponse> = await axios.get(
-    `${SERVER}/api/v1/post?page=1&limit=${limit || 1000000}`
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/post?page=1&limit=${limit || 1000000}`
   );
 
   return data.data.posts;

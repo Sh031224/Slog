@@ -1,9 +1,9 @@
 import { render } from "setupTests";
-import CategoryItem, { ICategoryItemProps } from "../CategoryItem";
+import CategoryItem from "../CategoryItem";
 
 describe("Category", () => {
-  const setup = (props: Partial<ICategoryItemProps> = {}) => {
-    const initialProps: ICategoryItemProps = {
+  const setup = (props = {}) => {
+    const initialProps = {
       href: "/",
       params: "",
       name: "Testing",

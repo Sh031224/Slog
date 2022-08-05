@@ -1,12 +1,13 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from "next/link";
-import React from "react";
+
 import styled from "styled-components";
 
 const Footer: React.FC = () => {
   return (
     <FooterWrapper>
       <FooterContainer>
-        <a href="https://github.com/Sh031224" target="_blank" rel="noopener">
+        <a href="https://github.com/Sh031224" target="_blank" rel="noopener noreferrer">
           © 2020. Sh031224. All rights reserved.
         </a>
         <>

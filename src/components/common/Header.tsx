@@ -1,14 +1,18 @@
-import React from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import HeadRoom from "react-headroom";
-import styled from "styled-components";
-import logo from "assets/images/logo.png";
-import useHeader from "hooks/common/useHeader";
-import ScrollToTop from "react-scroll-to-top";
-import { GrLinkTop } from "react-icons/gr";
-import { ReactComponent as SearchImg } from "../../assets/images/search.svg";
-import useFacebookLogin from "hooks/common/useFacebookLogin";
+import { memo } from "react";
+import Image from "next/image";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import Link from "next/link";
+import styled from "styled-components";
+import ScrollToTop from "react-scroll-to-top";
+import { GrLinkTop } from "react-icons/gr";
+
+import logo from "assets/images/logo.png";
+import Search from "assets/images/Search";
+
+import useHeader from "hooks/common/useHeader";
+import useFacebookLogin from "hooks/common/useFacebookLogin";
 
 const Header: React.FC = () => {
   const {
@@ -31,7 +35,9 @@ const Header: React.FC = () => {
             <HeaderNav>
               <Link href="/">
                 <a>
-                  <HeaderLogo src={logo} alt={"Slog"} />
+                  <HeaderLogo>
+                    <Image src={logo} alt={"Slog"} layout="fill" objectFit="cover" />
+                  </HeaderLogo>
                 </a>
               </Link>
               <HeaderUtils>
@@ -47,7 +53,7 @@ const Header: React.FC = () => {
                     placeholder={"검색어를 입력해주세요."}
                   />
                   <HeaderSearchBtn onClick={onSubmitSearch} aria-label={"검색"}>
-                    <SearchImg />
+                    <Search />
                   </HeaderSearchBtn>
                 </HeaderSearch>
                 {login ? (
@@ -110,10 +116,11 @@ const HeaderNav = styled.nav`
   }
 `;
 
-const HeaderLogo = styled.img`
+const HeaderLogo = styled.div`
   cursor: pointer;
   width: 2.5rem;
   height: 1.6875rem;
+  position: relative;
   ${({ theme }) => theme.device.mobile} {
     width: 2rem;
     height: 1.35rem;
@@ -193,4 +200,4 @@ const HeaderSearchInput = styled.input<{ isToogle: boolean }>`
   }
 `;
 
-export default React.memo(Header);
+export default memo(Header);

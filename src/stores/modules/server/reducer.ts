@@ -1,12 +1,12 @@
 import { createReducer } from "typesafe-actions";
 import { SET_SERVER_RENDERED } from "./actions";
-import { IServerState, ServerAction } from "./types";
+import { ServerState, ServerAction } from "./types";
 
-export const serverInitialState: IServerState = {
+export const serverInitialState: ServerState = {
   isServerRendered: false
 };
 
-export default createReducer<IServerState, ServerAction>(serverInitialState, {
+export default createReducer<ServerState, ServerAction>(serverInitialState, {
   [SET_SERVER_RENDERED]: (state, action) => ({
     isServerRendered: true
   })

@@ -1,6 +1,5 @@
-import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import type { RootState } from "stores/modules";
 import styled from "styled-components";
 import PostHitItem from "./PostHitItem";
 

@@ -2,7 +2,6 @@ import Handle from "components/handle/Handle";
 import { getCategoriesPromise, getPostInfoPromise, getUserInfoPromise } from "lib/promiseDispatch";
 import { NextPage } from "next";
 import Head from "next/head";
-import React from "react";
 
 const HandlePage: NextPage = () => {
   return (

@@ -8,9 +8,9 @@ import {
 import moment from "moment";
 import { NextPage } from "next";
 import Head from "next/head";
-import React from "react";
+
 import { useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import type { RootState } from "stores/modules";
 
 const PostPage: NextPage = () => {
   const { loading, data } = useSelector((state: RootState) => state.post);

@@ -1,15 +1,15 @@
 import * as actions from "./actions";
-import { IComment } from "interface/IPost";
+import { Comment } from "types/post";
 import { ActionType } from "typesafe-actions";
 import { AxiosError } from "axios";
-import { ResponseType } from "interface/IResponse";
+import { ResponseType } from "types/response";
 
 export type CommentAction = ActionType<typeof actions>;
 
-export interface ICommentState {
+export type CommentState = {
   loading: boolean;
   error: AxiosError<ResponseType> | null;
   data: {
-    comments: IComment[];
+    comments: Comment[];
   };
-}
+};

@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import { server } from "config/server.json";
 import { getToken, removeToken } from "./token";
 
 const addToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
@@ -17,7 +16,7 @@ const addTokenErrorHandle = (err: AxiosError) => {
 };
 
 const Api = axios.create({
-  baseURL: server
+  baseURL: process.env.NEXT_PUBLIC_SERVER_URL
 });
 
 Api.defaults.headers = {

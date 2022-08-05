@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "stores/modules";
+import type { RootState } from "stores/modules";
 import { getCommentsThunk } from "stores/modules/comment";
 
 const useComments = () => {
@@ -16,13 +17,13 @@ const useComments = () => {
   const router = useRouter();
   const { idx } = router.query;
 
-  const getComments = useCallback(() => {
+  const getComments = () => {
     if (Number(idx)) {
       if (post.idx !== Number(idx) && !error) dispatch(getCommentsThunk(Number(idx)));
     } else {
       router.push("/");
     }
-  }, [idx, post, error]);
+  };
 
   useEffect(() => {
     getComments();

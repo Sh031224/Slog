@@ -1,6 +1,4 @@
-import React from "react";
 import Document, { Html, Head, Main, NextScript, DocumentContext } from "next/document";
-import { ga_tracking } from "config/index.json";
 import { ServerStyleSheet } from "styled-components";
 
 export default class MyDocument extends Document {
@@ -34,14 +32,17 @@ export default class MyDocument extends Document {
       <Html lang="ko">
         <Head>
           <script> if (! crossOriginIsolated) SharedArrayBuffer = ArrayBuffer </script>
-          <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga_tracking}`} />
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA}`}
+          />
           <script
             dangerouslySetInnerHTML={{
               __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', '${ga_tracking}', {
+              gtag('config', '${process.env.NEXT_PUBLIC_GA}', {
                 page_path: window.location.pathname,
               });
           `
