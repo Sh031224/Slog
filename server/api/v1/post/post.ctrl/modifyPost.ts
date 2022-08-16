@@ -90,7 +90,6 @@ export default async (req: Request, res: Response) => {
       post.created_at = new Date();
       await Promise.all([sitemap(), rss()]);
     }
-    }
 
     post.updated_at = new Date();
     post.title = data.title;

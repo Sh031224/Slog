@@ -7,6 +7,7 @@ import post from "./post";
 import upload from "./upload";
 import reply from "./reply";
 import comment from "./comment";
+import rss from "./rss";
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use("/post", post);
 router.use("/upload", upload);
 router.use("/comment", comment);
 router.use("/reply", reply);
+router.use("/rss", rss);
 
 export default router;
