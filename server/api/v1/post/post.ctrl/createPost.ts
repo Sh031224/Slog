@@ -68,8 +68,7 @@ export default async (req: Request, res: Response) => {
     await postRepo.save(post);
 
     if (!body.is_temp) {
-      sitemap();
-      rss();
+      await Promise.all([sitemap(), rss()]);
     }
 
     logger.green("[POST] 글 생성 성공.");
