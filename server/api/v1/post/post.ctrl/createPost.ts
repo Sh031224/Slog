@@ -50,7 +50,7 @@ export default async (req: Request, res: Response) => {
       post.category = category;
     } else {
       if (!body.is_temp) {
-        logger.yellow("[PUT] 검증 오류.", "Not Temp But No Category");
+        logger.yellow("[POST] 검증 오류.", "Not Temp But No Category");
         res.status(400).json({
           status: 400,
           message: "검증 오류."
