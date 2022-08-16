@@ -4,6 +4,8 @@ import { validateModify } from "../../../../lib/validation/post";
 import logger from "../../../../lib/logger";
 import Category from "../../../../entity/Category";
 import Post from "../../../../entity/Post";
+import sitemap from "../../../../sitemap/sitemap";
+import rss from "../../../../rss/rss";
 
 export default async (req: Request, res: Response) => {
   if (!validateModify(req, res)) return;
@@ -86,6 +88,8 @@ export default async (req: Request, res: Response) => {
 
     if (!data.is_temp && post.is_temp) {
       post.created_at = new Date();
+      await Promise.all([sitemap(), rss()]);
+    }
     }
 
     post.updated_at = new Date();
