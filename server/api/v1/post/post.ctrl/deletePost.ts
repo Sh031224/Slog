@@ -36,8 +36,7 @@ export default async (req: AuthRequest, res: Response) => {
 
     await postRepo.remove(post);
 
-    sitemap();
-    rss();
+    await Promise.all([sitemap(), rss()]);
 
     logger.green("[DELETE] 글 삭제 성공.");
     res.status(200).json({
