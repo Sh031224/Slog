@@ -1,6 +1,6 @@
 import cors from "cors";
 import * as bodyParser from "body-parser";
-import express from "express";
+import express, { type Request, type Response } from "express";
 import { AppDataSource } from "./data-source";
 
 const PORT = 3000;
@@ -11,7 +11,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Express on Vercel");
 });
 
