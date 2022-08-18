@@ -1,6 +1,7 @@
 import cors from "cors";
 import * as bodyParser from "body-parser";
 import express from "express";
+import { AppDataSource } from "./data-source";
 
 const PORT = 3000;
 
@@ -14,8 +15,13 @@ app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running in port ${PORT}`);
-});
+AppDataSource.initialize()
+  .then(() => {
+    // here you can start to work with your database
+    app.listen(PORT, () => {
+      console.log(`Server is running in port ${PORT}`);
+    });
+  })
+  .catch((error) => console.log(error));
 
 export {};
