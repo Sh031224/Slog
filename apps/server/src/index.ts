@@ -10,6 +10,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.get("/v1", () => "test");
+
 app.listen(PORT, () => {
   console.log(`Server is running in port ${PORT}`);
 });
