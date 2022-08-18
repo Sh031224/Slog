@@ -10,7 +10,16 @@
     },
     "dev": {
       "cache": false
-    }
+    },
+    "start": {}
   },
-  "globalDependencies": [".env", "tsconfig.json", "$NODE_ENV"]
+  "globalDependencies": [
+    ".env",
+    "tsconfig.json",
+    "$NODE_ENV",
+    "$HOST",
+    "$USERNAME",
+    "$PASSWORD",
+    "$DATABASE"
+  ]
 }
