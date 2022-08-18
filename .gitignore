@@ -2,29 +2,26 @@
 
 # dependencies
 node_modules
-/.pnp
+.pnp
 .pnp.js
 
 # testing
-/coverage
+coverage
 
 # next.js
-/.next/
-/out/
-
-# production
-/build
+.next/
+out/
+build
 
 # misc
 .DS_Store
 *.pem
 
-server/static/
-
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
 # local env files
 .env
@@ -33,23 +30,5 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# vercel
-.vercel
-
-# Mac
-.DS_Store
-
-# Config
-src/config/*
-!src/config/server.json
-
-# Sitemap
-public/sitemap/
-public/sitemap.xml
-
-# rss
-public/rss.xml
-
-# greenlock
-src/greenlock.d/
-.greenlockrc
+# turbo
+.turbo
