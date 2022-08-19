@@ -15,7 +15,9 @@
       "dependsOn": ["build"]
     },
     "test": {},
-    "test:report": {}
+    "test:report": {
+      "cache": false
+    }
   },
   "globalDependencies": [
     ".env",
