@@ -1,0 +1,7 @@
+flags:
+  web:
+    paths:
+      - apps/web/
+  server:
+    paths:
+      - apps/server/
