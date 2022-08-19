@@ -4,7 +4,7 @@ on:
 
 jobs:
   test:
-    name: build and test
+    name: Run test
     runs-on: ubuntu-20.04
 
     env:
@@ -48,13 +48,10 @@ jobs:
       - name: Upload codecov server
         uses: codecov/codecov-action@v3
         with:
-          directory: ./apps/server/coverage/
-          files: ./coverage-final.json
+          root_dir: ./apps/server
           flags: server
       - name: Upload codecov web
         uses: codecov/codecov-action@v3
         with:
-          directory: ./apps/web/coverage/
-          files: ./coverage-final.json
           root_dir: ./apps/web
           flags: web
