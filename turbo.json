@@ -13,7 +13,8 @@
     },
     "start": {
       "dependsOn": ["build"]
-    }
+    },
+    "test": {}
   },
   "globalDependencies": [
     ".env",
