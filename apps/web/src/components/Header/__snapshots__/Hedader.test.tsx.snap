@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header.tsx matches snapshot 1`] = `
+<div>
+  <header
+    class="sc-bczRLJ cETFyA"
+  >
+    Header
+  </header>
+</div>
+`;
