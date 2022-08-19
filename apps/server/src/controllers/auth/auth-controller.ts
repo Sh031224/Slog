@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import ErrorHandler from "lib/error-handler";
-import CustomError from "models/error";
-import AuthService from "services/auth-service";
-import AuthValidator from "validator/auth-validator";
+
+import ErrorHandler from "../../lib/error-handler";
+import CustomError from "../../models/error";
+import AuthService from "../../services/auth-service";
+import AuthValidator from "../../validator/auth-validator";
 
 export default class AuthController {
   private authValidator: AuthValidator;

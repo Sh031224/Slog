@@ -1,4 +1,4 @@
-import { Token } from "types/jwt";
+import { Token } from "../types/jwt";
 
 export const cookieName = {
   [Token.ACCESS]: "jwt",

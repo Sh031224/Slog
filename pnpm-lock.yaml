@@ -71,7 +71,6 @@ importers:
       tsconfig: workspace:*
       typeorm: ^0.3.7
       typescript: ^4.7.4
-      ui: workspace:*
     dependencies:
       '@firebase/app-types': 0.7.0
       axios: 0.27.2
@@ -85,7 +84,6 @@ importers:
       jsonwebtoken: 8.5.1
       mysql: 2.18.1
       typeorm: 0.3.7_ts-node@10.9.1
-      ui: link:../../packages/ui
     devDependencies:
       '@types/body-parser': 1.19.2
       '@types/cors': 2.8.12
