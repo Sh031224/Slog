@@ -48,10 +48,13 @@ jobs:
       - name: Upload codecov server
         uses: codecov/codecov-action@v3
         with:
-          root_dir: ./apps/server
+          directory: ./apps/server/coverage/
+          files: ./coverage-final.json
           flags: server
       - name: Upload codecov web
         uses: codecov/codecov-action@v3
         with:
+          directory: ./apps/web/coverage/
+          files: ./coverage-final.json
           root_dir: ./apps/web
           flags: web
