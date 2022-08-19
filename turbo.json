@@ -11,7 +11,9 @@
     "dev": {
       "cache": false
     },
-    "start": {}
+    "start": {
+      "dependsOn": ["build"]
+    }
   },
   "globalDependencies": [
     ".env",
@@ -20,6 +22,8 @@
     "$HOST",
     "$USERNAME",
     "$PASSWORD",
-    "$DATABASE"
+    "$DATABASE",
+    "$ADMIN_FACEBOOK_ID",
+    "$JWT_SECRET"
   ]
 }
