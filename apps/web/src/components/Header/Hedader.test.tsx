@@ -9,6 +9,6 @@ describe("Header.tsx", () => {
   it("matches snapshot", () => {
     const { container } = setup();
 
-    expect(container).toMatchSnapshot();
+    expect(container.querySelector("header")?.textContent).toBe("Header");
   });
 });

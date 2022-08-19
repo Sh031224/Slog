@@ -6,7 +6,14 @@ const createJestConfig = nextJest({
 
 const customJestConfig = {
   setupFilesAfterEnv: ["./src/setupTests.ts"],
-  testEnvironment: "jest-environment-jsdom"
+  testEnvironment: "jest-environment-jsdom",
+  collectCoverage: true,
+  coverageReporters: ["text", "cobertura"],
+  coverageThreshold: {
+    global: {
+      lines: 70
+    }
+  }
 };
 
 module.exports = createJestConfig(customJestConfig);
