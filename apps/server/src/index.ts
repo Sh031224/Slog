@@ -1,27 +1,27 @@
 import cors from "cors";
 import * as bodyParser from "body-parser";
-import express, { type Request, type Response } from "express";
-import { AppDataSource } from "./data-source";
+import express from "express";
+import controllers from "controllers";
+import { AppDataSource } from "data-source";
 
-const PORT = 3000;
+const PORT = 3006;
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ credentials: true, origin: ["http://localhost:3002", "https://slog.website"] }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/", (req: Request, res: Response) => {
-  return "";
-});
+app.use(controllers);
 
 AppDataSource.initialize()
   .then(() => {
-    // here you can start to work with your database
-    app.listen(PORT, () => {
-      console.log(`Server is running in port ${PORT}`);
-    });
+    console.log("Data Source has been initialized!");
   })
   .catch((error) => console.log(error));
+
+app.listen(PORT, () => {
+  console.log(`Server is running in http://localhost:${PORT}`);
+});
 
 export {};
