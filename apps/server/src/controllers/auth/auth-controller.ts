@@ -34,7 +34,7 @@ export default class AuthController {
 
       this.authService.updateFcmToken(req.user!, req.body.token as string);
 
-      return res.status(200);
+      return res.status(200).end();
     } catch (err) {
       this.errorHandler.handle(res, err as CustomError);
     }
