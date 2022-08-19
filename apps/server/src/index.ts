@@ -1,8 +1,8 @@
 import cors from "cors";
 import * as bodyParser from "body-parser";
 import express from "express";
-import controllers from "controllers";
-import { AppDataSource } from "data-source";
+import controllers from "./controllers";
+import { AppDataSource } from "./data-source";
 
 const PORT = 3006;
 
@@ -24,4 +24,4 @@ app.listen(PORT, () => {
   console.log(`Server is running in http://localhost:${PORT}`);
 });
 
-export {};
+module.exports = app;

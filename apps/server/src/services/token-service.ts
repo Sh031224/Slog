@@ -1,13 +1,13 @@
-import { cookieName, cookieOptions, expiresIn } from "constants/token";
 import "dotenv/config";
 import { Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import { SignOptions } from "jsonwebtoken";
 
-import BadRequestError from "models/error/bad-request-error";
-import UnauthorizedError from "models/error/unauthorized-error";
-import UserRepository from "repositories/user-repository";
-import { Token } from "types/jwt";
+import { cookieName, cookieOptions, expiresIn } from "../constants/token";
+import BadRequestError from "../models/error/bad-request-error";
+import UnauthorizedError from "../models/error/unauthorized-error";
+import UserRepository from "../repositories/user-repository";
+import { Token } from "../types/jwt";
 
 const { JWT_SECRET } = process.env;
 
@@ -40,10 +40,14 @@ export default class TokenService {
     };
 
     const options: SignOptions = {
-      expiresIn: expiresIn[type]
+      expiresIn: expiresIn[type as keyof typeof Token]
     };
 
-    res.cookie(cookieName[type], jwt.sign(payload, JWT_SECRET!, options), cookieOptions[type]);
+    res.cookie(
+      cookieName[type as keyof typeof Token],
+      jwt.sign(payload, JWT_SECRET!, options),
+      cookieOptions[type as keyof typeof Token]
+    );
   };
 
   private validate = async (req: Request, reqToken: string, type: Token) => {
@@ -84,7 +88,7 @@ export default class TokenService {
 
       return { user };
     } catch (err) {
-      const refreshToken = req.cookies(cookieName[Token.REFRESH]);
+      const refreshToken = req.cookies(cookieName[Token.REFRESH as keyof typeof Token]);
       if (refreshToken) {
         const { user, decoded } = await this.validate(req, refreshToken, Token.REFRESH);
 

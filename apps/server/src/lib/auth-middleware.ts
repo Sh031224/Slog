@@ -1,5 +1,5 @@
 import { Response, NextFunction, Request } from "express";
-import ForbiddenError from "models/error/forbidden-error";
+import ForbiddenError from "../models/error/forbidden-error";
 import ErrorHandler from "./error-handler";
 import TokenService from "../services/token-service";
 

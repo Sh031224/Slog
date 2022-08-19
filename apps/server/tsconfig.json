@@ -1,10 +1,6 @@
 {
   "extends": "tsconfig/nodejs.json",
-  "compilerOptions": {
-    "outDir": "./public",
-    "baseUrl": "./src"
-  },
-  "files": ["src/@types/index.d.ts"],
+  "files": ["./@types/index.d.ts"],
   "include": ["**/*.ts", "**/*.tsx", "./@types/index.d.ts"],
   "exclude": ["node_modules", "./public"]
 }

@@ -3,9 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node build/src/index.js",
-    "dev": "NODE_PATH=./src nodemon ./src/index.ts",
-    "build": "rm -rf ./build && tsc"
+    "dev": "nodemon ./src/index.ts"
   },
   "dependencies": {
     "@firebase/app-types": "^0.7.0",
@@ -19,8 +17,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
-    "typeorm": "^0.3.7",
-    "ui": "workspace:*"
+    "typeorm": "^0.3.7"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.2",
