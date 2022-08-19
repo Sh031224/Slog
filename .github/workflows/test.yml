@@ -1,9 +1,8 @@
 on:
-  on:
-    push:
-      branches:
-        - main
-        - v2
+  push:
+    branches:
+      - main
+      - v2
   pull_request:
     types: [opened, synchronize, reopened]
 
