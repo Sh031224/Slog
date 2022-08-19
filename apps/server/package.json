@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon ./src/index.ts",
     "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent",
-    "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --ci --reporters=default --reporters=jest-junit"
+    "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --ci"
   },
   "dependencies": {
     "@firebase/app-types": "^0.7.0",

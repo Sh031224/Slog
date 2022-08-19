@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --passWithNoTests",
-    "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --passWithNoTests --ci --reporters=default --reporters=jest-junit"
+    "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --passWithNoTests --ci"
   },
   "dependencies": {
     "axios": "^0.27.2",

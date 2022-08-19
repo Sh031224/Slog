@@ -46,9 +46,3 @@ jobs:
         run: pnpm run test:report
 
       - uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          files: ./apps/server/junit.xml,./apps/web/junit.xmll # optional
-          flags: unittests
-          fail_ci_if_error: true
-          verbose: true
