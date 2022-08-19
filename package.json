@@ -12,6 +12,7 @@
     "lint": "turbo run lint",
     "start": "turbo run start",
     "test": "turbo run test",
+    "test:report": "turbo run test:report",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {

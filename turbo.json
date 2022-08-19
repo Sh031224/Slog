@@ -14,7 +14,8 @@
     "start": {
       "dependsOn": ["build"]
     },
-    "test": {}
+    "test": {},
+    "test:report": {}
   },
   "globalDependencies": [
     ".env",
