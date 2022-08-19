@@ -45,5 +45,16 @@ jobs:
       - name: Run test
         run: pnpm run test:report
 
-      - name: Upload codecov
+      - name: Upload codecov server
         uses: codecov/codecov-action@v3
+        with:
+          directory: ./apps/server/coverage/
+          files: ./coverage-final.json
+          flags: server
+      - name: Upload codecov web
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ./apps/web/coverage/
+          files: ./coverage-final.json
+          root_dir: ./apps/web
+          flags: web
