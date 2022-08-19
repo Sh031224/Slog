@@ -88,7 +88,8 @@ export default class TokenService {
 
       return { user };
     } catch (err) {
-      const refreshToken = req.cookies(cookieName[Token.REFRESH as keyof typeof Token]);
+      const refreshToken = req.cookies[cookieName[Token.REFRESH as keyof typeof Token]];
+
       if (refreshToken) {
         const { user, decoded } = await this.validate(req, refreshToken, Token.REFRESH);
 

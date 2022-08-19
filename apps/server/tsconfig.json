@@ -1,5 +1,9 @@
 {
   "extends": "tsconfig/nodejs.json",
+  "compilerOptions": {
+    "preserveSymlinks": true,
+    "declaration": true
+  },
   "files": ["./@types/index.d.ts"],
   "include": ["**/*.ts", "**/*.tsx", "./@types/index.d.ts"],
   "exclude": ["node_modules", "./public"]
