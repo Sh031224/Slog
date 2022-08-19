@@ -33,6 +33,3 @@ yarn-error.log*
 # turbo
 .turbo
 .vercel
-
-# test report
-junit.xml

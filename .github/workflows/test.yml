@@ -46,3 +46,10 @@ jobs:
         run: pnpm run test:report
 
       - uses: codecov/codecov-action@v3
+        with:
+          files: ./apps/server/coverage/coverage-final.json
+          flags: server
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./apps/web/coverage/coverage-final.json
+          flags: web
