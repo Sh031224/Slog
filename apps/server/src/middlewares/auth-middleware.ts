@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from "express";
 import ForbiddenError from "../models/error/forbidden-error";
-import ErrorHandler from "./error-handler";
+import ErrorHandler from "../lib/error-handler";
 import TokenService from "../services/token-service";
 
 export default class AuthMiddleware {
@@ -12,7 +12,7 @@ export default class AuthMiddleware {
     this.errorHandler = new ErrorHandler();
   }
 
-  async admin(req: Request, res: Response, next: NextFunction) {
+  admin = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { user } = await this.tokenService.refreshOrValidate(req, res);
 
@@ -24,9 +24,9 @@ export default class AuthMiddleware {
     } catch (err) {
       this.errorHandler.handle(res, err as Error);
     }
-  }
+  };
 
-  async user(req: Request, res: Response, next: NextFunction) {
+  user = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { user } = await this.tokenService.refreshOrValidate(req, res);
 
@@ -36,5 +36,5 @@ export default class AuthMiddleware {
     } catch (err) {
       this.errorHandler.handle(res, err as Error);
     }
-  }
+  };
 }
