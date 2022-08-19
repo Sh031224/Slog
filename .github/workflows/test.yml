@@ -47,9 +47,9 @@ jobs:
 
       - uses: codecov/codecov-action@v3
         with:
-          files: ./apps/server/coverage/coverage-final.json
+          directory: ./apps/server
           flags: server
       - uses: codecov/codecov-action@v3
         with:
-          files: ./apps/web/coverage/coverage-final.json
+          directory: ./apps/web
           flags: web
