@@ -19,11 +19,9 @@ jobs:
         with:
           node-version: 16
 
-      - name: Create .env file
-        run: |
-          jq -r 'keys[] as $k | "export \($k)=\(.[$k])"' <<< "$SECRETS_CONTEXT"
-        env:
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+      - uses: oNaiPs/secrets-to-env-action@v1
+        with:
+          secrets: ${{ toJSON(secrets) }}
 
       - uses: pnpm/action-setup@v2.0.1
         name: Install pnpm
