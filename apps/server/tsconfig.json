@@ -2,7 +2,8 @@
   "extends": "tsconfig/nodejs.json",
   "compilerOptions": {
     "preserveSymlinks": true,
-    "declaration": true
+    "declaration": true,
+    "isolatedModules": false
   },
   "files": ["./@types/index.d.ts"],
   "include": ["**/*.ts", "**/*.tsx", "./@types/index.d.ts"],

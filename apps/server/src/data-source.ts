@@ -2,7 +2,7 @@ import "dotenv/config";
 import { DataSource } from "typeorm";
 import User from "./models/entity/user";
 
-export const AppDataSource = new DataSource({
+const AppDataSource = new DataSource({
   type: "mysql",
   host: process.env.HOST,
   port: 3306,
@@ -17,3 +17,5 @@ export const AppDataSource = new DataSource({
   migrations: [],
   ssl: {}
 });
+
+export default AppDataSource;
