@@ -6,5 +6,5 @@
   },
   "files": ["./@types/index.d.ts"],
   "include": ["**/*.ts", "**/*.tsx", "./@types/index.d.ts"],
-  "exclude": ["node_modules", "./public", "**/tests/**/*", "src/testing-utils.ts"]
+  "exclude": ["node_modules", "./public"]
 }

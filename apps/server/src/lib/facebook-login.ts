@@ -21,9 +21,9 @@ export default class FacebookLogin {
 
       return { id: data.id, name: data.name };
     } catch (err) {
-      const errorMessage = err as any;
+      const error = err as any;
 
-      throw new BadRequestError(errorMessage?.message);
+      throw new BadRequestError(error.message);
     }
   };
 }

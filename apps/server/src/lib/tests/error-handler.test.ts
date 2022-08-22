@@ -2,7 +2,7 @@ import BadRequestError from "../../models/error/bad-request-error";
 import ForbiddenError from "../../models/error/forbidden-error";
 import UnauthorizedError from "../../models/error/unauthorized-error";
 import NotFoundError from "../../models/error/not-found-error";
-import { getMockResponse } from "../../testing-utils";
+import { getMockResponse } from "../../test-utils";
 import ErrorHandler from "../error-handler";
 
 describe("error-handler.ts", () => {
@@ -13,9 +13,11 @@ describe("error-handler.ts", () => {
       const res = getMockResponse();
       const status = 400;
       const message = "error message";
+      const error = new BadRequestError(message);
 
-      errorHandler.handle(res as any, new BadRequestError(message));
+      errorHandler.handle(res as any, error);
 
+      expect(error.message).toBe(message);
       expect(res.status).toBeCalledWith(status);
       expect(res.json).toBeCalledWith({ status, message });
     });
@@ -24,9 +26,11 @@ describe("error-handler.ts", () => {
       const res = getMockResponse();
       const status = 403;
       const message = "error message";
+      const error = new ForbiddenError(message);
 
-      errorHandler.handle(res as any, new ForbiddenError(message));
+      errorHandler.handle(res as any, error);
 
+      expect(error.message).toBe(message);
       expect(res.status).toBeCalledWith(status);
       expect(res.json).toBeCalledWith({ status, message });
     });
@@ -35,9 +39,11 @@ describe("error-handler.ts", () => {
       const res = getMockResponse();
       const status = 401;
       const message = "error message";
+      const error = new UnauthorizedError(message);
 
-      errorHandler.handle(res as any, new UnauthorizedError(message));
+      errorHandler.handle(res as any, error);
 
+      expect(error.message).toBe(message);
       expect(res.status).toBeCalledWith(status);
       expect(res.json).toBeCalledWith({ status, message });
     });
@@ -46,9 +52,11 @@ describe("error-handler.ts", () => {
       const res = getMockResponse();
       const status = 404;
       const message = "error message";
+      const error = new NotFoundError(message);
 
-      errorHandler.handle(res as any, new NotFoundError(message));
+      errorHandler.handle(res as any, error);
 
+      expect(error.message).toBe(message);
       expect(res.status).toBeCalledWith(status);
       expect(res.json).toBeCalledWith({ status, message });
     });

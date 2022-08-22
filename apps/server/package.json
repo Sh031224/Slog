@@ -42,6 +42,7 @@
     "next-transpile-modules": "9.0.0",
     "nodemon": "^2.0.19",
     "shared-types": "workspace:*",
+    "testing-utils": "workspace:*",
     "ts-jest": "^28.0.8",
     "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",
