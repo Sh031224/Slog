@@ -44,6 +44,7 @@ importers:
       next-transpile-modules: 9.0.0
       nodemon: ^2.0.19
       shared-types: workspace:*
+      testing-utils: workspace:*
       ts-jest: ^28.0.8
       ts-node: ^10.9.1
       tsconfig: workspace:*
@@ -84,6 +85,7 @@ importers:
       next-transpile-modules: 9.0.0
       nodemon: 2.0.19
       shared-types: link:../../packages/shared-types
+      testing-utils: link:../../packages/testing-utils
       ts-jest: 28.0.8_bi2kohzqnxavgozw3csgny5hju
       ts-node: 10.9.1_x2utdhayajzrh747hktprshhby
       tsconfig: link:../../packages/tsconfig
@@ -113,7 +115,7 @@ importers:
       react-is: ^18.2.0
       styled-components: ^5.3.5
       tsconfig: workspace:*
-      typescript: ^4.5.3
+      typescript: ^4.7.4
     dependencies:
       axios: 0.27.2
       next: 12.2.3_twoewwu6sg7cdf3ao6njtbftne
@@ -171,8 +173,24 @@ importers:
       eslint: ^7.32.0
       eslint-config-custom: workspace:*
       tsconfig: workspace:*
-      typescript: ^4.5.2
+      typescript: ^4.7.4
     devDependencies:
+      eslint: 7.32.0
+      eslint-config-custom: link:../eslint-config-custom
+      tsconfig: link:../tsconfig
+      typescript: 4.7.4
+
+  packages/testing-utils:
+    specifiers:
+      axios: ^0.27.2
+      axios-mock-adapter: ^1.21.2
+      eslint: ^7.32.0
+      eslint-config-custom: workspace:*
+      tsconfig: workspace:*
+      typescript: ^4.7.4
+    devDependencies:
+      axios: 0.27.2
+      axios-mock-adapter: 1.21.2_axios@0.27.2
       eslint: 7.32.0
       eslint-config-custom: link:../eslint-config-custom
       tsconfig: link:../tsconfig
@@ -1927,6 +1945,16 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
+  /axios-mock-adapter/1.21.2_axios@0.27.2:
+    resolution: {integrity: sha512-jzyNxU3JzB2XVhplZboUcF0YDs7xuExzoRSHXPHr+UQajaGmcTqvkkUADgkVI2WkGlpZ1zZlMVdcTMU0ejV8zQ==}
+    peerDependencies:
+      axios: '>= 0.17.0'
+    dependencies:
+      axios: 0.27.2
+      fast-deep-equal: 3.1.3
+      is-buffer: 2.0.5
+    dev: true
+
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
@@ -1934,7 +1962,6 @@ packages:
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
-    dev: false
 
   /axobject-query/2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
@@ -3252,7 +3279,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
 
   /form-data/4.0.0:
     resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
@@ -3751,6 +3777,11 @@ packages:
       call-bind: 1.0.2
       has-tostringtag: 1.0.0
     dev: false
+
+  /is-buffer/2.0.5:
+    resolution: {integrity: sha512-i2R6zNFDwgEHJyQUtJEk0XFi1i0dPFn/oqjK3/vPCcDeJvW5NQ83V8QbicfF1SupOaB0h8ntgBC2YiE7dfyctQ==}
+    engines: {node: '>=4'}
+    dev: true
 
   /is-callable/1.2.4:
     resolution: {integrity: sha512-nsuwtxZfMX67Oryl9LCQ+upnC0Z0BgpwntpS89m1H/TLF0zNfzfLMV/9Wa/6MZsj0acpEjAO0KF1xT6ZdLl95w==}
