@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { Request, Response } from "express";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { SignOptions } from "jsonwebtoken";
 
 import { cookieName, cookieOptions, expiresIn } from "../constants/token";
@@ -50,7 +50,7 @@ export default class TokenService {
     );
   };
 
-  private validate = async (req: Request, reqToken: string, type: Token) => {
+  private validate = async (reqToken: string, type: Token) => {
     const token = this.parseToken(reqToken);
 
     try {
@@ -84,14 +84,14 @@ export default class TokenService {
   refreshOrValidate = async (req: Request, res: Response) => {
     try {
       const reqToken: string = req.headers.authorization ?? "";
-      const { user } = await this.validate(req, reqToken, Token.ACCESS);
+      const { user } = await this.validate(reqToken, Token.ACCESS);
 
       return { user };
     } catch (err) {
       const refreshToken = req.cookies[cookieName[Token.REFRESH as keyof typeof Token]];
 
       if (refreshToken) {
-        const { user, decoded } = await this.validate(req, refreshToken, Token.REFRESH);
+        const { user, decoded } = await this.validate(refreshToken, Token.REFRESH);
 
         if (decoded.exp && decoded.exp < 1000 * 60 * 60 * 24 * 7) {
           await Promise.all([
