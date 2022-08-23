@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { AppDataSource } from "../data-source";
+import AppDataSource from "../data-source";
 import User from "../models/entity/user";
 import NotFoundError from "../models/error/not-found-error";
 
@@ -10,7 +10,7 @@ export default class UserRepository {
 
   findOrCreate = async (facebookId: string, name: string) => {
     const userRepository = this.getRepository();
-    let user = await userRepository.findOne({ where: { facebookId, isDeleted: false } });
+    let user = await userRepository.findOne({ where: { facebookId, name, isDeleted: false } });
 
     // find
     if (user) {

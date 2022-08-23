@@ -1,5 +1,3 @@
-import { Storage } from "@google-cloud/storage";
-
 import GoogleCloud from "../google-cloud";
 
 const mockUploadFile = {

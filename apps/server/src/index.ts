@@ -6,7 +6,7 @@ import admin, { ServiceAccount } from "firebase-admin";
 import cookies from "cookie-parser";
 
 import controllers from "./controllers";
-import { AppDataSource } from "./data-source";
+import AppDataSource from "./data-source";
 import config from "./constants/firebase";
 
 const PORT = 3006;
