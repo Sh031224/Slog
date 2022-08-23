@@ -5,9 +5,6 @@ body:
   - type: markdown
     attributes:
       value: Please fill out this form as completely as possible.
-  - type: markdown
-    attributes:
-      value: 'Feature requests will be converted to the GitHub Discussions "Ideas" section.'
   - type: textarea
     attributes:
       label: Describe the feature you'd like to request
