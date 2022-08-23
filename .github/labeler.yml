@@ -2,20 +2,20 @@ testing:
   - ["**/*.test.ts", "**/*.test.tsx"]
 
 "area: ui":
-  - packages/ui/*
+  - packages/ui/**/*
 
 "area: testing-utils":
-  - packages/testing-utils/*
+  - packages/testing-utils/**/*
 
 "area: web":
-  - apps/web/*
+  - apps/web/**/*
 
 "area: server":
-  - apps/server/*
+  - apps/server/**/*
 
 "area: eslint":
-  - packages/eslint-config-base
-  - packages/eslint-config-custom
+  - packages/eslint-config-base/**/*
+  - packages/eslint-config-custom/**/*
 
 "area: docs":
-  - apps/docs/*
+  - apps/docs/**/*
