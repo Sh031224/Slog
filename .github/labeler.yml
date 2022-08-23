@@ -1,0 +1,24 @@
+testing:
+  - ["**/*.test.ts", "**/*.test.tsx"]
+
+'area: ui':
+- packages/ui/*
+
+'area: testing-utils':
+- packages/testing-utils/*
+
+'area: web':
+- apps/web/*
+
+'area: server':
+- apps/server/*
+
+'area: eslint':
+- packages/eslint-config-base
+- packages/eslint-config-custom
+
+'area: testing-utils':
+- packages/testing-utils/*
+
+'area: docs':
+- apps/docs/*
