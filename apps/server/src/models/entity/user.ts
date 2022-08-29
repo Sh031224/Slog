@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
-import AppDataSource from "../../data-source";
 
 @Entity("user")
 export default class User {

@@ -4,6 +4,7 @@ import UnauthorizedError from "../../models/error/unauthorized-error";
 import NotFoundError from "../../models/error/not-found-error";
 import { getMockResponse } from "../../test-utils";
 import ErrorHandler from "../error-handler";
+import ConflictError from "../../models/error/conflict-error";
 
 describe("error-handler.ts", () => {
   const errorHandler = new ErrorHandler();
@@ -50,6 +51,18 @@ describe("error-handler.ts", () => {
       const status = 404;
       const message = "error message";
       const error = new NotFoundError(message);
+
+      errorHandler.handle(res, error);
+
+      expect(error.message).toBe(message);
+      expect(res.status).toBeCalledWith(status);
+      expect(res.json).toBeCalledWith({ status, message });
+    });
+
+    it("conflict error, status is 409", () => {
+      const status = 409;
+      const message = "error message";
+      const error = new ConflictError(message);
 
       errorHandler.handle(res, error);
 
