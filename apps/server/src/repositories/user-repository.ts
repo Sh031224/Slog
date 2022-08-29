@@ -1,4 +1,3 @@
-import "dotenv/config";
 import AppDataSource from "../data-source";
 import User from "../models/entity/user";
 import NotFoundError from "../models/error/not-found-error";
@@ -40,8 +39,6 @@ export default class UserRepository {
   };
 
   save = async (user: User) => {
-    const userRepository = this.getRepository();
-
-    return userRepository.save(user);
+    return this.getRepository().save(user);
   };
 }

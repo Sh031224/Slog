@@ -17,7 +17,7 @@ export default class AuthService {
     this.tokenService = new TokenService();
   }
 
-  async login(res: Response, token: string) {
+  login = async (res: Response, token: string) => {
     const { id, name } = await this.facebookLogin.getInfo(token);
     const user = await this.userRepository.findOrCreate(id, name);
 
@@ -27,10 +27,10 @@ export default class AuthService {
     ]);
 
     return user;
-  }
+  };
 
-  updateFcmToken(user: User, token: string) {
+  updateFcmToken = (user: User, token: string) => {
     user.fcmToken = token;
     return this.userRepository.save(user);
-  }
+  };
 }
