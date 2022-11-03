@@ -31,7 +31,7 @@ export default class PostViewRepository {
     const postView = new PostView();
 
     postView.ip = ip;
-    postView.post = post;
+    postView.postIdx = post.idx;
 
     return this.getRepository().create(postView);
   };

@@ -19,10 +19,6 @@ export default class PostView {
   })
   ip: string;
 
-  @ManyToOne(/* istanbul ignore next */ () => Post, { onDelete: "SET NULL" })
-  @JoinColumn({ name: "postIdx" })
-  post: Post;
-
   @Column({
     nullable: true
   })

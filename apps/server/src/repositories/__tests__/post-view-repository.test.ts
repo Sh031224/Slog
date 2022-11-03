@@ -61,7 +61,7 @@ describe("post-view-repository.ts", () => {
 
       const postView = new PostView();
       postView.ip = ip;
-      postView.post = post;
+      postView.postIdx = post.idx;
 
       expect(create).toBeCalledWith(postView);
     });

@@ -40,7 +40,7 @@ export default class Post {
   })
   type: PostType;
 
-  @Column({
+  @Column("varchar", {
     nullable: true
   })
   externalUrl: Nullable<string>;
@@ -57,16 +57,12 @@ export default class Post {
   })
   isTemp: boolean;
 
-  @ManyToOne(/* istanbul ignore next */ () => Category, { onDelete: "CASCADE" })
-  @JoinColumn({ name: "categoryIdx" })
-  category: Category;
-
   @Column({
     nullable: false
   })
   categoryIdx: number;
 
-  @Column({
+  @Column("varchar", {
     length: 300,
     nullable: true
   })

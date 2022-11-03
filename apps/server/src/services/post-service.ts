@@ -44,7 +44,7 @@ export default class PostService {
     const queryConditions: FindManyOptions<Post> = {
       where: {
         isTemp: typeof params.isTemp === "undefined" ? false : params.isTemp,
-        category: undefined,
+        categoryIdx: undefined,
         title: params.title ? Like(`%${params.title}%`) : undefined
       },
       order: {
@@ -58,9 +58,9 @@ export default class PostService {
     if (params.category) {
       const category = await this.categoryRepository.findByIdx(params.category);
 
-      Object.assign(queryConditions.where!, { category: category });
-
       if (!category) throw new BadRequestError(`${params.category} category is not exist`);
+
+      Object.assign(queryConditions.where!, { categoryIdx: category.idx });
     }
 
     return this.postRepository.findAndCount(queryConditions);
@@ -76,7 +76,7 @@ export default class PostService {
     post.type = postDTO.type;
     post.title = postDTO.title;
     post.description = postDTO.description;
-    post.category = category;
+    post.categoryIdx = category.idx;
     post.thumbnail = postDTO.thumbnail ?? "";
     post.content = postDTO.content ?? "";
     post.externalUrl = postDTO.externalUrl;
@@ -101,7 +101,7 @@ export default class PostService {
     post.type = postDTO.type;
     post.title = postDTO.title;
     post.description = postDTO.description;
-    post.category = category;
+    post.categoryIdx = category.idx;
     post.thumbnail = postDTO.thumbnail;
     post.content = postDTO.content;
     post.externalUrl = postDTO.externalUrl;
