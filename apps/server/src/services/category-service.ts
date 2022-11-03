@@ -13,8 +13,8 @@ export default class CategoryService {
     return this.categoryRepository.create(name);
   };
 
-  getAll = async () => {
-    return this.categoryRepository.findAll();
+  get = async () => {
+    return this.categoryRepository.find();
   };
 
   update = async (idx: number, name: string) => {
@@ -33,7 +33,7 @@ export default class CategoryService {
     if (count < orderNumber)
       throw new BadRequestError("orderNumber must be less than categories.length");
 
-    const categories = await this.categoryRepository.findAll();
+    const categories = await this.categoryRepository.find();
     const updateCategory = categories.find((v) => v.idx === idx);
 
     if (!updateCategory) throw new NotFoundError(`${idx} is not found.`);

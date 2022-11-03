@@ -49,7 +49,7 @@ describe("category-service.ts", () => {
 
   describe("getAll", () => {
     it("get all categories", async () => {
-      await categoryService.getAll();
+      await categoryService.get();
 
       expect(findAll).toBeCalled();
     });
