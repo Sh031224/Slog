@@ -3,7 +3,7 @@ import { Response } from "express";
 import FacebookLogin from "../lib/facebook-login";
 import TokenService from "../services/token-service";
 import UserRepository from "../repositories/user-repository";
-import { Token } from "../types/jwt";
+import { Token } from "../types";
 import User from "../models/entity/user";
 
 export default class AuthService {
