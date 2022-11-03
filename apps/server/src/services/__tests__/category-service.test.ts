@@ -12,7 +12,7 @@ const saveAll = jest.fn();
 const delete_ = jest.fn();
 const create = jest.fn();
 
-jest.mock("../../repositories/category-repositoy.ts", () => {
+jest.mock("../../repositories/category-repository.ts", () => {
   return function () {
     return { save, count, findByIdx, findAll, findByName, saveAll, delete: delete_, create };
   };

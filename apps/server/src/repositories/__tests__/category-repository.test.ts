@@ -1,5 +1,5 @@
 import Category from "../../models/entity/category";
-import CategoryRepository from "../category-repositoy";
+import CategoryRepository from "../category-repository";
 
 const save = jest.fn((arg) => arg);
 const findOne = jest.fn();

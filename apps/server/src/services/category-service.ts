@@ -1,4 +1,4 @@
-import CategoryRepository from "../repositories/category-repositoy";
+import CategoryRepository from "../repositories/category-repository";
 import BadRequestError from "../models/error/bad-request-error";
 import NotFoundError from "../models/error/not-found-error";
 

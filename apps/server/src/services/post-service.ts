@@ -6,7 +6,7 @@ import PostViewService from "./post-view-service";
 import PostRepository from "../repositories/post-repository";
 import NotFoundError from "../models/error/not-found-error";
 import Post from "../models/entity/post";
-import CategoryRepository from "../repositories/category-repositoy";
+import CategoryRepository from "../repositories/category-repository";
 import BadRequestError from "../models/error/bad-request-error";
 import ForbiddenError from "../models/error/forbidden-error";
 
