@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --passWithNoTests",
+    "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --passWithNoTests",
     "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --passWithNoTests --ci --coverage"
   },
   "dependencies": {

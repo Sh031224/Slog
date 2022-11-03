@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./src/index.ts",
-    "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent",
+    "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles",
     "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --ci"
   },
   "dependencies": {
