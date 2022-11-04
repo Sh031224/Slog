@@ -37,4 +37,18 @@ export default class AuthMiddleware {
       this.errorHandler.handle(res, err as Error);
     }
   };
+
+  userWithoutThrow = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { user } = await this.tokenService.refreshOrValidate(req, res);
+
+      req.user = user;
+
+      next();
+    } catch (err) {
+      req.user = undefined;
+
+      next();
+    }
+  };
 }

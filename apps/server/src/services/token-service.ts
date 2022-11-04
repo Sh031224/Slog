@@ -3,11 +3,12 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { SignOptions } from "jsonwebtoken";
 
+import { DAY } from "../constants/time";
 import { cookieName, cookieOptions, expiresIn } from "../constants/token";
 import BadRequestError from "../models/error/bad-request-error";
 import UnauthorizedError from "../models/error/unauthorized-error";
 import UserRepository from "../repositories/user-repository";
-import { Token } from "../types/jwt";
+import { Token } from "../types";
 
 const { JWT_SECRET } = process.env;
 
@@ -93,7 +94,7 @@ export default class TokenService {
       if (refreshToken) {
         const { user, decoded } = await this.validate(refreshToken, Token.REFRESH);
 
-        if (decoded.exp && decoded.exp < 1000 * 60 * 60 * 24 * 7) {
+        if (decoded.exp && decoded.exp < DAY * 7) {
           await Promise.all([
             this.createToken(res, user.idx, user.facebookId, Token.ACCESS),
             this.createToken(res, user.idx, user.facebookId, Token.REFRESH)

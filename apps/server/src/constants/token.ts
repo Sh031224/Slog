@@ -1,4 +1,5 @@
-import { Token } from "../types/jwt";
+import { Token } from "../types";
+import { DAY } from "./time";
 
 export const cookieName = {
   [Token.ACCESS]: "jwt",
@@ -7,10 +8,11 @@ export const cookieName = {
 
 export const cookieOptions = {
   [Token.ACCESS]: {
-    expires: new Date(new Date().setTime(new Date().getTime() + 1000 * 60 * 60 * 3))
+    expires: new Date(new Date().setTime(new Date().getTime() + DAY)),
+    httpOnly: true
   },
   [Token.REFRESH]: {
-    expires: new Date(new Date().setTime(new Date().getTime() + 1000 * 60 * 60 * 24 * 30)),
+    expires: new Date(new Date().setTime(new Date().getTime() + DAY * 30)),
     httpOnly: true
   }
 };

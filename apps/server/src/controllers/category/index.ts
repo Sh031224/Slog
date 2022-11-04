@@ -7,7 +7,7 @@ const router = Router();
 const categoryController = new CategoryController();
 const authMiddleware = new AuthMiddleware();
 
-router.get("/", categoryController.getAll);
+router.get("/", categoryController.get);
 router.post("/", authMiddleware.admin, categoryController.create);
 router.put("/:idx", authMiddleware.admin, categoryController.update);
 router.put("/order/:idx", authMiddleware.admin, categoryController.updateOrderNumber);

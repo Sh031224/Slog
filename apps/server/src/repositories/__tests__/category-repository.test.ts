@@ -1,5 +1,5 @@
 import Category from "../../models/entity/category";
-import CategoryRepository from "../category-repositoy";
+import CategoryRepository from "../category-repository";
 
 const save = jest.fn((arg) => arg);
 const findOne = jest.fn();
@@ -31,13 +31,13 @@ describe("category-repository.ts", () => {
     });
   });
 
-  describe("findAll", () => {
+  describe("find", () => {
     const list = [1];
 
     it("get all categories", async () => {
       find.mockReturnValue(list);
 
-      const result = await categoryRepository.findAll();
+      const result = await categoryRepository.find();
 
       expect(result).toBe(list);
       expect(find).toBeCalledWith({ order: { orderNumber: "ASC" } });

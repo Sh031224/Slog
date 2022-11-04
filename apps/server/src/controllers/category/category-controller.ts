@@ -28,9 +28,9 @@ export default class AuthController {
     }
   };
 
-  getAll = async (_req: Request, res: Response) => {
+  get = async (_req: Request, res: Response) => {
     try {
-      const categories = await this.categoryService.getAll();
+      const categories = await this.categoryService.get();
 
       return res.status(200).json({ categories });
     } catch (err) {
@@ -67,7 +67,9 @@ export default class AuthController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      this.categoryService.delete(Number(req.params.idx));
+      this.categoryValidator.delete(req);
+
+      await this.categoryService.delete(Number(req.params.idx));
 
       return res.status(200).end();
     } catch (err) {

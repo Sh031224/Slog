@@ -10,7 +10,7 @@ export default class CategoryRepository {
     return this.getRepository().count();
   };
 
-  findAll = async () => {
+  find = async () => {
     return this.getRepository().find({
       order: {
         orderNumber: "ASC"

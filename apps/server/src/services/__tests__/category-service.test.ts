@@ -7,14 +7,14 @@ const save = jest.fn();
 const count = jest.fn();
 const findByIdx = jest.fn();
 const findByName = jest.fn();
-const findAll = jest.fn();
+const find = jest.fn();
 const saveAll = jest.fn();
 const delete_ = jest.fn();
 const create = jest.fn();
 
-jest.mock("../../repositories/category-repositoy.ts", () => {
+jest.mock("../../repositories/category-repository.ts", () => {
   return function () {
-    return { save, count, findByIdx, findAll, findByName, saveAll, delete: delete_, create };
+    return { save, count, findByIdx, find, findByName, saveAll, delete: delete_, create };
   };
 });
 
@@ -49,9 +49,9 @@ describe("category-service.ts", () => {
 
   describe("getAll", () => {
     it("get all categories", async () => {
-      await categoryService.getAll();
+      await categoryService.get();
 
-      expect(findAll).toBeCalled();
+      expect(find).toBeCalled();
     });
   });
 
@@ -88,7 +88,7 @@ describe("category-service.ts", () => {
       const prevCategories = getMockCategories([3, 2, 4, 1]);
 
       count.mockReturnValue(4);
-      findAll.mockReturnValue(prevCategories);
+      find.mockReturnValue(prevCategories);
 
       await categoryService.updateOrderNumber(idx, 4);
 
@@ -100,7 +100,7 @@ describe("category-service.ts", () => {
       const prevCategories = getMockCategories([3, 2, 4, 1]);
 
       count.mockReturnValue(4);
-      findAll.mockReturnValue(prevCategories);
+      find.mockReturnValue(prevCategories);
 
       await categoryService.updateOrderNumber(idx, 3);
 
@@ -123,7 +123,7 @@ describe("category-service.ts", () => {
       const prevCategories = getMockCategories([3]);
 
       count.mockReturnValue(4);
-      findAll.mockReturnValue(prevCategories);
+      find.mockReturnValue(prevCategories);
 
       await expect(categoryService.updateOrderNumber(idx, 3)).rejects.toThrowError(
         new NotFoundError(`${idx} is not found.`)
