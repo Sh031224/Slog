@@ -31,7 +31,7 @@ export default class PostController {
 
   getPosts = async (req: Request, res: Response) => {
     try {
-      this.postValidator.getPost(req);
+      this.postValidator.getPosts(req);
 
       const [posts, count] = await this.postService.getPosts(
         req.params as unknown as GetPostsParams
