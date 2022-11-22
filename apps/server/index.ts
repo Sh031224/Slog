@@ -7,9 +7,9 @@ import express from "express";
 import admin from "firebase-admin";
 import type firebaseAdmin from "firebase-admin";
 
-import config from "./constants/firebase";
-import controllers from "./controllers";
-import AppDataSource from "./data-source";
+import config from "@/constants/firebase";
+import controllers from "@/controllers";
+import AppDataSource from "@/data-source";
 
 const PORT = 3006;
 
