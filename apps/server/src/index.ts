@@ -1,13 +1,14 @@
 import "dotenv/config";
-import cors from "cors";
 import * as bodyParser from "body-parser";
-import express from "express";
-import admin, { ServiceAccount } from "firebase-admin";
 import cookies from "cookie-parser";
+import cors from "cors";
+import express from "express";
+import admin from "firebase-admin";
+import type firebaseAdmin from "firebase-admin";
 
+import config from "./constants/firebase";
 import controllers from "./controllers";
 import AppDataSource from "./data-source";
-import config from "./constants/firebase";
 
 const PORT = 3006;
 
@@ -20,7 +21,7 @@ app.use(cookies());
 
 // get config file and initialize
 admin.initializeApp({
-  credential: admin.credential.cert(config as ServiceAccount)
+  credential: admin.credential.cert(config as firebaseAdmin.ServiceAccount)
 });
 
 app.use(controllers);

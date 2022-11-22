@@ -1,14 +1,15 @@
+import type { PostDTO, GetPostsParams } from "@slog/types";
 import type { Request } from "express";
-import type { PostDTO, GetPostsParams } from "shared-types";
 import { type FindManyOptions, Like } from "typeorm";
 
+import Post from "@/models/entity/post";
+import BadRequestError from "@/models/error/bad-request-error";
+import ForbiddenError from "@/models/error/forbidden-error";
+import NotFoundError from "@/models/error/not-found-error";
+import CategoryRepository from "@/repositories/category-repository";
+import PostRepository from "@/repositories/post-repository";
+
 import PostViewService from "./post-view-service";
-import PostRepository from "../repositories/post-repository";
-import NotFoundError from "../models/error/not-found-error";
-import Post from "../models/entity/post";
-import CategoryRepository from "../repositories/category-repository";
-import BadRequestError from "../models/error/bad-request-error";
-import ForbiddenError from "../models/error/forbidden-error";
 
 export default class PostService {
   private postViewService: PostViewService;
@@ -60,6 +61,7 @@ export default class PostService {
 
       if (!category) throw new BadRequestError(`${params.category} category is not exist`);
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       Object.assign(queryConditions.where!, { categoryIdx: category.idx });
     }
 

@@ -1,9 +1,10 @@
-import BadRequestError from "../../models/error/bad-request-error";
-import ImageService from "../image-service";
+import ImageService from "@image-service";
+
+import BadRequestError from "@/models/error/bad-request-error";
 
 const upload = jest.fn();
 
-jest.mock("../../lib/google-cloud.ts", () => {
+jest.mock("@/lib/google-cloud.ts", () => {
   return function () {
     return { upload };
   };

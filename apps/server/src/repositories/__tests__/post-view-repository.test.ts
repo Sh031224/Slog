@@ -1,5 +1,6 @@
-import Post from "../../models/entity/post";
-import PostView from "../../models/entity/postView";
+import Post from "@/models/entity/post";
+import PostView from "@/models/entity/postView";
+
 import PostViewRepository from "../post-view-repository";
 
 const save = jest.fn((arg) => arg);
@@ -7,7 +8,7 @@ const findOne = jest.fn();
 const create = jest.fn();
 const count = jest.fn();
 
-jest.mock("../../data-source", () => ({
+jest.mock("@/data-source", () => ({
   getRepository: jest.fn(() => ({ save, findOne, count, create }))
 }));
 

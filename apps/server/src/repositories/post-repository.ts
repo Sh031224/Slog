@@ -1,6 +1,7 @@
-import { FindManyOptions } from "typeorm";
-import AppDataSource from "../data-source";
-import Post from "../models/entity/post";
+import type { FindManyOptions } from "typeorm";
+
+import AppDataSource from "@/data-source";
+import Post from "@/models/entity/post";
 
 export default class PostRepository {
   private getRepository = () => {

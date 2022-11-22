@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 
-import { url } from "../../constants/image";
-import ErrorHandler from "../../lib/error-handler";
-import CustomError from "../../models/error";
-import ImageService from "../../services/image-service";
+import { url } from "@/constants/image";
+import ErrorHandler from "@/lib/error-handler";
+import type CustomError from "@/models/error";
+import ImageService from "@/services/image-service";
 
 export default class AuthController {
   private imageService: ImageService;

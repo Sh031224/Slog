@@ -1,4 +1,5 @@
-import Post from "../../models/entity/post";
+import Post from "@/models/entity/post";
+
 import PostRepository from "../post-repository";
 
 const save = jest.fn();
@@ -7,7 +8,7 @@ const findOne = jest.fn();
 const create = jest.fn();
 const _delete = jest.fn();
 
-jest.mock("../../data-source", () => ({
+jest.mock("@/data-source", () => ({
   getRepository: jest.fn(() => ({ save, findAndCount, findOne, create, delete: _delete }))
 }));
 

@@ -1,14 +1,6 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  ManyToOne,
-  JoinColumn
-} from "typeorm";
-import { Nullable, PostType } from "shared-types";
-
-import Category from "./category";
+import type { Nullable } from "@slog/types";
+import { PostType } from "@slog/types";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
 
 @Entity("post")
 export default class Post {

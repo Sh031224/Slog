@@ -1,14 +1,14 @@
 import "dotenv/config";
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
+import type { SignOptions } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
-import { SignOptions } from "jsonwebtoken";
 
-import { DAY } from "../constants/time";
-import { cookieName, cookieOptions, expiresIn } from "../constants/token";
-import BadRequestError from "../models/error/bad-request-error";
-import UnauthorizedError from "../models/error/unauthorized-error";
-import UserRepository from "../repositories/user-repository";
-import { Token } from "../types";
+import { DAY } from "@/constants/time";
+import { cookieName, cookieOptions, expiresIn } from "@/constants/token";
+import BadRequestError from "@/models/error/bad-request-error";
+import UnauthorizedError from "@/models/error/unauthorized-error";
+import UserRepository from "@/repositories/user-repository";
+import { Token } from "@/types";
 
 const { JWT_SECRET } = process.env;
 
@@ -30,6 +30,7 @@ export default class TokenService {
   };
 
   private verifyToken = async (token: string): Promise<JwtContent> => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return jwt.verify(token, JWT_SECRET!) as JwtContent;
   };
 
@@ -46,6 +47,7 @@ export default class TokenService {
 
     res.cookie(
       cookieName[type as keyof typeof Token],
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       jwt.sign(payload, JWT_SECRET!, options),
       cookieOptions[type as keyof typeof Token]
     );

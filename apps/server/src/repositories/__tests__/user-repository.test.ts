@@ -1,11 +1,12 @@
-import User from "../../models/entity/user";
-import NotFoundError from "../../models/error/not-found-error";
+import User from "@/models/entity/user";
+import NotFoundError from "@/models/error/not-found-error";
+
 import UserRepository from "../user-repository";
 
 const save = jest.fn((arg) => arg);
 const findOne = jest.fn();
 
-jest.mock("../../data-source", () => ({
+jest.mock("@/data-source", () => ({
   getRepository: jest.fn(() => ({ save, findOne }))
 }));
 

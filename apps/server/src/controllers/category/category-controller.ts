@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 
-import ErrorHandler from "../../lib/error-handler";
-import CustomError from "../../models/error";
-import CategoryService from "../../services/category-service";
-import CategoryValidator from "../../validator/category-validator";
+import ErrorHandler from "@/lib/error-handler";
+import type CustomError from "@/models/error";
+import CategoryService from "@/services/category-service";
+import CategoryValidator from "@/validator/category-validator";
 
 export default class AuthController {
   private categoryValidator: CategoryValidator;

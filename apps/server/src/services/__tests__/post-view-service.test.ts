@@ -1,13 +1,14 @@
+import PostViewService from "@post-view-service";
 import dayjs from "dayjs";
-import Post from "../../models/entity/post";
-import PostView from "../../models/entity/postView";
-import PostViewService from "../post-view-service";
+
+import Post from "@/models/entity/post";
+import PostView from "@/models/entity/postView";
 
 const countByPostIdx = jest.fn();
 const findByIpAndPostIdx = jest.fn();
 const create = jest.fn();
 
-jest.mock("../../repositories/post-view-repository.ts", () => {
+jest.mock("@/repositories/post-view-repository.ts", () => {
   return function () {
     return { countByPostIdx, findByIpAndPostIdx, create };
   };

@@ -1,6 +1,6 @@
-import AppDataSource from "../data-source";
-import Post from "../models/entity/post";
-import PostView from "../models/entity/postView";
+import AppDataSource from "@/data-source";
+import type Post from "@/models/entity/post";
+import PostView from "@/models/entity/postView";
 
 export default class PostViewRepository {
   private getRepository = () => {

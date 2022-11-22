@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 
-import ErrorHandler from "../../lib/error-handler";
-import CustomError from "../../models/error";
-import ProfileService from "../../services/profile-service";
+import ErrorHandler from "@/lib/error-handler";
+import type CustomError from "@/models/error";
+import ProfileService from "@/services/profile-service";
 
 export default class ProfileController {
   private profileService: ProfileService;

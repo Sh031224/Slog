@@ -1,8 +1,8 @@
-import { Request } from "express";
 import dayjs from "dayjs";
+import type { Request } from "express";
 
-import Post from "../models/entity/post";
-import PostViewRepository from "../repositories/post-view-repository";
+import type Post from "@/models/entity/post";
+import PostViewRepository from "@/repositories/post-view-repository";
 
 export default class PostViewService {
   private postViewRepository: PostViewRepository;

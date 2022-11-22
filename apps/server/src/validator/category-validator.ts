@@ -1,8 +1,9 @@
-import { Request } from "express";
+import type { Request } from "express";
 import Joi from "joi";
 
+import BadRequestError from "@/models/error/bad-request-error";
+
 import Validator from ".";
-import BadRequestError from "../models/error/bad-request-error";
 
 export default class CategoryValidator extends Validator {
   constructor() {

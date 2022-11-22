@@ -1,7 +1,8 @@
-import Category from "../../models/entity/category";
-import BadRequestError from "../../models/error/bad-request-error";
-import NotFoundError from "../../models/error/not-found-error";
-import CategoryService from "../category-service";
+import CategoryService from "@category-service";
+
+import Category from "@/models/entity/category";
+import BadRequestError from "@/models/error/bad-request-error";
+import NotFoundError from "@/models/error/not-found-error";
 
 const save = jest.fn();
 const count = jest.fn();
@@ -12,7 +13,7 @@ const saveAll = jest.fn();
 const delete_ = jest.fn();
 const create = jest.fn();
 
-jest.mock("../../repositories/category-repository.ts", () => {
+jest.mock("@/repositories/category-repository.ts", () => {
   return function () {
     return { save, count, findByIdx, find, findByName, saveAll, delete: delete_, create };
   };

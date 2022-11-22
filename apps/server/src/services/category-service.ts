@@ -1,6 +1,6 @@
-import CategoryRepository from "../repositories/category-repository";
-import BadRequestError from "../models/error/bad-request-error";
-import NotFoundError from "../models/error/not-found-error";
+import BadRequestError from "@/models/error/bad-request-error";
+import NotFoundError from "@/models/error/not-found-error";
+import CategoryRepository from "@/repositories/category-repository";
 
 export default class CategoryService {
   private categoryRepository: CategoryRepository;

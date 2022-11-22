@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ["turbo", "prettier", "plugin:import/recommended"],
+  extends: ["turbo", "plugin:import/recommended", "prettier"],
   rules: {},
   settings: {
     "import/resolver": {
@@ -17,7 +17,6 @@ module.exports = {
               ["builtin", "external"],
               "internal",
               ["sibling", "parent", "index"],
-              "type",
               "unknown"
             ],
             pathGroups: [

@@ -1,10 +1,10 @@
-import { Response } from "express";
+import type { Response } from "express";
 
-import FacebookLogin from "../lib/facebook-login";
-import TokenService from "../services/token-service";
-import UserRepository from "../repositories/user-repository";
-import { Token } from "../types";
-import User from "../models/entity/user";
+import FacebookLogin from "@/lib/facebook-login";
+import type User from "@/models/entity/user";
+import UserRepository from "@/repositories/user-repository";
+import TokenService from "@/services/token-service";
+import { Token } from "@/types";
 
 export default class AuthService {
   private facebookLogin: FacebookLogin;

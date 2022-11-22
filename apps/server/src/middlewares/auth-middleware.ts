@@ -1,7 +1,8 @@
-import { Response, NextFunction, Request } from "express";
-import ForbiddenError from "../models/error/forbidden-error";
-import ErrorHandler from "../lib/error-handler";
-import TokenService from "../services/token-service";
+import type { Response, Request, NextFunction } from "express";
+
+import ErrorHandler from "@/lib/error-handler";
+import ForbiddenError from "@/models/error/forbidden-error";
+import TokenService from "@/services/token-service";
 
 export default class AuthMiddleware {
   private tokenService: TokenService;

@@ -1,4 +1,5 @@
-import { Token } from "../types";
+import { Token } from "@/types";
+
 import { DAY } from "./time";
 
 export const cookieName = {

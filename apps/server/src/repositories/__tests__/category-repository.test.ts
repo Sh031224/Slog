@@ -1,4 +1,5 @@
-import Category from "../../models/entity/category";
+import Category from "@/models/entity/category";
+
 import CategoryRepository from "../category-repository";
 
 const save = jest.fn((arg) => arg);
@@ -7,7 +8,7 @@ const find = jest.fn();
 const delete_ = jest.fn();
 const count = jest.fn();
 
-jest.mock("../../data-source", () => ({
+jest.mock("@/data-source", () => ({
   getRepository: jest.fn(() => ({ save, findOne, find, count, delete: delete_ }))
 }));
 

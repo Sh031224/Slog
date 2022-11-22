@@ -1,10 +1,11 @@
-import User from "../../models/entity/user";
-import { getMockResponse } from "../../test-utils";
-import AuthService from "../auth-service";
+import AuthService from "@auth-service";
+
+import User from "@/models/entity/user";
+import { getMockResponse } from "@/test-utils";
 
 const createToken = jest.fn();
 
-jest.mock("../token-service.ts", () => {
+jest.mock("@token-service.ts", () => {
   return function () {
     return { createToken };
   };
@@ -12,7 +13,7 @@ jest.mock("../token-service.ts", () => {
 
 const getInfo = jest.fn();
 
-jest.mock("../../lib/facebook-login.ts", () => {
+jest.mock("@/lib/facebook-login.ts", () => {
   return function () {
     return { getInfo };
   };
@@ -21,7 +22,7 @@ jest.mock("../../lib/facebook-login.ts", () => {
 const save = jest.fn();
 const findOrCreate = jest.fn();
 
-jest.mock("../../repositories/user-repository.ts", () => {
+jest.mock("@/repositories/user-repository.ts", () => {
   return function () {
     return { save, findOrCreate };
   };

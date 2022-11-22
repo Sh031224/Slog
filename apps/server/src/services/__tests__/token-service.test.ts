@@ -1,17 +1,18 @@
 import jwt, { sign } from "jsonwebtoken";
 
-import { cookieName, cookieOptions, expiresIn } from "../../constants/token";
-import User from "../../models/entity/user";
-import BadRequestError from "../../models/error/bad-request-error";
-import UnauthorizedError from "../../models/error/unauthorized-error";
-import { getMockResponse } from "../../test-utils";
-import { Token } from "../../types";
+import { cookieName, cookieOptions, expiresIn } from "@/constants/token";
+import User from "@/models/entity/user";
+import BadRequestError from "@/models/error/bad-request-error";
+import UnauthorizedError from "@/models/error/unauthorized-error";
+import { getMockResponse } from "@/test-utils";
+import { Token } from "@/types";
+
 import TokenService from "../token-service";
 
 const save = jest.fn();
 const findOneByIdxAndFacebookId = jest.fn();
 
-jest.mock("../../repositories/user-repository.ts", () => {
+jest.mock("@/repositories/user-repository.ts", () => {
   return function () {
     return { save, findOneByIdxAndFacebookId };
   };

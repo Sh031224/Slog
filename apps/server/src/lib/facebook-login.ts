@@ -1,6 +1,7 @@
 import axios from "axios";
-import BadRequestError from "../models/error/bad-request-error";
-import UnauthorizedError from "../models/error/unauthorized-error";
+
+import BadRequestError from "@/models/error/bad-request-error";
+import UnauthorizedError from "@/models/error/unauthorized-error";
 
 type FacebookValidateResponse = {
   error?: any;

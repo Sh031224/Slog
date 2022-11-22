@@ -6,7 +6,7 @@
     "dev": "nodemon ./src/index.ts",
     "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles",
     "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --ci",
-    "lint": "eslint **/**.ts"
+    "lint": "eslint --max-warnings 5 **/**.ts"
   },
   "dependencies": {
     "@firebase/app-types": "^0.8.1",

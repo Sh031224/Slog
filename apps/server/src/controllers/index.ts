@@ -1,9 +1,10 @@
 import { Router } from "express";
+
 import auth from "./auth";
-import upload from "./image";
 import category from "./category";
-import profile from "./profile";
+import upload from "./image";
 import post from "./post";
+import profile from "./profile";
 
 const router = Router();
 

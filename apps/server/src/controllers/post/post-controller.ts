@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
-import { GetPostsParams, PostDTO } from "shared-types";
+import type { GetPostsParams, PostDTO } from "@slog/types";
+import type { Request, Response } from "express";
 
-import ErrorHandler from "../../lib/error-handler";
-import CustomError from "../../models/error";
-import postService from "../../services/post-service";
-import postValidator from "../../validator/post-validator";
+import ErrorHandler from "@/lib/error-handler";
+import type CustomError from "@/models/error";
+import postService from "@/services/post-service";
+import postValidator from "@/validator/post-validator";
 
 export default class PostController {
   private postValidator: postValidator;

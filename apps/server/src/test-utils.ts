@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type MockResponse = {
   status?: jest.Mock<any>;
   json?: jest.Mock<any>;

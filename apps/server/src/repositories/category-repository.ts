@@ -1,5 +1,5 @@
-import AppDataSource from "../data-source";
-import Category from "../models/entity/category";
+import AppDataSource from "@/data-source";
+import Category from "@/models/entity/category";
 
 export default class CategoryRepository {
   private getRepository = () => {
