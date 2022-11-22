@@ -1,17 +1,18 @@
 {
-  "name": "eslint-config-base",
+  "name": "@slog/eslint-config-base",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
-  "dependencies": {
-    "eslint": "^7.23.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-config-turbo": "latest"
-  },
-  "devDependencies": {
-    "typescript": "^4.7.4"
+  "peerDependencies": {
+    "eslint": ">= 8"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-turbo": "^0.0.4",
+    "eslint-plugin-import": "^2.26.0"
   }
 }
