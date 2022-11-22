@@ -1,12 +1,12 @@
 {
   "extends": "@slog/tsconfig/nodejs.json",
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "preserveSymlinks": true,
     "declaration": true,
     "isolatedModules": false,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["src/*"]
     }
   },
   "files": ["./@types/index.d.ts"],
