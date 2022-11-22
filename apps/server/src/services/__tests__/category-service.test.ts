@@ -1,8 +1,8 @@
-import CategoryService from "@category-service";
-
 import Category from "@/models/entity/category";
 import BadRequestError from "@/models/error/bad-request-error";
 import NotFoundError from "@/models/error/not-found-error";
+
+import CategoryService from "../category-service";
 
 const save = jest.fn();
 const count = jest.fn();

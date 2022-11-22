@@ -1,11 +1,11 @@
-import AuthService from "@auth-service";
-
 import User from "@/models/entity/user";
 import { getMockResponse } from "@/test-utils";
 
+import AuthService from "../auth-service";
+
 const createToken = jest.fn();
 
-jest.mock("@token-service.ts", () => {
+jest.mock("../token-service.ts", () => {
   return function () {
     return { createToken };
   };

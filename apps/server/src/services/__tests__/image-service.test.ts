@@ -1,6 +1,6 @@
-import ImageService from "@image-service";
-
 import BadRequestError from "@/models/error/bad-request-error";
+
+import ImageService from "../image-service";
 
 const upload = jest.fn();
 
