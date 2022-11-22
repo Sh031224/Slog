@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon index.ts",
+    "dev": "nodemon ./src/index.ts",
     "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles",
     "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --ci",
     "lint": "eslint --max-warnings 5 **/**.ts"
