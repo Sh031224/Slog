@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 
-import ErrorHandler from "../../lib/error-handler";
-import CustomError from "../../models/error";
-import AuthService from "../../services/auth-service";
-import AuthValidator from "../../validator/auth-validator";
+import ErrorHandler from "@/lib/error-handler";
+import type CustomError from "@/models/error";
+import AuthService from "@/services/auth-service";
+import AuthValidator from "@/validator/auth-validator";
 
 export default class AuthController {
   private authValidator: AuthValidator;
@@ -32,6 +32,7 @@ export default class AuthController {
     try {
       this.authValidator.updateFcmToken(req);
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.authService.updateFcmToken(req.user!, req.body.token as string);
 
       return res.status(200).end();

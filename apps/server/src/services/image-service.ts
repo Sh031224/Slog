@@ -1,6 +1,7 @@
-import { Request } from "express";
-import GoogleCloud from "../lib/google-cloud";
-import BadRequestError from "../models/error/bad-request-error";
+import type { Request } from "express";
+
+import GoogleCloud from "@/lib/google-cloud";
+import BadRequestError from "@/models/error/bad-request-error";
 
 export default class ImageService {
   private googleCloud: GoogleCloud;

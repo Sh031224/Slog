@@ -1,4 +1,7 @@
 module.exports = {
-  root: true,
-  extends: ["custom", "base"]
+  extends: [
+    "@slog/eslint-config-next",
+    "@slog/eslint-config-base",
+    "@slog/eslint-config-typescript"
+  ]
 };

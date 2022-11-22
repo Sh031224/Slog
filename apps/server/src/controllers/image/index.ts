@@ -1,6 +1,8 @@
 import { Router } from "express";
-import AuthMiddleware from "../../middlewares/auth-middleware";
-import UploadMiddleware from "../../middlewares/upload-middleware";
+
+import AuthMiddleware from "@/middlewares/auth-middleware";
+import UploadMiddleware from "@/middlewares/upload-middleware";
+
 import ImageController from "./image-controller";
 
 const router = Router();

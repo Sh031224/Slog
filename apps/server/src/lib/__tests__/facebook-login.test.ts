@@ -1,6 +1,8 @@
-import getAxiosMock from "testing-utils";
-import BadRequestError from "../../models/error/bad-request-error";
-import UnauthorizedError from "../../models/error/unauthorized-error";
+import getAxiosMock from "@slog/testing-utils";
+
+import BadRequestError from "@/models/error/bad-request-error";
+import UnauthorizedError from "@/models/error/unauthorized-error";
+
 import FacebookLogin from "../facebook-login";
 
 describe("facebook-login.ts", () => {

@@ -1,6 +1,6 @@
-import AppDataSource from "../data-source";
-import User from "../models/entity/user";
-import NotFoundError from "../models/error/not-found-error";
+import AppDataSource from "@/data-source";
+import User from "@/models/entity/user";
+import NotFoundError from "@/models/error/not-found-error";
 
 export default class UserRepository {
   private getRepository = () => {

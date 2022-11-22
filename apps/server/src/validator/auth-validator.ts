@@ -1,4 +1,4 @@
-import { Request } from "express";
+import type { Request } from "express";
 import Joi from "joi";
 
 import Validator from ".";

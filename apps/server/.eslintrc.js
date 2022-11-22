@@ -1,4 +1,6 @@
 module.exports = {
-  root: true,
-  extends: ["base"]
+  extends: ["@slog/eslint-config-base", "@slog/eslint-config-typescript"],
+  env: {
+    node: true
+  }
 };

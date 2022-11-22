@@ -1,10 +1,11 @@
-import BadRequestError from "../../models/error/bad-request-error";
-import ForbiddenError from "../../models/error/forbidden-error";
-import UnauthorizedError from "../../models/error/unauthorized-error";
-import NotFoundError from "../../models/error/not-found-error";
-import { getMockResponse } from "../../test-utils";
+import BadRequestError from "@/models/error/bad-request-error";
+import ConflictError from "@/models/error/conflict-error";
+import ForbiddenError from "@/models/error/forbidden-error";
+import NotFoundError from "@/models/error/not-found-error";
+import UnauthorizedError from "@/models/error/unauthorized-error";
+import { getMockResponse } from "@/test-utils";
+
 import ErrorHandler from "../error-handler";
-import ConflictError from "../../models/error/conflict-error";
 
 describe("error-handler.ts", () => {
   const errorHandler = new ErrorHandler();

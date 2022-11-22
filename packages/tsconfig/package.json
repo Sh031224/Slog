@@ -1,5 +1,5 @@
 {
-  "name": "tsconfig",
+  "name": "@slog/tsconfig",
   "version": "0.0.0",
   "license": "MIT",
   "main": "index.js",
@@ -7,5 +7,8 @@
     "base.json",
     "nextjs.json",
     "nodejs.json"
-  ]
+  ],
+  "peerDependencies": {
+    "typescript": ">= 4.9"
+  }
 }

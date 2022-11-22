@@ -1,3 +1,6 @@
 {
-  "eslint.packageManager": "pnpm"
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }

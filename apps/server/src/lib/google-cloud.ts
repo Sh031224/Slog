@@ -1,8 +1,9 @@
 import "dotenv/config";
-import { Bucket, Storage } from "@google-cloud/storage";
-import { Multer } from "multer";
+import type { Bucket } from "@google-cloud/storage";
+import { Storage } from "@google-cloud/storage";
 import { v4 as uuidv4 } from "uuid";
-import config from "../constants/firebase";
+
+import config from "@/constants/firebase";
 
 export default class GoogleCloud {
   private storage: Storage;

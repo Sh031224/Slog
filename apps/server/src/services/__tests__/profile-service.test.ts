@@ -1,5 +1,6 @@
-import UnauthorizedError from "../../models/error/unauthorized-error";
-import ProfileService from "../profile-service";
+import ProfileService from "@profile-service";
+
+import UnauthorizedError from "@/models/error/unauthorized-error";
 
 describe("profile-service.ts", () => {
   const profileService = new ProfileService();
