@@ -1,6 +1,12 @@
 {
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "api/index.ts"
+    }
+  ],
   "functions": {
-    "src/index.ts": {
+    "api/index.ts": {
       "runtime": "@vercel/node@2.6.4",
       "includeFiles": "package.json"
     }

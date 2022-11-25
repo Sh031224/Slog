@@ -1,5 +1,4 @@
 import "dotenv/config";
-import "module-alias/register";
 import * as bodyParser from "body-parser";
 import cookies from "cookie-parser";
 import cors from "cors";
@@ -37,4 +36,4 @@ app.listen(PORT, () => {
   console.log(`Server is running in http://localhost:${PORT}`);
 });
 
-module.exports = app;
+export default app;

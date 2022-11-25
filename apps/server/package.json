@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./src/index.ts",
+    "dev": "nodemon ./api/index.ts",
     "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles",
     "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --ci",
     "lint": "eslint --max-warnings 5 **/**.ts"
@@ -11,6 +11,8 @@
   "dependencies": {
     "@firebase/app-types": "^0.8.1",
     "@google-cloud/storage": "^6.7.0",
+    "@types/module-alias": "^2.0.1",
+    "@vercel/node": "^2.6.4",
     "axios": "^1.1.3",
     "body-parser": "^1.20.1",
     "cookie-parser": "^1.4.6",
