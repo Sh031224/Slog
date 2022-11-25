@@ -1,14 +1,5 @@
 {
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "destination": "api/index.ts"
-    }
-  ],
-  "functions": {
-    "api/index.ts": {
-      "runtime": "@vercel/node@2.6.4",
-      "includeFiles": "package.json"
-    }
-  }
+  "version": 2,
+  "builds": [{ "src": "dist/index.js", "use": "@vercel/node" }],
+  "routes": [{ "src": "/", "dest": "dist/index.js" }]
 }
