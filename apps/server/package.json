@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon src/app.ts",
     "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles",
     "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --ci",
-    "pre-deploy": "swc src -d dist",
+    "build": "swc src -d dist",
     "lint": "eslint --max-warnings 5 **/**.ts"
   },
   "dependencies": {
