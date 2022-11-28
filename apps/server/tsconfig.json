@@ -2,6 +2,7 @@
   "extends": "@slog/tsconfig/nodejs.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "allowJs": true,
     "preserveSymlinks": true,
     "declaration": true,
     "isolatedModules": false,
