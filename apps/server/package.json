@@ -6,7 +6,7 @@
     "dev": "nodemon src/app.ts",
     "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles",
     "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --ci",
-    "build": "swc src -d dist",
+    "build": "swc src -d public",
     "lint": "eslint --max-warnings 5 **/**.ts"
   },
   "dependencies": {
