@@ -15,8 +15,8 @@ export default class PostValidator extends Validator {
   };
 
   getPosts = (req: Request) => {
-    if (isNaN(Number(req.params.page))) throw new BadRequestError("page is required");
-    if (isNaN(Number(req.params.limit))) throw new BadRequestError("limit is required");
+    if (isNaN(Number(req.query.page))) throw new BadRequestError("page is required");
+    if (isNaN(Number(req.query.limit))) throw new BadRequestError("limit is required");
   };
 
   create = (req: Request) => {

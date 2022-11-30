@@ -6,11 +6,19 @@
     "preserveSymlinks": true,
     "declaration": true,
     "isolatedModules": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "target": "esnext",
+    "module": "commonjs",
     "paths": {
       "@/*": ["src/*"]
     }
   },
+  "ts-node": {
+    "swc": true
+  },
   "files": ["./@types/index.d.ts"],
   "include": ["**/*.ts", "**/*.tsx", "./@types/index.d.ts"],
-  "exclude": ["node_modules", "./public"]
+  "exclude": ["node_modules"]
 }

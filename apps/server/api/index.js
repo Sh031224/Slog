@@ -1,2 +1,2 @@
 // eslint-disable-next-line import/no-unresolved
-export { default } from "./app";
+export { default } from "../public/app";

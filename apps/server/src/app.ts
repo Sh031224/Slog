@@ -24,7 +24,7 @@ admin.initializeApp({
   credential: admin.credential.cert(config as firebaseAdmin.ServiceAccount)
 });
 
-app.use(controllers);
+app.use("/api", controllers);
 
 AppDataSource.initialize()
   .then(() => {
