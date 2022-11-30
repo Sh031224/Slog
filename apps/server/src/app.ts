@@ -4,11 +4,13 @@ import cookies from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import admin from "firebase-admin";
-import type firebaseAdmin from "firebase-admin";
+import type { ServiceAccount } from "firebase-admin";
 
 import config from "@/constants/firebase";
 import controllers from "@/controllers";
 import AppDataSource from "@/data-source";
+
+import DatabaseMiddleware from "./middlewares/database-middleware";
 
 const PORT = 3006;
 
@@ -21,19 +23,24 @@ app.use(cookies());
 
 // get config file and initialize
 admin.initializeApp({
-  credential: admin.credential.cert(config as firebaseAdmin.ServiceAccount)
+  credential: admin.credential.cert(config as ServiceAccount)
 });
 
-app.use("/api", controllers);
+const databaseMiddleware = new DatabaseMiddleware();
 
-AppDataSource.initialize()
-  .then(() => {
-    console.log("Data Source has been initialized!");
-  })
-  .catch((error) => console.log(error));
+app.use("/api", databaseMiddleware.connect, controllers);
 
-app.listen(PORT, () => {
-  console.log(`Server is running in http://localhost:${PORT}`);
-});
+// for dev
+if (process.env.NODE_ENV !== "production") {
+  AppDataSource.initialize()
+    .then(() => {
+      console.log("Data Source has been initialized!");
+    })
+    .catch((error) => console.log(error.track));
+
+  app.listen(PORT, () => {
+    console.log(`Server is running in http://localhost:${PORT}`);
+  });
+}
 
 export default app;
