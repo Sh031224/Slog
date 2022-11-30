@@ -37,5 +37,6 @@ export default class User {
 
   @Column("timestampz")
   @CreateDateColumn()
+  /* istanbul ignore next */
   createdAt: Date;
 }

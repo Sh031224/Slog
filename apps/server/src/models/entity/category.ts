@@ -18,5 +18,6 @@ export default class Category {
 
   @Column("timestampz")
   @CreateDateColumn()
+  /* istanbul ignore next */
   createdAt: Date;
 }

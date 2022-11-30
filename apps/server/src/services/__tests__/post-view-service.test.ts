@@ -1,8 +1,9 @@
-import PostViewService from "@post-view-service";
 import dayjs from "dayjs";
 
 import Post from "@/models/entity/post";
 import PostView from "@/models/entity/postView";
+
+import PostViewService from "../post-view-service";
 
 const countByPostIdx = jest.fn();
 const findByIpAndPostIdx = jest.fn();

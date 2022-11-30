@@ -14,7 +14,7 @@ const AppDataSource = new DataSource({
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
   synchronize: false,
-  logging: true,
+  logging: false,
   entities: [User, Category, Post, PostView],
   charset: "utf8mb4_unicode_ci",
   subscribers: [],
