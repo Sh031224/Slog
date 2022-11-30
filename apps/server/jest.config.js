@@ -5,6 +5,9 @@ module.exports = {
   moduleNameMapper: {
     "@/(.*)$": "<rootDir>/src/$1"
   },
+  transform: {
+    "^.+\\.ts$": "@swc/jest"
+  },
   collectCoverage: true,
   coverageReporters: ["text", "cobertura"],
   coverageThreshold: {

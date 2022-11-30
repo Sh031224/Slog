@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon dev.ts",
+    "dev": "nodemon --exec 'ts-node' src/app.ts --watch */*.ts",
+    "a": "ts-node public/app.js",
     "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles",
     "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --ci",
     "build": "swc src -d public --ignore **/*.test.ts -s",
@@ -34,10 +35,10 @@
     "@slog/testing-utils": "workspace:*",
     "@slog/tsconfig": "workspace:*",
     "@slog/types": "workspace:*",
-    "@swc-node/core": "^1.9.1",
     "@swc-node/register": "^1.5.4",
     "@swc/cli": "^0.1.57",
-    "@swc/core": "^1.3.19",
+    "@swc/core": "^1.3.20",
+    "@swc/jest": "^0.2.23",
     "@types/body-parser": "^1.19.2",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.12",
@@ -53,6 +54,7 @@
     "nodemon": "^2.0.20",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.0",
     "typescript": "^4.9.3"
   }
 }

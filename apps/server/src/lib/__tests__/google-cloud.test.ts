@@ -1,3 +1,5 @@
+import * as GoogleStorage from "@google-cloud/storage";
+
 import GoogleCloud from "../google-cloud";
 
 const mockUploadFile = {
@@ -26,15 +28,7 @@ const mockStorage = {
   bucket: jest.fn(() => mockBucket)
 };
 
-let mockGoogleStorage: jest.Mock;
-
-jest.mock("@google-cloud/storage", () => {
-  mockGoogleStorage = jest.fn(() => mockStorage);
-
-  return {
-    Storage: mockGoogleStorage
-  };
-});
+jest.spyOn(GoogleStorage, "Storage").mockReturnValue(mockStorage as any);
 
 describe("google-cloud.ts", () => {
   afterEach(() => {
@@ -63,8 +57,6 @@ describe("google-cloud.ts", () => {
         handler(new Error("error"));
       }
     });
-
-    mockGoogleStorage.mockReturnValue(mockStorage);
 
     const googleCloud = new GoogleCloud();
 

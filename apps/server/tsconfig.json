@@ -6,9 +6,6 @@
     "preserveSymlinks": true,
     "declaration": true,
     "isolatedModules": false,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "esModuleInterop": true,
     "target": "esnext",
     "module": "commonjs",
     "paths": {
@@ -16,7 +13,9 @@
     }
   },
   "ts-node": {
-    "swc": true
+    "transpiler": "ts-node/transpilers/swc",
+    "transpileOnly": true,
+    "require": ["tsconfig-paths/register"]
   },
   "files": ["./@types/index.d.ts"],
   "include": ["**/*.ts", "**/*.tsx", "./@types/index.d.ts"],

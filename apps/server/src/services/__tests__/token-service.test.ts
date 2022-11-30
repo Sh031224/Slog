@@ -1,4 +1,4 @@
-import jwt, { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 import { cookieName, cookieOptions, expiresIn } from "@/constants/token";
 import User from "@/models/entity/user";
@@ -18,7 +18,7 @@ jest.mock("@/repositories/user-repository.ts", () => {
   };
 });
 
-jest.spyOn(jwt, "sign").mockReturnValue(undefined);
+const signSpy = jest.spyOn(jwt, "sign").mockReturnValue(undefined);
 
 describe("token-service.ts", () => {
   const tokenService = new TokenService();
@@ -37,7 +37,7 @@ describe("token-service.ts", () => {
 
       await tokenService.createToken(res, idx, facebookId, type);
 
-      expect(sign).toBeCalledWith({ idx, facebookId, type }, process.env.JWT_SECRET, {
+      expect(signSpy).toBeCalledWith({ idx, facebookId, type }, process.env.JWT_SECRET, {
         expiresIn: expiresIn[type]
       });
       expect(res.cookie).toBeCalledWith(cookieName[type], undefined, cookieOptions[type]);
@@ -48,7 +48,7 @@ describe("token-service.ts", () => {
 
       await tokenService.createToken(res, idx, facebookId, type);
 
-      expect(sign).toBeCalledWith({ idx, facebookId, type }, process.env.JWT_SECRET, {
+      expect(signSpy).toBeCalledWith({ idx, facebookId, type }, process.env.JWT_SECRET, {
         expiresIn: expiresIn[type]
       });
       expect(res.cookie).toBeCalledWith(cookieName[type], undefined, cookieOptions[type]);
@@ -98,7 +98,7 @@ describe("token-service.ts", () => {
 
       expect(findOneByIdxAndFacebookId).toBeCalledWith(idx, facebookId);
       expect(result).toBe(user);
-      expect(sign).toBeCalledWith({ idx, facebookId, type }, process.env.JWT_SECRET, {
+      expect(signSpy).toBeCalledWith({ idx, facebookId, type }, process.env.JWT_SECRET, {
         expiresIn: expiresIn[type]
       });
       expect(res.cookie).toBeCalledWith(cookieName[type], undefined, cookieOptions[type]);
@@ -119,10 +119,10 @@ describe("token-service.ts", () => {
 
       expect(findOneByIdxAndFacebookId).toBeCalledWith(idx, facebookId);
       expect(result).toBe(user);
-      expect(sign).toBeCalledWith({ idx, facebookId, type }, process.env.JWT_SECRET, {
+      expect(signSpy).toBeCalledWith({ idx, facebookId, type }, process.env.JWT_SECRET, {
         expiresIn: expiresIn[type]
       });
-      expect(sign).toBeCalledWith(
+      expect(signSpy).toBeCalledWith(
         { idx, facebookId, type: Token.REFRESH },
         process.env.JWT_SECRET,
         {
