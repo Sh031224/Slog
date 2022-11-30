@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon --exec 'ts-node' src/app.ts --watch */*.ts",
+    "dev": "nodemon --exec 'ts-node' src/app.ts",
     "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles",
     "test:report": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles --silent --ci",
     "build": "swc src -d public --ignore **/*.test.ts -s",

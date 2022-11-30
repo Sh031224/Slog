@@ -34,7 +34,7 @@ export default class PostController {
       this.postValidator.getPosts(req);
 
       const [posts, count] = await this.postService.getPosts(
-        req.params as unknown as GetPostsParams
+        req.query as unknown as GetPostsParams
       );
 
       return res.status(200).json({ posts, count });
