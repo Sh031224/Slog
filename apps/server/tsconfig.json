@@ -18,6 +18,6 @@
     "require": ["tsconfig-paths/register"]
   },
   "files": ["./@types/index.d.ts"],
-  "include": ["**/*.ts", "**/*.tsx", "./@types/index.d.ts"],
-  "exclude": ["node_modules"]
+  "include": ["**/*.ts", "**/*.tsx", "./@types/index.d.ts", "api/index.js"],
+  "exclude": ["node_modules", "public"]
 }

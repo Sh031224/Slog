@@ -25,6 +25,7 @@
     "jsonwebtoken": "^8.5.1",
     "multer": "1.4.5-lts.1",
     "mysql": "^2.18.1",
+    "serverless-http": "^3.1.0",
     "typeorm": "^0.3.10",
     "uuid": "^9.0.0"
   },

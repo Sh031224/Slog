@@ -1,7 +1,9 @@
 import AppDataSource from "@/data-source";
 import Category from "@/models/entity/category";
 
-export default class CategoryRepository {
+import Repository from "./repository";
+
+export default class CategoryRepository extends Repository {
   private getRepository = () => {
     return AppDataSource.getRepository(Category);
   };
