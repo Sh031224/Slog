@@ -18,5 +18,6 @@ export default class PostView {
 
   @Column("timestampz")
   @CreateDateColumn()
+  /* istanbul ignore next */
   createdAt: Date;
 }

@@ -6,40 +6,40 @@ export default class CommentRepository {
     return AppDataSource.getRepository(Comment);
   };
 
-  count = async () => {
-    return this.getRepository().count();
-  };
-
-  find = async () => {
-    return this.getRepository().find({
-      order: {
-        orderNumber: "ASC"
-      }
-    });
+  countByPostIdx = async (postIdx: number) => {
+    return this.getRepository().count({ where: { postIdx } });
   };
 
   findByIdx = async (idx: number) => {
     return this.getRepository().findOne({ where: { idx } });
   };
 
+  findByPostIdx = async (postIdx: number) => {
+    return this.getRepository()
+      .createQueryBuilder("comment")
+      .addSelect("IF(ISNULL(comment.parentIdx), comment.idx, comment.parentIdx) AS orderIdx")
+      .where("comment.postIdx = :postIdx", { postIdx })
+      .orderBy("orderIdx")
+      .getMany();
+  };
+
+  findByParentIdx = async (parentIdx: number) => {
+    return this.getRepository().find({ where: { parentIdx } });
+  };
+
   save = (comment: Comment) => {
     return this.getRepository().save(comment);
   };
 
-  saveAll = (categories: Category[]) => {
-    return this.getRepository().save(categories);
+  deleteAll = (comments: Comment[]) => {
+    return this.getRepository().delete(comments.map((comment) => comment.idx));
   };
 
-  delete = (category: Category) => {
-    return this.getRepository().delete(category);
-  };
+  delete = async (comment: Comment) => {
+    if (!comment.parentIdx) return this.getRepository().delete(comment.idx);
 
-  create = async (name: string) => {
-    const category = new Category();
+    const replies = await this.findByParentIdx(comment.parentIdx);
 
-    category.name = name;
-    category.orderNumber = (await this.count()) + 1;
-
-    this.save(category);
+    return this.deleteAll(replies);
   };
 }

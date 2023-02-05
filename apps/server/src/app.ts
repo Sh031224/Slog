@@ -36,7 +36,7 @@ if (process.env.NODE_ENV !== "production") {
     .then(() => {
       console.log("Data Source has been initialized!");
     })
-    .catch((error) => console.log(error.track));
+    .catch((error) => console.log(error));
 
   app.listen(PORT, () => {
     console.log(`Server is running in http://localhost:${PORT}`);

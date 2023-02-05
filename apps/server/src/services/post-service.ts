@@ -1,4 +1,4 @@
-import type { PostDTO, GetPostsParams } from "@slog/types";
+import type { PostDto, GetPostsParams } from "@slog/types";
 import type { Request } from "express";
 import { type FindManyOptions, Like } from "typeorm";
 
@@ -68,46 +68,46 @@ export default class PostService {
     return this.postRepository.findAndCount(queryConditions);
   };
 
-  create = async (postDTO: PostDTO) => {
-    const category = await this.categoryRepository.findByIdx(postDTO.categoryIdx);
+  create = async (postDto: PostDto) => {
+    const category = await this.categoryRepository.findByIdx(postDto.categoryIdx);
 
-    if (!category) throw new BadRequestError(`${postDTO.categoryIdx} category is not exist`);
+    if (!category) throw new BadRequestError(`${postDto.categoryIdx} category is not exist`);
 
     const post = new Post();
 
-    post.type = postDTO.type;
-    post.title = postDTO.title;
-    post.description = postDTO.description;
+    post.type = postDto.type;
+    post.title = postDto.title;
+    post.description = postDto.description;
     post.categoryIdx = category.idx;
-    post.thumbnail = postDTO.thumbnail ?? "";
-    post.content = postDTO.content ?? "";
-    post.externalUrl = postDTO.externalUrl;
-    post.isTemp = postDTO.isTemp ?? false;
+    post.thumbnail = postDto.thumbnail ?? "";
+    post.content = postDto.content ?? "";
+    post.externalUrl = postDto.externalUrl;
+    post.isTemp = postDto.isTemp ?? false;
 
     return this.postRepository.save(post);
   };
 
-  update = async (idx: number, postDTO: PostDTO) => {
-    const category = await this.categoryRepository.findByIdx(postDTO.categoryIdx);
+  update = async (idx: number, postDto: PostDto) => {
+    const category = await this.categoryRepository.findByIdx(postDto.categoryIdx);
 
-    if (!category) throw new BadRequestError(`${postDTO.categoryIdx} category is not exist`);
+    if (!category) throw new BadRequestError(`${postDto.categoryIdx} category is not exist`);
 
     const post = await this.postRepository.findByIdx(idx);
 
     if (!post) throw new NotFoundError(`${idx} post is not found`);
 
     // temp post to default post
-    if (post.isTemp && !postDTO.isTemp) post.createdAt = new Date();
+    if (post.isTemp && !postDto.isTemp) post.createdAt = new Date();
 
     post.updatedAt = new Date();
-    post.type = postDTO.type;
-    post.title = postDTO.title;
-    post.description = postDTO.description;
+    post.type = postDto.type;
+    post.title = postDto.title;
+    post.description = postDto.description;
     post.categoryIdx = category.idx;
-    post.thumbnail = postDTO.thumbnail;
-    post.content = postDTO.content;
-    post.externalUrl = postDTO.externalUrl;
-    post.isTemp = postDTO.isTemp ?? false;
+    post.thumbnail = postDto.thumbnail;
+    post.content = postDto.content;
+    post.externalUrl = postDto.externalUrl;
+    post.isTemp = postDto.isTemp ?? false;
 
     return this.postRepository.save(post);
   };

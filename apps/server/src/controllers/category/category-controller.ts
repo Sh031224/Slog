@@ -1,3 +1,4 @@
+import type { CategoryDto, CategoryOrderDto } from "@slog/types/api/category";
 import type { Request, Response } from "express";
 
 import ErrorHandler from "@/lib/error-handler";
@@ -20,7 +21,9 @@ export default class AuthController {
     try {
       this.categoryValidator.create(req);
 
-      const category = await this.categoryService.create(req.body.name as string);
+      const body = req.body as CategoryDto;
+
+      const category = await this.categoryService.create(body.name);
 
       return res.status(200).json({ category });
     } catch (err) {
@@ -42,10 +45,9 @@ export default class AuthController {
     try {
       this.categoryValidator.update(req);
 
-      const category = await this.categoryService.update(
-        Number(req.params.idx),
-        req.body.name as string
-      );
+      const body = req.body as CategoryDto;
+
+      const category = await this.categoryService.update(parseInt(req.params.idx), body.name);
 
       return res.status(200).json({ category });
     } catch (err) {
@@ -57,7 +59,9 @@ export default class AuthController {
     try {
       this.categoryValidator.updateOrderNumber(req);
 
-      this.categoryService.updateOrderNumber(Number(req.params.idx), req.body.orderNumber);
+      const body = req.body as CategoryOrderDto;
+
+      this.categoryService.updateOrderNumber(parseInt(req.params.idx), body.orderNumber);
 
       return res.status(200).end();
     } catch (err) {
@@ -69,7 +73,7 @@ export default class AuthController {
     try {
       this.categoryValidator.delete(req);
 
-      await this.categoryService.delete(Number(req.params.idx));
+      await this.categoryService.delete(parseInt(req.params.idx));
 
       return res.status(200).end();
     } catch (err) {

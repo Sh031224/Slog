@@ -29,4 +29,12 @@ export default class CommentValidator extends Validator {
 
     return this.validate(req, schema);
   };
+
+  get = (req: Request) => {
+    if (isNaN(Number(req.params.idx))) throw new BadRequestError("idx is required");
+  };
+
+  delete = (req: Request) => {
+    if (isNaN(Number(req.params.idx))) throw new BadRequestError("idx is required");
+  };
 }

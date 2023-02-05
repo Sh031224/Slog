@@ -1,3 +1,4 @@
+import type { Nullable } from "@slog/types";
 import {
   Entity,
   Column,
@@ -33,11 +34,19 @@ export default class Comment extends BaseEntity {
   })
   postIdx: number;
 
+  @Column({
+    type: "int",
+    nullable: true
+  })
+  parentIdx: Nullable<number>;
+
   @Column("timestampz")
   @CreateDateColumn()
+  /* istanbul ignore next */
   createdAt: Date;
 
   @Column("timestamptz")
   @UpdateDateColumn()
+  /* istanbul ignore next */
   updatedAt: Date;
 }

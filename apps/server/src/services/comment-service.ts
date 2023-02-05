@@ -1,4 +1,8 @@
-import BadRequestError from "@/models/error/bad-request-error";
+import type { CommentDto } from "@slog/types/api/comment";
+
+import Comment from "@/models/entity/comment";
+import type User from "@/models/entity/user";
+import ForbiddenError from "@/models/error/forbidden-error";
 import NotFoundError from "@/models/error/not-found-error";
 import CommentRepository from "@/repositories/comment-repository";
 
@@ -9,47 +13,49 @@ export default class CommentService {
     this.commentRepository = new CommentRepository();
   }
 
-  create = (name: string) => {
-    return this.commentRepository.create(name);
-  };
+  create = (user: User, body: CommentDto) => {
+    const comment = new Comment();
 
-  get = async () => {
-    return this.commentRepository.find();
-  };
-
-  update = async (idx: number, name: string) => {
-    const comment = await this.commentRepository.findByIdx(idx);
-
-    if (!comment) throw new NotFoundError(`${idx} is not found.`);
-
-    comment.name = name;
+    comment.content = body.content;
+    comment.isPrivate = body.isPrivate ?? false;
+    comment.parentIdx = body.parentIdx;
+    comment.userIdx = user.idx;
 
     return this.commentRepository.save(comment);
   };
 
-  updateOrderNumber = async (idx: number, orderNumber: number) => {
-    const count = await this.commentRepository.count();
+  get = async (user: User | undefined, postIdx: number) => {
+    const comments = await this.commentRepository.findByPostIdx(postIdx);
 
-    if (count < orderNumber)
-      throw new BadRequestError("orderNumber must be less than categories.length");
+    if (!user || !user.isAdmin) {
+      return comments.map((comment) => ({
+        ...comment,
+        content: comment.isPrivate ? "비밀 댓글 입니다." : comment.content
+      }));
+    }
 
-    const categories = await this.commentRepository.find();
-    const updateComment = categories.find((v) => v.idx === idx);
-
-    if (!updateComment) throw new NotFoundError(`${idx} is not found.`);
-
-    // swap
-    categories[categories.findIndex((v) => v.orderNumber === orderNumber)].orderNumber =
-      updateComment.orderNumber;
-    categories[categories.findIndex((v) => v.idx === idx)].orderNumber = orderNumber;
-
-    return this.commentRepository.saveAll(categories);
+    return comments;
   };
 
-  delete = async (idx: number) => {
+  update = async (user: User, idx: number, body: CommentDto) => {
     const comment = await this.commentRepository.findByIdx(idx);
 
     if (!comment) throw new NotFoundError(`${idx} is not found.`);
+
+    if (user.idx !== comment.userIdx) throw new ForbiddenError(`Cannot update: ${idx}`);
+
+    comment.content = body.content;
+    comment.isPrivate = body.isPrivate ?? false;
+
+    return this.commentRepository.save(comment);
+  };
+
+  delete = async (user: User, idx: number) => {
+    const comment = await this.commentRepository.findByIdx(idx);
+
+    if (!comment) throw new NotFoundError(`${idx} is not found.`);
+
+    if (user.idx !== comment.userIdx) throw new ForbiddenError(`Cannot delete: ${idx}`);
 
     return this.commentRepository.delete(comment);
   };

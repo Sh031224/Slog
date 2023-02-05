@@ -9,6 +9,6 @@ const router = Router();
 const profileController = new ProfileController();
 const authMiddleware = new AuthMiddleware();
 
-router.get("/", authMiddleware.user, profileController.getProfile);
+router.get("/", authMiddleware.user, profileController.get);
 
 export default router;
