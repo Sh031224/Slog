@@ -1,4 +1,4 @@
-import type { GetPostsParams, PostDTO } from "@slog/types";
+import type { GetPostsParams, PostDto } from "@slog/types";
 import type { Request, Response } from "express";
 
 import ErrorHandler from "@/lib/error-handler";
@@ -21,7 +21,7 @@ export default class PostController {
     try {
       this.postValidator.getPost(req);
 
-      const post = await this.postService.getPost(req, Number(req.params.idx));
+      const post = await this.postService.getPost(req, parseInt(req.params.idx));
 
       return res.status(200).json({ post });
     } catch (err) {
@@ -47,7 +47,9 @@ export default class PostController {
     try {
       this.postValidator.create(req);
 
-      const post = await this.postService.create(req.body as PostDTO);
+      const body = req.body as PostDto;
+
+      const post = await this.postService.create(body);
 
       return res.status(200).json({ post });
     } catch (err) {
@@ -59,7 +61,9 @@ export default class PostController {
     try {
       this.postValidator.update(req);
 
-      const post = await this.postService.update(Number(req.params.idx), req.body as PostDTO);
+      const body = req.body as PostDto;
+
+      const post = await this.postService.update(parseInt(req.params.idx), body);
 
       return res.status(200).json({ post });
     } catch (err) {
@@ -71,7 +75,7 @@ export default class PostController {
     try {
       this.postValidator.delete(req);
 
-      await this.postService.delete(Number(req.params.idx));
+      await this.postService.delete(parseInt(req.params.idx));
 
       return res.status(200).end();
     } catch (err) {

@@ -62,9 +62,11 @@ export default class Post {
 
   @Column("timestampz")
   @CreateDateColumn()
+  /* istanbul ignore next */
   createdAt: Date;
 
   @Column("timestampz")
   @CreateDateColumn()
+  /* istanbul ignore next */
   updatedAt: Date;
 }

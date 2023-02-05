@@ -4,7 +4,7 @@ import BadRequestError from "@/models/error/bad-request-error";
 import UnauthorizedError from "@/models/error/unauthorized-error";
 
 type FacebookValidateResponse = {
-  error?: any;
+  error?: unknown;
   id: string;
   name: string;
 };
@@ -22,6 +22,7 @@ export default class FacebookLogin {
 
       return { id: data.id, name: data.name };
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const error = err as any;
 
       throw new BadRequestError(error.message);

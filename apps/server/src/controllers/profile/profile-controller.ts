@@ -13,9 +13,9 @@ export default class ProfileController {
     this.errorHandler = new ErrorHandler();
   }
 
-  getProfile = async (req: Request, res: Response) => {
+  get = async (req: Request, res: Response) => {
     try {
-      const user = await this.profileService.getProfile(req);
+      const user = await this.profileService.get(req);
 
       return res.status(200).json({ user });
     } catch (err) {

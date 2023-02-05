@@ -1,3 +1,4 @@
+import type { LoginDto, FcmDto } from "@slog/types/api/auth";
 import type { Request, Response } from "express";
 
 import ErrorHandler from "@/lib/error-handler";
@@ -20,7 +21,9 @@ export default class AuthController {
     try {
       this.authValidator.login(req);
 
-      const user = await this.authService.login(res, req.body.accessToken as string);
+      const body = req.body as LoginDto;
+
+      const user = await this.authService.login(res, body.fbToken);
 
       return res.status(200).json({ user });
     } catch (err) {
@@ -32,8 +35,10 @@ export default class AuthController {
     try {
       this.authValidator.updateFcmToken(req);
 
+      const body = req.body as FcmDto;
+
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.authService.updateFcmToken(req.user!, req.body.token as string);
+      this.authService.updateFcmToken(req.user!, body.token);
 
       return res.status(200).end();
     } catch (err) {

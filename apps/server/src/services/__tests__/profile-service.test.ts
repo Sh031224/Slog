@@ -7,7 +7,7 @@ describe("profile-service.ts", () => {
 
   describe("getProfile", () => {
     it("if req.user is undefined, throw error", async () => {
-      await expect(profileService.getProfile({ user: undefined } as any)).rejects.toThrowError(
+      await expect(profileService.get({ user: undefined } as any)).rejects.toThrowError(
         new UnauthorizedError("invalid token")
       );
     });
@@ -15,7 +15,7 @@ describe("profile-service.ts", () => {
     it("if req.user is not undefined, return user", async () => {
       const user = "this is user";
 
-      const result = await profileService.getProfile({ user } as any);
+      const result = await profileService.get({ user } as any);
 
       expect(result).toBe(user);
     });
