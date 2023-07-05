@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import { fontSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { Footer } from '@/shared/components/footer';
@@ -6,7 +8,7 @@ import { ThemeProvider } from '@/shared/components/theme-provider';
 
 import '@/styles/globals.css';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Slog',
   description:
     "This is sh031224's tech blog mainly about front-end technology.",
