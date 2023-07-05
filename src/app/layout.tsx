@@ -15,7 +15,21 @@ export const metadata: Metadata = {
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
     { media: '(prefers-color-scheme: dark)', color: 'black' }
-  ]
+  ],
+  openGraph: {
+    title: 'Slog',
+    description:
+      "This is sh031224's tech blog mainly about front-end technology.",
+    url: 'https://slog.website',
+    images: ['/og.svg']
+  },
+  twitter: {
+    title: 'Slog',
+    description:
+      "This is sh031224's tech blog mainly about front-end technology.",
+    images: ['/og.svg'],
+    card: 'summary_large_image'
+  }
 };
 
 export default function RootLayout({

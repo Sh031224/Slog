@@ -1,4 +1,4 @@
-import { Activity, GithubIcon } from 'lucide-react';
+import { ActivityIcon, GithubIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import { SearchMenu } from './search-menu';
@@ -10,7 +10,7 @@ export function Header() {
     <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur">
       <div className="container flex h-14 w-full items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <Activity size="24" />
+          <ActivityIcon size="24" />
 
           <span className="font-bold">Slog</span>
         </Link>
