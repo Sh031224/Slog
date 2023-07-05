@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json.schemastore.org/eslintrc",
+  "root": true,
+  "extends": [
+    "prettier",
+    "plugin:import/recommended",
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:tailwindcss/recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser"
+    }
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    },
+    "tailwindcss": {
+      "callees": ["cn", "cva"],
+      "config": "tailwind.config.js"
+    }
+  },
+  "rules": {
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/consistent-type-imports": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          ["builtin", "external"],
+          "internal",
+          ["sibling", "parent", "index"],
+          "unknown"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "**/*.+(css|sass|less|scss|pcss|styl)",
+            "patternOptions": { "dot": true, "nocomment": true },
+            "group": "unknown",
+            "position": "after"
+          },
+          {
+            "pattern": "{.,..}/**/*.+(css|sass|less|scss|pcss|styl)",
+            "patternOptions": { "dot": true, "nocomment": true },
+            "group": "unknown",
+            "position": "after"
+          },
+          {
+            "pattern": "@/**",
+            "patternOptions": { "dot": true, "nocomment": true },
+            "group": "sibling",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["unknown"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
+}
