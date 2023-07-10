@@ -1,6 +1,7 @@
 import { ActivityIcon, GithubIcon } from 'lucide-react';
 import Link from 'next/link';
 
+import { AuthButton } from './auth-button';
 import { SearchMenu } from './search-menu';
 import { ToggleMode } from './toggle-mode';
 import { Button } from '../ui/button';
@@ -18,12 +19,14 @@ export function Header() {
         <div className="flex items-center">
           <SearchMenu />
 
+          <AuthButton />
+
           <Link
             href="https://github.com/Sh031224/Slog"
-            className="ml-2 block"
+            className="block"
             rel="noopener noreferrer"
           >
-            <Button variant="ghost" className="w-9 px-0">
+            <Button variant="ghost" className="w-9 shrink-0 px-0">
               <GithubIcon className="h-5 w-5" />
 
               <span className="sr-only">Github</span>

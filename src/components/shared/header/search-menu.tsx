@@ -6,8 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import * as React from 'react';
 
-import { cn } from '@/lib/utils';
-import { Button } from '@/shared/components/ui/button';
+import { Button } from '@/components/shared/ui/button';
 import {
   CommandDialog,
   CommandEmpty,
@@ -16,7 +15,8 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator
-} from '@/shared/components/ui/command';
+} from '@/components/shared/ui/command';
+import { cn } from '@/lib/utils';
 
 export function SearchMenu({ ...props }: DialogProps) {
   const router = useRouter();
@@ -57,7 +57,7 @@ export function SearchMenu({ ...props }: DialogProps) {
           <span className="text-xs">⌘</span>K
         </kbd>
       </Button>
-      <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandDialog className="w-3" open={open} onOpenChange={setOpen}>
         <CommandInput
           value={value}
           onValueChange={setValue}
