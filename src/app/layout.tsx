@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Footer } from '@/components/shared/footer';
 import { Header } from '@/components/shared/header';
 import { ThemeProvider } from '@/components/shared/theme-provider';
+import { Toaster } from '@/components/shared/ui/toaster';
 import { fontSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 
@@ -39,10 +40,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <head />
       <body
-        suppressHydrationWarning
         className={cn('min-h-screen font-sans antialiased', fontSans.variable)}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -55,6 +55,8 @@ export default function RootLayout({
           </div>
 
           <Footer />
+
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

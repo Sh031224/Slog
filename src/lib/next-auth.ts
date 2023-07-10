@@ -19,9 +19,12 @@ export const nextAuthOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      console.log(user, account, profile, email, credentials);
-      return true;
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith('/')) {
+        return `${baseUrl}${url}`;
+      }
+
+      return new URL(url).searchParams.get('callback') || baseUrl;
     }
   }
 };
