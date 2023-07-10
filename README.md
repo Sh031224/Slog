@@ -16,4 +16,4 @@ will be using the following technology stack.
 
 ### ETC
 
-If you want to explore the legacy code, you can check it out [here.](https://github.com/sh031224/slog/tree/main)
+If you want to explore the legacy code, you can check it out [here.](https://github.com/sh031224/slog/tree/develop)
