@@ -22,7 +22,7 @@ export function AuthButton() {
       }}
       className={cn(
         buttonVariants({ variant: 'outline', size: 'sm' }),
-        'ml-4 mr-2 min-w-fit shrink-0'
+        'ml-2 mr-1 min-w-fit shrink-0 sm:ml-4 sm:mr-2'
       )}
     >
       Sign in

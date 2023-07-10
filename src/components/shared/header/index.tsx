@@ -1,15 +1,16 @@
-import { ActivityIcon, GithubIcon } from 'lucide-react';
+import { ActivityIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import { AuthButton } from './auth-button';
 import { SearchMenu } from './search-menu';
 import { ToggleMode } from './toggle-mode';
+import { GithubIcon } from '../social-icons';
 import { Button } from '../ui/button';
 
 export function Header() {
   return (
     <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur">
-      <div className="container flex h-14 w-full items-center justify-between">
+      <div className="container flex h-14 items-center justify-between px-4 sm:px-8">
         <Link href="/" className="flex items-center gap-2">
           <ActivityIcon size="24" />
 
