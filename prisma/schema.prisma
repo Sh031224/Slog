@@ -13,7 +13,7 @@ model User {
   email         String?   @unique
   name          String?
   emailVerified DateTime?
-  image         String?
+  image         String?   @db.Text
   fcmToken      String?   @db.VarChar(255)
   isAdmin       Boolean   @default(false)
   createdAt     DateTime  @default(now())
