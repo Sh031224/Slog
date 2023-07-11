@@ -5,6 +5,9 @@ declare namespace NodeJS {
     NEXTAUTH_URL: string;
     NEXTAUTH_SECRET: string;
 
+    EMAIL_SERVER: string;
+    EMAIL_FROM: string;
+
     GITHUB_CLIENT_ID: string;
     GITHUB_CLIENT_SECRET: string;
 
