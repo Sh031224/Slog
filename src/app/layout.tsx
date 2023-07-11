@@ -5,15 +5,19 @@ import { Header } from '@/components/shared/header';
 import { ThemeProvider } from '@/components/shared/theme-provider';
 import { Toaster } from '@/components/shared/ui/toaster';
 import { fontSans } from '@/lib/fonts';
+import { getCurrentUser } from '@/lib/session';
 import { cn } from '@/lib/utils';
 
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
-  title: 'Slog',
+  title: {
+    template: '%s | Slog',
+    default: 'Slog'
+  },
   description:
     "This is sh031224's tech blog mainly about front-end technology.",
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL),
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
     { media: '(prefers-color-scheme: dark)', color: 'black' }
@@ -22,7 +26,7 @@ export const metadata: Metadata = {
     title: 'Slog',
     description:
       "This is sh031224's tech blog mainly about front-end technology.",
-    url: 'https://slog.website',
+    url: process.env.NEXT_PUBLIC_APP_URL,
     images: ['/og.svg']
   },
   twitter: {
@@ -34,11 +38,13 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getCurrentUser();
+
   return (
     <html lang="ko" suppressHydrationWarning>
       <head />
@@ -46,7 +52,7 @@ export default function RootLayout({
         className={cn('min-h-screen font-sans antialiased', fontSans.variable)}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
+          <Header user={user} />
 
           <div className="flex w-full justify-center">
             <main className="container relative min-h-[calc(100vh-15rem)]">

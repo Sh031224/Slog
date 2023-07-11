@@ -46,7 +46,7 @@ export function SearchMenu({ ...props }: DialogProps) {
       <Button
         variant="outline"
         className={cn(
-          'relative w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64'
+          'relative mr-2 w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64'
         )}
         onClick={() => setOpen(true)}
         {...props}

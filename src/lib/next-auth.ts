@@ -19,12 +19,37 @@ export const nextAuthOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      if (url.startsWith('/')) {
-        return `${baseUrl}${url}`;
+    async session({ token, session }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.image = token.picture;
       }
 
-      return new URL(url).searchParams.get('callback') || baseUrl;
+      return session;
+    },
+    async jwt({ token, user: callbackUser }) {
+      const user = await database.user.findFirst({
+        where: {
+          email: token.email
+        }
+      });
+
+      if (!user) {
+        if (callbackUser) {
+          token.id = callbackUser.id;
+        }
+
+        return token;
+      }
+
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        picture: user.image
+      };
     }
   }
 };

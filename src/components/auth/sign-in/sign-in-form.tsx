@@ -1,6 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2Icon } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
@@ -27,17 +29,26 @@ export function SignInForm() {
     resolver: zodResolver(signInSchema)
   });
 
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState({
+    email: false,
+    github: false,
+    facebook: false
+  });
+
+  const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams?.get('from') || '/';
 
   const onSubmit = async ({ email }: SignInForm) => {
-    setIsLoading(true);
+    setIsLoading(prev => ({ ...prev, email: true }));
 
     const result = await signIn('email', {
       email: email.toLocaleLowerCase(),
-      redirect: false
+      redirect: false,
+      callbackUrl
     });
 
-    setIsLoading(false);
+    setIsLoading(prev => ({ ...prev, email: false }));
 
     if (!result?.ok) {
       return toast({
@@ -54,10 +65,15 @@ export function SignInForm() {
   };
 
   const handleClickSocial = (provider: string) => () => {
-    setIsLoading(true);
+    setIsLoading(prev => ({ ...prev, [provider]: true }));
 
-    signIn(provider);
+    signIn(provider, {
+      redirect: false,
+      callbackUrl
+    });
   };
+
+  const disabled = isLoading.email || isLoading.github || isLoading.facebook;
 
   return (
     <div className="flex w-full items-center justify-center">
@@ -77,7 +93,7 @@ export function SignInForm() {
                     <Input
                       placeholder="Enter your email"
                       {...field}
-                      disabled={isLoading}
+                      disabled={disabled}
                     />
                   </FormControl>
 
@@ -86,7 +102,10 @@ export function SignInForm() {
               )}
             />
 
-            <Button className="w-full" type="submit" disabled={isLoading}>
+            <Button className="w-full" type="submit" disabled={disabled}>
+              {isLoading.email && (
+                <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Sign In
             </Button>
           </form>
@@ -104,19 +123,27 @@ export function SignInForm() {
             variant="secondary"
             type="button"
             onClick={handleClickSocial('github')}
-            disabled={isLoading}
+            disabled={disabled}
           >
-            <GithubIcon className="mr-2 h-4 w-4" />
+            {isLoading.github ? (
+              <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <GithubIcon className="mr-2 h-4 w-4" />
+            )}
             Github
           </Button>
 
           <Button
             type="button"
             onClick={handleClickSocial('facebook')}
-            disabled={isLoading}
-            className="bg-blue-700 text-secondary-foreground hover:bg-blue-600 dark:bg-blue-800 dark:hover:bg-blue-700"
+            disabled={disabled}
+            className="bg-blue-700 text-primary-foreground hover:bg-blue-600 dark:bg-blue-800 dark:text-secondary-foreground dark:hover:bg-blue-700"
           >
-            <FacebookIcon className="mr-2 h-4 w-4" />
+            {isLoading.facebook ? (
+              <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <FacebookIcon className="mr-2 h-4 w-4" />
+            )}
             Facebook
           </Button>
         </div>

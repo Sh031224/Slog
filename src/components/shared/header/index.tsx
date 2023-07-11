@@ -1,13 +1,19 @@
 import { ActivityIcon } from 'lucide-react';
 import Link from 'next/link';
+import type { User } from 'next-auth';
 
 import { AuthButton } from './auth-button';
+import { ProfileNav } from './profile-nav';
 import { SearchMenu } from './search-menu';
 import { ToggleMode } from './toggle-mode';
 import { GithubIcon } from '../social-icons';
 import { Button } from '../ui/button';
 
-export function Header() {
+type Props = {
+  user?: User;
+};
+
+export function Header({ user }: Props) {
   return (
     <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur">
       <div className="container flex h-14 items-center justify-between px-4 sm:px-8">
@@ -20,7 +26,7 @@ export function Header() {
         <div className="flex items-center">
           <SearchMenu />
 
-          <AuthButton />
+          {!user && <AuthButton />}
 
           <Link
             href="https://github.com/Sh031224/Slog"
@@ -35,6 +41,8 @@ export function Header() {
           </Link>
 
           <ToggleMode />
+
+          {!!user && <ProfileNav user={user} />}
         </div>
       </div>
     </header>

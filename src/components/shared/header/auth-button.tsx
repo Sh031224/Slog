@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { useMemo } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -10,19 +11,25 @@ export function AuthButton() {
   const pathname = usePathname();
   const search = useSearchParams();
 
+  const callbackUrl = useMemo(() => {
+    const basePath = (pathname !== '/sign-in' && pathname) || '/';
+    const originSearch = search?.toString();
+    const query = originSearch ? `?${originSearch}` : '';
+
+    return basePath + query;
+  }, [pathname, search]);
+
   return (
     <Link
       href={{
         pathname: '/sign-in',
         query: {
-          callback: `${pathname || '/'}${
-            search?.toString() && '?' + search?.toString()
-          }`
+          from: callbackUrl
         }
       }}
       className={cn(
         buttonVariants({ variant: 'outline', size: 'sm' }),
-        'ml-2 mr-1 min-w-fit shrink-0 sm:ml-4 sm:mr-2'
+        'mr-1 min-w-fit shrink-0 sm:mr-2'
       )}
     >
       Sign in
