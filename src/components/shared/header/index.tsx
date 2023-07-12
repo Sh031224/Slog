@@ -1,6 +1,7 @@
 import { ActivityIcon } from 'lucide-react';
 import Link from 'next/link';
-import type { User } from 'next-auth';
+
+import { auth } from '@/lib/auth';
 
 import { AuthButton } from './auth-button';
 import { ProfileNav } from './profile-nav';
@@ -9,11 +10,9 @@ import { ToggleMode } from './toggle-mode';
 import { GithubIcon } from '../social-icons';
 import { Button } from '../ui/button';
 
-type Props = {
-  user?: User;
-};
+export async function Header() {
+  const user = (await auth())?.user;
 
-export function Header({ user }: Props) {
   return (
     <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur">
       <div className="container flex h-14 items-center justify-between px-4 sm:px-8">

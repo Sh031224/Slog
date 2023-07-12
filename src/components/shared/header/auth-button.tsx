@@ -13,8 +13,11 @@ export function AuthButton() {
 
   const callbackUrl = useMemo(() => {
     const basePath = (pathname !== '/sign-in' && pathname) || '/';
-    const originSearch = search?.toString();
-    const query = originSearch ? `?${originSearch}` : '';
+    const originSearch = new URLSearchParams(search?.toString());
+
+    originSearch.delete('from');
+
+    const query = originSearch.toString() ? `?${originSearch.toString()}` : '';
 
     return basePath + query;
   }, [pathname, search]);

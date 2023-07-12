@@ -50,7 +50,7 @@ export function SignInForm() {
 
     setIsLoading(prev => ({ ...prev, email: false }));
 
-    if (!result?.ok) {
+    if (!!result?.error) {
       return toast({
         title: 'An error has occurred',
         description: 'Please try again.',

@@ -5,7 +5,6 @@ import { Header } from '@/components/shared/header';
 import { ThemeProvider } from '@/components/shared/theme-provider';
 import { Toaster } from '@/components/shared/ui/toaster';
 import { fontSans } from '@/lib/fonts';
-import { getCurrentUser } from '@/lib/session';
 import { cn } from '@/lib/utils';
 
 import '@/styles/globals.css';
@@ -38,13 +37,11 @@ export const metadata: Metadata = {
   }
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getCurrentUser();
-
   return (
     <html lang="ko" suppressHydrationWarning>
       <head />
@@ -52,7 +49,7 @@ export default async function RootLayout({
         className={cn('min-h-screen font-sans antialiased', fontSans.variable)}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header user={user} />
+          <Header />
 
           <div className="flex w-full justify-center">
             <main className="container relative min-h-[calc(100vh-15rem)]">

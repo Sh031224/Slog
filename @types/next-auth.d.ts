@@ -1,11 +1,5 @@
 import type { User } from 'next-auth';
 
-declare module 'next-auth/jwt' {
-  interface JWT {
-    id: string;
-  }
-}
-
 declare module 'next-auth' {
   interface Session {
     user: Combine<
@@ -14,5 +8,9 @@ declare module 'next-auth' {
       },
       User
     >;
+  }
+
+  interface DefaultJWT {
+    id: string;
   }
 }
