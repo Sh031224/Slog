@@ -1,1 +1,1 @@
-Allow: /api/og/*
+User-agent: *
