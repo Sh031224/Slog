@@ -1,7 +1,7 @@
-import type { Provider } from "@auth/core/providers";
-import type { NextAuthConfig } from "next-auth";
-import FacebookProvider from "next-auth/providers/facebook";
-import GitHubProvider from "next-auth/providers/github";
+import type { Provider } from '@auth/core/providers';
+import type { NextAuthConfig } from 'next-auth';
+import FacebookProvider from 'next-auth/providers/facebook';
+import GitHubProvider from 'next-auth/providers/github';
 
 const providers: Array<Provider> = [
   GitHubProvider({
@@ -17,7 +17,7 @@ const providers: Array<Provider> = [
 export default {
   providers,
   pages: {
-    signIn: "/sign-in"
+    signIn: '/sign-in'
   },
   callbacks: {
     authorized() {
@@ -36,11 +36,11 @@ export default {
       return token;
     },
     async redirect({ url, baseUrl }) {
-      if (url.startsWith("/")) {
+      if (url.startsWith('/')) {
         return `${baseUrl}${url}`;
       }
 
-      return new URL(url).searchParams.get("callback") || baseUrl;
+      return new URL(url).searchParams.get('callback') || baseUrl;
     }
   }
 } satisfies NextAuthConfig;

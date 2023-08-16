@@ -1,23 +1,3 @@
-// // import { NextResponse } from 'next/server';
-// // import { getToken } from 'next-auth/jwt';
-// // import { withAuth } from 'next-auth/middleware';
-
-// // export const config = {
-// //   matcher: ['/sign-in', '/profile']
-// // };
-
-// import { auth } from '@/lib/auth';
-// import { NextAuthRequest } from 'next-auth/lib';
-// import { NextResponse } from 'next/server';
-
-// export default auth((req: NextAuthRequest) => {
-
-// });
-
-// export const config = {
-//   matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
-// };
-
 import { NextResponse } from 'next/server';
 import NextAuth from 'next-auth';
 import type { NextAuthRequest } from 'next-auth/lib';

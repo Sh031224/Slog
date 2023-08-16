@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
-import type { DialogProps } from "@radix-ui/react-alert-dialog";
-import { FileIcon, Laptop, Moon, Sun } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useTheme } from "next-themes";
-import * as React from "react";
+import type { DialogProps } from '@radix-ui/react-alert-dialog';
+import { FileIcon, Laptop, Moon, Sun } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
+import * as React from 'react';
 
-import { Button } from "@/shared/components/ui/button";
+import { cn } from '@/lib/utils';
+import { Button } from '@/shared/components/ui/button';
 import {
   CommandDialog,
   CommandEmpty,
@@ -15,25 +16,24 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator
-} from "@/shared/components/ui/command";
-import { cn } from "@/lib/utils";
+} from '@/shared/components/ui/command';
 
 export function SearchMenu({ ...props }: DialogProps) {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState('');
   const { setTheme } = useTheme();
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        setOpen(open => !open);
       }
     };
 
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
   }, []);
 
   const runCommand = React.useCallback((command: () => unknown) => {
@@ -46,7 +46,7 @@ export function SearchMenu({ ...props }: DialogProps) {
       <Button
         variant="outline"
         className={cn(
-          "relative mr-2 w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64"
+          'relative mr-2 w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64'
         )}
         onClick={() => setOpen(true)}
         {...props}
@@ -68,28 +68,37 @@ export function SearchMenu({ ...props }: DialogProps) {
 
           <CommandGroup heading="Search posts">
             <CommandItem
-              value={value + "ghost"}
+              value={value + 'ghost'}
               onSelect={() => {
                 runCommand(() => !!value && router.push(`/?search=${value}`));
               }}
             >
               <FileIcon className="mr-2 h-4 w-4" />
-              {!value ? "Please enter your search term" : `Search: ${value}`}
+              {!value ? 'Please enter your search term' : `Search: ${value}`}
             </CommandItem>
           </CommandGroup>
 
           <CommandSeparator />
 
           <CommandGroup heading="Theme">
-            <CommandItem value="Light" onSelect={() => runCommand(() => setTheme("light"))}>
+            <CommandItem
+              value="Light"
+              onSelect={() => runCommand(() => setTheme('light'))}
+            >
               <Sun className="mr-2 h-4 w-4" />
               Light
             </CommandItem>
-            <CommandItem value="Dark" onSelect={() => runCommand(() => setTheme("dark"))}>
+            <CommandItem
+              value="Dark"
+              onSelect={() => runCommand(() => setTheme('dark'))}
+            >
               <Moon className="mr-2 h-4 w-4" />
               Dark
             </CommandItem>
-            <CommandItem value="System" onSelect={() => runCommand(() => setTheme("system"))}>
+            <CommandItem
+              value="System"
+              onSelect={() => runCommand(() => setTheme('system'))}
+            >
               <Laptop className="mr-2 h-4 w-4" />
               System
             </CommandItem>

@@ -1,14 +1,14 @@
-import { ActivityIcon } from "lucide-react";
-import Link from "next/link";
+import { ActivityIcon } from 'lucide-react';
+import Link from 'next/link';
 
-import { auth } from "@/lib/auth";
+import { auth } from '@/lib/auth';
 
-import { SignInButton } from "./sign-in-button";
-import { ProfileNav } from "./profile-nav";
-import { SearchMenu } from "./search-menu";
-import { ThemeToggle } from "./theme-toggle";
-import { GithubIcon } from "../icons/github-icon";
-import { Button } from "../ui/button";
+import { ProfileNav } from './profile-nav';
+import { SearchMenu } from './search-menu';
+import { SignInButton } from './sign-in-button';
+import { ThemeToggle } from './theme-toggle';
+import { GithubIcon } from '../icons/github-icon';
+import { Button } from '../ui/button';
 
 export async function Header() {
   const user = (await auth())?.user;
@@ -27,7 +27,11 @@ export async function Header() {
 
           {!user && <SignInButton />}
 
-          <Link href="https://github.com/Sh031224/Slog" className="block" rel="noopener noreferrer">
+          <Link
+            href="https://github.com/Sh031224/Slog"
+            className="block"
+            rel="noopener noreferrer"
+          >
             <Button variant="ghost" className="w-9 shrink-0 px-0">
               <GithubIcon className="h-5 w-5" />
 
