@@ -1,14 +1,14 @@
-import type { Provider } from '@auth/core/providers';
 import type { NextAuthConfig } from 'next-auth';
-import FacebookProvider from 'next-auth/providers/facebook';
-import GitHubProvider from 'next-auth/providers/github';
+import type { Provider } from 'next-auth/providers';
+import Facebook from 'next-auth/providers/facebook';
+import GitHub from 'next-auth/providers/github';
 
 const providers: Array<Provider> = [
-  GitHubProvider({
+  GitHub({
     clientId: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET
   }),
-  FacebookProvider({
+  Facebook({
     clientId: process.env.FACEBOOK_CLIENT_ID,
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET
   })
