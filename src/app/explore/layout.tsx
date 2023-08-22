@@ -1,8 +1,18 @@
-export default function Layout(props: any) {
+export default function ExploreLayout({
+  children,
+  category,
+  posts
+}: {
+  children: React.ReactNode;
+  category: React.ReactNode;
+  posts: React.ReactNode;
+}) {
   return (
-    <>
-      {props.category}
-      {props.posts}
-    </>
+    <div className="flex w-full pt-8">
+      {posts}
+      {category}
+
+      {children}
+    </div>
   );
 }
