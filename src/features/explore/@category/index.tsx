@@ -9,11 +9,7 @@ type Props = {
 
 export default function Category({ categories }: Props) {
   return (
-    <aside className="w-60 shrink-0 space-y-1 pr-7">
-      <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-        Categories
-      </h2>
-
+    <>
       <ActiveLink
         href="/explore"
         className="inline-flex h-fit w-full justify-start"
@@ -38,6 +34,6 @@ export default function Category({ categories }: Props) {
           {category.title}
         </ActiveLink>
       ))}
-    </aside>
+    </>
   );
 }
