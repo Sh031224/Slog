@@ -4,12 +4,12 @@ export default function CategoryLayout({
   children: React.ReactNode;
 }) {
   return (
-    <aside className="w-60 shrink-0 space-y-1 pr-7">
+    <aside className="sticky top-[5.5rem] h-fit w-56 shrink-0 space-y-1 pr-7">
       <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
         Categories
       </h2>
 
-      {children}
+      <div className="space-y-2">{children}</div>
     </aside>
   );
 }
