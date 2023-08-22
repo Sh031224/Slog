@@ -9,8 +9,8 @@ export default function ExploreLayout({
 }) {
   return (
     <div className="flex w-full pt-8">
-      {posts}
       {category}
+      {posts}
 
       {children}
     </div>
