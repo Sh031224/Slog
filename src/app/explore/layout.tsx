@@ -8,7 +8,7 @@ export default function ExploreLayout({
   posts: React.ReactNode;
 }) {
   return (
-    <div className="flex w-full pt-8">
+    <div className="flex h-full w-full pt-8">
       {category}
       {posts}
 
