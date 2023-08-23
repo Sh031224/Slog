@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --image-filter: brightness(85%);
+  }
+
+  img:not([src*='.svg']) {
+    filter: var(--image-filter);
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
