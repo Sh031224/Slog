@@ -1,9 +1,9 @@
 'use client';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation'; // usePathname is a hook now imported from navigation
-import { useMemo, type ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn, parseURL } from '@/lib/utils';
 
 type Props = Combine<
   { children: React.ReactNode; activeClassName?: string },
@@ -20,32 +20,10 @@ const ActiveLink = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const parsedHref = useMemo(() => {
-    const url = new URL(process.env.NEXT_PUBLIC_APP_URL);
+  const parsedHref = parseURL(href);
+  const currentHref = parseURL({ pathname, query: searchParams.toString() });
 
-    if (typeof href === 'string') {
-      url.pathname = href;
-
-      return url;
-    }
-
-    url.pathname = href.pathname ?? pathname;
-    url.search = new URLSearchParams(
-      (href.query as Record<string, string>) ?? ''
-    ).toString();
-
-    return url;
-  }, [href, pathname]);
-
-  const currentHref = useMemo(() => {
-    const url = new URL(pathname, process.env.NEXT_PUBLIC_APP_URL);
-
-    url.search = searchParams.toString();
-
-    return url;
-  }, [pathname, searchParams]);
-
-  const isActive = currentHref.toString() === parsedHref.toString();
+  const isActive = currentHref === parsedHref;
 
   return (
     <Link {...rest} className={cn(className, isActive ? activeClassName : '')}>
