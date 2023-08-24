@@ -22,7 +22,7 @@ export default function Posts({ initialPosts }: Props) {
       <Card className="border-none p-0">
         <div className="relative pt-[52%]">
           <Image
-            className="absolute top-0 rounded border"
+            className="absolute top-0 rounded border dark:brightness-90"
             src="https://slog.website/api/static/files-e9e7292e-39be-4b79-8abe-56ad96504381-11_thumbnail.png"
             alt=""
             objectFit="cover"
