@@ -14,11 +14,11 @@ export default function CategoryButton({ href, children }: Props) {
       href={href}
       className={buttonVariants({
         variant: 'ghost',
-        className: 'inline-flex h-fit w-full justify-start'
+        className: 'h-fit w-full justify-start hidden md:inline-flex'
       })}
       activeClassName={buttonVariants({
         variant: 'secondary',
-        className: 'justify-start'
+        className: 'justify-start hidden md:inline-flex'
       })}
     >
       {children}

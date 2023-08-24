@@ -1,6 +1,7 @@
 import type { Category } from '@prisma/client';
 
 import CategoryButton from './components/category-button';
+import CategorySelectBox from './components/category-select-box';
 
 type Props = {
   categories: Category[];
@@ -19,6 +20,9 @@ export default function Category({ categories }: Props) {
           {category.title}
         </CategoryButton>
       ))}
+
+      {/* mobile */}
+      <CategorySelectBox categories={categories} />
     </>
   );
 }
