@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
+import { fetchPosts } from '@/app/explore/@posts/actions';
 import Posts from '@/features/explore/@posts';
-import { fetchPosts } from '@/features/explore/@posts/actions';
 
 export default async function PostsPage({
   searchParams
@@ -15,13 +15,11 @@ export default async function PostsPage({
     isTemp: isTemp === 'true'
   });
 
-  // if (initialPosts.count === 0) {
-  //   notFound();
-  // }
+  if (initialPosts.count === 0) {
+    notFound();
+  }
 
-  return (
-    <div className="grid w-full grid-cols-1 gap-x-3 gap-y-8 pb-10 md:grid-cols-2 lg:grid-cols-3">
-      <Posts initialPosts={initialPosts} />
-    </div>
-  );
+  return <Posts initialPosts={initialPosts} fetchPosts={fetchPosts} />;
 }
+
+export const revalidation = 3600;

@@ -5,7 +5,7 @@ import { prisma } from '@/lib/database';
 
 const LIMIT = 20 as const;
 
-type FetchPostsParams = {
+export type FetchPostsParams = {
   page?: number;
   categoryId?: number;
   isTemp?: boolean;

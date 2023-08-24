@@ -1,45 +1,60 @@
+'use client';
 import type { Post } from '@prisma/client';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/shared/components/ui/card';
+import Card from './components/card';
+import CardLoading from './components/card-loading';
+import type { FetchPostsParams } from '../../../app/explore/@posts/actions';
 
 type Props = {
   initialPosts: {
     posts: Post[];
     count: number;
   };
+  fetchPosts: ({ categoryId, page, isTemp }: FetchPostsParams) => Promise<{
+    posts: Post[];
+    count: number;
+  }>;
 };
 
-export default function Posts({ initialPosts }: Props) {
-  return (
-    <Link href="/">
-      <Card className="border-none p-0">
-        <div className="relative pt-[52%]">
-          <Image
-            className="absolute top-0 rounded border dark:brightness-90"
-            src="https://slog.website/api/static/files-e9e7292e-39be-4b79-8abe-56ad96504381-11_thumbnail.png"
-            alt=""
-            objectFit="cover"
-            layout="fill"
-          />
-        </div>
-        <CardHeader className="px-2 pt-4">
-          <CardTitle className="line-clamp-2 text-lg">
-            docker-compose를 이용하여 Spring Boot + MariaDB 간단하게 배포하기
-          </CardTitle>
+export default function Posts({ initialPosts, fetchPosts }: Props) {
+  const [ref, inView] = useInView({ threshold: 0.5 });
+  const [list, setList] = useState([...initialPosts.posts]);
+  const [page, setPage] = useState(1);
+  const [isFetching, setIsFetching] = useState(false);
 
-          <CardDescription>
-            안녕하세요 오늘은 Spring Boot + MariaDB 로 이루어진 프로젝트를
-            간편하게 배포하는 방법을 알아보도록 하겠습니다.
-          </CardDescription>
-        </CardHeader>
-      </Card>
-    </Link>
+  const hasMore = list.length < initialPosts.count;
+
+  const loadMore = async (nextPage: number) => {
+    if (!isFetching) {
+      try {
+        setIsFetching(true);
+
+        const { posts } = await fetchPosts({ page: nextPage });
+
+        setPage(nextPage);
+        setList(prev => [...prev, ...posts]);
+      } finally {
+        setIsFetching(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (inView && hasMore) {
+      loadMore(page + 1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView, hasMore]);
+
+  return (
+    <div className="grid w-full grid-cols-1 gap-x-3 gap-y-8 pb-10 md:grid-cols-2 lg:grid-cols-3">
+      {list.map((data, i) => (
+        <Card key={i} data={data} ref={i === list.length - 1 ? ref : null} />
+      ))}
+
+      {isFetching && <CardLoading />}
+    </div>
   );
 }

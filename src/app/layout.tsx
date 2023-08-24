@@ -44,7 +44,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <head />
+      <head>
+        <script
+          src="https://polyfill.io/v3/polyfill.js?features=IntersectionObserver"
+          defer
+        ></script>
+      </head>
       <body
         className={cn('min-h-screen font-sans antialiased', fontSans.variable)}
       >
