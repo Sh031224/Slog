@@ -57,9 +57,7 @@ export default function RootLayout({
           <Header />
 
           <div className="flex w-full justify-center">
-            <main className="container relative min-h-[calc(100vh-15rem)]">
-              {children}
-            </main>
+            <main className="container relative">{children}</main>
           </div>
 
           <Footer />
