@@ -4,7 +4,7 @@ type Props = {
 
 export default function AuthLayout({ children }: Props) {
   return (
-    <div className="flex min-h-full min-w-full items-center justify-center">
+    <div className="flex min-h-[calc(100vh-14rem)] min-w-full items-center justify-center">
       {children}
     </div>
   );
