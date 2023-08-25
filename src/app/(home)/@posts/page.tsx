@@ -1,10 +1,10 @@
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 
-import Home from '@/features/(home)';
+import Posts from "@/features/(home)/@posts";
 
-import { fetchPosts } from './actions';
+import { fetchPosts } from "./actions";
 
-export default async function HomePage({
+export default async function PostsPage({
   searchParams
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -13,7 +13,7 @@ export default async function HomePage({
 
   const params = {
     categoryId: categoryId !== undefined ? Number(categoryId) : undefined,
-    isTemp: isTemp === 'true'
+    isTemp: isTemp === "true"
   };
 
   const initialPosts = await fetchPosts(params);
@@ -22,7 +22,5 @@ export default async function HomePage({
     notFound();
   }
 
-  return (
-    <Home initialPosts={initialPosts} fetchPosts={fetchPosts} params={params} />
-  );
+  return <Posts initialPosts={initialPosts} fetchPosts={fetchPosts} params={params} />;
 }

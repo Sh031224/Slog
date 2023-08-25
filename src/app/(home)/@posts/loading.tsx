@@ -1,4 +1,4 @@
-import CardSkeleton from '@/features/(home)/components/card-skeleton';
+import CardSkeleton from "@/features/(home)/@posts/components/card-skeleton";
 
 export default function PostsLoading() {
   return (
