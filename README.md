@@ -13,6 +13,7 @@ will be using the following technology stack.
 - Next Auth
 - Planet Scale
 - Prisma
+- Zustand
 
 ### ETC
 
