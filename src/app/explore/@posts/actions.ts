@@ -1,7 +1,10 @@
 import type { Prisma } from '@prisma/client';
 import type { DefaultArgs } from '@prisma/client/runtime/library';
+import { unstable_cache } from 'next/cache';
 
 import { prisma } from '@/lib/database';
+import { buildTags } from '@/lib/utils';
+import { POSTS_TAG } from '@/shared/tags';
 
 const LIMIT = 20 as const;
 
@@ -33,10 +36,15 @@ export async function fetchPosts({
     delete query.where?.categoryId;
   }
 
-  const [posts, count] = await prisma.$transaction([
-    prisma.post.findMany(query),
-    prisma.post.count({ where: query.where })
-  ]);
+  const [posts, count] = await unstable_cache(
+    () =>
+      prisma.$transaction([
+        prisma.post.findMany(query),
+        prisma.post.count({ where: query.where })
+      ]),
+    buildTags(POSTS_TAG, JSON.stringify({ categoryId, page, isTemp })),
+    { tags: buildTags(POSTS_TAG) }
+  )();
 
   return {
     posts,
