@@ -8,7 +8,7 @@
     "url": "https://github.com/Sh031224/Slog"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -36,7 +36,7 @@
     "cmdk": "^0.2.0",
     "eslint": "8.44.0",
     "lucide-react": "^0.258.0",
-    "next": "13.4.9",
+    "next": "13.4.20-canary.6",
     "next-auth": "0.0.0-manual.83c4ebd1",
     "next-themes": "^0.2.1",
     "nodemailer": "^6.9.4",
@@ -44,7 +44,8 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.1",
     "react-intersection-observer": "^9.5.2",
-    "zod": "^3.21.4"
+    "zod": "^3.21.4",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@types/node": "20.3.3",

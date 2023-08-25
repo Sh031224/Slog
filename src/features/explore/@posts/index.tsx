@@ -1,57 +1,62 @@
 'use client';
-import type { Post } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import Card from './components/card';
 import CardLoading from './components/card-loading';
+import { usePostStore } from './stores';
+import type { PostParams, PostResponse } from './types';
 import type { FetchPostsParams } from '../../../app/explore/@posts/actions';
 
 type Props = {
-  initialPosts: {
-    posts: Post[];
-    count: number;
-  };
-  fetchPosts: ({ categoryId, page, isTemp }: FetchPostsParams) => Promise<{
-    posts: Post[];
-    count: number;
-  }>;
+  initialPosts: PostResponse;
+  fetchPosts: ({
+    categoryId,
+    page,
+    isTemp
+  }: FetchPostsParams) => Promise<PostResponse>;
+  params: PostParams;
 };
 
-export default function Posts({ initialPosts, fetchPosts }: Props) {
+export default function Posts({ initialPosts, params, fetchPosts }: Props) {
   const [ref, inView] = useInView({ threshold: 0.5 });
-  const [list, setList] = useState([...initialPosts.posts]);
-  const [page, setPage] = useState(1);
+  const { list: listByClient, page, next, init } = usePostStore();
   const [isFetching, setIsFetching] = useState(false);
+
+  const list = [...initialPosts.posts, ...listByClient];
 
   const hasMore = list.length < initialPosts.count;
 
-  const loadMore = async (nextPage: number) => {
-    if (!isFetching) {
+  useEffect(() => {
+    init(params);
+  }, [init, params]);
+
+  useEffect(() => {
+    const loadMore = async () => {
       try {
         setIsFetching(true);
 
-        const { posts } = await fetchPosts({ page: nextPage });
+        const response = await fetchPosts({ page: page + 1 });
 
-        setPage(nextPage);
-        setList(prev => [...prev, ...posts]);
+        next(response);
       } finally {
         setIsFetching(false);
       }
-    }
-  };
+    };
 
-  useEffect(() => {
-    if (inView && hasMore) {
-      loadMore(page + 1);
+    if (inView && hasMore && !isFetching) {
+      loadMore();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView, hasMore]);
+  }, [inView, hasMore, isFetching, page, fetchPosts, next]);
 
   return (
     <div className="grid w-full grid-cols-1 gap-x-3 gap-y-8 pb-10 md:grid-cols-2 lg:grid-cols-3">
       {list.map((data, i) => (
-        <Card key={i} data={data} ref={i === list.length - 1 ? ref : null} />
+        <Card
+          key={i}
+          data={data}
+          ref={i === list.length - 1 && hasMore ? ref : null}
+        />
       ))}
 
       {isFetching && <CardLoading />}

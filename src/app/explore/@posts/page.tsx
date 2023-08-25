@@ -10,16 +10,22 @@ export default async function PostsPage({
 }) {
   const { categoryId = undefined, isTemp = false } = searchParams;
 
-  const initialPosts = await fetchPosts({
+  const params = {
     categoryId: categoryId !== undefined ? Number(categoryId) : undefined,
     isTemp: isTemp === 'true'
-  });
+  };
+
+  const initialPosts = await fetchPosts(params);
 
   if (initialPosts.count === 0) {
     notFound();
   }
 
-  return <Posts initialPosts={initialPosts} fetchPosts={fetchPosts} />;
+  return (
+    <Posts
+      initialPosts={initialPosts}
+      fetchPosts={fetchPosts}
+      params={params}
+    />
+  );
 }
-
-export const revalidation = 3600;

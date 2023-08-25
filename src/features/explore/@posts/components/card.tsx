@@ -11,11 +11,11 @@ const Card = forwardRef<HTMLDivElement, Props>(({ data }, ref) => (
     <div className="relative pt-[52%]">
       {!!data.thumbnail ? (
         <Image
-          className="absolute top-0 rounded border dark:brightness-90"
+          className="absolute top-0 rounded border object-cover dark:brightness-90"
           src={data.thumbnail}
           alt={data.title}
-          objectFit="cover"
-          layout="fill"
+          fill
+          priority
         />
       ) : (
         <div className="absolute top-0 h-full w-full rounded border bg-muted-foreground" />
