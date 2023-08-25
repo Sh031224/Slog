@@ -2,11 +2,12 @@
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import type { FetchPostsParams } from '@/app/(home)/actions';
+
 import Card from './components/card';
-import CardLoading from './components/card-loading';
+import CardSkeleton from './components/card-skeleton';
 import { usePostStore } from './stores';
 import type { PostParams, PostResponse } from './types';
-import type { FetchPostsParams } from '../../../app/(home)/@posts/actions';
 
 type Props = {
   initialPosts: PostResponse;
@@ -18,7 +19,7 @@ type Props = {
   params: PostParams;
 };
 
-export default function Posts({ initialPosts, params, fetchPosts }: Props) {
+export default function Home({ initialPosts, params, fetchPosts }: Props) {
   const [ref, inView] = useInView({ threshold: 0.5 });
   const { list: listByClient, page, next, init } = usePostStore();
   const [isFetching, setIsFetching] = useState(false);
@@ -59,7 +60,7 @@ export default function Posts({ initialPosts, params, fetchPosts }: Props) {
         />
       ))}
 
-      {isFetching && <CardLoading />}
+      {isFetching && <CardSkeleton />}
     </div>
   );
 }

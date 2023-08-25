@@ -27,8 +27,11 @@ export const usePostStore = create<PostStore>(set => ({
       return {};
     }),
   next: response =>
-    set(state => ({
-      page: state.page + 1,
-      list: [...state.list, ...response.posts]
-    }))
+    set(state => {
+      console.log(state.list.length + response.posts.length, 'set');
+      return {
+        page: state.page + 1,
+        list: [...state.list, ...response.posts]
+      };
+    })
 }));

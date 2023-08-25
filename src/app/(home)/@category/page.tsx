@@ -1,6 +1,6 @@
 import { unstable_cache } from 'next/cache';
 
-import Category from '@/features/(home)/@category';
+import Category from '@/features/(home)/parallel/@category';
 import { prisma } from '@/lib/database';
 import { buildTags } from '@/lib/utils';
 import { CATEGORIES_TAG } from '@/shared/tags';

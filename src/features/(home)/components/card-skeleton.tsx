@@ -1,6 +1,6 @@
 import { Skeleton } from '@/shared/components/ui/skeleton';
 
-export default function CardLoading() {
+export default function CardSkeleton() {
   return (
     <>
       {new Array(6).fill(0).map((_, i) => (

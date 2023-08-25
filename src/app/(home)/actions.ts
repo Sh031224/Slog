@@ -42,7 +42,7 @@ export async function fetchPosts({
         prisma.post.findMany(query),
         prisma.post.count({ where: query.where })
       ]),
-    buildTags(POSTS_TAG, JSON.stringify({ categoryId, page, isTemp })),
+    buildTags(POSTS_TAG, JSON.stringify({ categoryId, page, isTemp, LIMIT })),
     { tags: buildTags(POSTS_TAG) }
   )();
 
