@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
-import type { FetchPostsParams } from "@/app/(home)/actions";
+import type { FetchPostsParams } from "@/app/(home)/@posts/actions";
 
 import Card from "./components/card";
 import CardSkeleton from "./components/card-skeleton";
