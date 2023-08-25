@@ -23,10 +23,6 @@ export default async function HomePage({
   }
 
   return (
-    <Home
-      initialPosts={initialPosts}
-      fetchPosts={fetchPosts}
-      params={params}
-    />
+    <Home initialPosts={initialPosts} fetchPosts={fetchPosts} params={params} />
   );
 }
