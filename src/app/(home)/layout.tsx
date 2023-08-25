@@ -1,4 +1,4 @@
-export default function ExploreLayout({
+export default function HomeLayout({
   children,
   category,
   posts

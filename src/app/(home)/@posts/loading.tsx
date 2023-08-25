@@ -1,4 +1,4 @@
-import CardLoading from '@/features/explore/@posts/components/card-loading';
+import CardLoading from '@/features/(home)/@posts/components/card-loading';
 
 export default function PostsLoading() {
   return (

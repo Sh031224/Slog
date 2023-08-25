@@ -6,7 +6,7 @@ import Card from './components/card';
 import CardLoading from './components/card-loading';
 import { usePostStore } from './stores';
 import type { PostParams, PostResponse } from './types';
-import type { FetchPostsParams } from '../../../app/explore/@posts/actions';
+import type { FetchPostsParams } from '../../../app/(home)/@posts/actions';
 
 type Props = {
   initialPosts: PostResponse;

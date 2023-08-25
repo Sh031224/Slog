@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
-import { fetchPosts } from '@/app/explore/@posts/actions';
-import Posts from '@/features/explore/@posts';
+import { fetchPosts } from '@/app/(home)/@posts/actions';
+import Posts from '@/features/(home)/@posts';
 
 export default async function PostsPage({
   searchParams

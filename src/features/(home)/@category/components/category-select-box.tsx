@@ -24,7 +24,7 @@ export default function CategorySelectBox({ categories }: Props) {
   return (
     <Select
       onValueChange={value =>
-        router.push(`/explore${!!value ? '?categoryId=' + value : ''}`)
+        router.push(`/${!!value ? '?categoryId=' + value : ''}`)
       }
       value={searchParams.get('categoryId') || ''}
       defaultValue=""

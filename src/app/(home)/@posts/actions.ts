@@ -6,7 +6,7 @@ import { prisma } from '@/lib/database';
 import { buildTags } from '@/lib/utils';
 import { POSTS_TAG } from '@/shared/tags';
 
-const LIMIT = 20 as const;
+const LIMIT = 18 as const;
 
 export type FetchPostsParams = {
   page?: number;
