@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
-import NextAuth from 'next-auth';
 import type { NextAuthRequest } from 'next-auth/lib';
 
-import authConfig from '@/auth.config';
+import { auth } from './lib/auth';
 
-export const middleware = NextAuth(authConfig).auth((req: NextAuthRequest) => {
+export const middleware = auth((req: NextAuthRequest) => {
   const isAuthorized = !!req.auth.user;
 
   if (req.nextUrl.pathname.startsWith('/sign-in')) {

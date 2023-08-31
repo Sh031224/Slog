@@ -44,7 +44,7 @@ export function SignInForm() {
   const onSubmit = async ({ email }: SignInForm) => {
     setIsLoading(prev => ({ ...prev, email: true }));
 
-    const result = await signIn('email', {
+    const result = await signIn('sendgrid', {
       email: email.toLocaleLowerCase(),
       redirect: false,
       callbackUrl

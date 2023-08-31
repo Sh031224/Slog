@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function buildTags(...tag: string[]) {
+export function buildKey(...tag: string[]) {
   return [...tag];
 }
 

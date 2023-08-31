@@ -1,4 +1,3 @@
 export { GET, POST } from '@/lib/auth';
 
-// cause database
-// export const runtime = 'edge';
+export const runtime = 'edge';

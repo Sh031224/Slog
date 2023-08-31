@@ -3,7 +3,7 @@ import type { DefaultArgs } from '@prisma/client/runtime/library';
 import { unstable_cache } from 'next/cache';
 
 import { prisma } from '@/lib/database';
-import { buildTags } from '@/lib/utils';
+import { buildKey } from '@/lib/utils';
 import { POSTS_TAG } from '@/shared/tags';
 
 const LIMIT = 18 as const;
@@ -42,8 +42,8 @@ export async function fetchPosts({
         prisma.post.findMany(query),
         prisma.post.count({ where: query.where })
       ]),
-    buildTags(POSTS_TAG, JSON.stringify({ categoryId, page, isTemp, LIMIT })),
-    { tags: buildTags(POSTS_TAG) }
+    buildKey(POSTS_TAG, JSON.stringify({ categoryId, page, isTemp, LIMIT })),
+    { tags: buildKey(POSTS_TAG) }
   )();
 
   return {

@@ -14,7 +14,7 @@ import {
 } from '../ui/dropdown-menu';
 
 type Props = {
-  user: Pick<User, 'email' | 'name' | 'image'>;
+  user: User;
 };
 
 export function ProfileNav({ user }: Props) {
