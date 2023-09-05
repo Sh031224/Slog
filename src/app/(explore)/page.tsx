@@ -5,17 +5,20 @@ import Posts from '@/features/(explore)/components/posts';
 import { fetchPosts } from './actions';
 
 export const runtime = 'edge';
+export const fetchCache = 'only-no-store';
+export const revalidate = 0;
 
 export default async function ExplorePage({
   searchParams
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { categoryId = undefined, isTemp = false } = searchParams;
+  const { categoryId = undefined, isTemp = false, search } = searchParams;
 
   const params = {
     categoryId: categoryId !== undefined ? Number(categoryId) : undefined,
-    isTemp: isTemp === 'true'
+    isTemp: isTemp === 'true',
+    search: search?.toString()
   };
 
   const initialPosts = await fetchPosts(params);

@@ -11,13 +11,10 @@ export default async function Categories() {
   const tags = buildKey(TAGS.categories);
 
   const categories = await unstable_cache(
-    () =>{
-console.log(1)
-      return prisma.category.findMany({
+    () =>
+      prisma.category.findMany({
         orderBy: { orderNumber: 'desc' }
-      })
-    },
-
+      }),
     tags,
     {
       tags

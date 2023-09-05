@@ -11,19 +11,27 @@ const LIMIT = 18 as const;
 export type FetchPostsParams = {
   page?: number;
   categoryId?: number;
-  isTemp?: boolean;
+  search?: string;
 };
 
 export async function fetchPosts({
   categoryId,
   page = 1,
-  isTemp = false
+  search
 }: FetchPostsParams) {
   'use server';
   const query: Prisma.PostFindManyArgs<DefaultArgs> = {
     where: {
       categoryId,
-      isTemp
+      isTemp: false,
+      OR: [
+        {
+          title: {
+            search
+          }
+        },
+        { description: { search } }
+      ]
     },
     orderBy: {
       createdAt: 'desc'
@@ -31,6 +39,10 @@ export async function fetchPosts({
     skip: (page - 1) * LIMIT,
     take: LIMIT
   };
+
+  if (search === undefined) {
+    delete query.where?.OR;
+  }
 
   if (categoryId === undefined) {
     delete query.where?.categoryId;
@@ -44,7 +56,7 @@ export async function fetchPosts({
         prisma.post.findMany(query),
         prisma.post.count({ where: query.where })
       ]),
-    buildKey(...tags, JSON.stringify({ categoryId, page, isTemp, LIMIT })),
+    buildKey(...tags, JSON.stringify({ categoryId, page, LIMIT, search })),
     { tags: tags }
   )();
 

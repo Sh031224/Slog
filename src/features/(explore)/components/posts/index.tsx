@@ -11,11 +11,7 @@ import type { PostParams, PostResponse } from '../../types';
 
 type Props = {
   initialPosts: PostResponse;
-  fetchPosts: ({
-    categoryId,
-    page,
-    isTemp
-  }: FetchPostsParams) => Promise<PostResponse>;
+  fetchPosts: ({ categoryId, page }: FetchPostsParams) => Promise<PostResponse>;
   params: PostParams;
 };
 

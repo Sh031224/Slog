@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -95,6 +96,7 @@ model Post {
   Reply       Reply[]
 
   @@index([categoryId])
+  @@fulltext([title, description])
   @@map("posts")
 }
 
