@@ -45,6 +45,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.1",
     "react-intersection-observer": "^9.5.2",
+    "time-counting": "^2.0.2",
     "zod": "^3.21.4",
     "zustand": "^4.4.1"
   },

@@ -2,6 +2,7 @@ import type { Post } from '@prisma/client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { forwardRef } from 'react';
+import timeCounting from 'time-counting';
 
 type Props = {
   data: Post;
@@ -25,7 +26,7 @@ const Card = forwardRef<HTMLDivElement, Props>(({ data }, ref) => (
       </div>
 
       <div className="mt-4 flex flex-col space-y-1.5 px-2">
-        <h3 className="line-clamp-2 text-lg font-semibold leading-none tracking-tight">
+        <h3 className="line-clamp-2 text-lg font-semibold leading-normal tracking-tight">
           {data.title}
         </h3>
 
@@ -33,7 +34,9 @@ const Card = forwardRef<HTMLDivElement, Props>(({ data }, ref) => (
           {data.description}
         </p>
 
-        <p className="text-xs text-muted-foreground/50">7일 전</p>
+        <p className="text-xs text-muted-foreground/80">
+          {timeCounting(data.createdAt)}
+        </p>
       </div>
     </div>
   </Link>

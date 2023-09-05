@@ -83,6 +83,9 @@ dependencies:
   react-intersection-observer:
     specifier: ^9.5.2
     version: 9.5.2(react@18.2.0)
+  time-counting:
+    specifier: ^2.0.2
+    version: 2.0.2
   zod:
     specifier: ^3.21.4
     version: 3.21.4
@@ -3801,6 +3804,10 @@ packages:
     dependencies:
       any-promise: 1.3.0
     dev: true
+
+  /time-counting@2.0.2:
+    resolution: {integrity: sha512-UC9AlAUkxch27TlFWbE3Ka3ktgVx0zl2qNaFaF49N925YVBv0bAoeg3VrwjvQ3bkdICjO+6Wj2WcffT/HVVPQQ==}
+    dev: false
 
   /titleize@3.0.0:
     resolution: {integrity: sha512-KxVu8EYHDPBdUYdKZdKtU2aj2XfEx9AfjXxE/Aj0vT06w2icA09Vus1rh6eSu1y01akYg6BjIK/hxyLJINoMLQ==}
