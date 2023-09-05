@@ -2,17 +2,15 @@
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import type { FetchPostsParams } from '@/app/(explore)/actions';
-
 import Card from './card';
 import CardSkeletons from './card-skeletons';
 import { usePostStore } from '../../stores';
-import type { PostParams, PostResponse } from '../../types';
+import type { FetchPostsResponse, FetchPostsParams } from '../../types';
 
 type Props = {
-  initialPosts: PostResponse;
-  fetchPosts: ({ categoryId, page }: FetchPostsParams) => Promise<PostResponse>;
-  params: PostParams;
+  initialPosts: FetchPostsResponse;
+  fetchPosts: (params: FetchPostsParams) => Promise<FetchPostsResponse>;
+  params: FetchPostsParams;
 };
 
 export default function Posts({ initialPosts, params, fetchPosts }: Props) {
@@ -23,6 +21,7 @@ export default function Posts({ initialPosts, params, fetchPosts }: Props) {
   const list = [...initialPosts.posts, ...listByClient];
 
   const hasMore = list.length < initialPosts.count;
+  const isNotFound = initialPosts.count === 0;
 
   useEffect(() => {
     init(params);
@@ -48,15 +47,32 @@ export default function Posts({ initialPosts, params, fetchPosts }: Props) {
 
   return (
     <>
-      {list.map((data, i) => (
-        <Card
-          key={i}
-          data={data}
-          ref={i === list.length - 1 && hasMore ? ref : null}
-        />
-      ))}
+      {isNotFound ? (
+        <div className="flex h-full w-full flex-col items-center justify-center">
+          {params.search && (
+            <p className="text-center text-xl font-normal tracking-tight text-muted-foreground max-md:text-lg">
+              Search results for
+              <strong className="text-primary">{` "${params.search}"`}</strong>
+            </p>
+          )}
 
-      {isFetching && <CardSkeletons />}
+          <p className="text-center text-xl font-normal tracking-tight text-muted-foreground max-md:text-lg">
+            There are no posts that match the criteria.
+          </p>
+        </div>
+      ) : (
+        <div className="grid w-full grid-cols-1 gap-x-3 gap-y-8 pb-10 md:grid-cols-2 lg:grid-cols-3">
+          {list.map((data, i) => (
+            <Card
+              key={i}
+              data={data}
+              ref={i === list.length - 1 && hasMore ? ref : null}
+            />
+          ))}
+
+          {isFetching && <CardSkeletons />}
+        </div>
+      )}
     </>
   );
 }

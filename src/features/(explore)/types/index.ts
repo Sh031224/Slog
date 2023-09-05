@@ -1,11 +1,12 @@
 import type { Post } from '@prisma/client';
 
-export type PostParams = {
+export type FetchPostsParams = {
+  page?: number;
   categoryId?: number;
-  isTemp: boolean;
+  search?: string;
 };
 
-export type PostResponse = {
+export type FetchPostsResponse = {
   posts: Post[];
   count: number;
 };

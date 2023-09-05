@@ -20,6 +20,12 @@ export async function fetchPosts({
   search
 }: FetchPostsParams) {
   'use server';
+  const searchValue = search
+    ?.toString()
+    .split(' ')
+    .map(v => `\'+*${v.replace(/[><()~*:"&|@+-]/g, '')}*\'`)
+    .join(' ');
+
   const query: Prisma.PostFindManyArgs<DefaultArgs> = {
     where: {
       categoryId,
@@ -27,10 +33,10 @@ export async function fetchPosts({
       OR: [
         {
           title: {
-            search
+            search: searchValue
           }
         },
-        { description: { search } }
+        { description: { search: searchValue } }
       ]
     },
     orderBy: {
@@ -61,7 +67,7 @@ export async function fetchPosts({
   )();
 
   return {
-    posts,
+    posts: posts.map(v => ({ ...v, title: categoryId?.toString() + v.title })),
     count
   };
 }
