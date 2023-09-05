@@ -30,7 +30,7 @@ export default function ExploreLayout({ children }: Props) {
         </div>
       </aside>
 
-      <div className="min-h-[calc(100vh-14rem)] w-full">{children}</div>
+      <section className="min-h-[calc(100vh-14rem)] w-full">{children}</section>
     </div>
   );
 }
