@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache';
 
 import { prisma } from '@/lib/database';
 import { buildKey } from '@/lib/utils';
-import { POSTS_TAG } from '@/shared/tags';
+import { TAGS } from '@/shared/constants';
 
 const LIMIT = 18 as const;
 
@@ -36,14 +36,16 @@ export async function fetchPosts({
     delete query.where?.categoryId;
   }
 
+  const tags = buildKey(TAGS.categories);
+
   const [posts, count] = await unstable_cache(
     () =>
       prisma.$transaction([
         prisma.post.findMany(query),
         prisma.post.count({ where: query.where })
       ]),
-    buildKey(POSTS_TAG, JSON.stringify({ categoryId, page, isTemp, LIMIT })),
-    { tags: buildKey(POSTS_TAG) }
+    buildKey(...tags, JSON.stringify({ categoryId, page, isTemp, LIMIT })),
+    { tags: tags }
   )();
 
   return {

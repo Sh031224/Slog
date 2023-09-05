@@ -1,17 +1,21 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
+'use client';
+import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
-import type { FetchPostsParams } from "@/app/(home)/@posts/actions";
+import type { FetchPostsParams } from '@/app/(explore)/actions';
 
-import Card from "./components/card";
-import CardSkeleton from "./components/card-skeleton";
-import { usePostStore } from "./stores";
-import type { PostParams, PostResponse } from "./types";
+import Card from './card';
+import CardSkeletons from './card-skeletons';
+import { usePostStore } from '../../stores';
+import type { PostParams, PostResponse } from '../../types';
 
 type Props = {
   initialPosts: PostResponse;
-  fetchPosts: ({ categoryId, page, isTemp }: FetchPostsParams) => Promise<PostResponse>;
+  fetchPosts: ({
+    categoryId,
+    page,
+    isTemp
+  }: FetchPostsParams) => Promise<PostResponse>;
   params: PostParams;
 };
 
@@ -47,12 +51,16 @@ export default function Posts({ initialPosts, params, fetchPosts }: Props) {
   }, [inView, hasMore, isFetching, page, fetchPosts, next]);
 
   return (
-    <div className="grid w-full grid-cols-1 gap-x-3 gap-y-8 pb-10 md:grid-cols-2 lg:grid-cols-3">
+    <>
       {list.map((data, i) => (
-        <Card key={i} data={data} ref={i === list.length - 1 && hasMore ? ref : null} />
+        <Card
+          key={i}
+          data={data}
+          ref={i === list.length - 1 && hasMore ? ref : null}
+        />
       ))}
 
-      {isFetching && <CardSkeleton />}
-    </div>
+      {isFetching && <CardSkeletons />}
+    </>
   );
 }
