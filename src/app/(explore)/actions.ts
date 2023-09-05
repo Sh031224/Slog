@@ -67,7 +67,7 @@ export async function fetchPosts({
   )();
 
   return {
-    posts: posts.map(v => ({ ...v, title: categoryId?.toString() + v.title })),
+    posts,
     count
   };
 }
