@@ -1,7 +1,7 @@
 'use client';
 
 import type { DialogProps } from '@radix-ui/react-alert-dialog';
-import { FileIcon, Laptop, Moon, Sun } from 'lucide-react';
+import { FileIcon, LaptopIcon, MoonIcon, SunIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import * as React from 'react';
@@ -85,21 +85,21 @@ export function SearchMenu({ ...props }: DialogProps) {
               value="Light"
               onSelect={() => runCommand(() => setTheme('light'))}
             >
-              <Sun className="mr-2 h-4 w-4" />
+              <SunIcon className="mr-2 h-4 w-4" />
               Light
             </CommandItem>
             <CommandItem
               value="Dark"
               onSelect={() => runCommand(() => setTheme('dark'))}
             >
-              <Moon className="mr-2 h-4 w-4" />
+              <MoonIcon className="mr-2 h-4 w-4" />
               Dark
             </CommandItem>
             <CommandItem
               value="System"
               onSelect={() => runCommand(() => setTheme('system'))}
             >
-              <Laptop className="mr-2 h-4 w-4" />
+              <LaptopIcon className="mr-2 h-4 w-4" />
               System
             </CommandItem>
           </CommandGroup>

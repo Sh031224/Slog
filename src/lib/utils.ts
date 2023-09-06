@@ -16,7 +16,7 @@ export function parseURL(input: string | UrlObject) {
   if (typeof input === 'string') {
     url.pathname = input;
 
-    return url.toString();
+    return decodeURIComponent(url.toString());
   }
 
   url.pathname = input.pathname || '';
@@ -25,5 +25,5 @@ export function parseURL(input: string | UrlObject) {
       ? new URLSearchParams(input.query as Record<string, string>).toString()
       : input.query ?? '';
 
-  return url.toString();
+  return decodeURIComponent(url.toString());
 }

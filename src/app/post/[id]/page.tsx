@@ -1,11 +1,11 @@
+import { PostType } from '@prisma/client';
 import { unstable_cache } from 'next/cache';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import PostContent from '@/features/post/[id]/components/content';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/database';
 import { buildKey } from '@/lib/utils';
-import { Skeleton } from '@/shared/components/ui/skeleton';
 import { TAGS } from '@/shared/constants';
 
 type Props = {
@@ -32,6 +32,10 @@ export default async function PostPage({ params: { id } }: Props) {
 
   if (!post || (post.isTemp && !user?.isAdmin)) {
     notFound();
+  }
+
+  if (post.type === PostType.EXTERNAL && post.url) {
+    redirect(post.url);
   }
 
   return (

@@ -2,9 +2,9 @@ import { unstable_cache } from 'next/cache';
 
 import { prisma } from '@/lib/database';
 import { buildKey } from '@/lib/utils';
+import SegmentNav from '@/shared/components/side-nav';
 import { TAGS } from '@/shared/constants';
 
-import CategoryButton from './category-button';
 import CategorySelectBox from './category-select-box';
 
 export default async function Categories() {
@@ -23,15 +23,12 @@ export default async function Categories() {
 
   return (
     <>
-      <CategoryButton href="/">All</CategoryButton>
+      <SegmentNav href="/">All</SegmentNav>
 
       {categories.map(category => (
-        <CategoryButton
-          key={category.id}
-          href={{ pathname: '/', query: { categoryId: category.id } }}
-        >
+        <SegmentNav key={category.id} href={`/?categoryId=${category.id}`}>
           {category.title}
-        </CategoryButton>
+        </SegmentNav>
       ))}
 
       {/* mobile */}

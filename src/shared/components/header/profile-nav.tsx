@@ -58,7 +58,7 @@ export function ProfileNav({ user }: Props) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/profile" className="cursor-pointer">
+          <Link href="/settings" className="cursor-pointer">
             Settings
           </Link>
         </DropdownMenuItem>

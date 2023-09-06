@@ -13,7 +13,9 @@ export default function PostContent({ data }: Props) {
           {data.title}
         </h1>
 
-        {data.thumbnail && <Image src={data.thumbnail} alt={data.title} fill />}
+        {data.thumbnail && (
+          <Image src={data.thumbnail} alt={data.title} fill priority />
+        )}
       </section>
     </div>
   );
