@@ -90,6 +90,7 @@ model Post {
   updatedAt   DateTime   @updatedAt
   createdAt   DateTime   @default(now())
   categoryId  Int
+  url         String?    @db.VarChar(300)
   category    Category   @relation(fields: [categoryId], references: [id])
   PostView    PostView[]
   Comment     Comment[]
