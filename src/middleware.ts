@@ -10,7 +10,7 @@ export const middleware = auth((req: NextAuthRequest) => {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  if (req.nextUrl.pathname.startsWith('/setting') && !isAuthorized) {
+  if (req.nextUrl.pathname.startsWith('/settings') && !isAuthorized) {
     let from = req.nextUrl.pathname;
     if (req.nextUrl.search) {
       from += req.nextUrl.search;
@@ -25,5 +25,5 @@ export const middleware = auth((req: NextAuthRequest) => {
 });
 
 export const config = {
-  matcher: ['/sign-in', '/setting']
+  matcher: ['/sign-in', '/settings']
 };
