@@ -1,6 +1,6 @@
-import { SignInForm } from './components/sign-in-form';
+import SignInForm from './components/sign-in-form';
 
-export function SignIn() {
+export default function SignIn() {
   return (
     <div className="mx-auto flex w-full flex-col items-center justify-center space-y-6 sm:w-[500px]">
       <div className="flex flex-col space-y-2 text-center sm:space-y-4">

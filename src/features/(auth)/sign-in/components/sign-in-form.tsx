@@ -26,7 +26,7 @@ import { signInSchema } from '../validators/auth';
 
 type SignInForm = z.infer<typeof signInSchema>;
 
-export function SignInForm() {
+export default function SignInForm() {
   const form = useForm<SignInForm>({
     resolver: zodResolver(signInSchema)
   });

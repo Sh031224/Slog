@@ -11,7 +11,7 @@ import {
   TableRow
 } from '@/shared/components/ui/table';
 
-export function Privacy() {
+export default function Privacy() {
   return (
     <article className="h-auto w-full py-6 lg:py-12">
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight transition-colors lg:text-5xl">
