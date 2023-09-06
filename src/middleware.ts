@@ -6,13 +6,11 @@ import { auth } from './lib/auth';
 export const middleware = auth((req: NextAuthRequest) => {
   const isAuthorized = !!req.auth.user;
 
-  if (req.nextUrl.pathname.startsWith('/sign-in')) {
-    if (isAuthorized) {
-      return NextResponse.redirect(new URL('/', req.url));
-    }
+  if (req.nextUrl.pathname.startsWith('/sign-in') && isAuthorized) {
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
-  if (req.nextUrl.pathname.startsWith('/profile')) {
+  if (req.nextUrl.pathname.startsWith('/setting') && !isAuthorized) {
     let from = req.nextUrl.pathname;
     if (req.nextUrl.search) {
       from += req.nextUrl.search;
@@ -27,5 +25,5 @@ export const middleware = auth((req: NextAuthRequest) => {
 });
 
 export const config = {
-  matcher: ['/sign-in', '/profile']
+  matcher: ['/sign-in', '/setting']
 };
