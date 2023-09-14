@@ -5,7 +5,7 @@ type Props = {
 
 export default function Aside({ title, children }: Props) {
   return (
-    <aside className="sticky top-[3.5rem] z-10 mb-4 h-fit w-full space-y-1 max-md:mt-4 max-md:bg-background/95 max-md:backdrop-blur md:top-[5.5rem] md:mb-0 md:mr-7 md:w-56 md:shrink-0">
+    <aside className="sticky top-[3.5rem] z-10 h-fit w-full max-md:bg-background/95 max-md:py-4 max-md:backdrop-blur md:top-[5.5rem] md:mr-7 md:w-56 md:shrink-0">
       {title && (
         <h2 className="mb-2 hidden px-4 text-lg font-semibold tracking-tight md:block">
           {title}
