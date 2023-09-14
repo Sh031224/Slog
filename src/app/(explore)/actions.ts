@@ -39,6 +39,17 @@ export async function fetchPosts({
         { description: { search: searchValue } }
       ]
     },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      thumbnail: true,
+      type: true,
+      updatedAt: true,
+      createdAt: true,
+      categoryId: true,
+      url: true
+    },
     orderBy: {
       createdAt: 'desc'
     },

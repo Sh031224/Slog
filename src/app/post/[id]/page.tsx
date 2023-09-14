@@ -38,9 +38,5 @@ export default async function PostPage({ params: { id } }: Props) {
     redirect(post.url);
   }
 
-  return (
-    <article>
-      <PostContent data={post} />
-    </article>
-  );
+  return <PostContent data={post} />;
 }

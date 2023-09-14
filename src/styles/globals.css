@@ -77,3 +77,9 @@
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 }
+
+@layer components {
+  .container {
+    @apply max-sm:px-4;
+  }
+}
