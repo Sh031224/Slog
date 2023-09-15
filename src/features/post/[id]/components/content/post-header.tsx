@@ -14,7 +14,7 @@ export default function PostHeader({ post }: Props) {
   const readingTime = calculateReadingTime(content ?? '');
 
   return (
-    <section className="flex w-full flex-col">
+    <section className="mb-8 flex w-full flex-col">
       <h1 className="text-[42px] font-extrabold tracking-tight max-md:text-3xl">
         {title}
       </h1>
@@ -27,7 +27,7 @@ export default function PostHeader({ post }: Props) {
 
       {thumbnail && (
         <Image
-          className="mt-10 h-auto w-full rounded align-middle max-md:mt-6"
+          className="mx-auto mt-10 h-auto w-full max-w-3xl rounded align-middle max-md:mt-6"
           src={thumbnail}
           alt={title}
           width={896}
