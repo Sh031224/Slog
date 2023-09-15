@@ -2,7 +2,8 @@ import type { Post } from '@prisma/client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { forwardRef } from 'react';
-import timeCounting from 'time-counting';
+
+import { prettyFormatter } from '@/lib/utils';
 
 type Props = {
   data: Post;
@@ -35,7 +36,7 @@ const Card = forwardRef<HTMLDivElement, Props>(({ data }, ref) => (
         </p>
 
         <p className="text-xs text-muted-foreground/80">
-          {timeCounting(data.createdAt)}
+          {prettyFormatter(data.createdAt)}
         </p>
       </div>
     </div>
