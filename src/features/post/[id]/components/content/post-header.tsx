@@ -4,11 +4,11 @@ import Image from 'next/image';
 import { calculateReadingTime, prettyFormatter } from '@/lib/utils';
 
 type Props = {
-  data: Post;
+  post: Post;
 };
 
-export default function PostHeader({ data }: Props) {
-  const { title, thumbnail, content, createdAt } = data;
+export default function PostHeader({ post }: Props) {
+  const { title, thumbnail, content, createdAt } = post;
 
   const formattedDate = prettyFormatter(createdAt);
   const readingTime = calculateReadingTime(content ?? '');
@@ -27,7 +27,7 @@ export default function PostHeader({ data }: Props) {
 
       {thumbnail && (
         <Image
-          className="mt-10 h-auto w-full align-middle max-md:mt-6"
+          className="mt-10 h-auto w-full rounded align-middle max-md:mt-6"
           src={thumbnail}
           alt={title}
           width={896}

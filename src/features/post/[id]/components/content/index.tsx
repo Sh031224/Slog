@@ -5,15 +5,15 @@ import Markdown from '@/shared/components/markdown';
 import PostHeader from './post-header';
 
 type Props = {
-  data: Post;
+  post: Post;
 };
 
-export default function PostContent({ data }: Props) {
+export default function PostContent({ post }: Props) {
   return (
-    <div className="flex flex-col">
-      <PostHeader data={data} />
+    <>
+      <PostHeader post={post} />
 
-      <Markdown content={data.content || ''} />
-    </div>
+      <Markdown content={post.content || ''} />
+    </>
   );
 }

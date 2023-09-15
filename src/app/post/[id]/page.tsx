@@ -1,8 +1,9 @@
 import { PostType } from '@prisma/client';
+import type { Metadata } from 'next';
 import { unstable_cache } from 'next/cache';
 import { notFound, redirect } from 'next/navigation';
 
-import PostContent from '@/features/post/[id]/components/content';
+import PostDetail from '@/features/post/[id]';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/database';
 import { buildKey } from '@/lib/utils';
@@ -13,6 +14,47 @@ type Props = {
     id: string;
   };
 };
+
+export async function generateMetadata({
+  params: { id }
+}: Props): Promise<Metadata> {
+  const post = await unstable_cache(
+    () =>
+      prisma.post.findUnique({
+        where: {
+          id: Number(id)
+        }
+      }),
+    buildKey(TAGS.post, id),
+    {
+      tags: buildKey(TAGS.post + id)
+    }
+  )();
+
+  if (!post || post.isTemp) {
+    return {};
+  }
+
+  return {
+    title: post.title,
+    description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description ?? undefined,
+      url: `${process.env.NEXT_PUBLIC_APP_URL}/post/${id}`,
+      type: 'article',
+      publishedTime: post.createdAt.toUTCString(),
+      authors: ['Sh031224'],
+      ...(post.thumbnail && { images: [post.thumbnail] })
+    },
+    twitter: {
+      title: post.title,
+      description: post.description ?? undefined,
+      card: 'summary_large_image',
+      ...(post.thumbnail && { images: [post.thumbnail] })
+    }
+  };
+}
 
 export default async function PostPage({ params: { id } }: Props) {
   const user = (await auth())?.user;
@@ -38,5 +80,5 @@ export default async function PostPage({ params: { id } }: Props) {
     redirect(post.url);
   }
 
-  return <PostContent data={post} />;
+  return <PostDetail post={post} />;
 }

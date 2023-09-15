@@ -74,7 +74,7 @@ export async function fetchPosts({
         prisma.post.count({ where: query.where })
       ]),
     buildKey(...tags, JSON.stringify({ categoryId, page, LIMIT, search })),
-    { tags: tags }
+    { tags }
   )();
 
   return {
