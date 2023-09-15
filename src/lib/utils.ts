@@ -1,7 +1,9 @@
 import { type ClassValue, clsx } from 'clsx';
 import dayjs from 'dayjs';
+import { compiler as markdownCompiler } from 'markdown-to-jsx';
 import { parse as DOMParse } from 'node-html-parser';
 import type { UrlObject } from 'node:url';
+import reactElementToJSXString from 'react-element-to-jsx-string';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -45,13 +47,19 @@ export function findImageCount(content: string) {
 }
 
 export function strip(html: string) {
-  return DOMParse(html).textContent;
+  return DOMParse(html, {
+    comment: true
+  }).textContent;
 }
 
 export function calculateReadingTime(content: string, wpm = 225) {
   const imageCount = findImageCount(content);
   const parsedContent = strip(
-    content.replaceAll(/!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g, '')
+    reactElementToJSXString(
+      markdownCompiler(
+        content.replaceAll(/!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g, '')
+      )
+    )
   );
 
   const wordCount = parsedContent

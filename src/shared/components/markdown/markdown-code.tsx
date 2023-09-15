@@ -15,6 +15,7 @@ export default function MarkdownCode({ children, ...props }: Props) {
     <SyntaxHighlighter
       language={match[1]}
       PreTag="div"
+      className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold"
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       style={dracula as any}
       {...props}
@@ -22,6 +23,11 @@ export default function MarkdownCode({ children, ...props }: Props) {
       {children}
     </SyntaxHighlighter>
   ) : (
-    <code {...props}>{children}</code>
+    <code
+      {...props}
+      className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold"
+    >
+      {children}
+    </code>
   );
 }
