@@ -57,11 +57,12 @@ export function ProfileNav({ user }: Props) {
         </div>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem asChild>
+        {/* TODO */}
+        {/* <DropdownMenuItem asChild>
           <Link href="/settings" className="cursor-pointer">
             Settings
           </Link>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
 
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer" onSelect={handleSignOut}>
