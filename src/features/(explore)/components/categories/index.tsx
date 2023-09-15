@@ -13,7 +13,7 @@ export default async function Categories() {
   const categories = await unstable_cache(
     () =>
       prisma.category.findMany({
-        orderBy: { orderNumber: 'desc' }
+        orderBy: { orderNumber: 'asc' }
       }),
     tags,
     {
