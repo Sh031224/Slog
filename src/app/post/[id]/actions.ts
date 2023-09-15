@@ -26,10 +26,8 @@ export async function incrementPostView(postId: number, ip: string) {
   )();
 
   if (
-    !latestView ||
-    (latestView &&
-      latestView[0] &&
-      dayjs().diff(dayjs(latestView[0].createdAt), 'hours') > 2)
+    !latestView.length ||
+    (latestView[0] && dayjs().diff(dayjs(latestView[0].createdAt), 'hours') > 2)
   ) {
     await prisma.$transaction([
       prisma.postView.create({

@@ -38,6 +38,7 @@
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
+    "crypto": "^1.0.1",
     "dayjs": "^1.11.9",
     "eslint": "8.44.0",
     "lucide-react": "^0.258.0",
