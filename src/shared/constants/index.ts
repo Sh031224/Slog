@@ -1,5 +1,6 @@
 export const TAGS = {
   categories: 'CATEGORIES',
   posts: 'POSTS',
-  post: 'POST'
+  post: 'POST',
+  postView: 'POST_VIEW'
 };

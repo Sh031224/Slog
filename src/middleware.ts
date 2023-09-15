@@ -24,17 +24,7 @@ export const middleware = auth((req: NextAuthRequest) => {
   if (req.nextUrl.pathname.startsWith('/post')) {
     const requestHeaders = new Headers(req.headers);
 
-    const ip =
-      req.ip ||
-      req.headers.get('x-real-ip') ||
-      req.headers.get('x-forwarded-for') ||
-      '';
-
-    console.log(
-      req.ip,
-      req.headers.get('x-real-ip'),
-      req.headers.get('x-forwarded-for')
-    );
+    const ip = req.ip || '';
 
     requestHeaders.set('x-forwarded-for', ip);
 
