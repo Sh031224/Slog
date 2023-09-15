@@ -45,7 +45,7 @@ export async function generateMetadata({
       description: post.description ?? undefined,
       url: `${process.env.NEXT_PUBLIC_APP_URL}/post/${id}`,
       type: 'article',
-      publishedTime: post.createdAt.toISOString(),
+      publishedTime: new Date(post.createdAt).toISOString(),
       authors: ['Sh031224'],
       ...(post.thumbnail && { images: [post.thumbnail] })
     },

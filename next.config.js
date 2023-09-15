@@ -11,6 +11,10 @@ const nextConfig = {
         hostname: 'slog.website',
         port: '',
         pathname: '/api/static/**'
+      },
+      {
+        protocol: 'https',
+        hostname: '*.public.blob.vercel-storage.com'
       }
     ]
   }
