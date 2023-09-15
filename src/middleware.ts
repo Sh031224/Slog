@@ -21,9 +21,33 @@ export const middleware = auth((req: NextAuthRequest) => {
     );
   }
 
+  if (req.nextUrl.pathname.startsWith('/post')) {
+    const requestHeaders = new Headers(req.headers);
+
+    const ip =
+      req.ip ||
+      req.headers.get('x-real-ip') ||
+      req.headers.get('x-forwarded-for') ||
+      '';
+
+    console.log(
+      req.ip,
+      req.headers.get('x-real-ip'),
+      req.headers.get('x-forwarded-for')
+    );
+
+    requestHeaders.set('x-forwarded-for', ip);
+
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders
+      }
+    });
+  }
+
   return NextResponse.next();
 });
 
 export const config = {
-  matcher: ['/sign-in', '/settings']
+  matcher: ['/sign-in', '/settings', '/post/:path*']
 };
