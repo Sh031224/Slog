@@ -11,7 +11,7 @@ type Props = {
 
 export default function ExploreLayout({ children }: Props) {
   return (
-    <div className="flex h-full w-full flex-col md:mt-8 md:flex-row">
+    <div className="flex w-full flex-col md:mt-8 md:flex-row">
       <Aside title="Categories">
         <Suspense
           fallback={

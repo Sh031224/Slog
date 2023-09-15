@@ -50,17 +50,17 @@ export default function RootLayout({ children }: Props) {
           defer
         ></script>
       </head>
-      <body
-        className={cn('min-h-screen font-sans antialiased', fontSans.variable)}
-      >
+      <body className={cn('font-sans antialiased', fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
+          <div className="relative min-h-screen">
+            <Header />
 
-          <div className="flex w-full justify-center">
-            <main className="container relative">{children}</main>
+            <div className="flex w-full justify-center">
+              <main className="container relative">{children}</main>
+            </div>
+
+            <Footer />
           </div>
-
-          <Footer />
 
           <Toaster />
         </ThemeProvider>

@@ -14,7 +14,7 @@ import {
 export default function Privacy() {
   return (
     <article className="h-auto w-full py-6 lg:py-12">
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight transition-colors lg:text-5xl">
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
         개인정보 처리 방침
       </h1>
 
@@ -92,7 +92,7 @@ export default function Privacy() {
 
       <h2
         id="1"
-        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors"
+        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
       >
         1. 개인정보의 처리 목적
       </h2>
@@ -116,7 +116,7 @@ export default function Privacy() {
 
       <h2
         id="2"
-        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors"
+        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
       >
         2. 수집하는 개인정보의 처리 및 보유 기간
       </h2>
@@ -142,7 +142,7 @@ export default function Privacy() {
 
       <h2
         id="3"
-        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors"
+        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
       >
         3. 처리하는 개인정보의 항목
       </h2>
@@ -162,7 +162,7 @@ export default function Privacy() {
 
       <h2
         id="4"
-        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors"
+        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
       >
         4. 개인정보의 파기절차 및 파기방법
       </h2>
@@ -190,7 +190,7 @@ export default function Privacy() {
 
       <h2
         id="5"
-        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors"
+        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
       >
         5. 개인정보의 안전성 확보조치에 관한 사항
       </h2>
@@ -211,7 +211,7 @@ export default function Privacy() {
 
       <h2
         id="6"
-        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors"
+        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
       >
         6. 개인정보 자동 수집 장치의 설치, 운영 및 거부에 관한 사항
       </h2>
@@ -255,7 +255,7 @@ export default function Privacy() {
 
       <h2
         id="7"
-        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors"
+        className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
       >
         7. 정보주체의 권익침해에 대한 구제방법
       </h2>

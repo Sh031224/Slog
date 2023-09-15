@@ -4,6 +4,6 @@ type Props = {
 
 export default function Container({ children }: Props) {
   return (
-    <section className="min-h-[calc(100vh-14rem)] w-full">{children}</section>
+    <section className="relative min-h-[calc(100vh-14rem)]">{children}</section>
   );
 }

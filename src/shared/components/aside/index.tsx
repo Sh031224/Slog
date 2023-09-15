@@ -1,3 +1,5 @@
+import { ScrollArea } from '../ui/scroll-area';
+
 type Props = {
   title?: string;
   children: React.ReactNode;
@@ -12,9 +14,9 @@ export default function Aside({ title, children }: Props) {
         </h2>
       )}
 
-      <div className="max-md:!mt-0 md:max-h-[80vh] md:space-y-2 md:overflow-y-auto md:pb-4">
-        {children}
-      </div>
+      <ScrollArea className="md:max-h-[80vh]">
+        <div className="max-md:!mt-0 md:space-y-2 md:pb-4">{children}</div>
+      </ScrollArea>
     </aside>
   );
 }
