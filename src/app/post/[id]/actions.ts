@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { revalidateTag, unstable_cache } from 'next/cache';
 
 import { prisma } from '@/lib/database';
+import encrypt from '@/lib/encrypt';
 import { buildKey } from '@/lib/utils';
 import { TAGS } from '@/shared/constants';
 
@@ -9,10 +10,12 @@ export async function incrementPostView(postId: number, ip: string) {
   'use server';
   const tagArguments = TAGS.postView + postId.toString() + ip;
 
+  const encryptedIp = await encrypt(ip);
+
   const latestView = await unstable_cache(
     () =>
       prisma.postView.findMany({
-        where: { postId, ip },
+        where: { postId, ip: encryptedIp },
         orderBy: {
           id: 'desc'
         },
@@ -32,7 +35,7 @@ export async function incrementPostView(postId: number, ip: string) {
     await prisma.$transaction([
       prisma.postView.create({
         data: {
-          ip,
+          ip: encryptedIp,
           postId
         }
       })
