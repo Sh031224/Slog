@@ -33,11 +33,8 @@ export const usePostStore = create<PostStore>(set => ({
     return isInitialized;
   },
   next: response =>
-    set(state => {
-      console.log(state.list.length + response.posts.length, 'set');
-      return {
+    set(state => ({
         page: state.page + 1,
         list: [...state.list, ...response.posts]
-      };
-    })
+    }))
 }));

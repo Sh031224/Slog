@@ -1,29 +1,29 @@
+'use server';
 import dayjs from 'dayjs';
 import { revalidateTag, unstable_cache } from 'next/cache';
 
 import { prisma } from '@/lib/database';
 import encrypt from '@/lib/encrypt';
 import { buildKey } from '@/lib/utils';
-import { TAGS } from '@/shared/constants';
+import { DYNAMIC_CACHE_TAGS } from '@/shared/constants';
 
-export async function fetchPostDetail(id: number | string) {
+export async function fetchPostDetail(id: number) {
   return unstable_cache(
     () =>
       prisma.post.findUnique({
         where: {
-          id: Number(id)
+          id
         }
       }),
-    buildKey(TAGS.post, id.toString()),
+    buildKey('FETCH_POST_DETAIL', id.toString()),
     {
-      tags: buildKey(TAGS.post + id)
+      tags: buildKey(DYNAMIC_CACHE_TAGS.post(id))
     }
   )();
 }
 
 export async function createPostView(postId: number, ip: string) {
-  'use server';
-  const tagArguments = TAGS.postView + postId.toString() + ip;
+  const tagArguments = DYNAMIC_CACHE_TAGS.postView(postId, ip);
 
   const encryptedIp = await encrypt(ip);
 
@@ -36,10 +36,10 @@ export async function createPostView(postId: number, ip: string) {
         },
         take: 1
       }),
-    buildKey(tagArguments),
+    buildKey('FETCH_POST_VIEW', JSON.stringify({ postId, ip })),
     {
       tags: buildKey(tagArguments),
-      revalidate: 10800
+      revalidate: 7200
     }
   )();
 
@@ -100,9 +100,9 @@ export async function fetchComments(postId: number) {
           updatedAt: true
         }
       }),
-    buildKey(TAGS.post, postId),
+    buildKey('FETCH_COMMENTS', postId.toString()),
     {
-      tags: buildKey(TAGS.post + id)
+      tags: buildKey(DYNAMIC_CACHE_TAGS.comments(postId))
     }
   )();
 }

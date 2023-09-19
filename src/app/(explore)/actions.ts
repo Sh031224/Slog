@@ -1,24 +1,22 @@
+'use server';
 import type { Prisma } from '@prisma/client';
 import type { DefaultArgs } from '@prisma/client/runtime/library';
 import { unstable_cache } from 'next/cache';
 
 import type { FetchPostsParams } from '@/features/(explore)/types';
 import { prisma } from '@/lib/database';
-import { buildCacheTags, buildKey } from '@/lib/utils';
-import { CACHE_KEYS, DYNAMIC_CACHE_TAGS, TAGS } from '@/shared/constants';
+import { buildKey } from '@/lib/utils';
+import { CACHE_TAGS } from '@/shared/constants';
 
 export async function fetchCategories() {
-  'use server';
-  const tags = buildKey(TAGS.categories);
-
   return unstable_cache(
     () =>
       prisma.category.findMany({
         orderBy: { orderNumber: 'asc' }
       }),
-    tags,
+    ['FETCH_CATEGORIES'],
     {
-      tags
+      tags: buildKey(CACHE_TAGS.categories)
     }
   )();
 }
@@ -26,7 +24,6 @@ export async function fetchCategories() {
 const LIMIT = 18 as const;
 
 export async function fetchPosts(params: FetchPostsParams) {
-  'use server';
   const { categoryId, page = 1, search } = params;
 
   const searchValue = search
@@ -74,16 +71,18 @@ export async function fetchPosts(params: FetchPostsParams) {
     delete query.where?.categoryId;
   }
 
-  const tags = buildKey(TAGS.allPosts);
-
   const [posts, count] = await unstable_cache(
     () =>
       prisma.$transaction([
         prisma.post.findMany(query),
         prisma.post.count({ where: query.where })
       ]),
-    buildKey(...tags, JSON.stringify({ categoryId, page, LIMIT, search })),
-    { tags: buildCacheTags(DYNAMIC_CACHE_TAGS.posts(params), []) }
+
+    buildKey(
+      'FETCH_POSTS',
+      JSON.stringify({ categoryId, page, LIMIT, search })
+    ),
+    { tags: buildKey(CACHE_TAGS.posts) }
   )();
 
   return {

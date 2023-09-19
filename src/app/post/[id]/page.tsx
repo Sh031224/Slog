@@ -19,7 +19,7 @@ export const runtime = 'edge';
 export async function generateMetadata({
   params: { id }
 }: Props): Promise<Metadata> {
-  const post = await fetchPostDetail(id);
+  const post = await fetchPostDetail(Number(id));
 
   if (!post || post.isTemp) {
     return {};
@@ -49,7 +49,13 @@ export async function generateMetadata({
 export default async function PostPage({ params: { id } }: Props) {
   const user = (await auth())?.user;
 
-  const post = await fetchPostDetail(id);
+  const numericId = Number(id);
+
+  if (Number.isNaN(numericId)) {
+    notFound();
+  }
+
+  const post = await fetchPostDetail(numericId);
 
   if (!post || (post.isTemp && !user?.isAdmin)) {
     notFound();
@@ -59,7 +65,7 @@ export default async function PostPage({ params: { id } }: Props) {
     redirect(post.url);
   }
 
-  createPostView(Number(id), headers().get('x-forwarded-for') || '');
+  createPostView(numericId, headers().get('x-forwarded-for') || '');
 
   return <PostDetail post={post} />;
 }
