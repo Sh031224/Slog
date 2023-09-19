@@ -1,6 +1,9 @@
 import type { Post } from '@prisma/client';
 
-import PostContent from './components/content';
+import Markdown from '@/shared/components/markdown';
+
+import Comments from './components/comments';
+import PostHeader from './components/post-header';
 
 type Props = {
   post: Post;
@@ -9,7 +12,11 @@ type Props = {
 export default function PostDetail({ post }: Props) {
   return (
     <div className="flex w-full flex-col">
-      <PostContent post={post} />
+      <PostHeader post={post} />
+
+      <Markdown content={post.content || ''} />
+
+      <Comments postId={post.id} />
     </div>
   );
 }

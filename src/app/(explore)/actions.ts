@@ -2,24 +2,33 @@ import type { Prisma } from '@prisma/client';
 import type { DefaultArgs } from '@prisma/client/runtime/library';
 import { unstable_cache } from 'next/cache';
 
+import type { FetchPostsParams } from '@/features/(explore)/types';
 import { prisma } from '@/lib/database';
-import { buildKey } from '@/lib/utils';
-import { TAGS } from '@/shared/constants';
+import { buildCacheTags, buildKey } from '@/lib/utils';
+import { CACHE_KEYS, DYNAMIC_CACHE_TAGS, TAGS } from '@/shared/constants';
+
+export async function fetchCategories() {
+  'use server';
+  const tags = buildKey(TAGS.categories);
+
+  return unstable_cache(
+    () =>
+      prisma.category.findMany({
+        orderBy: { orderNumber: 'asc' }
+      }),
+    tags,
+    {
+      tags
+    }
+  )();
+}
 
 const LIMIT = 18 as const;
 
-export type FetchPostsParams = {
-  page?: number;
-  categoryId?: number;
-  search?: string;
-};
-
-export async function fetchPosts({
-  categoryId,
-  page = 1,
-  search
-}: FetchPostsParams) {
+export async function fetchPosts(params: FetchPostsParams) {
   'use server';
+  const { categoryId, page = 1, search } = params;
+
   const searchValue = search
     ?.toString()
     .split(' ')
@@ -65,7 +74,7 @@ export async function fetchPosts({
     delete query.where?.categoryId;
   }
 
-  const tags = buildKey(TAGS.categories);
+  const tags = buildKey(TAGS.allPosts);
 
   const [posts, count] = await unstable_cache(
     () =>
@@ -74,7 +83,7 @@ export async function fetchPosts({
         prisma.post.count({ where: query.where })
       ]),
     buildKey(...tags, JSON.stringify({ categoryId, page, LIMIT, search })),
-    { tags }
+    { tags: buildCacheTags(DYNAMIC_CACHE_TAGS.posts(params), []) }
   )();
 
   return {

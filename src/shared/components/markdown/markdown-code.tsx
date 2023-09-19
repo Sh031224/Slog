@@ -1,5 +1,5 @@
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 type Props = Combine<
   {
@@ -14,7 +14,7 @@ export default function MarkdownCode({ children, ...props }: Props) {
   return match ? (
     <SyntaxHighlighter
       language={match[1]}
-      PreTag="pre"
+      codeTagProps={{ className: 'rounded' }}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       style={vscDarkPlus as any}
       {...props}

@@ -14,6 +14,13 @@ export function buildKey(...tag: string[]) {
   return [...tag];
 }
 
+export function buildCacheTags([defaultKey, ...dynamicKey]: [
+  defaultKey: string,
+  ...string[]
+]) {
+  return [defaultKey, ...dynamicKey];
+}
+
 export function parseURL(input: string | UrlObject) {
   const url = new URL(process.env.NEXT_PUBLIC_APP_URL);
 

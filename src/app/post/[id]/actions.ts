@@ -6,7 +6,22 @@ import encrypt from '@/lib/encrypt';
 import { buildKey } from '@/lib/utils';
 import { TAGS } from '@/shared/constants';
 
-export async function incrementPostView(postId: number, ip: string) {
+export async function fetchPostDetail(id: number | string) {
+  return unstable_cache(
+    () =>
+      prisma.post.findUnique({
+        where: {
+          id: Number(id)
+        }
+      }),
+    buildKey(TAGS.post, id.toString()),
+    {
+      tags: buildKey(TAGS.post + id)
+    }
+  )();
+}
+
+export async function createPostView(postId: number, ip: string) {
   'use server';
   const tagArguments = TAGS.postView + postId.toString() + ip;
 
@@ -43,4 +58,51 @@ export async function incrementPostView(postId: number, ip: string) {
 
     revalidateTag(tagArguments);
   }
+}
+
+export async function fetchComments(postId: number) {
+  return unstable_cache(
+    () =>
+      prisma.comment.findUnique({
+        where: {
+          id: postId
+        },
+        select: {
+          id: true,
+          isPrivate: true,
+          content: true,
+          Reply: {
+            select: {
+              id: true,
+              isPrivate: true,
+              content: true,
+              createdAt: true,
+              updatedAt: true,
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  image: true,
+                  isAdmin: true
+                }
+              }
+            }
+          },
+          user: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+              isAdmin: true
+            }
+          },
+          createdAt: true,
+          updatedAt: true
+        }
+      }),
+    buildKey(TAGS.post, postId),
+    {
+      tags: buildKey(TAGS.post + id)
+    }
+  )();
 }
