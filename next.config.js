@@ -2,7 +2,7 @@
 const nextConfig = {
   experimental: {
     serverActions: true,
-    serverComponentsExternalPackages: ['@prisma/client','shiki', 'vscode-oniguruma']
+    serverComponentsExternalPackages: ['@prisma/client']
   },
   images: {
     remotePatterns: [
