@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2Icon } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import * as React from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type * as z from 'zod';
 
@@ -31,7 +31,7 @@ export default function SignInForm() {
     resolver: zodResolver(signInSchema)
   });
 
-  const [isLoading, setIsLoading] = React.useState({
+  const [isLoading, setIsLoading] = useState({
     email: false,
     github: false,
     facebook: false
