@@ -1,4 +1,6 @@
 'use server';
+import type { Prisma } from '@prisma/client';
+import type { DefaultArgs } from '@prisma/client/runtime/library';
 import dayjs from 'dayjs';
 import { revalidateTag, unstable_cache } from 'next/cache';
 
@@ -61,33 +63,21 @@ export async function createPostView(postId: number, ip: string) {
 }
 
 export async function fetchComments(postId: number) {
-  return unstable_cache(
-    () =>
-      prisma.comment.findUnique({
-        where: {
-          id: postId
-        },
+  const findQuery: Prisma.CommentFindManyArgs<DefaultArgs> = {
+    where: {
+      id: postId
+    },
+    select: {
+      id: true,
+      isPrivate: true,
+      content: true,
+      Reply: {
         select: {
           id: true,
           isPrivate: true,
           content: true,
-          Reply: {
-            select: {
-              id: true,
-              isPrivate: true,
-              content: true,
-              createdAt: true,
-              updatedAt: true,
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  image: true,
-                  isAdmin: true
-                }
-              }
-            }
-          },
+          createdAt: true,
+          updatedAt: true,
           user: {
             select: {
               id: true,
@@ -95,11 +85,29 @@ export async function fetchComments(postId: number) {
               image: true,
               isAdmin: true
             }
-          },
-          createdAt: true,
-          updatedAt: true
+          }
         }
-      }),
+      },
+      user: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          isAdmin: true
+        }
+      },
+      createdAt: true,
+      updatedAt: true
+    }
+  };
+
+  return unstable_cache(
+    () =>
+      prisma.$transaction([
+        prisma.comment.findMany(findQuery),
+        prisma.comment.count({ where: { postId } }),
+        prisma.reply.count({ where: { postId } })
+      ]),
     buildKey('FETCH_COMMENTS', postId.toString()),
     {
       tags: buildKey(DYNAMIC_CACHE_TAGS.comments(postId))

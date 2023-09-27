@@ -1,15 +1,16 @@
-import type { Comment } from '@prisma/client';
+import { Suspense } from 'react';
 
 import { auth } from '@/lib/auth';
-import { Skeleton } from '@/shared/components/ui/skeleton';
 
 import CommentForm from './comment-form';
+import CommentList from './comment-list';
+import CommentSkeletons from './comment-skeletons';
 
 type Props = {
   postId: number;
 };
 
-export default async function Comments({ postId }: Props) {
+export default async function Comments(props: Props) {
   const user = (await auth())?.user;
 
   return (
@@ -19,7 +20,9 @@ export default async function Comments({ postId }: Props) {
     >
       <CommentForm user={user} />
 
-      <Skeleton />
+      <Suspense fallback={<CommentSkeletons />}>
+        <CommentList {...props} />
+      </Suspense>
     </section>
   );
 }

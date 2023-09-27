@@ -41,7 +41,7 @@ export default function CommentForm({ user }: Props) {
           ) : (
             <AvatarFallback>
               <span className="sr-only">{user?.name || 'Anonymous'}</span>
-              <UserIcon className="h-6 w-6" />
+              <UserIcon className="h-4 w-4 sm:h-6 sm:w-6" />
             </AvatarFallback>
           )}
         </Avatar>
