@@ -31,6 +31,7 @@ export async function Header() {
             href="https://github.com/Sh031224/Slog"
             className="block"
             rel="noopener noreferrer"
+            tabIndex={-1}
           >
             <Button variant="ghost" className="w-9 shrink-0 px-0">
               <GithubIcon className="h-5 w-5" />
