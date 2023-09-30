@@ -75,7 +75,7 @@ export default function SignInForm() {
     });
   };
 
-  const disabled = isLoading.email || isLoading.github || isLoading.facebook;
+  const isDisabled = isLoading.email || isLoading.github || isLoading.facebook;
 
   return (
     <div className="flex w-full items-center justify-center">
@@ -95,7 +95,7 @@ export default function SignInForm() {
                     <Input
                       placeholder="Enter your email"
                       {...field}
-                      disabled={disabled}
+                      disabled={isDisabled}
                     />
                   </FormControl>
 
@@ -104,7 +104,7 @@ export default function SignInForm() {
               )}
             />
 
-            <Button className="w-full" type="submit" disabled={disabled}>
+            <Button className="w-full" type="submit" disabled={isDisabled}>
               {isLoading.email && (
                 <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
               )}
@@ -125,7 +125,7 @@ export default function SignInForm() {
             variant="secondary"
             type="button"
             onClick={handleClickSocial('github')}
-            disabled={disabled}
+            disabled={isDisabled}
           >
             {isLoading.github ? (
               <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
@@ -138,7 +138,7 @@ export default function SignInForm() {
           <Button
             type="button"
             onClick={handleClickSocial('facebook')}
-            disabled={disabled}
+            disabled={isDisabled}
             className="bg-blue-700 text-primary-foreground hover:bg-blue-600 dark:bg-blue-800 dark:text-secondary-foreground dark:hover:bg-blue-700"
           >
             {isLoading.facebook ? (
