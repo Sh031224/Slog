@@ -4,6 +4,7 @@ export type FetchPostsParams = {
   page?: number;
   categoryId?: number;
   search?: string;
+  limit?: number;
 };
 
 export type FetchPostsResponse = {

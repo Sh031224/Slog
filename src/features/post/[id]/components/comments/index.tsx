@@ -1,12 +1,4 @@
-import {
-  createComment,
-  createReply,
-  deleteComment,
-  deleteReply,
-  fetchComments,
-  updateComment,
-  updateReply
-} from '@/app/post/[id]/actions';
+import { fetchComments } from '@/app/post/[id]/actions';
 import { auth } from '@/lib/auth';
 
 import CommentList from './comment-list';

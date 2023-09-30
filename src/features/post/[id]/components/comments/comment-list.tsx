@@ -49,7 +49,7 @@ export default function CommentList({ user, postId, comments }: Props) {
 
             <div className="ml-14 flex flex-col gap-4">
               {comment.Reply.map(reply => (
-                <div className="mt-2" key={reply.id}>
+                <div className="mt-4" key={reply.id}>
                   <CommentItem
                     comment={reply}
                     user={user}
