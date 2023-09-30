@@ -26,13 +26,13 @@ export const metadata: Metadata = {
     description:
       "This is sh031224's tech blog mainly about front-end technology.",
     url: process.env.NEXT_PUBLIC_APP_URL,
-    images: ['/og.svg']
+    images: ['/opengraph-image.svg']
   },
   twitter: {
     title: 'Slog',
     description:
       "This is sh031224's tech blog mainly about front-end technology.",
-    images: ['/og.svg'],
+    images: ['/opengraph-image.svg'],
     card: 'summary_large_image'
   }
 };

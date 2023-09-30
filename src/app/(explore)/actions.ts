@@ -21,10 +21,8 @@ export async function fetchCategories() {
   )();
 }
 
-const LIMIT = 18 as const;
-
 export async function fetchPosts(params: FetchPostsParams) {
-  const { categoryId, page = 1, search } = params;
+  const { categoryId, page = 1, search, limit = 18 } = params;
 
   const searchValue = search
     ?.toString()
@@ -59,8 +57,8 @@ export async function fetchPosts(params: FetchPostsParams) {
     orderBy: {
       createdAt: 'desc'
     },
-    skip: (page - 1) * LIMIT,
-    take: LIMIT
+    skip: (page - 1) * limit,
+    take: limit
   };
 
   if (search === undefined) {
@@ -80,7 +78,7 @@ export async function fetchPosts(params: FetchPostsParams) {
 
     buildKey(
       'FETCH_POSTS',
-      JSON.stringify({ categoryId, page, LIMIT, search })
+      JSON.stringify({ categoryId, page, limit, search })
     ),
     { tags: buildKey(CACHE_TAGS.posts) }
   )();
