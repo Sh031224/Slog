@@ -1,6 +1,6 @@
 {
   "name": "slog",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "packageManager": "pnpm@8.6.3",
   "repository": {
@@ -36,6 +36,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.4",
     "@types/rss": "^0.0.30",
+    "@vercel/analytics": "^1.0.2",
     "@vercel/blob": "^0.12.2",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",

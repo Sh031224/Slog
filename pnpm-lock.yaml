@@ -56,6 +56,9 @@ dependencies:
   '@types/rss':
     specifier: ^0.0.30
     version: 0.0.30
+  '@vercel/analytics':
+    specifier: ^1.0.2
+    version: 1.0.2
   '@vercel/blob':
     specifier: ^0.12.2
     version: 0.12.2
@@ -1748,6 +1751,10 @@ packages:
       '@typescript-eslint/types': 5.62.0
       eslint-visitor-keys: 3.4.1
     dev: true
+
+  /@vercel/analytics@1.0.2:
+    resolution: {integrity: sha512-BZFxVrv24VbNNl5xMxqUojQIegEeXMI6rX3rg1uVLYUEXsuKNBSAEQf4BWEcjQDp/8aYJOj6m8V4PUA3x/cxgg==}
+    dev: false
 
   /@vercel/blob@0.12.2:
     resolution: {integrity: sha512-TlHgiTVlRu3NyLHc5KYqSJ57LTeKZL9uoKV0Tp3mBDRglPYx63XIEyD98TvvKjefT/TcUbODhIaorvTym6xX0Q==}

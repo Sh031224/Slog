@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 
 import { fontSans } from '@/lib/fonts';
@@ -64,6 +65,8 @@ export default function RootLayout({ children }: Props) {
 
           <Toaster />
         </ThemeProvider>
+
+        <Analytics />
       </body>
     </html>
   );
