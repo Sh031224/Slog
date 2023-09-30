@@ -4,6 +4,8 @@ import { fetchPosts } from './actions';
 
 export const runtime = 'edge';
 
+export const revalidate = 10800;
+
 export default async function ExplorePage({
   searchParams
 }: {
