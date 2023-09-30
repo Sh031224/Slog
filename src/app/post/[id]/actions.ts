@@ -40,7 +40,7 @@ export async function createPostView(postId: number, ip: string) {
     buildKey('FETCH_POST_VIEW', JSON.stringify({ postId, ip })),
     {
       tags: buildKey(tagArguments),
-      revalidate: 7200
+      revalidate: 3600
     }
   )();
 
@@ -115,7 +115,7 @@ export async function fetchComments(postId: number) {
 }
 
 export async function createComment(
-  params: CreateCommentParams,
+  { postId, ...params }: CreateCommentParams,
   userId?: string
 ) {
   if (!userId) {
@@ -125,9 +125,78 @@ export async function createComment(
   await prisma.comment.create({
     data: {
       ...params,
+      postId,
       userId
     }
   });
 
-  revalidateTag(DYNAMIC_CACHE_TAGS.comments(params.postId));
+  revalidateTag(DYNAMIC_CACHE_TAGS.comments(postId));
+}
+
+export async function createReply(
+  { commentId, postId, ...params }: CreateCommentParams,
+  userId?: string
+) {
+  if (!userId || !commentId) {
+    return;
+  }
+
+  await prisma.reply.create({
+    data: {
+      ...params,
+      commentId,
+      postId,
+      userId
+    }
+  });
+
+  revalidateTag(DYNAMIC_CACHE_TAGS.comments(postId));
+}
+
+export async function updateComment(
+  id: number,
+  { postId, ...params }: CreateCommentParams
+) {
+  await prisma.comment.update({
+    where: {
+      id
+    },
+    data: params
+  });
+
+  revalidateTag(DYNAMIC_CACHE_TAGS.comments(postId));
+}
+
+export async function updateReply(
+  id: number,
+  { postId, ...params }: CreateCommentParams
+) {
+  await prisma.reply.update({
+    where: {
+      id
+    },
+    data: params
+  });
+
+  revalidateTag(DYNAMIC_CACHE_TAGS.comments(postId));
+}
+
+export async function deleteComment(commentId: number, postId: number) {
+  await prisma.comment.delete({
+    where: {
+      id: commentId
+    }
+  });
+
+  revalidateTag(DYNAMIC_CACHE_TAGS.comments(postId));
+}
+
+export async function deleteReply(replyId: number, postId: number) {
+  await prisma.reply.delete({
+    where: {
+      id: replyId
+    }
+  });
+
+  revalidateTag(DYNAMIC_CACHE_TAGS.comments(postId));
 }

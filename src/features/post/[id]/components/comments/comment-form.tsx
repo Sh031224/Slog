@@ -23,36 +23,43 @@ import {
 import { Textarea } from '@/shared/components/ui/textarea';
 import { toast } from '@/shared/components/ui/use-toast';
 
-import type { CreateCommentParams } from '../../types';
+import type { CommentHandlerParams } from '../../types';
 import { commentSchema } from '../../validators/comment';
 
 type Props = {
-  postId: number;
+  defaultValues?: CommentForm;
   user: Pick<User, 'name' | 'id' | 'image'> | undefined;
-  createComment: (
-    params: CreateCommentParams,
-    userId?: string
-  ) => Promise<void>;
+  onSubmit: (params: CommentHandlerParams) => Promise<void>;
+  onCancel?: () => void;
 };
 
 type CommentForm = z.infer<typeof commentSchema>;
 
-export default function CommentForm({ postId, user, createComment }: Props) {
-  const form = useForm<CommentForm>({ resolver: zodResolver(commentSchema) });
+export default function CommentForm({
+  defaultValues,
+  user,
+  onCancel,
+  onSubmit
+}: Props) {
+  const form = useForm<CommentForm>({
+    resolver: zodResolver(commentSchema),
+    defaultValues
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const isDisabled = isLoading || !user;
 
-  const onSubmit = async ({ content, isPrivate }: CommentForm) => {
+  const onSubmitHandler = async ({ content, isPrivate }: CommentForm) => {
     try {
       setIsLoading(true);
 
-      await createComment(
-        { content, isPrivate: isPrivate as boolean, postId },
-        user?.id
-      );
+      await onSubmit({
+        content: content.trim().replace(/\n$/gm, ''),
+        isPrivate: isPrivate as boolean
+      });
 
-      form.reset();
+      form.reset({ content: '', isPrivate: false });
+      onCancel?.();
     } catch (err) {
       toast({
         title: 'An error occurred.',
@@ -69,7 +76,7 @@ export default function CommentForm({ postId, user, createComment }: Props) {
       <form
         className="flex w-full gap-4"
         aria-label="create comment"
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmitHandler)}
       >
         <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
           {user?.image ? (
@@ -104,7 +111,7 @@ export default function CommentForm({ postId, user, createComment }: Props) {
             )}
           />
 
-          <div className="flex w-fit items-center gap-8 self-end">
+          <div className="flex w-fit items-center gap-4 self-end">
             <FormField
               control={form.control}
               name="isPrivate"
@@ -123,6 +130,12 @@ export default function CommentForm({ postId, user, createComment }: Props) {
                 </FormItem>
               )}
             />
+
+            {!!onCancel && (
+              <Button variant="secondary" type="reset" onClick={onCancel}>
+                Cancel
+              </Button>
+            )}
 
             <Button type="submit" disabled={isDisabled}>
               Submit

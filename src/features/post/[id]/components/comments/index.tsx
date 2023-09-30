@@ -1,21 +1,31 @@
-import { Suspense } from 'react';
+import {
+  createComment,
+  createReply,
+  deleteComment,
+  deleteReply,
+  fetchComments,
+  updateComment,
+  updateReply
+} from '@/app/post/[id]/actions';
+import { auth } from '@/lib/auth';
 
 import CommentList from './comment-list';
-import CommentSkeletons from './comment-skeletons';
 
 type Props = {
   postId: number;
 };
 
-export default async function Comments(props: Props) {
+export default async function Comments({ postId }: Props) {
+  const user = (await auth())?.user;
+  const [comments, commentCount, replyCount] = await fetchComments(postId);
+
+  const totalCount = commentCount + replyCount;
+
   return (
-    <section
-      className="mt-4 flex flex-col border-t pt-8"
-      aria-label="comment section"
-    >
-      <Suspense fallback={<CommentSkeletons />}>
-        <CommentList {...props} />
-      </Suspense>
-    </section>
+    <div className="flex flex-col gap-4">
+      <p className="text-base leading-7">{totalCount} Comments</p>
+
+      <CommentList user={user} postId={postId} comments={comments} />
+    </div>
   );
 }
