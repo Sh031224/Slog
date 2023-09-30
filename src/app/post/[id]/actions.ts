@@ -1,9 +1,8 @@
 'use server';
-import type { Prisma } from '@prisma/client';
-import type { DefaultArgs } from '@prisma/client/runtime/library';
 import dayjs from 'dayjs';
 import { revalidateTag, unstable_cache } from 'next/cache';
 
+import type { CreateCommentParams } from '@/features/post/[id]/types';
 import { prisma } from '@/lib/database';
 import encrypt from '@/lib/encrypt';
 import { buildKey } from '@/lib/utils';
@@ -63,9 +62,9 @@ export async function createPostView(postId: number, ip: string) {
 }
 
 export async function fetchComments(postId: number) {
-  const findQuery: Prisma.CommentFindManyArgs<DefaultArgs> = {
+  const findQuery = {
     where: {
-      id: postId
+      postId
     },
     select: {
       id: true,
@@ -99,7 +98,7 @@ export async function fetchComments(postId: number) {
       createdAt: true,
       updatedAt: true
     }
-  };
+  } as const;
 
   return unstable_cache(
     () =>
@@ -113,4 +112,22 @@ export async function fetchComments(postId: number) {
       tags: buildKey(DYNAMIC_CACHE_TAGS.comments(postId))
     }
   )();
+}
+
+export async function createComment(
+  params: CreateCommentParams,
+  userId?: string
+) {
+  if (!userId) {
+    return;
+  }
+
+  await prisma.comment.create({
+    data: {
+      ...params,
+      userId
+    }
+  });
+
+  revalidateTag(DYNAMIC_CACHE_TAGS.comments(params.postId));
 }

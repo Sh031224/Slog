@@ -2,6 +2,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { User } from '@prisma/client';
 import { UserIcon } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type * as z from 'zod';
 
@@ -20,21 +21,56 @@ import {
   FormLabel
 } from '@/shared/components/ui/form';
 import { Textarea } from '@/shared/components/ui/textarea';
+import { toast } from '@/shared/components/ui/use-toast';
 
+import type { CreateCommentParams } from '../../types';
 import { commentSchema } from '../../validators/comment';
 
 type Props = {
+  postId: number;
   user: Pick<User, 'name' | 'id' | 'image'> | undefined;
+  createComment: (
+    params: CreateCommentParams,
+    userId?: string
+  ) => Promise<void>;
 };
 
 type CommentForm = z.infer<typeof commentSchema>;
 
-export default function CommentForm({ user }: Props) {
+export default function CommentForm({ postId, user, createComment }: Props) {
   const form = useForm<CommentForm>({ resolver: zodResolver(commentSchema) });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const isDisabled = isLoading || !user;
+
+  const onSubmit = async ({ content, isPrivate }: CommentForm) => {
+    try {
+      setIsLoading(true);
+
+      await createComment(
+        { content, isPrivate: isPrivate as boolean, postId },
+        user?.id
+      );
+
+      form.reset();
+    } catch (err) {
+      toast({
+        title: 'An error occurred.',
+        description: 'Please try again in a few minutes.',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Form {...form}>
-      <form className="flex w-full gap-4" aria-label="create comment">
+      <form
+        className="flex w-full gap-4"
+        aria-label="create comment"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
           {user?.image ? (
             <AvatarImage src={user.image} alt={user.name || 'profile'} />
@@ -88,7 +124,7 @@ export default function CommentForm({ user }: Props) {
               )}
             />
 
-            <Button type="submit" disabled={!user}>
+            <Button type="submit" disabled={isDisabled}>
               Submit
             </Button>
           </div>
