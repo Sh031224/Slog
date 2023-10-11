@@ -6,7 +6,8 @@ export const runtime = 'edge';
 
 export const metadata: Metadata = {
   title: 'Sign In',
-  description: 'Sign in to your account'
+  description: 'Sign in to your account',
+  robots: 'noindex'
 };
 
 export default function SignInPage() {
