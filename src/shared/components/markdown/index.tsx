@@ -75,7 +75,7 @@ export default function Markdown({ content }: Props) {
               <img className="mx-auto my-10 h-auto max-w-full rounded dark:brightness-90" />
             ),
             blockquote: <blockquote className="mt-6 border-l-2 pl-6 italic" />,
-            table: <table className="w-full overflow-x-auto" />,
+            table: <table className="block w-max max-w-full overflow-x-auto" />,
             tr: (
               <tr className="m-0 border-t p-0 even:bg-muted even:dark:bg-muted/50" />
             ),
