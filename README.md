@@ -1,10 +1,8 @@
+## Introduction
 
+This is a personal blog based on Next.js app route.
 
-## Refactoring...
-
-I am doing a new refactoring using the Next.js app dir.
-
-will be using the following technology stack.
+### Technology stack
 
 - Next.js
 - Shadcn ui
@@ -15,6 +13,12 @@ will be using the following technology stack.
 - Prisma
 - Zustand
 
-### ETC
+### Features
 
-If you want to explore the legacy code, you can check it out [here.](https://github.com/sh031224/slog/tree/legacy)
+- Management posts (developing...)
+- Sign in
+  - Email
+  - Github
+  - Facebook
+- Comment
+- Reply
