@@ -2,7 +2,7 @@ import { Skeleton } from '@/shared/components/ui/skeleton';
 
 export default function PostLoading() {
   return (
-    <div className="flex min-h-[calc(100vh-14rem)] w-full flex-col">
+    <div className="flex w-full flex-col">
       <Skeleton className="max-xs:h-10 h-16 w-full max-md:h-12" />
       <Skeleton className="max-xs:h-10 mt-4 h-16 w-4/5 max-md:h-12" />
 
