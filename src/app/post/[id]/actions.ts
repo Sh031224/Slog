@@ -28,37 +28,39 @@ export async function createPostView(postId: number, ip: string) {
 
   const encryptedIp = await encrypt(ip);
 
-  const latestView = await unstable_cache(
-    () =>
-      prisma.postView.findMany({
+  await unstable_cache(
+    async () => {
+      const latestView = await prisma.postView.findMany({
         where: { postId, ip: encryptedIp },
         orderBy: {
           id: 'desc'
         },
         take: 1
-      }),
+      });
+
+      if (
+        !latestView.length ||
+        (latestView[0] &&
+          dayjs().diff(dayjs(latestView[0].createdAt), 'hours') > 2)
+      ) {
+        await prisma.$transaction([
+          prisma.postView.create({
+            data: {
+              ip: encryptedIp,
+              postId
+            }
+          })
+        ]);
+
+        revalidateTag(tagArguments);
+      }
+    },
     buildKey('FETCH_POST_VIEW', JSON.stringify({ postId, ip })),
     {
       tags: buildKey(tagArguments),
       revalidate: 3600
     }
   )();
-
-  if (
-    !latestView.length ||
-    (latestView[0] && dayjs().diff(dayjs(latestView[0].createdAt), 'hours') > 2)
-  ) {
-    await prisma.$transaction([
-      prisma.postView.create({
-        data: {
-          ip: encryptedIp,
-          postId
-        }
-      })
-    ]);
-
-    revalidateTag(tagArguments);
-  }
 }
 
 export async function fetchComments(postId: number) {

@@ -19,6 +19,10 @@ export const runtime = 'edge';
 export async function generateMetadata({
   params: { id }
 }: Props): Promise<Metadata> {
+  if (Number.isNaN(Number(id))) {
+    return {};
+  }
+
   const post = await fetchPostDetail(Number(id));
 
   if (!post || post.isTemp) {
