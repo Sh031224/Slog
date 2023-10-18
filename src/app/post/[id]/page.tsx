@@ -1,12 +1,11 @@
 import { PostType } from '@prisma/client';
 import type { Metadata } from 'next';
-import { headers } from 'next/dist/client/components/headers';
 import { notFound, redirect } from 'next/navigation';
 
 import PostDetail from '@/features/post/[id]';
 import { auth } from '@/lib/auth';
 
-import { fetchPostDetail, createPostView } from './actions';
+import { fetchPostDetail } from './actions';
 
 type Props = {
   params: {
@@ -51,14 +50,13 @@ export async function generateMetadata({
 }
 
 export default async function PostPage({ params: { id } }: Props) {
-  const user = (await auth())?.user;
-
   const numericId = Number(id);
 
   if (Number.isNaN(numericId)) {
     notFound();
   }
 
+  const user = (await auth())?.user;
   const post = await fetchPostDetail(numericId);
 
   if (!post || (post.isTemp && !user?.isAdmin)) {
@@ -68,8 +66,6 @@ export default async function PostPage({ params: { id } }: Props) {
   if (post.type === PostType.EXTERNAL && post.url) {
     redirect(post.url);
   }
-
-  createPostView(numericId, headers().get('x-forwarded-for') || '');
 
   return <PostDetail post={post} />;
 }

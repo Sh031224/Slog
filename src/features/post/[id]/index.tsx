@@ -1,11 +1,11 @@
 import type { Post } from '@prisma/client';
-import { Suspense } from 'react';
+import { headers } from 'next/headers';
 
+import { createPostView } from '@/app/post/[id]/actions';
 import Markdown from '@/shared/components/markdown';
 
-import Comments from './components/comments';
-import CommentSkeletons from './components/comments/comment-skeletons';
 import PostHeader from './components/post-header';
+import PostView from './components/post-view';
 
 type Props = {
   post: Post;
@@ -13,19 +13,16 @@ type Props = {
 
 export default function PostDetail({ post }: Props) {
   return (
-    <div className="flex w-full flex-col">
+    <>
+      <PostView
+        postId={post.id}
+        ip={headers().get('x-forwarded-for') || ''}
+        createPostView={createPostView}
+      />
+
       <PostHeader post={post} />
 
       <Markdown content={post.content || ''} />
-
-      <section
-        className="mt-4 flex flex-col border-t pt-8"
-        aria-label="comment section"
-      >
-        <Suspense fallback={<CommentSkeletons />}>
-          <Comments postId={post.id} />
-        </Suspense>
-      </section>
-    </div>
+    </>
   );
 }

@@ -28,7 +28,7 @@ export async function createPostView(postId: number, ip: string) {
 
   const encryptedIp = await encrypt(ip);
 
-  await unstable_cache(
+  return unstable_cache(
     async () => {
       const latestView = await prisma.postView.findMany({
         where: { postId, ip: encryptedIp },
@@ -54,6 +54,8 @@ export async function createPostView(postId: number, ip: string) {
 
         revalidateTag(tagArguments);
       }
+
+      return true;
     },
     buildKey('FETCH_POST_VIEW', JSON.stringify({ postId, ip })),
     {
