@@ -28,10 +28,9 @@ export default function MarkdownHeading<T extends HeadingElementKeys>({
     <Element {...props} className={cn(className, 'group relative')} id={id}>
       {children}
       <Link
-        aria-hidden="true"
         href={`#${id}`}
         className={cn(
-          'absolute right-full top-[50%] flex translate-y-[-50%] items-center justify-center group-hover:[&_*]:block',
+          'absolute right-full top-[50%] flex translate-y-[-50%] items-center justify-center max-lg:hidden group-hover:[&_*]:block',
           isPriority ? 'h-10 w-10' : 'h-8 w-8'
         )}
       >
