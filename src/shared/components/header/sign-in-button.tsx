@@ -35,7 +35,7 @@ export function SignInButton() {
         'mr-1 min-w-fit shrink-0 sm:mr-2'
       )}
     >
-      Sign in
+      로그인
     </Link>
   );
 }

@@ -61,10 +61,10 @@ export function SearchMenu({ ...props }: DialogProps) {
         <CommandInput
           value={value}
           onValueChange={setValue}
-          placeholder="Type a command or search..."
+          placeholder="Type a command or search in posts..."
         />
         <CommandList>
-          <CommandEmpty>Please complete your search term</CommandEmpty>
+          <CommandEmpty>검색 결과가 없습니다.</CommandEmpty>
 
           <CommandGroup heading="Search posts">
             <CommandItem
@@ -74,7 +74,9 @@ export function SearchMenu({ ...props }: DialogProps) {
               }}
             >
               <FileIcon className="mr-2 h-4 w-4" />
-              {!value ? 'Please enter your search term' : `Search: ${value}`}
+              {!value
+                ? 'Please complete your search term'
+                : `Search: ${value}`}
             </CommandItem>
           </CommandGroup>
 
@@ -82,25 +84,25 @@ export function SearchMenu({ ...props }: DialogProps) {
 
           <CommandGroup heading="Theme">
             <CommandItem
-              value="Light"
+              value="Light Mode"
               onSelect={() => runCommand(() => setTheme('light'))}
             >
               <SunIcon className="mr-2 h-4 w-4" />
-              Light
+              Light Mode
             </CommandItem>
             <CommandItem
-              value="Dark"
+              value="Dark Mode"
               onSelect={() => runCommand(() => setTheme('dark'))}
             >
               <MoonIcon className="mr-2 h-4 w-4" />
-              Dark
+              Dark Mode
             </CommandItem>
             <CommandItem
-              value="System"
+              value="System Theme"
               onSelect={() => runCommand(() => setTheme('system'))}
             >
               <LaptopIcon className="mr-2 h-4 w-4" />
-              System
+              System Theme
             </CommandItem>
           </CommandGroup>
         </CommandList>
