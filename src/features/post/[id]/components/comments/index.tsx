@@ -21,7 +21,7 @@ export default async function Comments({ postId }: Props) {
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-base leading-7">{totalCount} 개의 댓글</p>
+      <p className="text-base leading-7">{totalCount} Comments</p>
 
       <CommentList user={user} postId={postId} comments={comments} />
     </div>

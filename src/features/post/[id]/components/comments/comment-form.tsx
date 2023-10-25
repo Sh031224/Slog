@@ -62,8 +62,8 @@ export default function CommentForm({
       onCancel?.();
     } catch (err) {
       toast({
-        title: '오류가 발생했습니다.',
-        description: '조금 후에 다시 시도해 주세요.',
+        title: 'An error occurred.',
+        description: 'Please try again in a few minutes.',
         variant: 'destructive'
       });
     } finally {
@@ -100,8 +100,8 @@ export default function CommentForm({
                     className="min-h-[100px] resize-none"
                     placeholder={
                       user
-                        ? '댓글을 작성하세요 !'
-                        : '로그인 이후 작성 가능합니다.'
+                        ? 'What are your thoughts?'
+                        : 'You can write after sign in.'
                     }
                     disabled={!user}
                     {...field}
@@ -125,7 +125,7 @@ export default function CommentForm({
                     />
                   </FormControl>
                   <FormLabel className="font-normal">
-                    비밀 댓글로 작성하기
+                    Visible only to admin and commenter
                   </FormLabel>
                 </FormItem>
               )}
@@ -133,12 +133,12 @@ export default function CommentForm({
 
             {!!onCancel && (
               <Button variant="secondary" type="reset" onClick={onCancel}>
-                취소
+                Cancel
               </Button>
             )}
 
             <Button type="submit" disabled={isDisabled}>
-              제출
+              Submit
             </Button>
           </div>
         </div>

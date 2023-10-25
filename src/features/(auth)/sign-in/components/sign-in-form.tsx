@@ -54,15 +54,15 @@ export default function SignInForm() {
 
     if (!!result?.error) {
       return toast({
-        title: '오류가 발생했습니다.',
-        description: '조금 후에 다시 시도해 주세요.',
+        title: 'An error has occurred',
+        description: 'Please try again.',
         variant: 'destructive'
       });
     }
 
     return toast({
-      title: '메일이 발송되었습니다.',
-      description: '로그인 할 수 있는 링크를 이메일로 전송 했습니다.'
+      title: 'Please check your email',
+      description: 'We have sent you an account login link via email.'
     });
   };
 
