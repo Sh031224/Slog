@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   description:
     "This is sh031224's tech blog mainly about front-end technology.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL),
+  alternates: {
+    canonical: '/'
+  },
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
     { media: '(prefers-color-scheme: dark)', color: 'black' }
@@ -50,6 +53,7 @@ export default function RootLayout({ children }: Props) {
           src="https://polyfill.io/v3/polyfill.js?features=IntersectionObserver"
           defer
         ></script>
+        <meta property="fb:app_id" content="329919202694502" />
       </head>
       <body className={cn('font-sans antialiased', fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
