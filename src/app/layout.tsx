@@ -49,10 +49,6 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
-        <script
-          src="https://polyfill.io/v3/polyfill.js?features=IntersectionObserver"
-          defer
-        ></script>
         <meta property="fb:app_id" content="329919202694502" />
       </head>
       <body className={cn('font-sans antialiased', fontSans.variable)}>
