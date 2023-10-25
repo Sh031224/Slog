@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+  previewFeatures = ["fullTextIndex", "fullTextSearch"]
 }
 
 datasource db {
@@ -13,11 +13,11 @@ model User {
   id            String    @id @default(cuid())
   email         String?   @unique
   name          String?
-  emailVerified DateTime?
-  image         String?   @db.Text
   fcmToken      String?   @db.VarChar(255)
   isAdmin       Boolean   @default(false)
   createdAt     DateTime  @default(now())
+  emailVerified DateTime?
+  image         String?   @db.Text
   Comment       Comment[]
   Reply         Reply[]
   accounts      Account[]
