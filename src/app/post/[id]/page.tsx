@@ -31,13 +31,20 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.description,
+    alternates: {
+      canonical: `/post/${id}`
+    },
     openGraph: {
       title: post.title,
       description: post.description ?? undefined,
       url: `${process.env.NEXT_PUBLIC_APP_URL}/post/${id}`,
       type: 'article',
       publishedTime: new Date(post.createdAt).toISOString(),
-      authors: ['Sh031224'],
+      modifiedTime: new Date(post.updatedAt).toISOString(),
+      authors: [
+        'Sh031224',
+        'https://www.facebook.com/profile.php?id=100048700034135'
+      ],
       ...(post.thumbnail && { images: [post.thumbnail] })
     },
     twitter: {
