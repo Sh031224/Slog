@@ -15,9 +15,7 @@ export default async function Comments({ postId }: Props) {
   }
 
   const user = (await auth())?.user;
-  const [comments, commentCount, replyCount] = await fetchComments(postId);
-
-  const totalCount = commentCount + replyCount;
+  const [comments, totalCount] = await fetchComments(postId, user);
 
   return (
     <div className="flex flex-col gap-4">

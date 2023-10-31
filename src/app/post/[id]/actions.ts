@@ -1,7 +1,9 @@
 'use server';
 import dayjs from 'dayjs';
 import { revalidateTag, unstable_cache } from 'next/cache';
+import type { Session } from 'next-auth/types';
 
+import { checkHideComment } from '@/features/post/[id]/helpers';
 import type { CreateCommentParams } from '@/features/post/[id]/types';
 import { prisma } from '@/lib/database';
 import encrypt from '@/lib/encrypt';
@@ -65,7 +67,7 @@ export async function createPostView(postId: number, ip: string) {
   )();
 }
 
-export async function fetchComments(postId: number) {
+export async function fetchComments(postId: number, user: Session['user']) {
   const findQuery = {
     where: {
       postId
@@ -104,7 +106,7 @@ export async function fetchComments(postId: number) {
     }
   } as const;
 
-  return unstable_cache(
+  const [comments, commentCount, replyCount] = await unstable_cache(
     () =>
       prisma.$transaction([
         prisma.comment.findMany(findQuery),
@@ -116,6 +118,33 @@ export async function fetchComments(postId: number) {
       tags: buildKey(DYNAMIC_CACHE_TAGS.comments(postId))
     }
   )();
+
+  const totalCount = commentCount + replyCount;
+
+  if (commentCount < 1 || user?.isAdmin) {
+    return [comments, totalCount] as const;
+  }
+
+  return [
+    comments.map(comment => {
+      if (checkHideComment({ comment, user })) {
+        comment.content = '';
+        (comment.user as Session['user'] | null) = null;
+      }
+
+      comment.Reply = comment.Reply.map(reply => {
+        if (checkHideComment({ comment: reply, user })) {
+          reply.content = '';
+          (reply.user as Session['user'] | null) = null;
+        }
+
+        return reply;
+      });
+
+      return comment;
+    }),
+    totalCount
+  ] as const;
 }
 
 export async function createComment(

@@ -119,7 +119,7 @@ export default function CommentForm({
                 <FormItem className="flex h-fit space-x-2 space-y-0">
                   <FormControl>
                     <Checkbox
-                      disabled={!user}
+                      disabled={!user || !!defaultValues?.isPrivate}
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />

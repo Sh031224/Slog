@@ -24,7 +24,7 @@ import {
 import { Button } from '@/shared/components/ui/button';
 
 import CommentForm from './comment-form';
-import { checkHideComment, checkOwnComment } from '../../helpers';
+import { checkOwnComment } from '../../helpers';
 import type { CommentHandlerParams } from '../../types';
 
 type Props = {
@@ -39,7 +39,7 @@ type Props = {
       name: string | null;
       image: string | null;
       isAdmin: boolean;
-    };
+    } | null;
   };
   user?: Pick<User, 'id' | 'isAdmin' | 'name' | 'image'>;
   postId: number;
@@ -56,14 +56,14 @@ export default function CommentItem({
   updateAction,
   deleteAction
 }: Props) {
-  const shouldHideComment = checkHideComment({ comment, user });
   const isOwnComment = checkOwnComment({ comment, user });
+  const isHiddenComment = !comment.user;
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [isCreateMode, setIsCreateMode] = useState(false);
 
   const handleDeleteComment = async () => {
-    if (user?.id !== comment.user.id && !user?.isAdmin) {
+    if (!checkOwnComment({ comment, user }) && !user?.isAdmin) {
       return;
     }
 
@@ -85,7 +85,7 @@ export default function CommentItem({
       ) : (
         <div className="flex w-full gap-4">
           <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
-            {comment.user.image && !shouldHideComment ? (
+            {comment.user?.image && !isHiddenComment ? (
               <AvatarImage
                 src={comment.user.image}
                 alt={comment.user.name || 'profile'}
@@ -93,7 +93,7 @@ export default function CommentItem({
             ) : (
               <AvatarFallback>
                 <span className="sr-only">
-                  {shouldHideComment ? 'Anonymous' : comment.user.name}
+                  {isHiddenComment ? 'Anonymous' : comment.user?.name}
                 </span>
                 <UserIcon className="h-4 w-4 sm:h-6 sm:w-6" />
               </AvatarFallback>
@@ -101,7 +101,7 @@ export default function CommentItem({
           </Avatar>
 
           <div className="flex w-full flex-col">
-            {shouldHideComment ? (
+            {isHiddenComment ? (
               <p className="mt-1 whitespace-pre-wrap text-base leading-7 sm:mt-2">
                 This is private content.
               </p>
@@ -109,7 +109,7 @@ export default function CommentItem({
               <>
                 <div className="flex items-center gap-2">
                   <span className="text-base font-medium leading-7">
-                    {comment.user.name}
+                    {comment.user?.name}
                   </span>
 
                   {comment.isPrivate && (
@@ -131,7 +131,7 @@ export default function CommentItem({
                   {comment.content}
                 </p>
 
-                {!shouldHideComment && (
+                {!isHiddenComment && (
                   <div className="flex gap-4">
                     {!!createAction && (
                       <Button

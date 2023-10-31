@@ -3,8 +3,10 @@ type Params = {
     isPrivate: boolean;
     user: {
       id: string;
+      name: string | null;
+      image: string | null;
       isAdmin: boolean;
-    };
+    } | null;
   };
   user?: {
     id: string;
@@ -13,7 +15,7 @@ type Params = {
 };
 
 export function checkOwnComment({ comment, user }: Params) {
-  return comment.user.id === user?.id;
+  return comment.user?.id === user?.id;
 }
 
 export function checkHideComment({ comment, user }: Params) {
@@ -29,5 +31,5 @@ export function checkHideComment({ comment, user }: Params) {
     return false;
   }
 
-  return comment.user.id !== user.id;
+  return checkOwnComment({ comment, user });
 }
