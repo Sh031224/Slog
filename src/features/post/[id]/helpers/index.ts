@@ -31,5 +31,5 @@ export function checkHideComment({ comment, user }: Params) {
     return false;
   }
 
-  return checkOwnComment({ comment, user });
+  return !checkOwnComment({ comment, user });
 }
