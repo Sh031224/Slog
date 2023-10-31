@@ -5,6 +5,7 @@ import type { Session } from 'next-auth/types';
 
 import { checkHideComment } from '@/features/post/[id]/helpers';
 import type { CreateCommentParams } from '@/features/post/[id]/types';
+import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/database';
 import encrypt from '@/lib/encrypt';
 import { buildKey } from '@/lib/utils';
@@ -67,7 +68,7 @@ export async function createPostView(postId: number, ip: string) {
   )();
 }
 
-export async function fetchComments(postId: number, user: Session['user']) {
+export async function fetchComments(postId: number) {
   const findQuery = {
     where: {
       postId
@@ -121,8 +122,10 @@ export async function fetchComments(postId: number, user: Session['user']) {
 
   const totalCount = commentCount + replyCount;
 
+  const user = (await auth())?.user;
+
   if (commentCount < 1 || user?.isAdmin) {
-    return [comments, totalCount] as const;
+    return [comments, totalCount, user] as const;
   }
 
   return [
@@ -143,7 +146,8 @@ export async function fetchComments(postId: number, user: Session['user']) {
 
       return comment;
     }),
-    totalCount
+    totalCount,
+    user
   ] as const;
 }
 
