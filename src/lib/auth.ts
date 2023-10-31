@@ -9,8 +9,7 @@ import { signInTemplate, signUpTemplate } from './templates/mail';
 
 export const {
   handlers: { GET, POST },
-  auth,
-  CSRF_experimental // will be removed in future
+  auth
 } = NextAuth({
   providers: [
     {

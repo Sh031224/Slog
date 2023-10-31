@@ -4,7 +4,7 @@ import type { NextAuthRequest } from 'next-auth/lib';
 import { auth } from './lib/auth';
 
 export const middleware = auth((req: NextAuthRequest) => {
-  const isAuthorized = !!req.auth.user;
+  const isAuthorized = !!req.auth?.user;
 
   if (req.nextUrl.pathname.startsWith('/sign-in') && isAuthorized) {
     return NextResponse.redirect(new URL('/', req.url));
