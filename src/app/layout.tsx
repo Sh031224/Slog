@@ -1,5 +1,5 @@
 import { Analytics } from '@vercel/analytics/react';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import { fontSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
@@ -9,6 +9,13 @@ import { ThemeProvider } from '@/shared/components/theme-provider';
 import { Toaster } from '@/shared/components/ui/toaster';
 
 import '@/styles/globals.css';
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' }
+  ],
+};
 
 export const metadata: Metadata = {
   title: {
@@ -21,10 +28,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/'
   },
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' }
-  ],
   openGraph: {
     title: 'Slog',
     description:
