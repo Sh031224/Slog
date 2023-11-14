@@ -1,3 +1,5 @@
+import type { Post } from "@prisma/client";
+
 type Params = {
   comment: {
     isPrivate: boolean;
@@ -33,3 +35,12 @@ export function checkHideComment({ comment, user }: Params) {
 
   return !checkOwnComment({ comment, user });
 }
+
+interface ExternalPost extends Post {
+  type: 'EXTERNAL',
+  url: string
+}
+
+export function isExternalPost(post: Post): post is ExternalPost  {
+return post.type === 'EXTERNAL'
+} 

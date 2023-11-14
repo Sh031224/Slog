@@ -55,7 +55,13 @@ export async function fetchPosts(params: FetchPostsParams) {
       url: true
     },
     orderBy: {
-      createdAt: 'desc'
+      ...(params.order === 'view'
+        ? {
+            PostView: {
+              _count: 'desc'
+            }
+          }
+        : { createdAt: 'desc' })
     },
     skip: (page - 1) * limit,
     take: limit

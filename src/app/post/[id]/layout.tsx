@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 
 import Comments from '@/features/post/[id]/components/comments';
 import CommentSkeletons from '@/features/post/[id]/components/comments/comment-skeletons';
+import PopularContent from '@/features/post/[id]/components/popular-content';
 
 type Props = {
   children: React.ReactNode;
@@ -17,7 +18,17 @@ export default function PostLayout({ children, params: { id } }: Props) {
         {children}
 
         <section
-          className="mt-4 flex flex-col border-t pt-8"
+          className="mt-4 flex flex-col border-t pt-4"
+          aria-label="popular content"
+        >
+          <p className="text-lg font-semibold leading-7">Popular posts</p>
+          <Suspense fallback={null}>
+            <PopularContent />
+          </Suspense>
+        </section>
+
+        <section
+          className="mt-4 flex flex-col border-t pb-10 pt-8"
           aria-label="comment section"
         >
           <Suspense fallback={<CommentSkeletons />}>

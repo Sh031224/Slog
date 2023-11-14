@@ -5,6 +5,7 @@ export type FetchPostsParams = {
   categoryId?: number;
   search?: string;
   limit?: number;
+  order?: 'createdAt' | 'view';
 };
 
 export type FetchPostsResponse = {

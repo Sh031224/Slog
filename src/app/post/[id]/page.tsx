@@ -1,11 +1,15 @@
 import { PostType } from '@prisma/client';
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
 
-import PostDetail from '@/features/post/[id]';
+import PostHeader from '@/features/post/[id]/components/post-header';
+import PostView from '@/features/post/[id]/components/post-view';
+import { isExternalPost } from '@/features/post/[id]/helpers';
 import { auth } from '@/lib/auth';
+import Markdown from '@/shared/components/markdown';
 
-import { fetchPostDetail } from './actions';
+import { createPostView, fetchPostDetail } from './actions';
 
 type Props = {
   params: {
@@ -70,9 +74,21 @@ export default async function PostPage({ params: { id } }: Props) {
     notFound();
   }
 
-  if (post.type === PostType.EXTERNAL && post.url) {
+  if (isExternalPost(post)) {
     redirect(post.url);
   }
 
-  return <PostDetail post={post} />;
+  return (
+    <>
+      <PostView
+        postId={post.id}
+        ip={headers().get('x-forwarded-for') || ''}
+        createPostView={createPostView}
+      />
+
+      <PostHeader post={post} />
+
+      <Markdown content={post.content || ''} />
+    </>
+  );
 }
