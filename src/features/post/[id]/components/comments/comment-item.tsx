@@ -93,7 +93,7 @@ export default function CommentItem({
             ) : (
               <AvatarFallback>
                 <span className="sr-only">
-                  {isHiddenComment ? 'Anonymous' : comment.user?.name}
+                  {isHiddenComment ? 'Anonymous' : comment.user?.name ?? 'User'}
                 </span>
                 <UserIcon className="h-4 w-4 sm:h-6 sm:w-6" />
               </AvatarFallback>
