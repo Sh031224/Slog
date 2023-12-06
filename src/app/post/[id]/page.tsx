@@ -1,4 +1,3 @@
-import { PostType } from '@prisma/client';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
