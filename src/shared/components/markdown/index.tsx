@@ -66,7 +66,7 @@ export default function Markdown({ content }: Props) {
             p: <p className="mb-4 mt-6 text-base leading-7" />,
             a: (
               <a
-                className="font-medium text-primary underline underline-offset-4"
+                className="font-medium text-blue-400 underline underline-offset-4 group-hover:text-blue-500 dark:text-blue-500 dark:group-hover:text-blue-400"
                 target="_blank"
               />
             ),

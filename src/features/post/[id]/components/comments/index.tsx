@@ -18,8 +18,8 @@ export default async function Comments({ postId }: Props) {
   const [comments, totalCount] = await fetchComments(postId, user);
 
   return (
-    <div className="flex flex-col gap-4">
-      <p className="text-base leading-7">{totalCount} Comments</p>
+    <div className="flex flex-col gap-6">
+      <h3 className="text-xl font-medium leading-7">{totalCount} Comments</h3>
 
       <CommentList user={user} postId={postId} comments={comments} />
     </div>
